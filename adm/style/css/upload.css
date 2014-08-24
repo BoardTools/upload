@@ -1,0 +1,335 @@
+/* CSS Document */
+
+h1 {position: relative;}
+
+.table1 th + th {text-align: center; width: 200px;}
+.table1 td + td {text-align: center;}
+
+#ext_upload {float:left; width:100%; margin:0;}
+#remote_upload {width:80%; margin:0; clear:none;}
+
+#extupload {width:80%; margin-top:5px;}
+
+#ext_table{float:right; width:100%; margin-top:16px;}
+
+#upload {display:none; margin: 50px 0; padding: 0; width: 100%; text-align: center;}
+
+#uploaded_ok {
+    display: inline-block;
+    padding: 5px 5px;
+    margin-right: 15px;
+    border-radius: 100%;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1em;
+    background: #75a875;
+    background: -moz-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #92d992), color-stop(100%, #228822));
+    background: -webkit-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -o-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -ms-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: linear-gradient(to bottom, #92d992 0%, #228822 100%);
+}
+
+#enable_uploaded {
+    display: inline-block;
+    float: right;
+    padding: 6px 15px;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-decoration: none;
+    background: #75a875;
+    background: -moz-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #92d992), color-stop(100%, #228822));
+    background: -webkit-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -o-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -ms-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: linear-gradient(to bottom, #92d992 0%, #228822 100%);
+}
+#enable_uploaded:hover {
+    display: inline-block;
+    float: right;
+    padding: 6px 15px;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #228822;
+    background: -moz-linear-gradient(top, #228822 0%, #92d992 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #228822), color-stop(100%, #92d992));
+    background: -webkit-linear-gradient(top, #228822 0%, #92d992 100%);
+    background: -o-linear-gradient(top, #228822 0%, #92d992 100%);
+    background: -ms-linear-gradient(top, #228822 0%, #92d992 100%);
+    background: linear-gradient(to bottom, #228822 0%, #92d992 100%);
+}
+
+#back_to_upload {display:block; margin-bottom:15px;}
+
+#filetree {display: none; min-height: 450px; border: 1px solid #CCCFD3; background-color: #F9F9F9; padding: 10px; margin-top: 15px;}
+#markdown {border: 1px solid #CCCFD3; background-color: #F9F9F9; padding: 10px 30px; margin-top: 15px;}
+
+#show_filetree, #hide_filetree {
+    float: right;
+    color: #105289;
+    cursor: pointer;
+}
+#show_filetree:hover, #hide_filetree:hover {
+    color: #bc2a4d;
+    text-decoration: underline;
+}
+
+form fieldset {border-radius:0;}
+
+.semibtn {width: auto !important; padding: 1px 3px 0 3px; color: #000; font-size: 0.85em; vertical-align:middle; background: #EFEFEF url(/adm/images/bg_button.gif) repeat-x top;  cursor: pointer; border: 1px solid #666666; text-decoration:none; margin-left:10px;}
+.seminbtn hover {border: 1px solid #BC2A4D;background: #EFEFEF url("/adm/images/bg_button.gif") repeat bottom;color: #bc2a4d;text-decoration:none;}
+.seminbtn a {text-decoration:none;}
+
+#filecontent {float:right; width:55%; height:420px; overflow:auto; border: 1px solid #CCCFD3; padding:5px; white-space:nowrap; font-size:9px; background-color:#F7F7F7;}
+
+.php-file-tree {
+/*	font-family: Georgia;
+	font-size: 12px;
+	letter-spacing: 1px;	line-height: 1.5; */
+}
+
+.php-file-tree A {
+	color: #000000;
+	text-decoration: none;
+}
+
+.php-file-tree A:hover {
+	color: #666666;
+}
+
+.php-file-tree .open {
+	font-style: italic;
+}
+
+.php-file-tree .closed {
+	font-style: normal;
+}
+
+.php-file-tree .pft-directory {
+	list-style-image: url(images/directory.png);
+}
+/* Default file */
+.php-file-tree LI.pft-file { list-style-image: url(images/file.png);overflow:hidden; text-overflow:ellipsis;white-space:nowrap;width:280px; }
+/* Additional file types */
+.php-file-tree LI.ext-3gp { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-afp { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-afpa { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-asp { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-aspx { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-avi { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-bat { list-style-image: url(images/application.png); }
+.php-file-tree LI.ext-bmp { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-c { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-cfm { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-cgi { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-com { list-style-image: url(images/application.png); }
+.php-file-tree LI.ext-cpp { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-css { list-style-image: url(images/css.png); }
+.php-file-tree LI.ext-doc { list-style-image: url(images/doc.png); }
+.php-file-tree LI.ext-exe { list-style-image: url(images/application.png); }
+.php-file-tree LI.ext-gif { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-fla { list-style-image: url(images/flash.png); }
+.php-file-tree LI.ext-h { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-htm { list-style-image: url(images/html.png); }
+.php-file-tree LI.ext-html { list-style-image: url(images/html.png); }
+.php-file-tree LI.ext-jar { list-style-image: url(images/java.png); }
+.php-file-tree LI.ext-jpg { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-jpeg { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-js { list-style-image: url(images/script.png); }
+.php-file-tree LI.ext-lasso { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-log { list-style-image: url(images/txt.png); }
+.php-file-tree LI.ext-m4p { list-style-image: url(images/music.png); }
+.php-file-tree LI.ext-mov { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-mp3 { list-style-image: url(images/music.png); }
+.php-file-tree LI.ext-mp4 { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-mpg { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-mpeg { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-ogg { list-style-image: url(images/music.png); }
+.php-file-tree LI.ext-pcx { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-pdf { list-style-image: url(images/pdf.png); }
+.php-file-tree LI.ext-php { list-style-image: url(images/php.png); }
+.php-file-tree LI.ext-png { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-ppt { list-style-image: url(images/ppt.png); }
+.php-file-tree LI.ext-psd { list-style-image: url(images/psd.png); }
+.php-file-tree LI.ext-pl { list-style-image: url(images/script.png); }
+.php-file-tree LI.ext-py { list-style-image: url(images/script.png); }
+.php-file-tree LI.ext-rb { list-style-image: url(images/ruby.png); }
+.php-file-tree LI.ext-rbx { list-style-image: url(images/ruby.png); }
+.php-file-tree LI.ext-rhtml { list-style-image: url(images/ruby.png); }
+.php-file-tree LI.ext-rpm { list-style-image: url(images/linux.png); }
+.php-file-tree LI.ext-ruby { list-style-image: url(images/ruby.png); }
+.php-file-tree LI.ext-sql { list-style-image: url(images/db.png); }
+.php-file-tree LI.ext-swf { list-style-image: url(images/flash.png); }
+.php-file-tree LI.ext-tif { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-tiff { list-style-image: url(images/picture.png); }
+.php-file-tree LI.ext-txt { list-style-image: url(images/txt.png); }
+.php-file-tree LI.ext-vb { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-wav { list-style-image: url(images/music.png); }
+.php-file-tree LI.ext-wmv { list-style-image: url(images/film.png); }
+.php-file-tree LI.ext-xls { list-style-image: url(images/xls.png); }
+.php-file-tree LI.ext-xml { list-style-image: url(images/code.png); }
+.php-file-tree LI.ext-zip { list-style-image: url(images/zip.png); }
+
+
+/* Extension details */
+.requirements_title {
+    display: inline-block;
+    color: #115098;
+    font-weight: bold;
+    vertical-align: top;
+    margin-top: 8px;
+    font-size: 1.1em;
+}
+.requirements_bubble {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px solid #D7D7D7;
+    margin-left: 20px;
+}
+.requirements_name {
+    display: inline-block;
+    padding: 7px 15px;
+}
+.requirements_value {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #75a875;
+    background: -moz-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #92d992), color-stop(100%, #228822));
+    background: -webkit-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -o-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -ms-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: linear-gradient(to bottom, #92d992 0%, #228822 100%);
+}
+.requirements_value_not_met {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #BC2A4D;
+    background: -moz-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e08389), color-stop(100%, #BC2A4D));
+    background: -webkit-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -o-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -ms-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: linear-gradient(to bottom, #e08389 0%, #BC2A4D 100%);
+}
+.description_bubble {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 15px;
+    border: 1px solid #D7D7D7;
+    margin-right: 20px;
+    text-align: center;
+}
+.description_name {
+    display: inline-block;
+    padding: 7px 15px;
+}
+.description_value {
+    display: inline-block;
+    padding: 6px 15px;
+    border-left: 1px solid #D7D7D7;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+.description_value_ok {
+    display: inline-block;
+    padding: 6px 15px;
+    border: 0;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #228822;
+    background: -moz-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #92d992), color-stop(100%, #228822));
+    background: -webkit-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -o-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: -ms-linear-gradient(top, #92d992 0%, #228822 100%);
+    background: linear-gradient(to bottom, #92d992 0%, #228822 100%);
+}
+.description_value_old {
+    display: inline-block;
+    padding: 6px 15px;
+    border: 0;
+    border-radius: 15px;
+    color: #edfbf7;
+    font-weight: bold;
+    font-size: 1.1em;
+    background: #BC2A4D;
+    background: -moz-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e08389), color-stop(100%, #BC2A4D));
+    background: -webkit-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -o-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: -ms-linear-gradient(top, #e08389 0%, #BC2A4D 100%);
+    background: linear-gradient(to bottom, #e08389 0%, #BC2A4D 100%);
+}
+fieldset {
+    border-radius: 15px;
+}
+h1.ExtensionName {
+    color: #115098;
+}
+.big_bubble .description_name {
+    width: 90px;
+}
+.big_bubble .description_value {
+    width: 210px;
+}
+.small_bubble .description_name {
+    width: 70px;
+}
+.small_bubble .description_value {
+    width: 80px;
+}
+.extension_author {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-left: 25px;
+    text-align: center;
+    font-size: 1.1em;
+}
+.extension_author_name {
+    display: inline-block;
+    padding: 5px 15px;
+}
+.extension_author_link {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 1.1em;
+    border: 1px solid #D7D7D7;
+}
+.extension_author_link:hover {
+    background-color: #115098;
+    color: #edfbf7;
+    border: 1px solid #115098;
+}
+.extension_latest_version_wrapper {
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 1.1em;
+}
+.extension_latest_version {
+    display: inline-block;
+    padding: 5px 15px;
+}

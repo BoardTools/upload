@@ -1,0 +1,109 @@
+<a id="maincontent"></a>
+
+	<h1 class="ExtensionName"><!-- IF META_DISPLAY_NAME -->{META_DISPLAY_NAME} - <!-- ENDIF -->{L_EXT_DETAILS}</h1>
+
+	<!-- IF S_VERSIONCHECK -->
+	<!-- ELSE IF S_VERSIONCHECK_STATUS == 0 -->
+	<div class="errorbox notice">
+		<p>{L_VERSIONCHECK_FAIL}</p>
+		<p>{VERSIONCHECK_FAIL_REASON}</p>
+		<p><a href="{U_VERSIONCHECK_FORCE}">{L_VERSIONCHECK_FORCE_UPDATE}</a></p>
+	</div>
+	<!-- ELSE IF S_VERSIONCHECK_STATUS == 1 -->
+	<div class="errorbox notice">
+		<p>{VERSIONCHECK_FAIL_REASON}</p>
+	</div>
+	<!-- ENDIF -->
+
+	<!-- IF META_DESCRIPTION -->
+	<fieldset>
+		<legend>{L_DESCRIPTION}</legend>
+		<span id="meta_description">{META_DESCRIPTION}</span>
+	</fieldset>
+	<!-- ENDIF -->
+	<div class="description_bubble big_bubble">
+		<span class="description_name">{L_CLEAN_NAME}</span>
+		<strong class="description_value" id="meta_name">{META_NAME}</strong>
+	</div>
+	<!-- IF S_VERSIONCHECK && S_UP_TO_DATE -->
+	<div class="description_bubble small_bubble" title="{UP_TO_DATE_MSG}">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value description_value_ok" id="meta_version">{META_VERSION}</span>
+	</div>
+	<!-- ELSE IF S_VERSIONCHECK && not S_UP_TO_DATE -->
+	<div class="description_bubble small_bubble" title="{UP_TO_DATE_MSG}">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value description_value_old" id="meta_version">{META_VERSION}</span>
+	</div>
+	<!-- ELSE -->
+	<div class="description_bubble small_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value" id="meta_version">{META_VERSION}</span>
+	</div>
+	<!-- ENDIF -->
+	<!-- IF META_HOMEPAGE -->
+	<div class="description_bubble big_bubble">
+		<span class="description_name">{L_HOMEPAGE}</span>
+		<strong class="description_value" id="meta_homepage"><a href="{META_HOMEPAGE}">{META_HOMEPAGE}</a></strong>
+	</div>
+	<!-- ENDIF -->
+	<!-- IF META_TIME -->
+	<div class="description_bubble small_bubble">
+		<span class="description_name">{L_TIME}</span>
+		<span class="description_value" id="meta_time">{META_TIME}</span>
+	</div>
+	<!-- ENDIF -->
+	<div class="description_bubble small_bubble">
+		<span class="description_name">{L_LICENSE}</span>
+		<span class="description_value" id="meta_license">{META_LICENSE}</span>
+	</div>
+
+	<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE -->
+		<!-- BEGIN updates_available -->
+		<fieldset>
+			<span class="requirements_title">{L_LATEST_VERSION}</span>
+			<div class="extension_latest_version_wrapper">
+				<strong class="extension_latest_version">{updates_available.current}</strong>
+				<!-- IF updates_available.download-->
+				<a href="{updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
+				<!-- ENDIF -->
+				<!-- IF updates_available.announcement -->
+				<a href="{updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
+				<!-- ENDIF -->
+			</div>
+		</fieldset>
+		<!-- END updates_available -->
+	<!-- ENDIF -->
+
+	<!-- IF META_REQUIRE_PHPBB || META_REQUIRE_PHP -->
+	<fieldset>
+		<span class="requirements_title">{L_REQUIREMENTS}</span>
+		<!-- IF META_REQUIRE_PHPBB -->
+		<div class="requirements_bubble">
+			<span class="requirements_name">{L_PHPBB_VERSION}</span>
+			<span class="requirements_value<!-- IF META_REQUIRE_PHPBB_FAIL --> requirements_value_not_met<!-- ENDIF -->" id="require_phpbb">{META_REQUIRE_PHPBB}</span>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF META_REQUIRE_PHP -->
+		<div class="requirements_bubble">
+			<span class="requirements_name">{L_PHP_VERSION}</span>
+			<span class="requirements_value<!-- IF META_REQUIRE_PHP_FAIL --> requirements_value_not_met<!-- ENDIF -->" id="require_php">{META_REQUIRE_PHP}</span>
+		</div>
+		<!-- ENDIF -->
+	</fieldset>
+	<!-- ENDIF -->
+
+	<fieldset>
+		<span class="requirements_title">{L_UPLOAD_EXTENSIONS_DEVELOPERS}</span>
+		<!-- BEGIN meta_authors -->
+		<div class="extension_author">
+			<strong class="extension_author_name">{meta_authors.AUTHOR_NAME}</strong>
+			<!-- IF meta_authors.AUTHOR_EMAIL -->
+			<a href="mailto:{meta_authors.AUTHOR_EMAIL}" title="{L_AUTHOR_EMAIL}" class="extension_author_link"><i class="fa fa-envelope"></i></a>
+			<!-- ENDIF -->
+			<!-- IF meta_authors.AUTHOR_HOMEPAGE -->
+			<a href="{meta_authors.AUTHOR_HOMEPAGE}" title="{L_AUTHOR_HOMEPAGE}" class="extension_author_link"><i class="fa fa-globe"></i></a>
+			<!-- ENDIF -->
+		</div>
+		<!-- END meta_authors -->
+	</fieldset>
