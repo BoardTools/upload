@@ -9,10 +9,6 @@
 
 namespace boardtools\upload\acp;
 
-include('Markdown/Michelf/MarkdownExtra.inc.php');
-
-use \Michelf\MarkdownExtra;
-
 class upload_module
 {
 	public $u_action;
@@ -194,7 +190,7 @@ class upload_module
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if (strpos($ff,'.zip')) 
+				if (strpos($ff,'.zip'))
 				{
 					$zip_aray[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
@@ -218,7 +214,7 @@ class upload_module
 			$template->assign_block_vars('zip', $zip_aray[$i]);
 		}
 	}
-	
+
 	function getComposer($dir)
 	{
 		global $composer;
@@ -242,23 +238,29 @@ class upload_module
 		return $composer;
 	}
 
-    // Function to remove folders and files 
-    function rrmdir($dir) 
+	// Function to remove folders and files
+	function rrmdir($dir)
 	{
-        if (is_dir($dir)) 
+		if (is_dir($dir))
 		{
-            $files = scandir($dir);
-            foreach ($files as $file) if ($file != '.' && $file != '..') $this->rrmdir($dir . '/' . $file);
-         	rmdir($dir);
-        }
-        else if (file_exists($dir))
+			$files = scandir($dir);
+			foreach ($files as $file)
+			{
+				if ($file != '.' && $file != '..')
+				{
+					$this->rrmdir($dir . '/' . $file);
+				}
+			}
+			rmdir($dir);
+		}
+		else if (file_exists($dir))
 		{
 			unlink($dir);
 		}
-    }
+	}
 
-    // Function to Copy folders and files       
-    function rcopy($src, $dst) 
+	// Function to Copy folders and files
+	function rcopy($src, $dst)
 	{
 		if (file_exists($dst))
 		{
@@ -444,7 +446,7 @@ class upload_module
 
 		$zip = new \ZipArchive;
 		$res = $zip->open($dest_file);
-		if ($res !== true) 
+		if ($res !== true)
 		{
 			$this->trigger_error($user->lang['ziperror'][$res] . $this->back_link, E_USER_WARNING);
 			return false;
@@ -470,7 +472,10 @@ class upload_module
 		if ($json_a['type'] != "phpbb-extension")
 		{
 			$this->rrmdir($phpbb_root_path . 'ext/tmp');
-			if($action != 'upload_local') $file->remove();
+			if($action != 'upload_local')
+			{
+				$file->remove();
+			}
 			$this->trigger_error($user->lang['NOT_AN_EXTENSION'] . $this->back_link, E_USER_WARNING);
 			return false;
 		}
@@ -491,8 +496,13 @@ class upload_module
 		}
 
 		$string = @file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
-		if ($string !== false) $readme = MarkdownExtra::defaultTransform($string);
-		else $readme = false;
+		if ($string !== false)
+		{
+			include('Markdown/Michelf/MarkdownExtra.inc.php');
+			$readme = \Michelf\MarkdownExtra::defaultTransform($string);
+		} else {
+			$readme = false;
+		}
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
 			'FILETREE'			=> $this->php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name),
@@ -512,16 +522,19 @@ class upload_module
 		return true;
 	}
 
-	function php_file_tree($directory, $display_name, $extensions = array()) 
+	function php_file_tree($directory, $display_name, $extensions = array())
 	{
 		global $user;
 		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
-		if(substr($directory, -1) == '/' ) $directory = substr($directory, 0, strlen($directory) - 1);
+		if(substr($directory, -1) == '/' )
+		{
+			$directory = substr($directory, 0, strlen($directory) - 1);
+		}
 		$code .= $this->php_file_tree_dir($directory, $extensions);
 		return $code;
 	}
 
-	function php_file_tree_dir($directory, $extensions = array(), $first_call = true) 
+	function php_file_tree_dir($directory, $extensions = array(), $first_call = true)
 	{
 		if (function_exists('scandir'))
 		{
@@ -530,12 +543,17 @@ class upload_module
 			$file = php4_scandir($directory);
 		}
 		natcasesort($file);
-	
+
 		// Make directories first
 		$files = $dirs = array();
 		foreach($file as $this_file)
 		{
-			if (is_dir($directory . '/' . $this_file)) $dirs[] = $this_file; else $files[] = $this_file;
+			if (is_dir($directory . '/' . $this_file))
+			{
+				$dirs[] = $this_file;
+			} else {
+				$files[] = $this_file;
+			}
 		}
 		$file = array_merge($dirs, $files);
 
@@ -546,8 +564,11 @@ class upload_module
 			{
 				if (!is_dir($directory . '/' . $file[$key]))
 				{
-					$ext = substr($file[$key], strrpos($file[$key],  '.') + 1); 
-					if (!in_array($ext, $extensions)) unset($file[$key]);
+					$ext = substr($file[$key], strrpos($file[$key],  '.') + 1);
+					if (!in_array($ext, $extensions))
+					{
+						unset($file[$key]);
+					}
 				}
 			}
 		}
@@ -555,9 +576,10 @@ class upload_module
 		if (count($file) > 2)
 		{ // Use 2 instead of 0 to account for . and .. directories
 			$php_file_tree = '<ul';
-			if ($first_call) 
+			if ($first_call)
 			{
-				$php_file_tree .= ' class="php-file-tree"'; $first_call = false;
+				$php_file_tree .= ' class="php-file-tree"';
+				$first_call = false;
 			}
 			$php_file_tree .= '>';
 			foreach($file as $this_file)
@@ -570,12 +592,11 @@ class upload_module
 						$php_file_tree .= '<li class="pft-directory"><a href="#">' . htmlspecialchars($this_file) . '</a>';
 						$php_file_tree .= $this->php_file_tree_dir($directory . '/' . $this_file, $extensions, false);
 						$php_file_tree .= '</li>';
-					} else 
-					{
+					} else {
 						// File
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
-						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1); 
-						$link = $this->u_action . '&amp;file=' . $directory . '/' . urlencode($this_file); 
+						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
+						$link = $this->u_action . '&amp;file=' . $directory . '/' . urlencode($this_file);
 						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '"><a href="javascript:void(0)" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '">' . htmlspecialchars($this_file) . '</a></li>';
 					}
 				}
