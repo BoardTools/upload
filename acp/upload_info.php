@@ -11,27 +11,27 @@ namespace boardtools\upload\acp;
 
 class upload_info
 {
-    function module()
-    {
-        return array(
-            'filename'    => 'boardtools\upload\acp\upload_module',
-            'title'        => 'ACP_UPLOAD_EXT_TITLE',
-            'version'    => '1.0.0',
-            'modes'        => array(
-                'main'		=> array(
-            								'title' => 'ACP_UPLOAD_EXT_CONFIG_TITLE',
-            								'auth' => 'ext_boardtools/upload && acl_a_extensions',
-            								'cat' => array('ACP_EXTENSION_MANAGEMENT')
-            							),
-            ),
-        );
-    }
+	function module()
+	{
+		return array(
+			'filename'    => 'boardtools\upload\acp\upload_module',
+			'title'        => 'ACP_UPLOAD_EXT_TITLE',
+			'version'    => '1.0.0',
+			'modes'        => array(
+				'main'		=> array(
+											'title'	=> 'ACP_UPLOAD_EXT_CONFIG_TITLE',
+											'auth'	=> 'ext_boardtools/upload && acl_a_extensions',
+											'cat'	=> array('ACP_EXTENSION_MANAGEMENT')
+									),
+			),
+		);
+	}
 
-    function install()
-    {
-    }
+	function install()
+	{
+	}
 
-    function uninstall()
-    {
-    }
+	function uninstall()
+	{
+	}
 }

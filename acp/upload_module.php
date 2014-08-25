@@ -30,7 +30,7 @@ class upload_module
 
 		// get any url vars
 		$action = $request->variable('action', '');
-		
+
 		// if 'i' is a number - continue displaying a number
 		$mode = $request->variable('mode', $mode);
 		$id = $request->variable('i', $id);
@@ -44,7 +44,7 @@ class upload_module
 			echo substr($file, strrpos($file, '/') + 1) . '<br><br>'.  highlight_string($string, true);
 			exit;
 		}
-		
+
 		switch ($action)
 		{
 			case 'details':
@@ -91,7 +91,7 @@ class upload_module
 
 				$this->tpl_name = 'acp_ext_details';
 				break;
-			
+
 			case 'upload':
 				/* We use '!== false' because strpos can return 0 if the needle is found in position 0 */
 				/* If we unpack a zip file - ensure that we work locally */
@@ -121,7 +121,7 @@ class upload_module
 					'S_FORM_ENCTYPE'	=> ' enctype="multipart/form-data"',
 				));
 				break;
-			
+
 			case 'delete':
 				$ext_name = $request->variable('ext_name', '');
 				$zip_name = $request->variable('zip_name', '');
@@ -171,7 +171,7 @@ class upload_module
 					}
 				}
 				break;
-			
+
 			default:
 				$this->listzip();
 				$this->list_available_exts($phpbb_extension_manager);
@@ -184,7 +184,7 @@ class upload_module
 				break;
 		}
 	}
-	
+
 	function listzip()
 	{
 		global $phpbb_root_path, $template, $phpbb_container;
@@ -204,21 +204,21 @@ class upload_module
 				}
 			}
 		}
-		
+
 		$pagination = $phpbb_container->get('pagination');
 		$start		= request_var('start', 0);
 		$zip_count = sizeof($zip_aray);
 		$per_page = 5;
 		$base_url = $this->u_action;
 		$pagination->generate_template_pagination($base_url, 'pagination', 'start', $zip_count, $per_page, $start);
-		
+
 		uasort($zip_aray, array($this, 'sort_extension_meta_data_table'));
 		for($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
 		{
 			$template->assign_block_vars('zip', $zip_aray[$i]);
 		}
 	}
-		
+	
 	function getComposer($dir)
 	{
 		global $composer;
@@ -228,9 +228,15 @@ class upload_module
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if ($ff == 'composer.json') {$composer = $dir . '/' . $ff; break;}
-	
-				if(is_dir($dir.'/'.$ff)) $this->getComposer($dir . '/' . $ff);	
+				if ($ff == 'composer.json')
+				{
+					$composer = $dir . '/' . $ff;
+					break;
+				}
+				if(is_dir($dir.'/'.$ff))
+				{
+					$this->getComposer($dir . '/' . $ff);
+				}
 			}
 		}
 		return $composer;
@@ -245,22 +251,35 @@ class upload_module
             foreach ($files as $file) if ($file != '.' && $file != '..') $this->rrmdir($dir . '/' . $file);
          	rmdir($dir);
         }
-        else if (file_exists($dir)) unlink($dir);
+        else if (file_exists($dir))
+		{
+			unlink($dir);
+		}
     }
 
     // Function to Copy folders and files       
     function rcopy($src, $dst) 
 	{
-        if (file_exists($dst))
-            $this->rrmdir ($dst);
-        if (is_dir($src))
+		if (file_exists($dst))
+		{
+			$this->rrmdir($dst);
+		}
+		if (is_dir($src))
 		{
 			mkdir($dst, 0777, true);
-            $files = scandir($src);
-            foreach($files as $file)
-                if ($file != '.' && $file != '..') $this->rcopy($src . '/' . $file, $dst . '/' . $file);
-        } else if (file_exists($src)) copy($src, $dst);
-    }
+			$files = scandir($src);
+			foreach($files as $file)
+			{
+				if ($file != '.' && $file != '..')
+				{
+					$this->rcopy($src . '/' . $file, $dst . '/' . $file);
+				}
+			}
+		} else if (file_exists($src))
+		{
+			copy($src, $dst);
+		}
+	}
 
 	/**
 	* Lists all the available extensions and dumps to the template
@@ -308,7 +327,7 @@ class upload_module
 	{
 		return strnatcasecmp($val1['META_DISPLAY_NAME'], $val2['META_DISPLAY_NAME']);
 	}
-	
+
 	protected function trigger_error($error, $type)
 	{
 		global $template, $action;
@@ -347,7 +366,7 @@ class upload_module
 
 		return $updates = $version_helper->get_suggested_updates($force_update, $force_cache);
 	}
-	
+
 	/**
 	 *
 	 * @package automod
@@ -382,8 +401,14 @@ class upload_module
 		}
 
 		// Proceed with the upload
-		if ($action == 'upload') $file = $upload->form_upload('extupload');
-		else if ($action == 'upload_remote') $file = $upload->remote_upload($request->variable('remote_upload', ''));
+		if ($action == 'upload')
+		{
+			$file = $upload->form_upload('extupload');
+		}
+		else if ($action == 'upload_remote')
+		{
+			$file = $upload->remote_upload($request->variable('remote_upload', ''));
+		}
 
 		if($action != 'upload_local')
 		{
@@ -410,10 +435,13 @@ class upload_module
 			}
 			$dest_file = $file->destination_file;
 		}
-		else $dest_file = $phpbb_root_path . 'ext/' . $request->variable('local_upload', '');
+		else
+		{
+			$dest_file = $phpbb_root_path . 'ext/' . $request->variable('local_upload', '');
+		}
 
 		include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
-		
+
 		$zip = new \ZipArchive;
 		$res = $zip->open($dest_file);
 		if ($res !== true) 
@@ -423,7 +451,7 @@ class upload_module
 		}
 		$zip->extractTo($phpbb_root_path . 'ext/tmp');
 		$zip->close();
-	
+
 		$composery = $this->getComposer($phpbb_root_path . 'ext/tmp');
 		if (!$composery)
 		{
@@ -454,14 +482,14 @@ class upload_module
 		}
 		$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
 		$this->rrmdir($phpbb_root_path . 'ext/tmp');
-					
+
 		foreach ($json_a['authors'] as $author)
 		{
 			$template->assign_block_vars('authors', array(
 				'AUTHOR'	=> $author['name'],
 			));
 		}
-		
+
 		$string = @file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
 		if ($string !== false) $readme = MarkdownExtra::defaultTransform($string);
 		else $readme = false;
@@ -495,7 +523,12 @@ class upload_module
 
 	function php_file_tree_dir($directory, $extensions = array(), $first_call = true) 
 	{
-		if (function_exists('scandir')) $file = scandir($directory); else $file = php4_scandir($directory);
+		if (function_exists('scandir'))
+		{
+			$file = scandir($directory);
+		} else {
+			$file = php4_scandir($directory);
+		}
 		natcasesort($file);
 	
 		// Make directories first
@@ -505,7 +538,7 @@ class upload_module
 			if (is_dir($directory . '/' . $this_file)) $dirs[] = $this_file; else $files[] = $this_file;
 		}
 		$file = array_merge($dirs, $files);
-	
+
 		// Filter unwanted extensions
 		if (!empty($extensions))
 		{
@@ -518,7 +551,7 @@ class upload_module
 				}
 			}
 		}
-	
+
 		if (count($file) > 2)
 		{ // Use 2 instead of 0 to account for . and .. directories
 			$php_file_tree = '<ul';
@@ -551,7 +584,7 @@ class upload_module
 		}
 		return $php_file_tree;
 	}
-	
+
 	/**
 	 * @author Michal Nazarewicz (from the php manual)
 	 * Creates all non-existant directories in a path
