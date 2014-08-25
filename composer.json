@@ -1,39 +1,39 @@
 {
-	"name": "boardtools/upload",
-	"type": "phpbb-extension",
-	"description": "Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server. With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.",
-	"homepage": "http://forumhulp.com",
-	"version": "3.1.0-RC3",
-	"keywords": ["boardtools", "forumhulp", "phpbb", "extension", "upload", "unzip", "zip"],
-	"license": "GPL-2.0",
-	"authors": [
-		{
-			"name": "John Peskens",
-			"email": "info@forumhulp.com",
-			"role": "Developer"
-		},
-		{
-			"name": "Igor Lavrov",
-			"homepage": "https://github.com/lavigor",
-			"role": "Developer"
-		}
-	],
-	"require": {
-		"php": ">=5.3.3",
-		"phpbb/phpbb": "3.1.*@dev"
-	},
+    "name": "boardtools/upload",
+    "type": "phpbb-extension",
+    "description": "Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server. With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.",
+    "homepage": "http://forumhulp.com",
+    "version": "3.1.0-RC3",
+    "keywords": ["boardtools", "forumhulp", "phpbb", "extension", "upload", "unzip", "zip"],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "John Peskens",
+            "email": "info@forumhulp.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Igor Lavrov",
+            "homepage": "https://github.com/lavigor",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phpbb/phpbb": "3.1.*@dev"
+    },
     "require-dev": {
         "phpbb/epv": "dev-master"
     },
-	"extra": {
-		"display-name": "Upload Extensions",
-		"soft-require": {
+    "extra": {
+        "display-name": "Upload Extensions",
+        "soft-require": {
            "phpbb/phpbb": "3.1.*@dev"
         },
-		"version-check": {
-			"host": "forumhulp.com",
-			"directory": "/ext",
-			"filename": "index.php?id=30"
-		}
-	}
+        "version-check": {
+            "host": "forumhulp.com",
+            "directory": "/ext",
+            "filename": "index.php?id=30"
+        }
+    }
 }
