@@ -19,15 +19,17 @@
 	$("#show_filetree").click(function () {
 		$("#show_filetree").css("display", "none");
 		$("#hide_filetree").css("display", "block");
-		$("#markdown").css("display", "none");
-		$("#filetree").css("display", "block");
+		$("#markdown").fadeOut(1000, function () {
+			$("#filetree").fadeIn(1000);
+		});
 	});
 
 	$("#hide_filetree").click(function () {
 		$("#hide_filetree").css("display", "none");
 		$("#show_filetree").css("display", "block");
-		$("#filetree").css("display", "none");
-		$("#markdown").css("display", "block");
+		$("#filetree").fadeOut(1000, function () {
+			$("#markdown").fadeIn(1000);
+		});
 	});
 })(jQuery, window, document);
 

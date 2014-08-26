@@ -4,7 +4,7 @@ $(document).ready( function() {
 	$(".php-file-tree").find("UL").hide();
 	
 	// Expand/collapse on click
-	$(".pft-directory A").click( function() {
+	$(".pft-directory span").click( function() {
 		$(this).parent().find("UL:first").slideToggle("medium");
 		if( $(this).parent().attr('className') == "pft-directory" ) return false;
 	});

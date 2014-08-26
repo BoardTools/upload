@@ -33,12 +33,11 @@ class upload_module
 		$this->main_link = $phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
 		$this->back_link = ($request->is_ajax()) ? adm_back_link($this->u_action) : '';
 
-		$file = request_var('file', '');
+		$file = $request->variable('file', '');
 		if ($file != '')
 		{
 			$string = file_get_contents($file);
-			echo substr($file, strrpos($file, '/') + 1) . '<br><br>'.  highlight_string($string, true);
-			exit;
+			exit('<div class="filename">' . substr($file, strrpos($file, '/') + 1) . '</div><div class="filecontent">' .  highlight_string($string, true)) . '</div>';
 		}
 
 		switch ($action)
@@ -183,7 +182,7 @@ class upload_module
 
 	function listzip()
 	{
-		global $phpbb_root_path, $template, $phpbb_container;
+		global $phpbb_root_path, $template, $request, $phpbb_container;
 		$zip_aray = array();
 		$ffs = scandir($phpbb_root_path . 'ext/');
 		foreach($ffs as $ff)
@@ -202,7 +201,7 @@ class upload_module
 		}
 
 		$pagination = $phpbb_container->get('pagination');
-		$start		= request_var('start', 0);
+		$start		= $request->variable('start', 0);
 		$zip_count = sizeof($zip_aray);
 		$per_page = 5;
 		$base_url = $this->u_action;
@@ -589,7 +588,7 @@ class upload_module
 					if (is_dir($directory . '/' . $this_file))
 					{
 						// Directory
-						$php_file_tree .= '<li class="pft-directory"><a href="#">' . htmlspecialchars($this_file) . '</a>';
+						$php_file_tree .= '<li class="pft-directory"><span>' . @htmlspecialchars($this_file) . '</span>';
 						$php_file_tree .= $this->php_file_tree_dir($directory . '/' . $this_file, $extensions, false);
 						$php_file_tree .= '</li>';
 					} else {
@@ -597,7 +596,7 @@ class upload_module
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
 						$link = $this->u_action . '&amp;file=' . $directory . '/' . urlencode($this_file);
-						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '"><a href="javascript:void(0)" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '">' . htmlspecialchars($this_file) . '</a></li>';
+						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '"><span>' . @htmlspecialchars($this_file) . '</span></li>';
 					}
 				}
 			}

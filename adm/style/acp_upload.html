@@ -1,7 +1,7 @@
 <!-- IF S_ALLOW_CDN -->
 <!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css -->
 <!-- ELSE -->
-<!-- INCLUDECSS css/font-awesome.min.css -->
+<!-- INCLUDECSS ./../../ext/boardtools/upload/vendor/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
 <!-- INCLUDECSS css/upload.css -->
 <!-- INCLUDECSS css/jquery.simpledialog.css -->
@@ -30,8 +30,9 @@
 		<span style="display: <!-- IF not README_MARKDOWN -->block;<!-- ELSE -->none;<!-- ENDIF -->" id="hide_filetree">{L_HIDE_FILETREE}</span>
 	</div>
     <div id="filetree"<!-- IF not README_MARKDOWN --> style="display:block;"<!-- ENDIF -->>
-        <div style="float:left; witdh:45%;">{FILETREE}</div>
-        <div id="filecontent">{FILENAME}<br /><br />{CONTENT}</div>
+        <div id="filetreenames">{FILETREE}</div>
+        <div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
+        <br style="clear:both" />
     </div>
 	<!-- IF README_MARKDOWN -->
 	<div id="markdown">{README_MARKDOWN}</div>
@@ -41,60 +42,53 @@
 	<!-- IF UPLOAD_ERROR -->
 	<div class="errorbox">{UPLOAD_ERROR}</div>
 	<!-- ENDIF -->
-    <div id="column1" style="float:left; width:49%;">
-        <!-- IF .zip -->
-        <table style="width:100%; table-layout: fixed; margin-top:16px;">
-        <tbody>
-        <tr>
-            <td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
-        </tr>
-        <!-- BEGIN zip -->
-        <tr class="ext_disabled">
-			<td style="width:50%;"><div style="width:100%; overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-size:100%;"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
-            <td style="text-align: center;">
-				<a href="{zip.U_UPLOAD}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
-			</td>
-        </tr>
-        <!-- END zip -->
-        <!-- IF .pagination or TOTAL_POSTS -->
-        <tr class="ext_disabled"><td colspan="2">
-            <div class="pagination">
-                <!-- IF .pagination -->
-                    <!-- INCLUDE pagination.html -->
-                <!-- ELSE -->
-                    &bull; {PAGE_NUMBER}
-                <!-- ENDIF -->
+    <form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+        <fieldset>
+            <legend>{L_EXTENSION_UPLOAD}</legend>
+            <div id="ext_upload_content">
+                <p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
+                <input type="text" id="remote_upload" name="remote_upload" />
+                <input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
+                <input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+                {S_FORM_TOKEN}
+                {S_HIDDEN_FIELDS}
+                <br />
+                <br />
+                <input type="checkbox" name="keepext" id="keepext" title="Keep extension" />
+                <label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
+                <input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
             </div>
-        </td></tr>
-        <!-- ENDIF -->
-        </tbody>
-        </table>
-        <!-- ENDIF -->
-        
-		<form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
-			<fieldset>
-				<legend>{L_EXTENSION_UPLOAD}</legend>
-				<div id="ext_upload_content">
-					<p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-
-					<input type="text" id="remote_upload" name="remote_upload" />
-					<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
-					<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
-
-					{S_FORM_TOKEN}
-					{S_HIDDEN_FIELDS}
-					<br />
-					<br />
-					<input type="checkbox" name="keepext" id="keepext" title="Keep extension" />
-					<label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
-					<input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
-				</div>
-				<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
-			</fieldset>
-		</form>
-    </div>
-    
-    <div id="column2" style="float:left; width:49%; margin-left:10px;">
+            <i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
+        </fieldset>
+    </form>
+    <!-- IF .zip -->
+    <table style="width:100%; table-layout: fixed; margin-top:16px;">
+    <tbody>
+    <tr>
+        <td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
+    </tr>
+    <!-- BEGIN zip -->
+    <tr class="ext_disabled">
+		<td style="width:50%;"><div style="width:100%; overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-size:100%;"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
+        <td style="text-align: center;">
+			<a href="{zip.U_UPLOAD}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+		</td>
+    </tr>
+    <!-- END zip -->
+    <!-- IF .pagination or TOTAL_POSTS -->
+    <tr class="ext_disabled"><td colspan="2">
+        <div class="pagination">
+            <!-- IF .pagination -->
+                <!-- INCLUDE pagination.html -->
+            <!-- ELSE -->
+                &bull; {PAGE_NUMBER}
+            <!-- ENDIF -->
+        </div>
+    </td></tr>
+    <!-- ENDIF -->
+    </tbody>
+    </table>
+    <!-- ENDIF -->
     <!-- IF .disabled -->
     <table id="ext_table">
         <tr>
@@ -114,7 +108,6 @@
         </tbody>
     </table>
     <!-- ENDIF -->
-    </div>
 <!-- ENDIF -->
 <br style="clear:both" />
 
