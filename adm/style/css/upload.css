@@ -154,46 +154,46 @@ div.filename {
 }
 
 .php-file-tree {
-	font-size: 1em;
+    font-size: 1em;
 }
 
 .php-file-tree li {
-	vertical-align: middle;
-	padding: 0;
+    vertical-align: middle;
+    padding: 0;
     margin-bottom: 3px;
 }
 
 .php-file-tree li span {
-	vertical-align: top;
-	padding: 0;
+    vertical-align: top;
+    padding: 0;
     margin: 0;
 }
 
 .php-file-tree li.pft-file, .php-file-tree li.pft-directory span {
     color: #000000;
-	text-decoration: none;
-	cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .php-file-tree li.pft-directory span {
     padding: 0 0 0 30px;
-	margin: 0 0 0 -30px;
+    margin: 0 0 0 -30px;
 }
 
 .php-file-tree li.pft-file:hover, .php-file-tree li.pft-directory span:hover {
-	color: #666666;
+    color: #666666;
 }
 
 .php-file-tree .open {
-	font-style: italic;
+    font-style: italic;
 }
 
 .php-file-tree .closed {
-	font-style: normal;
+    font-style: normal;
 }
 
 .php-file-tree .pft-directory {
-	list-style-image: url(images/directory.png);
+    list-style-image: url(images/directory.png);
 }
 /* Default file */
 .php-file-tree LI.pft-file { list-style-image: url(images/file.png);overflow:hidden; text-overflow:ellipsis;white-space:nowrap;width:280px; }
