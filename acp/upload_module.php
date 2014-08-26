@@ -33,11 +33,11 @@ class upload_module
 		$this->main_link = $phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
 		$this->back_link = ($request->is_ajax()) ? adm_back_link($this->u_action) : '';
 
+		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.php');
 		$file = $request->variable('file', '');
 		if ($file != '')
 		{
-			$string = file_get_contents($file);
-			exit('<div class="filename">' . substr($file, strrpos($file, '/') + 1) . '</div><div class="filecontent">' .  highlight_string($string, true)) . '</div>';
+			\filetree::get_file($file);
 		}
 
 		switch ($action)
@@ -504,7 +504,7 @@ class upload_module
 		}
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
-			'FILETREE'			=> $this->php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name),
+			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name),
 			'S_ACTION'			=> $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination),
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,
@@ -519,90 +519,6 @@ class upload_module
 			$file->remove();
 		}
 		return true;
-	}
-
-	function php_file_tree($directory, $display_name, $extensions = array())
-	{
-		global $user;
-		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
-		if(substr($directory, -1) == '/' )
-		{
-			$directory = substr($directory, 0, strlen($directory) - 1);
-		}
-		$code .= $this->php_file_tree_dir($directory, $extensions);
-		return $code;
-	}
-
-	function php_file_tree_dir($directory, $extensions = array(), $first_call = true)
-	{
-		if (function_exists('scandir'))
-		{
-			$file = scandir($directory);
-		} else {
-			$file = php4_scandir($directory);
-		}
-		natcasesort($file);
-
-		// Make directories first
-		$files = $dirs = array();
-		foreach($file as $this_file)
-		{
-			if (is_dir($directory . '/' . $this_file))
-			{
-				$dirs[] = $this_file;
-			} else {
-				$files[] = $this_file;
-			}
-		}
-		$file = array_merge($dirs, $files);
-
-		// Filter unwanted extensions
-		if (!empty($extensions))
-		{
-			foreach(array_keys($file) as $key)
-			{
-				if (!is_dir($directory . '/' . $file[$key]))
-				{
-					$ext = substr($file[$key], strrpos($file[$key],  '.') + 1);
-					if (!in_array($ext, $extensions))
-					{
-						unset($file[$key]);
-					}
-				}
-			}
-		}
-
-		if (count($file) > 2)
-		{ // Use 2 instead of 0 to account for . and .. directories
-			$php_file_tree = '<ul';
-			if ($first_call)
-			{
-				$php_file_tree .= ' class="php-file-tree"';
-				$first_call = false;
-			}
-			$php_file_tree .= '>';
-			foreach($file as $this_file)
-			{
-				if ($this_file != '.' && $this_file != '..' )
-				{
-					if (is_dir($directory . '/' . $this_file))
-					{
-						// Directory
-						$php_file_tree .= '<li class="pft-directory"><span>' . @htmlspecialchars($this_file) . '</span>';
-						$php_file_tree .= $this->php_file_tree_dir($directory . '/' . $this_file, $extensions, false);
-						$php_file_tree .= '</li>';
-					} else {
-						// File
-						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
-						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
-						$link = $this->u_action . '&amp;file=' . $directory . '/' . urlencode($this_file);
-						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '"><span>' . @htmlspecialchars($this_file) . '</span></li>';
-					}
-				}
-			}
-			$php_file_tree .= '</ul>';
-		}
-		return $php_file_tree;
 	}
 
 	/**
