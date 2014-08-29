@@ -31,7 +31,7 @@
 	</div>
     <div id="filetree"<!-- IF not README_MARKDOWN --> style="display:block;"<!-- ENDIF -->>
         <div id="filetreenames">{FILETREE}</div>
-        <div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
+        <div id="filecontent"><div class="filename">{FILENAME} <a href="#" onclick="selectCode(this); return false;" style="float:right;font-size:8px;margin: 5px 15px 1px 0;">Select all</a></div><div class="filecontent">{CONTENT}</div></div>
         <br style="clear:both" />
     </div>
 	<!-- IF README_MARKDOWN -->

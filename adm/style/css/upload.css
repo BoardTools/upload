@@ -124,7 +124,7 @@ form fieldset {border-radius:0;}
 div.filecontent {
     box-sizing: border-box;
     width: 100%;
-    min-height: 400px;
+    height: 400px;
     padding: 10px;
     font-size: 11px;
     overflow: auto;
@@ -134,21 +134,21 @@ div.filename {
     display: block;
     box-sizing: border-box;
     width: 100%;
-    height: 30px;
+    height: 24px;
     padding: 5px 0px;
     overflow: hidden;
     margin: 0;
     text-align: center;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: bold;
-    background: #1458a5;
-    background: -moz-linear-gradient(top, #80b4ee 0%, #115098 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #80b4ee), color-stop(100%, #115098));
-    background: -webkit-linear-gradient(top, #80b4ee 0%, #115098 100%);
-    background: -o-linear-gradient(top, #80b4ee 0%, #115098 100%);
-    background: -ms-linear-gradient(top, #80b4ee 0%, #115098 100%);
-    background: linear-gradient(to bottom, #80b4ee 0%, #115098 100%);;
-    color: #edfbf7;
+    background: #DBDFE2;
+    background: -moz-linear-gradient(top, #DBDFE2 0%, #DBDFE2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #DBDFE2), color-stop(100%, #DBDFE2));
+    background: -webkit-linear-gradient(top, #DBDFE2 0%, #DBDFE2 100%);
+    background: -o-linear-gradient(top, #DBDFE2 0%, #DBDFE2 100%);
+    background: -ms-linear-gradient(top, #DBDFE2 0%, #DBDFE2 100%);
+    background: linear-gradient(to bottom, #DBDFE2 0%, #DBDFE2 100%);;
+    color: #fff;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }

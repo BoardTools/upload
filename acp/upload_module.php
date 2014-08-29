@@ -468,8 +468,8 @@ class upload_module
 			$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
 			return false;
 		}
-		$display_name = $json_a['extra']['display-name'];
-		if ($json_a['type'] != "phpbb-extension")
+		$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : '';
+		if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
 		{
 			$this->rrmdir($phpbb_root_path . 'ext/tmp');
 			if($action != 'upload_local')
@@ -503,9 +503,10 @@ class upload_module
 		} else {
 			$readme = false;
 		}
+		
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
-			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name),
+			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
 			'S_ACTION'			=> $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination),
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,

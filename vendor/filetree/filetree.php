@@ -9,7 +9,7 @@
 
 class filetree
 {
-	public function get_file($file)
+	public static function get_file($file)
 	{
 		if ($file != '')
 		{
@@ -20,20 +20,21 @@ class filetree
 		return false;
 	}
 
-	public function php_file_tree($directory, $display_name, $extensions = array())
+	public static function php_file_tree($directory, $display_name, $uaction, $extensions = array())
 	{
 		global $user;
+		
 		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
 		if(substr($directory, -1) == '/' )
 		{
 			$directory = substr($directory, 0, strlen($directory) - 1);
 		}
-		$code .= \filetree::php_file_tree_dir($directory, $extensions);
+		$code .= \filetree::php_file_tree_dir($directory, $uaction, $extensions);
 		return $code;
 	}
 
-	public function php_file_tree_dir($directory, $extensions = array(), $first_call = true)
-	{
+	public static function php_file_tree_dir($directory, $uaction, $extensions = array(), $first_call = true)
+	{	
 		if (function_exists('scandir'))
 		{
 			$file = scandir($directory);
@@ -88,13 +89,13 @@ class filetree
 					{
 						// Directory
 						$php_file_tree .= '<li class="pft-directory"><span>' . htmlspecialchars($this_file) . '</span>';
-						$php_file_tree .= \filetree::php_file_tree_dir($directory . '/' . $this_file, $extensions, false);
+						$php_file_tree .= \filetree::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
 						$php_file_tree .= '</li>';
 					} else {
 						// File
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
-						$link = $this->u_action . '&amp;file=' . $directory . '/' . urlencode($this_file);
+						$link = $uaction . '&file=' . $directory . '/' . urlencode($this_file);
 						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '"><span>' . htmlspecialchars($this_file) . '</span></li>';
 					}
 				}
