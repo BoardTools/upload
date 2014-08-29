@@ -23,6 +23,7 @@ class upload_module
 		$this->page_title = $user->lang['ACP_UPLOAD_EXT_TITLE'];
 		$this->tpl_name = 'acp_upload';
 		$this->ext_dir = $phpbb_root_path . 'ext';
+		$user->add_lang_ext('boardtools/upload', 'upload');
 
 		// get any url vars
 		$action = $request->variable('action', '');
