@@ -503,7 +503,7 @@ class upload_module
 		} else {
 			$readme = false;
 		}
-		
+
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
