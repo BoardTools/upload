@@ -20,8 +20,9 @@
 	<a href="{S_ACTION_BACK}" id="back_to_upload">{L_EXT_UPLOAD_BACK}</a>
 	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPLOADED} - {L_EXT_UPLOADED}<a href="{S_ACTION}" id="enable_uploaded"><i class="fa fa-power-off"></i> {L_EXT_ENABLE}</a></h1>
 	<div>
-		<!-- IF .authors -->
-		<br />Authors:
+		<br />
+        <!-- IF .authors -->
+		Authors:
 		<!-- BEGIN authors -->
 		{authors.AUTHOR}<!-- IF not authors.S_LAST_ROW -->, <!-- ENDIF -->
 		<!-- END authors -->
@@ -31,9 +32,12 @@
 	</div>
     <div id="filetree"<!-- IF not README_MARKDOWN --> style="display:block;"<!-- ENDIF -->>
         <div id="filetreenames">{FILETREE}</div>
-        <div id="filecontent"><div class="filename">{FILENAME} <a href="#" onclick="selectCode(this); return false;" style="float:right;font-size:8px;margin: 5px 15px 1px 0;">Select all</a></div><div class="filecontent">{CONTENT}</div></div>
+        <div id="filecontent_wrapper">
+            <div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
+            <a href="#" onclick="selectCode(this); return false;" class="select_all_code">{L_SELECT_ALL_CODE}</a>
+        </div>
         <br style="clear:both" />
-    </div>
+        </div>
 	<!-- IF README_MARKDOWN -->
 	<div id="markdown">{README_MARKDOWN}</div>
 	<!-- ENDIF -->

@@ -23,7 +23,7 @@ class filetree
 	public static function php_file_tree($directory, $display_name, $uaction, $extensions = array())
 	{
 		global $user;
-		
+
 		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
 		if(substr($directory, -1) == '/' )
 		{
