@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* Persian translator: Meisam nobari
+* Persian Translator: Meisam nobari
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -25,39 +25,39 @@ $lang = array_merge($lang, array(
 'EXT_UPLOAD_INIT_FAIL'	=> 'There was an error when initialising the extension upload process.',
 'EXT_NOT_WRITABLE'	=> 'The ext/ directory is not writable. This is required for “Upload extension” to work properly. Please adjust your permissions or settings and try again.',
 'EXT_UPLOAD_ERROR'	=> 'The extension wasn\'t uploaded. Please confirm that you upload the true extension zip file and try again.',
-'NO_UPLOAD_FILE'	=> 'No file specified or there was an error during the upload process.',
-'NOT_AN_EXTENSION'	=> 'The uploaded zip file is not a phpBB extension. The file was not saved on the server.',
-'EXTENSION_UPLOADED'	=> 'Extension “%s” was uploaded successfully.',
-'EXTENSIONS_AVAILABLE'	=> 'Available extensions',
-'EXTENSION_INVALID_LIST'	=> 'Extension list',
-'EXTENSION_UPLOADED_ENABLE'	=> 'Enable the uploaded extension',
+'NO_UPLOAD_FILE'	=> 'فایلی انتخاب نشده یا به هنگام بارگزاری مشکلی به وجود آمده است.',
+'NOT_AN_EXTENSION'	=> 'فایل آپلود شده یک افزونه phpBB نیست. فایل در سرور شما ذخیره نشد.',
+'EXTENSION_UPLOADED'	=> 'افزونه “%s” با موفقیت به روز رسانی شد.',
+'EXTENSIONS_AVAILABLE'	=> 'افزونه های در دسترس',
+'EXTENSION_INVALID_LIST'	=> 'لیست افزونه',
+'EXTENSION_UPLOADED_ENABLE'	=> 'فعال سازی افزونه های اپلود شده',
 'ACP_UPLOAD_EXT_UNPACK'	=> 'Unpack extension',
 'ACP_UPLOAD_EXT_CONT'	=> 'Content of package: %s',
-'EXTENSION_DELETE'	=> 'Delete extension',
-'EXTENSION_DELETE_CONFIRM'	=> 'Are you sure that you want to delete the “%s” extension?',
-'EXT_DELETE_SUCCESS'	=> 'Extension was deleted successfully.',
-'EXTENSION_ZIP_DELETE'	=> 'Delete zip file',
-'EXTENSION_ZIP_DELETE_CONFIRM'	=> 'Are you sure that you want to delete the zip file “%s”?',
-'EXT_ZIP_DELETE_SUCCESS'	=> 'Extension\'s zip file was deleted successfully.',
+'EXTENSION_DELETE'	=> 'حذف افزونه',
+'EXTENSION_DELETE_CONFIRM'	=> 'آیا از حذف افزونه “%s” مطمئن هستید؟',
+'EXT_DELETE_SUCCESS'	=> 'افزونه با موفقیت حذف شد.',
+'EXTENSION_ZIP_DELETE'	=> 'حذف فایل zip',
+'EXTENSION_ZIP_DELETE_CONFIRM'	=> 'آیا از حذف فایل zip “%s” مطمئن هستید؟',
+'EXT_ZIP_DELETE_SUCCESS'	=> 'فایل zip افزونه مورد نظر با موفقیت حذف گردید.',
 'ACP_UPLOAD_EXT_ERROR_DEST'	=> 'No vendor or destination folder in the uploaded zip file. The file was not saved on the server.',
 'ACP_UPLOAD_EXT_ERROR_COMP'	=> 'composer.json wasn\'t found in the uploaded zip file. The file was not saved on the server.',
-'UPLOAD_EXTENSIONS_DEVELOPERS'	=> 'Developers',
+'UPLOAD_EXTENSIONS_DEVELOPERS'	=> 'توسعه دهندگان',
 'SHOW_FILETREE'	=> '<< Show file tree >>',
 'HIDE_FILETREE'	=> '>> Hide file tree <<',
 'ziperror'	=> array(
-'10'	=> 'File already exists.',
+'10'	=> 'فایل از قبل موجود بوده.',
 '21'	=> 'Zip archive inconsistent.',
 '18'	=> 'Invalid argument.',
 '14'	=> 'Malloc failure.',
-'9'	=> 'No such file.',
+'9'	=> 'فایلی موجود نیست',
 '19'	=> 'Not a zip archive.',
-'11'	=> 'Can\'t open file.',
-'5'	=> 'Read error.',
-'4'	=> 'Seek error.'
+'11'	=> 'نمیتوان فایل را باز کرد.',
+'5'	=> 'خطا در خواندن ',
+'4'	=> 'خطا در جستجو'
 ),
 'EXT_UPLOAD_SAVE_ZIP'	=> 'Save uploaded zip file',
 'ZIP_UPLOADED'	=> 'Uploaded zip packages of extensions',
-'EXT_ENABLE'	=> 'Enable',
-'EXT_UPLOADED'	=> 'uploaded',
-'EXT_UPLOAD_BACK'	=> '« Back to Upload Extensions',
+'EXT_ENABLE'	=> 'فعال سازی',
+'EXT_UPLOADED'	=> 'آپلود شده',
+'EXT_UPLOAD_BACK'	=> '« بازگشت به آپلود افزونه',
 ));
