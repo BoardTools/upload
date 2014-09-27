@@ -55,6 +55,7 @@ $lang = array_merge($lang, array(
 '5'	=> 'خطا در خواندن ',
 '4'	=> 'خطا در جستجو'
 ),
+
 'EXT_UPLOAD_SAVE_ZIP'	=> 'ذخیره سازی فایل zip شده',
 'ZIP_UPLOADED'	=> 'فایل zip افزونه بارگزاری شده است.',
 'EXT_ENABLE'	=> 'فعال سازی',
