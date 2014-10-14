@@ -31,9 +31,9 @@
            "phpbb/phpbb": "3.1.*@dev"
         },
         "version-check": {
-            "host": "forumhulp.com",
-            "directory": "/ext",
-            "filename": "index.php?id=30"
+            "host": "boardtools.github.io",
+            "directory": "/",
+            "filename": "upload.json"
         }
     }
 }
