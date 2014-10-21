@@ -3,22 +3,26 @@ Upload Extensions
 Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server.
 With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.
 
-[![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
+[![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=develop)](https://travis-ci.org/BoardTools/upload)
+
+## Development version
+**ATTENTION!!!**
+This is the branch for development versions. Please consider that you use ONLY the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip) for this extension on any live boards.
 
 ## Requirements
 * phpBB 3.1.0-dev or higher
 * PHP 5.3.3 or higher
 
-## Installation
+## Installation for testing purposes only
 You can install this extension on the latest copy of the develop branch ([phpBB 3.1-dev](https://github.com/phpbb/phpbb3)) by doing the following:
 
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
+1. Download the [latest ZIP-archive of `develop` branch of this repository](https://github.com/BoardTools/upload/archive/develop.zip).
 2. Check out the existing of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
 5. Click `Enable`.
 
-Note: This extension is in development. Installation is only recommended for testing purposes and is not supported on live boards. This extension will be officially released following phpBB 3.1.0.
+Note: This branch contains the development versions of the extension. Installation is only recommended for testing purposes and is not supported on live boards.
 
 ## Usage
 ### Upload extensions
@@ -30,8 +34,8 @@ To delete extensions' folders from the server (to perform complete uninstallatio
 Then navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
 Choose the extension that you want to delete and click `Delete extension`.
 
-## Update
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
+## Update for testing purposes only
+1. Download the [latest ZIP-archive of `develop` branch of this repository](https://github.com/BoardTools/upload/archive/develop.zip).
 2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
