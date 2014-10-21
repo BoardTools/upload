@@ -6,19 +6,17 @@ With this extension you can install/update/delete extensions without using FTP. 
 [![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
 
 ## Requirements
-* phpBB 3.1.0-dev or higher
+* phpBB 3.1.0 or higher
 * PHP 5.3.3 or higher
 
 ## Installation
-You can install this extension on the latest copy of the develop branch ([phpBB 3.1-dev](https://github.com/phpbb/phpbb3)) by doing the following:
+You can install this extension on the latest version of [phpBB 3.1](https://www.phpbb.com/downloads/) or on the latest development version of [phpBB 3.1-dev](https://github.com/phpbb/phpbb3) by doing the following:
 
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
+1. Download the extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
 2. Check out the existing of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
 5. Click `Enable`.
-
-Note: This extension is in development. Installation is only recommended for testing purposes and is not supported on live boards. This extension will be officially released following phpBB 3.1.0.
 
 ## Usage
 ### Upload extensions
@@ -31,7 +29,7 @@ Then navigate in the ACP to `Customise -> Extension Management -> Upload extensi
 Choose the extension that you want to delete and click `Delete extension`.
 
 ## Update
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
+1. Download the updated extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
 2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
