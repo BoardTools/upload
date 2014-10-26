@@ -516,7 +516,6 @@ class upload_module
 			'CONTENT'			=> ($string !== false) ?  highlight_string($string, true): ''
 		));
 
-		//echo $dest_file . "<br>" . substr($dest_file, strrpos($dest_file, '/') + 1) . $display_name . ".zip";
 		// Remove the uploaded archive file
 		if (($request->variable('keepext', false)) == false && $action != 'upload_local')
 		{
@@ -606,7 +605,6 @@ class upload_module
 			return $file;
 		}
 
-		$urload_url = $url;
 		$url = parse_url($upload_url);
 
 		$host = $url['host'];
