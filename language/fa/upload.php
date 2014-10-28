@@ -41,6 +41,7 @@ $lang = array_merge($lang, array(
 'EXT_ZIP_DELETE_SUCCESS'	=> 'فایل zip افزونه مورد نظر با موفقیت حذف گردید.',
 'ACP_UPLOAD_EXT_ERROR_DEST'	=> 'فایل vendor و مقصد در فایل zip موجود نیست. فایل در سرور شما ذخیره نشد.',
 'ACP_UPLOAD_EXT_ERROR_COMP'	=> 'فایل composer.json در پکیج zip شما یافت نشد. فایل در سرور شما ذخیره نشد.',
+'ACP_UPLOAD_EXT_ERROR_LICENSE'		=> 'No GPL-2.0 license. The file was not saved on the server.',
 'UPLOAD_EXTENSIONS_DEVELOPERS'	=> 'توسعه دهندگان',
 'SHOW_FILETREE'	=> '<< نمایش درخت فایل >>',
 'HIDE_FILETREE'	=> '>> مخفی کردن درخت فایل <<',
