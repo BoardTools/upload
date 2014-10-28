@@ -468,6 +468,11 @@ class upload_module
 			$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
 			return false;
 		}
+		if (!isset($json_a['license']) || $json_a['license'] != 'GPL-2.0')
+		{
+			$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_LICENSE'] . $this->back_link, E_USER_WARNING);
+			return false;
+		}
 		$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : '';
 		if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
 		{
