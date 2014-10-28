@@ -47,7 +47,8 @@ $lang = array_merge($lang, array(
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Extension\'s zip file was deleted successfully.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'No vendor or destination folder in the uploaded zip file. The file was not saved on the server.',
-	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json wasn\'t found in the uploaded zip file. The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json wasn\'t found in the uploaded zip file. The file was not saved on the server.',	'ACP_UPLOAD_EXT_ERROR_LICENSE'		=> 'No GPL-2.0 license. The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_LICENSE'			=> 'No GPL-2.0 license. The file was not saved on the server.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Developers',
 
