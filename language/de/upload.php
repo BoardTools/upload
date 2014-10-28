@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Kein Anbieter oder Zielordner in der hochgeladenen ZIP-Datei. Die Datei wurde nicht auf dem Server gespeichert.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Die Datei composer.json wurde nicht in der hochgeladenen Zip-Datei gefunden. Die Dateien wurden nicht auf dem Server gespeichert.',
+	'ACP_UPLOAD_EXT_ERROR_LICENSE'			=> 'No GPL-2.0 license. The file was not saved on the server.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Entwickler',
 
