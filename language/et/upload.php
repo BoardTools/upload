@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Vendor\'it või kausta sihtkohta üles laaditud zip failil pole. Faili ei salvestatud serverisse.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json ei leitud üles laetud .zip failist. Faili ei salvestatud serverisse.',
+	'ACP_UPLOAD_EXT_ERROR_LICENSE'		=> 'No GPL-2.0 license. The file was not saved on the server.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Arendajad',
 
