@@ -48,6 +48,7 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Настройки расширения (имя поставщика и название расширения) некорректно заданы или отсутствуют в загруженном zip файле. Файл не был сохранён на сервере.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Файл composer.json не был найден в загруженном zip файле. Файл не был сохранён на сервере.',
+	'ACP_UPLOAD_EXT_ERROR_LICENSE'		=> 'No GPL-2.0 license. The file was not saved on the server.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Разработчики',
 
