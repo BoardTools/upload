@@ -540,7 +540,7 @@ class upload_module
 		if (!$mode)
 		{
 			global $config;
-			$mode = octdec($config['am_dir_perms']);
+			$mode = 0755;
 		}
 
 		$dirs = explode('/', $path);
