@@ -24,7 +24,7 @@ $lang = array_merge($lang, array(
 	'UPLOAD'							=> 'Upload',
 	'BROWSE'							=> 'Browse...',
 	'EXTENSION_UPLOAD'					=> 'Upload extension',
-	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Here you can upload a zipped extension package containing the necessary files to perform installation from your local computer or a remote server. “Upload Extensions” will then attempt to unzip the file and have it ready for installation.<br />Choose a file or type a link in the fields below.<br />NOTE: Some servers (for example, github.com) don\'t support remote uploads.',
+	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Here you can upload a zipped extension package containing the necessary files to perform installation from your local computer or a remote server. “Upload Extensions” will then attempt to unzip the file and have it ready for installation.<br />Choose a file or type a link in the fields below.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'There was an error when initialising the extension upload process.',
 	'EXT_NOT_WRITABLE'					=> 'The ext/ directory is not writable. This is required for “Upload extension” to work properly. Please adjust your permissions or settings and try again.',
 	'EXT_UPLOAD_ERROR'					=> 'The extension wasn\'t uploaded. Please confirm that you upload the true extension zip file and try again.',
@@ -48,23 +48,12 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'No vendor or destination folder in the uploaded zip file. The file was not saved on the server.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json wasn\'t found in the uploaded zip file. The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'The file was not saved on the server.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Developers',
 
 	'SHOW_FILETREE'						=> '<< Show file tree >>',
 	'HIDE_FILETREE'						=> '>> Hide file tree <<',
-
-	'ziperror'		=> array(
-		'10'		=> 'File already exists.',
-		'21'		=> 'Zip archive inconsistent.',
-		'18'		=> 'Invalid argument.',
-		'14'		=> 'Malloc failure.',
-		'9'			=> 'No such file.',
-		'19'		=> 'Not a zip archive.',
-		'11'		=> 'Can\'t open file.',
-		'5'			=> 'Read error.',
-		'4'			=> 'Seek error.'
-	),
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Save uploaded zip file',
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',

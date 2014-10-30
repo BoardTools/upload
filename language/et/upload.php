@@ -24,7 +24,7 @@ $lang = array_merge($lang, array(
 	'UPLOAD'							=> 'Lae üles',
 	'BROWSE'							=> 'Sirvi...',
 	'EXTENSION_UPLOAD'					=> 'Lae üles laiendus',
-	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Siin saad üles laadida kokku pakitud .zip faile. “Lae üles laiendusi” pakib selle ise lahti, ning seadistab selle sulle paigaldamiseks valmis.<br />Vali fail arvutist või kirjuta veebilehe aadress all olevale väljale.<br />MÄRKUS: Mõningad serverid (nagu näiteks, github.com) ei toeta <i>remote</i> üles laadimisi.',
+	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Siin saad üles laadida kokku pakitud .zip faile. “Lae üles laiendusi” pakib selle ise lahti, ning seadistab selle sulle paigaldamiseks valmis.<br />Vali fail arvutist või kirjuta veebilehe aadress all olevale väljale.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'Tekkis viga, kui alustati laienduse üles laadimise protsessi.',
 	'EXT_NOT_WRITABLE'					=> 'ext/ kaust ei ole kirjutatav. See on nõutud, et “Lae üles laiendusi” töötaks korralikult. Palun kohanda antud seadistust, ning proovi uuesti.',
 	'EXT_UPLOAD_ERROR'					=> 'Laiendust ei laetud üles. Palun veendu, et laadisid üles õige laienduse .zip faili ja proovi uuesti.',
@@ -48,23 +48,12 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Vendor\'it või kausta sihtkohta üles laaditud zip failil pole. Faili ei salvestatud serverisse.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json ei leitud üles laetud .zip failist. Faili ei salvestatud serverisse.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'Faili ei salvestatud serverisse.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Arendajad',
 
 	'SHOW_FILETREE'						=> '<< Näita faili puud >>',
 	'HIDE_FILETREE'						=> '>> Peida faili puu <<',
-
-	'ziperror'		=> array(
-		'10'		=> 'Fail on juba olemas.',
-		'21'		=> 'Zip arhiiv on vastuolus.',
-		'18'		=> 'Vigane argument.',
-		'14'		=> 'Malloc ebaõnnestus.',
-		'9'			=> 'Ei leitud sellist faili.',
-		'19'		=> 'Tegemist ei ole .zip arhiiviga.',
-		'11'		=> 'Faili ei saa avada.',
-		'5'			=> 'Loe veateadet.',
-		'4'			=> 'Otsi viga.'
-	),
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvesta üles laetud .zip fail',
 	'ZIP_UPLOADED'						=> '.zip arhiiv on üles laetud',

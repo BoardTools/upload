@@ -24,7 +24,7 @@ $lang = array_merge($lang, array(
 	'UPLOAD'							=> 'hochladen',
 	'BROWSE'							=> 'Zeige Inhalt',
 	'EXTENSION_UPLOAD'					=> 'Erweiterung hochladen',
-	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Das Zip-Archiv einer Erweiterung enthält alle notwendigen Dateien um nach dem Hochladen des Archives eine Installation durchführen zu können. Dazu wird das Zip-Archiv nach dem Hochladen vom eigenen PC auf dem Server in das durch die Erweiterung vorgegebene Verzeichnis entpackt. <br />BEMERKUNG: Nicht jeder Server, beispielsweise auch github.com, unterstützt das Hochladen auf diesem Wege. (Servereinstellungen prüfen falls notwendig)<br />Hierunter im leeren Feld den Pfad zum Zip-Archiv eingeben.',
+	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Das Zip-Archiv einer Erweiterung enthält alle notwendigen Dateien um nach dem Hochladen des Archives eine Installation durchführen zu können. Dazu wird das Zip-Archiv nach dem Hochladen vom eigenen PC auf dem Server in das durch die Erweiterung vorgegebene Verzeichnis entpackt.<br />Hierunter im leeren Feld den Pfad zum Zip-Archiv eingeben.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'Es gab einen Fehler bei der Initialisierung der Erweiterung Upload-Prozess.',
 	'EXT_NOT_WRITABLE'					=> 'Das ext/ Verzeichnis ist nicht beschreibbar. Für das Hochladen von Dateien ist es erforderlich die Verzeichnissrechte entsprechend einzustellen und anzupassen. Danach den Vorgang wiederholen.',
 	'EXT_UPLOAD_ERROR'					=> 'Die Erweiterung wurde nicht hochgeladen. Bitte das Zip-Archiv auf Echtheit und Vollständigkeit überprüfen und erneut versuchen.',
@@ -48,23 +48,12 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Kein Anbieter oder Zielordner in der hochgeladenen ZIP-Datei. Die Datei wurde nicht auf dem Server gespeichert.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Die Datei composer.json wurde nicht in der hochgeladenen Zip-Datei gefunden. Die Dateien wurden nicht auf dem Server gespeichert.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'Die Dateien wurden nicht auf dem Server gespeichert.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Entwickler',
 
 	'SHOW_FILETREE'						=> '<< Verzeichnis anzeigen >>',
 	'HIDE_FILETREE'						=> '>> Verzeichnis ausblenden <<',
-
-	'ziperror'		=> array(
-		'10'		=> 'Datei existiert bereits.',
-		'21'		=> 'Zip-Archiv inkonsistent.',
-		'18'		=> 'falsches Argument.',
-		'14'		=> 'Malloc failure.',
-		'9'			=> 'Falsche, oder fehlende Datei.',
-		'19'		=> 'Dies ist kein Zip-Archiv.',
-		'11'		=> 'Datei kann nicht geöffnet werden.',
-		'5'			=> 'Fehler beim lesen der Datei.',
-		'4'			=> 'Fehler bei der Dateisuche.'
-	),
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Hochgeladenes Zip-Archiv speichern',
 	'ZIP_UPLOADED'						=> 'Zip-Archiv der Erweiterung hochgeladen',
