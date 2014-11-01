@@ -67,6 +67,9 @@ h1 {position: relative;}
 
 #back_to_upload {display:block; margin-bottom:15px;}
 
+.ext_updated_notice {width: 100%; background-color: #fdfcd3; box-sizing: border-box; color: #706e25; display: block;}
+.ext_updated_notice h1 {color: #706e25 !important;}
+
 #filetree {
     display: none;
     min-height: 450px;

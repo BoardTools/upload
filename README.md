@@ -10,7 +10,7 @@ With this extension you can install/update/delete extensions without using FTP. 
 This is the branch for development versions. Please consider that you use ONLY the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip) for this extension on any live boards.
 
 ## Requirements
-* phpBB 3.1.0-dev or higher
+* phpBB 3.1.0 or higher
 * PHP 5.3.3 or higher
 
 ## Installation for testing purposes only
