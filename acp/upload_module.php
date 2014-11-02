@@ -825,7 +825,10 @@ class upload_module
 		$upload_ary['tmp_name'] = $filename;
 
 		$file = new \filespec($upload_ary, $files, $mimetype_guesser);
-		if ($upload_from_phpbb) $file->extension = 'zip';
+		if ($upload_from_phpbb)
+		{
+			$file->extension = 'zip';
+		}
 		$files->common_checks($file);
 
 		return $file;
