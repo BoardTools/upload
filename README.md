@@ -29,10 +29,33 @@ Note: This branch contains the development versions of the extension. Installati
 To upload extensions navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
 Choose your extension zip file and click upload. The extension will unpack your file in the folder mentioned in composer.json. After that you can enable the uploaded extension in `Manage extensions` page (or simply click the link `Enable the uploaded extension`).
 
+#### Supported sources
+You can upload extensions from different types of sources:
+
+* Customisation database on phpbb.com: copy the download link of the extension that you want to install on your board and paste it into the upload extension field in Upload Extensions.
+* Remote sources: you can do the same action for links on other resources, e.g. GitHub. The link from those resources (not from phpbb.com database) should end with `.zip`.
+* Local PC: simply click `Browse...` button in Upload Extensions and choose a file to upload.
+
+**You can upload only `zip` formatted files of extensions.**
+
+### Update extensions
+You can update any of already installed extensions by uploading a zip file with the new version of the extension that you want to update.
+Note: that extension will be disabled automatically. **You need to revise the uploaded files and manually enable the updated extension if you still want to use it on your board.**
+
 ### Delete extensions
 To delete extensions' folders from the server (to perform complete uninstallation) make sure that your extension is disabled and its data is deleted in `Manage extensions`.
 Then navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
 Choose the extension that you want to delete and click `Delete extension`.
+
+### Managing zip files
+You can do the following actions with zip files uploaded with Upload Extensions:
+
+* Save them in the directory of your choise. To do that tick the flag `Save uploaded zip file` near the upload button. To change the directory for saving zip files of uploaded extensions navigate in the ACP to `General -> Server configuration -> Server settings -> Path settings -> Extensions' zip packages storage path`.
+* Unpack previously saved zip files of extensions. The unpacked extension will be ready for installation immediately.
+* Delete zip files of extensions.
+
+All uploaded zip files will contain the version numbers of the uploaded extensions.
+If you have uploaded different zip files with the same name, they will be renamed properly so that they all will be saved.
 
 ## Update for testing purposes only
 1. Download the [latest ZIP-archive of `develop` branch of this repository](https://github.com/BoardTools/upload/archive/develop.zip).
