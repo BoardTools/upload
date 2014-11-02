@@ -1,5 +1,5 @@
 <!-- IF S_ALLOW_CDN -->
-<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css -->
+<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css -->
 <!-- ELSE -->
 <!-- INCLUDECSS ./../../ext/boardtools/upload/vendor/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
@@ -14,15 +14,27 @@
 
 <p>{L_ACP_UPLOAD_EXT_TITLE_EXPLAIN}</p>
 
-<!-- IF S_UPLOADED -->
+<!-- IF S_NEXT_STEP -->
+	<div class="successbox notice">
+		<p>{L_EXTENSION_DISABLE_IN_PROGRESS}</p>
+	</div>
+<!-- ELSEIF S_UPLOADED -->
 <!-- INCLUDEJS js/php_file_tree_jquery.js -->
-    <hr />
+	<hr />
 	<a href="{S_ACTION_BACK}" id="back_to_upload">{L_EXT_UPLOAD_BACK}</a>
+	<!-- IF EXT_UPDATED -->
+		<fieldset class="ext_updated_notice">
+			<div>
+				<h1><i class="fa fa-refresh"></i> {L_ACP_UPLOAD_EXT_UPDATED}</h1>
+				<p>{L_ACP_UPLOAD_EXT_UPDATED_EXPLAIN}</p>
+			</div>
+		</fieldset>
+	<!-- ENDIF -->
 	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPLOADED} - {L_EXT_UPLOADED}<a href="{S_ACTION}" id="enable_uploaded"><i class="fa fa-power-off"></i> {L_EXT_ENABLE}</a></h1>
 	<div>
 		<br />
-        <!-- IF .authors -->
-		Authors:
+		<!-- IF .authors -->
+		{L_UPLOAD_EXTENSIONS_DEVELOPERS}:
 		<!-- BEGIN authors -->
 		{authors.AUTHOR}<!-- IF not authors.S_LAST_ROW -->, <!-- ENDIF -->
 		<!-- END authors -->
@@ -75,7 +87,7 @@
     <tr class="ext_disabled">
 		<td style="width:50%;"><div style="width:100%; overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-size:100%;"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
         <td style="text-align: center;">
-			<a href="{zip.U_UPLOAD}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+			<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
 		</td>
     </tr>
     <!-- END zip -->
@@ -95,6 +107,7 @@
     <!-- ENDIF -->
     <!-- IF .disabled -->
     <table id="ext_table">
+		<tbody>
         <tr>
             <td class="row3" colspan="3"><strong>{L_EXTENSIONS_AVAILABLE}</strong></td>
         </tr>

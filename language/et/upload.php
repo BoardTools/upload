@@ -48,27 +48,23 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Vendor\'it või kausta sihtkohta üles laaditud zip failil pole. Faili ei salvestatud serverisse.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json ei leitud üles laetud .zip failist. Faili ei salvestatud serverisse.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'Faili ei salvestatud serverisse.',
+	'ACP_UPLOAD_EXT_WRONG_RESTORE'		=> 'An error occurred during the update of an installed extension. Try to update it again.', // to translate
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Arendajad',
 
 	'SHOW_FILETREE'						=> '<< Näita faili puud >>',
 	'HIDE_FILETREE'						=> '>> Peida faili puu <<',
 
-	'ziperror'		=> array(
-		'10'		=> 'Fail on juba olemas.',
-		'21'		=> 'Zip arhiiv on vastuolus.',
-		'18'		=> 'Vigane argument.',
-		'14'		=> 'Malloc ebaõnnestus.',
-		'9'			=> 'Ei leitud sellist faili.',
-		'19'		=> 'Tegemist ei ole .zip arhiiviga.',
-		'11'		=> 'Faili ei saa avada.',
-		'5'			=> 'Loe veateadet.',
-		'4'			=> 'Otsi viga.'
-	),
-
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvesta üles laetud .zip fail',
 	'ZIP_UPLOADED'						=> '.zip arhiiv on üles laetud',
 	'EXT_ENABLE'						=> 'Luba',
 	'EXT_UPLOADED'						=> 'üles laetud',
 	'EXT_UPLOAD_BACK'					=> '« Tagasi Lae üles laiendusi lehele',
+
+	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions\' zip packages storage path', // to translate
+	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Path under your phpBB root directory, e.g. <samp>ext</samp>.<br />You can change this path to store zip packages in a special folder (for example, if you want to let users download those files, you can change it to <em>downloads</em>, and if you want to prohibit those downloads, you can change it to the path that is upper by one level than http root of your website (or you can create a folder with the appropriate .htaccess file)).', // to translate
+
+	'ACP_UPLOAD_EXT_UPDATED'			=> 'The installed extension was updated.', // to translate
+	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'You have uploaded a zip file for an already installed extension. That extension <strong>was disabled automatically</strong> to make the update process safer. Now please <strong>check</strong> whether the uploaded files are correct and <strong>enable</strong> the extension if it still should be used on the board.', // to translate
 ));

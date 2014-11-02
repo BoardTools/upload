@@ -14,15 +14,17 @@ class upload_module
 	public $u_action;
 	public $main_link;
 	public $back_link;
-	var $ext_dir = '';
+	var $zip_dir = '';
 	var $error = '';
 	function main($id, $mode)
 	{
-		global $db, $config, $user, $cache, $template, $request, $phpbb_root_path, $phpbb_extension_manager, $phpbb_container;
+		global $db, $config, $user, $cache, $template, $request, $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $phpbb_container;
 
 		$this->page_title = $user->lang['ACP_UPLOAD_EXT_TITLE'];
 		$this->tpl_name = 'acp_upload';
-		$this->ext_dir = $phpbb_root_path . 'ext';
+		// This is the dir where we will store zip files of extensions.
+		$this->zip_dir = $phpbb_root_path . $config['upload_ext_dir'];
+		$user->add_lang(array('install', 'acp/extensions', 'migrator'));
 		$user->add_lang_ext('boardtools/upload', 'upload');
 
 		// get any url vars
@@ -34,7 +36,7 @@ class upload_module
 		$this->main_link = $phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
 		$this->back_link = ($request->is_ajax()) ? adm_back_link($this->u_action) : '';
 
-		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.php');
+		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.' . $phpEx);
 		$file = $request->variable('file', '');
 		if ($file != '')
 		{
@@ -44,7 +46,6 @@ class upload_module
 		switch ($action)
 		{
 			case 'details':
-				$user->add_lang(array('install', 'acp/extensions', 'migrator'));
 				$ext_name = 'boardtools/upload';
 				$md_manager = new \phpbb\extension\metadata_manager($ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path);
 				try
@@ -89,26 +90,21 @@ class upload_module
 				break;
 
 			case 'upload':
-				/* We use '!== false' because strpos can return 0 if the needle is found in position 0 */
 				/* If we unpack a zip file - ensure that we work locally */
 				if (($request->variable('local_upload', '')) != '')
 				{
 					$action = 'upload_local';
 				}
+				/* We use '!== false' because strpos can return 0 if the needle is found in position 0 */
 				else if (strpos($request->variable('remote_upload', ''), 'http://') !== false || strpos($request->variable('remote_upload', ''), 'https://') !== false)
 				{
 					$action = 'upload_remote';
 				}
 
 			case 'upload_remote':
-				if (!is_writable($this->ext_dir))
-				{
-					$this->trigger_error($user->lang('EXT_NOT_WRITABLE'));
-				}
-				else if (!$this->upload_ext($action))
-				{
-					//$this->trigger_error($user->lang('EXT_UPLOAD_ERROR'));
-				}
+			case 'force_update':
+				$this->upload_ext($action);
+				$this->listzip();
 				$this->list_available_exts($phpbb_extension_manager);
 				$template->assign_vars(array(
 					'U_ACTION'			=> $this->u_action,
@@ -125,11 +121,16 @@ class upload_module
 				{
 					if (confirm_box(true))
 					{
-						$dir = substr($ext_name, 0, strpos($ext_name, '/'));
-						$extensions = sizeof(array_filter(glob($phpbb_root_path . 'ext/' . $dir . '/*'), 'is_dir'));
-						$dir = ($extensions == 1) ? $dir : substr($ext_name, strpos($ext_name, '/') + 1);
-						$this->rrmdir($phpbb_root_path . 'ext/' . $dir);
-						if($request->is_ajax())
+						// Ensure that we can delete extensions only in ext/ directory.
+						$ext_name = str_replace('.', '', $ext_name);
+						if (substr_count($ext_name, '/') === 1 && is_dir($phpbb_root_path . 'ext/' . $ext_name))
+						{
+							$dir = substr($ext_name, 0, strpos($ext_name, '/'));
+							$extensions = sizeof(glob($phpbb_root_path . 'ext/' . $dir . '/*'));
+							$dir = ($extensions === 1) ? $dir : $ext_name;
+							$this->rrmdir($phpbb_root_path . 'ext/' . $dir);
+						}
+						if ($request->is_ajax())
 						{
 							trigger_error($user->lang('EXT_DELETE_SUCCESS'));
 						}
@@ -142,6 +143,7 @@ class upload_module
 							'i'			=> $id,
 							'mode'		=> $mode,
 							'action'	=> $action,
+							'ext_name'	=> $ext_name,
 						)));
 					}
 				}
@@ -149,8 +151,8 @@ class upload_module
 				{
 					if (confirm_box(true))
 					{
-						$this->rrmdir($phpbb_root_path . 'ext/' . $zip_name);
-						if($request->is_ajax())
+						$this->rrmdir($this->zip_dir . '/' . substr($zip_name, 0, -4) . '.zip');
+						if ($request->is_ajax())
 						{
 							trigger_error($user->lang('EXT_ZIP_DELETE_SUCCESS'));
 						}
@@ -163,6 +165,7 @@ class upload_module
 							'i'			=> $id,
 							'mode'		=> $mode,
 							'action'	=> $action,
+							'zip_name'	=> $zip_name,
 						)));
 					}
 				}
@@ -184,15 +187,15 @@ class upload_module
 	function listzip()
 	{
 		global $phpbb_root_path, $template, $request, $phpbb_container;
-		$zip_aray = array();
-		$ffs = scandir($phpbb_root_path . 'ext/');
+		$zip_array = array();
+		$ffs = scandir($this->zip_dir . '/');
 		foreach($ffs as $ff)
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if (strpos($ff,'.zip'))
+				if (strpos($ff,'.zip') == (strlen($ff) - 4))
 				{
-					$zip_aray[] = array(
+					$zip_array[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
 						'U_UPLOAD'			=> $this->main_link . '&amp;action=upload&amp;local_upload=' . urlencode($ff),
 						'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;zip_name=' . urlencode($ff)
@@ -203,15 +206,15 @@ class upload_module
 
 		$pagination = $phpbb_container->get('pagination');
 		$start		= $request->variable('start', 0);
-		$zip_count = sizeof($zip_aray);
+		$zip_count = sizeof($zip_array);
 		$per_page = 5;
 		$base_url = $this->u_action;
 		$pagination->generate_template_pagination($base_url, 'pagination', 'start', $zip_count, $per_page, $start);
 
-		uasort($zip_aray, array($this, 'sort_extension_meta_data_table'));
+		uasort($zip_array, array($this, 'sort_extension_meta_data_table'));
 		for($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
 		{
-			$template->assign_block_vars('zip', $zip_aray[$i]);
+			$template->assign_block_vars('zip', $zip_array[$i]);
 		}
 	}
 
@@ -268,7 +271,7 @@ class upload_module
 		}
 		if (is_dir($src))
 		{
-			mkdir($dst, 0777, true);
+			$this->recursive_mkdir($dst, 0755);
 			$files = scandir($src);
 			foreach($files as $file)
 			{
@@ -302,15 +305,21 @@ class upload_module
 
 			try
 			{
+				$display_ext_name = $md_manager->get_metadata('display-name');
 				$meta = $md_manager->get_metadata('all');
 				$available_extension_meta_data[$name] = array(
-					'META_DISPLAY_NAME'	=> $md_manager->get_metadata('display-name'),
+					'META_DISPLAY_NAME'	=> $display_ext_name,
 					'META_VERSION'		=> $meta['version'],
 					'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;ext_name=' . urlencode($name)
 				);
 			}
 			catch(\phpbb\extension\exception $e)
 			{
+				$available_extension_meta_data[$name] = array(
+					'META_DISPLAY_NAME'	=> (isset($display_ext_name)) ? $display_ext_name : 'Broken extension (' . $name . ')',
+					'META_VERSION'		=> (isset($meta['version'])) ? $meta['version'] : '0.0.0',
+					'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;ext_name=' . urlencode($name)
+				);
 			}
 		}
 
@@ -378,28 +387,32 @@ class upload_module
 	 */
 	function upload_ext($action)
 	{
-		global $phpbb_root_path, $phpEx, $template, $user, $request;
+		global $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $template, $user, $request;
 
 		//$can_upload = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !@extension_loaded('zlib')) ? false : true;
 
-		$this->listzip();
 		$user->add_lang('posting');  // For error messages
 		include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
 		$upload = new \fileupload();
 		$upload->set_allowed_extensions(array('zip'));	// Only allow ZIP files
 
-		if (!is_writable($this->ext_dir))
+		$upload_dir = $this->zip_dir;
+
+		// Make sure the ext/ directory exists and if it doesn't, create it
+		if (!is_dir($phpbb_root_path . 'ext'))
+		{
+			$this->recursive_mkdir($phpbb_root_path . 'ext');
+		}
+
+		if (!is_writable($phpbb_root_path . 'ext'))
 		{
 			$this->trigger_error($user->lang['EXT_NOT_WRITABLE'] . $this->back_link, E_USER_WARNING);
 			return false;
 		}
 
-		$upload_dir = $this->ext_dir;
-
-		// Make sure the ext/ directory exists and if it doesn't, create it
-		if (!is_dir($this->ext_dir))
+		if (!is_dir($this->zip_dir))
 		{
-			$this->recursive_mkdir($this->ext_dir);
+			$this->recursive_mkdir($this->zip_dir);
 		}
 
 		// Proceed with the upload
@@ -412,82 +425,198 @@ class upload_module
 			$file = $this->remote_upload($upload, $request->variable('remote_upload', ''));
 		}
 
-		if($action != 'upload_local')
+		// What is a safe limit of execution time? Half the max execution time should be safe.
+		$safe_time_limit = (ini_get('max_execution_time') / 2);
+		$start_time = time();
+		// We skip working with a zip file if we are enabling/restarting the extension.
+		if ($action != 'force_update')
 		{
-			if (empty($file->filename))
+			if ($action != 'upload_local')
 			{
-				$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']) . $this->back_link, E_USER_WARNING);
+				if (empty($file->filename))
+				{
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']) . $this->back_link, E_USER_WARNING);
+					return false;
+				}
+				else if ($file->init_error || sizeof($file->error))
+				{
+					$file->remove();
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']) . $this->back_link, E_USER_WARNING);
+					return false;
+				}
+
+				$file->clean_filename('real');
+				$file->move_file(str_replace($phpbb_root_path, '', $upload_dir), true, true);
+
+				if (sizeof($file->error))
+				{
+					$file->remove();
+					$this->trigger_error(implode('<br />', $file->error) . $this->back_link, E_USER_WARNING);
+					return false;
+				}
+				$dest_file = $file->destination_file;
+			}
+			else
+			{
+				$dest_file = $upload_dir . '/' . $request->variable('local_upload', '');
+			}
+
+			include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+
+			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
+			// We suppose that one user can upload only one extension per session.
+			$ext_tmp = 'tmp/' . (int) $user->data['user_id'];
+			// Ensure that we don't have any previous files in the working directory.
+			if (is_dir($phpbb_root_path . 'ext/' . $ext_tmp))
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+			}
+
+			$zip = new \compress_zip('r', $dest_file);
+			$zip->extract($phpbb_root_path . 'ext/' . $ext_tmp . '/');
+			$zip->close();
+
+			$composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp);
+			if (!$composery)
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+				$file->remove();
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
-			else if ($file->init_error || sizeof($file->error))
+			$string = file_get_contents($composery);
+			$json_a = json_decode($string, true);
+			$destination = $json_a['name'];
+			$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
+			if (strpos($destination, '/') === false)
 			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']) . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
+			if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+				if($action != 'upload_local')
+				{
+					$file->remove();
+				}
+				$this->trigger_error($user->lang['NOT_AN_EXTENSION'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+			$source = substr($composery, 0, -14);
+			$source_for_check = $ext_tmp . '/' . $destination;
+			// At first we need to change the directory structure to something like ext/tmp/vendor/extension.
+			// We need it to escape from problems with dots on validation.
+			if ($source != $phpbb_root_path . 'ext/' . $source_for_check)
+			{
+				$this->rcopy($source, $phpbb_root_path . 'ext/' . $source_for_check);
+				$source = $phpbb_root_path . 'ext/' . $source_for_check;
+			}
+			// Validate the extension to check if it can be used on the board.
+			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($source_for_check, $template);
+			try
+			{
+				if($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)
+				{
+					$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+					if($action != 'upload_local')
+					{
+						$file->remove();
+					}
+					$this->trigger_error($user->lang['EXTENSION_NOT_AVAILABLE'] . $this->back_link, E_USER_WARNING);
+					return false;
+				}
+			}
+			catch(\phpbb\extension\exception $e)
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+				if($action != 'upload_local')
+				{
+					$file->remove();
+				}
+				$this->trigger_error($e . ' ' . $user->lang['ACP_UPLOAD_EXT_ERROR_NOT_SAVED'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
 
-			$file->clean_filename('real');
-			$file->move_file(str_replace($phpbb_root_path, '', $upload_dir), true, true);
-
-			if (sizeof($file->error))
+			// Save/remove the uploaded archive file.
+			if($action != 'upload_local')
 			{
-				$file->remove();
-				$this->trigger_error(implode('<br />', $file->error) . $this->back_link, E_USER_WARNING);
-				return false;
+				if (($request->variable('keepext', false)) == false)
+				{
+					$file->remove();
+				}
+				else
+				{
+					// Save this file and any other files that were uploaded with the same name.
+					if(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip"))
+					{
+						$finder = 1;
+						while(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip"))
+						{
+							$finder++;
+						}
+						@rename($dest_file, substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip");
+					}
+					else
+					{
+						@rename($dest_file, substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip");
+					}
+				}
 			}
-			$dest_file = $file->destination_file;
+			// Here we can assume that all checks are done.
+			// Now we are able to install the uploaded extension to the correct path.
 		}
 		else
 		{
-			$dest_file = $phpbb_root_path . 'ext/' . $request->variable('local_upload', '');
-		}
-
-		include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
-
-		$zip = new \ZipArchive;
-		$res = $zip->open($dest_file);
-		if ($res !== true)
-		{
-			$this->trigger_error($user->lang['ziperror'][$res] . $this->back_link, E_USER_WARNING);
-			return false;
-		}
-		$zip->extractTo($phpbb_root_path . 'ext/tmp');
-		$zip->close();
-
-		$composery = $this->getComposer($phpbb_root_path . 'ext/tmp');
-		if (!$composery)
-		{
-			$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'] . $this->back_link, E_USER_WARNING);
-			return false;
-		}
-		$string = file_get_contents($composery);
-		$json_a = json_decode($string, true);
-		$destination = $json_a['name'];
-		$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
-		if (strpos($destination, '/') === false)
-		{
-			$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
-			return false;
-		}
-		$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
-		if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
-		{
-			$this->rrmdir($phpbb_root_path . 'ext/tmp');
-			if($action != 'upload_local')
+			// All checks were done previously. Now we only need to restore the variables.
+			// We try to restore the data of the current upload.
+			$ext_tmp = 'tmp/' . (int) $user->data['user_id'];
+			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)))
 			{
-				$file->remove();
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				return false;
 			}
-			$this->trigger_error($user->lang['NOT_AN_EXTENSION'] . $this->back_link, E_USER_WARNING);
-			return false;
+			$string = file_get_contents($composery);
+			$json_a = json_decode($string, true);
+			$destination = $json_a['name'];
+			if (strpos($destination, '/') === false)
+			{
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+			$source = substr($composery, 0, -14);
+			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
 		}
-		$source = substr($composery, 0, -14);
-		/* Delete the previous version of extension files - we're able to update them. */
+		$made_update = false;
+		// Delete the previous version of extension files - we're able to update them.
 		if (is_dir($phpbb_root_path . 'ext/' . $destination))
 		{
+			// At first we need to disable the extension if it is enabled.
+			if ($phpbb_extension_manager->is_enabled($destination))
+			{
+				while ($phpbb_extension_manager->disable_step($destination))
+				{
+					// Are we approaching the time limit? If so, we want to pause the update and continue after refreshing.
+					if ((time() - $start_time) >= $safe_time_limit)
+					{
+						$template->assign_var('S_NEXT_STEP', true);
+
+						// No need to specify the name of the extension. We suppose that it is the one in ext/tmp/USER_ID folder.
+						meta_refresh(0, $this->u_action . '&amp;action=force_update');
+						return false;
+					}
+				}
+				$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_EXT_DISABLE', time(), array($destination));
+				$made_update = true;
+			}
 			$this->rrmdir($phpbb_root_path . 'ext/' . $destination);
 		}
 		$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
-		$this->rrmdir($phpbb_root_path . 'ext/tmp');
+		// No enabling at this stage. Admins should have a chance to revise the uploaded scripts.
+		$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 
 		foreach ($json_a['authors'] as $author)
 		{
@@ -499,7 +628,7 @@ class upload_module
 		$string = @file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
 		if ($string !== false)
 		{
-			include($phpbb_root_path . 'ext/boardtools/upload/vendor/Markdown/Michelf/MarkdownExtra.inc.php');
+			include($phpbb_root_path . 'ext/boardtools/upload/vendor/Markdown/Michelf/MarkdownExtra.inc.' . $phpEx);
 			$readme = \Michelf\MarkdownExtra::defaultTransform($string);
 		} else {
 			$readme = false;
@@ -507,6 +636,7 @@ class upload_module
 
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
+			'EXT_UPDATED'		=> $made_update,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
 			'S_ACTION'			=> $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination),
 			'S_ACTION_BACK'		=> $this->main_link,
@@ -516,28 +646,6 @@ class upload_module
 			'CONTENT'			=> ($string !== false) ?  highlight_string($string, true): ''
 		));
 
-		// Remove the uploaded archive file
-		if (($request->variable('keepext', false)) == false && $action != 'upload_local')
-		{
-			$file->remove();
-		}
-		else
-		{
-			// Save this file and any other files that were downloaded with the same name
-			if(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip"))
-			{
-				$finder = 1;
-				while(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip"))
-				{
-					$finder++;
-				}
-				@rename($dest_file, substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip");
-			}
-			else
-			{
-				@rename($dest_file, substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip");
-			}
-		}
 		return true;
 	}
 
@@ -548,14 +656,8 @@ class upload_module
 	 * @param $mode - CHMOD the new dir to these permissions
 	 * @return bool
 	 */
-	function recursive_mkdir($path, $mode = false)
+	function recursive_mkdir($path, $mode = 0755)
 	{
-		if (!$mode)
-		{
-			global $config;
-			$mode = octdec($config['am_dir_perms']);
-		}
-
 		$dirs = explode('/', $path);
 		$count = sizeof($dirs);
 		$path = '.';
@@ -593,13 +695,15 @@ class upload_module
 		$upload_ary = array();
 		$upload_ary['local_mode'] = true;
 
-		if (!preg_match('#^(https?://).*?\.(' . implode('|', $files->allowed_extensions) . ')$#i', $upload_url, $match))
+		$upload_from_phpbb = preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $upload_url, $match_phpbb);
+
+		if (!preg_match('#^(https?://).*?\.(' . implode('|', $files->allowed_extensions) . ')$#i', $upload_url, $match) && !$upload_from_phpbb)
 		{
 			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID']);
 			return $file;
 		}
 
-		if (empty($match[2]))
+		if (empty($match[2]) && empty($match_phpbb[2]))
 		{
 			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID']);
 			return $file;
@@ -721,6 +825,10 @@ class upload_module
 		$upload_ary['tmp_name'] = $filename;
 
 		$file = new \filespec($upload_ary, $files, $mimetype_guesser);
+		if ($upload_from_phpbb)
+		{
+			$file->extension = 'zip';
+		}
 		$files->common_checks($file);
 
 		return $file;

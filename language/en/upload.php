@@ -48,27 +48,23 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'No vendor or destination folder in the uploaded zip file. The file was not saved on the server.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json wasn\'t found in the uploaded zip file. The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_WRONG_RESTORE'		=> 'An error occurred during the update of an installed extension. Try to update it again.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Developers',
 
 	'SHOW_FILETREE'						=> '<< Show file tree >>',
 	'HIDE_FILETREE'						=> '>> Hide file tree <<',
 
-	'ziperror'		=> array(
-		'10'		=> 'File already exists.',
-		'21'		=> 'Zip archive inconsistent.',
-		'18'		=> 'Invalid argument.',
-		'14'		=> 'Malloc failure.',
-		'9'			=> 'No such file.',
-		'19'		=> 'Not a zip archive.',
-		'11'		=> 'Can\'t open file.',
-		'5'			=> 'Read error.',
-		'4'			=> 'Seek error.'
-	),
-
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Save uploaded zip file',
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',
 	'EXT_ENABLE'						=> 'Enable',
 	'EXT_UPLOADED'						=> 'uploaded',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
+
+	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions\' zip packages storage path',
+	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Path under your phpBB root directory, e.g. <samp>ext</samp>.<br />You can change this path to store zip packages in a special folder (for example, if you want to let users download those files, you can change it to <em>downloads</em>, and if you want to prohibit those downloads, you can change it to the path that is upper by one level than http root of your website (or you can create a folder with the appropriate .htaccess file)).',
+
+	'ACP_UPLOAD_EXT_UPDATED'			=> 'The installed extension was updated.',
+	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'You have uploaded a zip file for an already installed extension. That extension <strong>was disabled automatically</strong> to make the update process safer. Now please <strong>check</strong> whether the uploaded files are correct and <strong>enable</strong> the extension if it still should be used on the board.',
 ));
