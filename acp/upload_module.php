@@ -98,8 +98,13 @@ class upload_module
 				if ($request->is_ajax())
 				{
 					$template->assign_vars(array(
-						'U_BACK'				=> $this->main_link . '&amp;action=list',
 						'IS_AJAX'				=> true,
+					));
+				}
+				else
+				{
+					$template->assign_vars(array(
+						'U_BACK'				=> $this->main_link,
 					));
 				}
 
