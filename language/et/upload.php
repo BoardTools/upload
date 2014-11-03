@@ -57,7 +57,7 @@ $lang = array_merge($lang, array(
 	'HIDE_FILETREE'						=> '>> Peida faili puu <<',
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvesta üles laaditud zip fail',
-	'ZIP_UPLOADED'						=> 'zip arhiiv on üles laetud',
+	'ZIP_UPLOADED'						=> 'zip arhiiv on üles laaditud',
 	'EXT_ENABLE'						=> 'Luba',
 	'EXT_UPLOADED'						=> 'üles laaditud',
 	'EXT_UPDATED'						=> 'uuendatud',
