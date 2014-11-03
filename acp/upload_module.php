@@ -683,6 +683,7 @@ class upload_module
 		{
 			// No enabling at this stage. Admins should have a chance to revise the uploaded scripts.
 			$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+			$destination = 'boardtools/new_upload/' . $destination;
 		}
 		else
 		{
