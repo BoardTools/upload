@@ -60,6 +60,8 @@ $lang = array_merge($lang, array(
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',
 	'EXT_ENABLE'						=> 'Enable',
 	'EXT_UPLOADED'						=> 'uploaded',
+	'EXT_UPDATED'						=> 'updated',
+	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions\' zip packages storage path',

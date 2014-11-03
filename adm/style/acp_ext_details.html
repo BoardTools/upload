@@ -1,5 +1,15 @@
-<a id="maincontent"></a>
+<!-- IF not IS_AJAX -->
+<!-- IF S_ALLOW_CDN -->
+<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css -->
+<!-- ELSE -->
+<!-- INCLUDECSS ./../../ext/boardtools/upload/vendor/font-awesome/css/font-awesome.min.css -->
+<!-- ENDIF -->
+<!-- INCLUDECSS css/upload.css -->
+<!-- INCLUDECSS css/jquery.simpledialog.css -->
+<!-- INCLUDE overall_header.html -->
 
+<a id="maincontent"></a>
+<!-- ENDIF -->
 	<h1 class="ExtensionName"><!-- IF META_DISPLAY_NAME -->{META_DISPLAY_NAME} - <!-- ENDIF -->{L_EXT_DETAILS}</h1>
 
 	<!-- IF S_VERSIONCHECK -->
@@ -16,10 +26,57 @@
 	<!-- ENDIF -->
 
 	<!-- IF META_DESCRIPTION -->
-	<fieldset>
-		<legend>{L_DESCRIPTION}</legend>
-		<span id="meta_description">{META_DESCRIPTION}</span>
+	<fieldset class="description_fieldset">
+		<span id="meta_description" class="description_title">{L_DESCRIPTION}</span>
+		<fieldset style="width: 48%;">
+			<div>
+				<h1 style="color: #706e25; background-color: #fdfcd3;"><i class="fa fa-upload"></i> Upload phpBB extensions</h1>
+				<p class="description_list">
+					<span><i class="fa fa-fw fa-database"></i> CDB on phpbb.com</span>
+					<span><i class="fa fa-fw fa-laptop"></i> Local PC</span>
+					<span><i class="fa fa-fw fa-cloud"></i> Remote server</span>
+				</p>
+			</div>
+		</fieldset>
+		<fieldset style="float: right; width: 48%;">
+			<div>
+				<h1 style="color: #1e5c18; background-color: #d7fdd3;"><i class="fa fa-refresh"></i> Update phpBB extensions</h1>
+				<p>You can update any of already uploaded extensions. The extension that you want to update will be disabled automatically so that any updates will be safe.</p>
+			</div>
+		</fieldset>
+		<br style="clear: both;" />
+		<fieldset style="width: 48%;">
+			<div>
+				<h1 style="color: #103f53; background-color: #e0f5fe;"><i class="fa fa-archive"></i> ZIP files management</h1>
+				<p class="description_list">
+					<span><i class="fa fa-fw fa-folder-open"></i> Save zips in a directory of your choise</span>
+					<span><i class="fa fa-fw fa-suitcase"></i> Unpack a zip file to install an extension</span>
+				</p>
+			</div>
+		</fieldset>
+		<fieldset style="float: right; width: 48%;">
+			<div>
+				<h1 style="color: #5e1043; background-color: #fcdff2;"><i class="fa fa-paint-brush"></i> Extension Cleaner tool</h1>
+				<p>You can delete extension directories or zip files of extensions from the server.</p>
+			</div>
+		</fieldset>
 	</fieldset>
+	<!-- ENDIF -->
+	<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE -->
+	<!-- BEGIN updates_available -->
+	<fieldset style="background-color: #fdfcd3;">
+		<span class="requirements_title">{L_LATEST_VERSION}</span>
+		<div class="extension_latest_version_wrapper">
+			<strong class="extension_latest_version">{updates_available.current}</strong>
+			<!-- IF updates_available.announcement -->
+			<a href="{updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
+			<!-- ENDIF -->
+			<!-- IF updates_available.download -->
+			<a href="{U_UPLOAD_EXT_UPDATE}" id="enable_uploaded" style="float: none;"><i class="fa fa-refresh"></i> {L_UPDATE}</a>
+			<!-- ENDIF -->
+		</div>
+	</fieldset>
+	<!-- END updates_available -->
 	<!-- ENDIF -->
 	<div class="description_bubble big_bubble">
 		<span class="description_name">{L_CLEAN_NAME}</span>
@@ -58,23 +115,6 @@
 		<span class="description_value" id="meta_license">{META_LICENSE}</span>
 	</div>
 
-	<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE -->
-		<!-- BEGIN updates_available -->
-		<fieldset>
-			<span class="requirements_title">{L_LATEST_VERSION}</span>
-			<div class="extension_latest_version_wrapper">
-				<strong class="extension_latest_version">{updates_available.current}</strong>
-				<!-- IF updates_available.download-->
-				<a href="{updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
-				<!-- ENDIF -->
-				<!-- IF updates_available.announcement -->
-				<a href="{updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
-				<!-- ENDIF -->
-			</div>
-		</fieldset>
-		<!-- END updates_available -->
-	<!-- ENDIF -->
-
 	<!-- IF META_REQUIRE_PHPBB || META_REQUIRE_PHP -->
 	<fieldset>
 		<span class="requirements_title">{L_REQUIREMENTS}</span>
@@ -107,3 +147,6 @@
 		</div>
 		<!-- END meta_authors -->
 	</fieldset>
+<!-- IF not IS_AJAX -->
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

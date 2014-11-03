@@ -14,6 +14,7 @@ class upload_module
 	public $u_action;
 	public $main_link;
 	public $back_link;
+	private $self_update;
 	var $zip_dir = '';
 	var $error = '';
 	function main($id, $mode)
@@ -43,48 +44,64 @@ class upload_module
 			\filetree::get_file($file);
 		}
 
+		$ext_name = 'boardtools/upload';
+		$md_manager = new \phpbb\extension\metadata_manager($ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path);
+		try
+		{
+			$this->metadata = $md_manager->get_metadata('all');
+		}
+		catch(\phpbb\extension\exception $e)
+		{
+			$this->trigger_error($e, E_USER_WARNING);
+		}
+
+		$upload_extensions_download = false;
+		try
+		{
+			$updates_available = $this->version_check($md_manager, $request->variable('versioncheck_force', false));
+
+			$template->assign_vars(array(
+				'UPLOAD_EXT_NEW_UPDATE'	=> !empty($updates_available),
+				'S_UP_TO_DATE'			=> empty($updates_available),
+				'S_VERSIONCHECK'		=> true,
+				'UP_TO_DATE_MSG'		=> $user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name')),
+			));
+
+			foreach ($updates_available as $branch => $version_data)
+			{
+				$template->assign_block_vars('updates_available', $version_data);
+				$upload_extensions_download = $version_data['download'];
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$template->assign_vars(array(
+				'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
+				'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== $user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+			));
+		}
+		$this->self_update = $upload_extensions_download;
+
 		switch ($action)
 		{
 			case 'details':
-				$ext_name = 'boardtools/upload';
-				$md_manager = new \phpbb\extension\metadata_manager($ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path);
-				try
-				{
-					$this->metadata = $md_manager->get_metadata('all');
-				}
-				catch(\phpbb\extension\exception $e)
-				{
-					trigger_error($e, E_USER_WARNING);
-				}
 
 				$md_manager->output_template_data();
 
-				try
-				{
-					$updates_available = $this->version_check($md_manager, $request->variable('versioncheck_force', false));
-
-					$template->assign_vars(array(
-						'S_UP_TO_DATE'		=> empty($updates_available),
-						'S_VERSIONCHECK'	=> true,
-						'UP_TO_DATE_MSG'	=> $user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name')),
-					));
-
-					foreach ($updates_available as $branch => $version_data)
-					{
-						$template->assign_block_vars('updates_available', $version_data);
-					}
-				}
-				catch (\RuntimeException $e)
+				if ($this->self_update !== false)
 				{
 					$template->assign_vars(array(
-						'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
-						'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== $user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self',
 					));
 				}
 
-				$template->assign_vars(array(
-					'U_BACK'				=> $this->u_action . '&amp;action=list',
-				));
+				if ($request->is_ajax())
+				{
+					$template->assign_vars(array(
+						'U_BACK'				=> $this->main_link . '&amp;action=list',
+						'IS_AJAX'				=> true,
+					));
+				}
 
 				$this->tpl_name = 'acp_ext_details';
 				break;
@@ -103,6 +120,8 @@ class upload_module
 
 			case 'upload_remote':
 			case 'force_update':
+			case 'upload_self':
+			case 'upload_self_update':
 				$this->upload_ext($action);
 				$this->listzip();
 				$this->list_available_exts($phpbb_extension_manager);
@@ -169,7 +188,7 @@ class upload_module
 						)));
 					}
 				}
-				break;
+				// no break
 
 			default:
 				$this->listzip();
@@ -424,12 +443,24 @@ class upload_module
 		{
 			$file = $this->remote_upload($upload, $request->variable('remote_upload', ''));
 		}
+		else if ($action == 'upload_self')
+		{
+			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update, $match_phpbb)) || (preg_match('#^(https://)github.com/BoardTools/upload/archive/(.*?)\.zip$#i', $this->self_update, $match_phpbb)))
+			{
+				$file = $this->remote_upload($upload, $this->self_update);
+			}
+			else
+			{
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+		}
 
 		// What is a safe limit of execution time? Half the max execution time should be safe.
 		$safe_time_limit = (ini_get('max_execution_time') / 2);
 		$start_time = time();
 		// We skip working with a zip file if we are enabling/restarting the extension.
-		if ($action != 'force_update')
+		if ($action != 'force_update' && $action != 'upload_self_update')
 		{
 			if ($action != 'upload_local')
 			{
@@ -507,7 +538,14 @@ class upload_module
 				return false;
 			}
 			$source = substr($composery, 0, -14);
-			$source_for_check = $ext_tmp . '/' . $destination;
+			if ($action != 'upload_self')
+			{
+				$source_for_check = $ext_tmp . '/' . $destination;
+			}
+			else
+			{
+				$source_for_check = 'boardtools/new_upload/' . $destination;
+			}
 			// At first we need to change the directory structure to something like ext/tmp/vendor/extension.
 			// We need it to escape from problems with dots on validation.
 			if ($source != $phpbb_root_path . 'ext/' . $source_for_check)
@@ -569,7 +607,7 @@ class upload_module
 			// Here we can assume that all checks are done.
 			// Now we are able to install the uploaded extension to the correct path.
 		}
-		else
+		else if ($action != 'upload_self_update')
 		{
 			// All checks were done previously. Now we only need to restore the variables.
 			// We try to restore the data of the current upload.
@@ -590,33 +628,75 @@ class upload_module
 			$source = substr($composery, 0, -14);
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
 		}
-		$made_update = false;
-		// Delete the previous version of extension files - we're able to update them.
-		if (is_dir($phpbb_root_path . 'ext/' . $destination))
+		else
 		{
-			// At first we need to disable the extension if it is enabled.
-			if ($phpbb_extension_manager->is_enabled($destination))
+			// All checks were done previously. Now we only need to restore the variables.
+			// We try to restore the data of the current upload.
+			$ext_tmp = 'boardtools/new_upload';
+			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)))
 			{
-				while ($phpbb_extension_manager->disable_step($destination))
-				{
-					// Are we approaching the time limit? If so, we want to pause the update and continue after refreshing.
-					if ((time() - $start_time) >= $safe_time_limit)
-					{
-						$template->assign_var('S_NEXT_STEP', true);
-
-						// No need to specify the name of the extension. We suppose that it is the one in ext/tmp/USER_ID folder.
-						meta_refresh(0, $this->u_action . '&amp;action=force_update');
-						return false;
-					}
-				}
-				$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_EXT_DISABLE', time(), array($destination));
-				$made_update = true;
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				return false;
 			}
-			$this->rrmdir($phpbb_root_path . 'ext/' . $destination);
+			$string = file_get_contents($composery);
+			$json_a = json_decode($string, true);
+			$destination = $json_a['name'];
+			if (strpos($destination, 'boardtools/') === false)
+			{
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+			$source = substr($composery, 0, -14);
+			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
 		}
-		$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
-		// No enabling at this stage. Admins should have a chance to revise the uploaded scripts.
-		$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+		if ($action != 'upload_self' && $action != 'upload_self_update')
+		{
+			$made_update = false;
+			// Delete the previous version of extension files - we're able to update them.
+			if (is_dir($phpbb_root_path . 'ext/' . $destination))
+			{
+				// At first we need to disable the extension if it is enabled.
+				if ($phpbb_extension_manager->is_enabled($destination))
+				{
+					while ($phpbb_extension_manager->disable_step($destination))
+					{
+						// Are we approaching the time limit? If so, we want to pause the update and continue after refreshing.
+						if ((time() - $start_time) >= $safe_time_limit)
+						{
+							$template->assign_var('S_NEXT_STEP', true);
+
+							// No need to specify the name of the extension. We suppose that it is the one in ext/tmp/USER_ID folder.
+							meta_refresh(0, $this->main_link . '&amp;action=force_update');
+							return false;
+						}
+					}
+					$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_EXT_DISABLE', time(), array($destination));
+					$made_update = true;
+				}
+				$this->rrmdir($phpbb_root_path . 'ext/' . $destination);
+			}
+			$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
+			// No enabling at this stage. Admins should have a chance to revise the uploaded scripts.
+			$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+		}
+		else if ($action == 'upload_self')
+		{
+			// No enabling at this stage. Admins should have a chance to revise the uploaded scripts.
+			$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+		}
+		else
+		{
+			// Now Upload Extensions will update itself. We suppose that it will be fast and without errors.
+			// Otherwise users will need to use FTP.
+			$phpbb_extension_manager->disable($destination);
+			$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
+			$phpbb_extension_manager->enable($destination);
+			$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+			$template->assign_vars(array(
+				'S_UPDATED_SELF'		=> $display_name,
+			));
+			return true;
+		}
 
 		foreach ($json_a['authors'] as $author)
 		{
@@ -636,9 +716,10 @@ class upload_module
 
 		$template->assign_vars(array(
 			'S_UPLOADED'		=> $display_name,
+			'S_UPLOADED_SELF'	=> ($action == 'upload_self'),
 			'EXT_UPDATED'		=> $made_update,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
-			'S_ACTION'			=> $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination),
+			'S_ACTION'			=> ($action == 'upload_self') ? $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,
 			'README_MARKDOWN'	=> $readme,

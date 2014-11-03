@@ -60,6 +60,8 @@ $lang = array_merge($lang, array(
 	'ZIP_UPLOADED'						=> '.zip arhiiv on üles laetud',
 	'EXT_ENABLE'						=> 'Luba',
 	'EXT_UPLOADED'						=> 'üles laetud',
+	'EXT_UPDATED'						=> 'updated', // to translate
+	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version', // to translate
 	'EXT_UPLOAD_BACK'					=> '« Tagasi Lae üles laiendusi lehele',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions\' zip packages storage path', // to translate
