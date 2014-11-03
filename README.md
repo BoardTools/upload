@@ -52,6 +52,12 @@ All uploaded zip files will contain the version numbers of the uploaded extensio
 If you have uploaded different zip files with the same name, they will be renamed properly so that they all will be saved.
 
 ## Update
+### Quick update
+1. Navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
+2. When an update is available, you will see an update button on the page.
+3. Click on it and also click on other `Update` buttons that will appear on the screen. And the extension will be updated!
+
+### Standard update
 1. Download the updated extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
 2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
