@@ -719,7 +719,7 @@ class upload_module
 			'S_UPLOADED_SELF'	=> ($action == 'upload_self'),
 			'EXT_UPDATED'		=> $made_update,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
-			'S_ACTION'			=> ($action == 'upload_self') ? $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
+			'S_ACTION'			=> ($action != 'upload_self') ? $phpbb_root_path . 'adm/index.php?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,
 			'README_MARKDOWN'	=> $readme,
