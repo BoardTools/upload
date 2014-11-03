@@ -70,6 +70,9 @@ h1 {position: relative;}
 .ext_updated_notice {width: 100%; background-color: #fdfcd3; box-sizing: border-box; color: #706e25; display: block;}
 .ext_updated_notice h1 {color: #706e25 !important;}
 
+.ext_self_updated_notice {width: 100%; background-color: #d7fdd3; box-sizing: border-box; color: #1e5c18; display: block;}
+.ext_self_updated_notice h1 {color: #1e5c18 !important;}
+
 #filetree {
     display: none;
     min-height: 480px;
@@ -281,6 +284,41 @@ div.filename {
 
 
 /* Extension details */
+.description_title {
+    display: block;
+    color: #115098;
+    font-weight: bold;
+    vertical-align: top;
+    margin: 0;
+    font-size: 1.1em;
+}
+.description_fieldset fieldset {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+.description_fieldset h1 {
+    box-sizing: border-box;
+    display: block;
+    border-radius: 15px;
+    padding: 5px 15px;
+    font-size: 1.2em;
+}
+.description_fieldset p {
+    display: block;
+    padding: 5px 10px;
+    font-size: 0.9em;
+}
+.description_fieldset p.description_list {
+    padding: 10px 15px 0 15px;
+}
+.description_fieldset span {
+    box-sizing: border-box;
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
 .requirements_title {
     display: inline-block;
     color: #115098;

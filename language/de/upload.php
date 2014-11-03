@@ -60,6 +60,8 @@ $lang = array_merge($lang, array(
 	'ZIP_UPLOADED'						=> 'Zip-Archiv der Erweiterung hochgeladen',
 	'EXT_ENABLE'						=> 'Aktivieren',
 	'EXT_UPLOADED'						=> 'Hochgeladen',
+	'EXT_UPDATED'						=> 'updated', // to translate
+	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version', // to translate
 	'EXT_UPLOAD_BACK'					=> '« Zurück zum hochladen von Erweiterungen',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions\' zip packages storage path', // to translate
