@@ -15,6 +15,7 @@ class upload_module
 	public $main_link;
 	public $back_link;
 	private $self_update;
+	private $upload_ext_name;
 	var $zip_dir = '';
 	var $error = '';
 	function main($id, $mode)
@@ -44,8 +45,8 @@ class upload_module
 			\filetree::get_file($file);
 		}
 
-		$ext_name = 'boardtools/upload';
-		$md_manager = new \phpbb\extension\metadata_manager($ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path);
+		$this->upload_ext_name = 'boardtools/upload';
+		$md_manager = new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path);
 		try
 		{
 			$this->metadata = $md_manager->get_metadata('all');
@@ -529,6 +530,13 @@ class upload_module
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
+			else if (strpos($destination, $this->upload_ext_name) !== false && $action != 'upload_self')
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+				$file->remove();
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
