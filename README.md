@@ -34,7 +34,9 @@ You can upload extensions from different types of sources:
 
 ### Update extensions
 You can update any of already installed extensions by uploading a zip file with the new version of the extension that you want to update.
-Note: that extension will be disabled automatically. **You need to revise the uploaded files and manually enable the updated extension if you still want to use it on your board.**
+Note: that extension will be disabled automatically. The previous version will be saved in a zip file.
+
+**You need to revise the uploaded files and manually enable the updated extension if you still want to use it on your board.**
 
 ### Delete extensions
 To delete extensions' folders from the server (to perform complete uninstallation) make sure that your extension is disabled and its data is deleted in `Manage extensions`.
@@ -44,8 +46,10 @@ Choose the extension that you want to delete and click `Delete extension`.
 ### Managing zip files
 You can do the following actions with zip files uploaded with Upload Extensions:
 
-* Save them in the directory of your choise. To do that tick the flag `Save uploaded zip file` near the upload button. To change the directory for saving zip files of uploaded extensions navigate in the ACP to `General -> Server configuration -> Server settings -> Path settings -> Extensions' zip packages storage path`.
+* Save them in the directory of your choise. To do that tick the flag `Save uploaded zip file` near the upload button.
+* To change the directory for saving zip files of uploaded extensions navigate in the ACP to `General -> Server configuration -> Server settings -> Path settings -> Extensions' zip packages storage path`.
 * Unpack previously saved zip files of extensions. The unpacked extension will be ready for installation immediately.
+* Download saved zip files of extensions on your PC.
 * Delete zip files of extensions.
 
 All uploaded zip files will contain the version numbers of the uploaded extensions.
