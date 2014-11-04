@@ -793,7 +793,8 @@ class upload_module
 	/**
 	 * Save the previous version of the extension that is being updated in a zip archive file
 	 */
-	function save_zip_archive($dest_file, $dest_name) {
+	function save_zip_archive($dest_file, $dest_name)
+	{
 		global $phpbb_root_path, $phpEx;
 		include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
 
