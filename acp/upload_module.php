@@ -139,6 +139,39 @@ class upload_module
 				));
 				break;
 
+			case 'download':
+				$zip_name = $request->variable('zip_name', '');
+				if ($zip_name != '')
+				{
+					$download_name = substr($zip_name, 0, -4);
+					$filename = $this->zip_dir . '/' . $download_name;
+
+					$mimetype = 'application/zip';
+
+					header('Cache-Control: private, no-cache');
+					header("Content-Type: $mimetype; name=\"$download_name.zip\"");
+					header("Content-disposition: attachment; filename=$download_name.zip");
+
+					$fp = @fopen("$filename.zip", 'rb');
+					if ($fp)
+					{
+						while ($buffer = fread($fp, 1024))
+						{
+							echo $buffer;
+						}
+						fclose($fp);
+					}
+					else
+					{
+						redirect($this->main_link);
+					}
+				}
+				else
+				{
+					redirect($this->main_link);
+				}
+				break;
+
 			case 'delete':
 				$ext_name = $request->variable('ext_name', '');
 				$zip_name = $request->variable('zip_name', '');
@@ -161,7 +194,7 @@ class upload_module
 						}
 						else
 						{
-							redirect($phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode);
+							redirect($this->main_link);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_DELETE_CONFIRM', $ext_name), build_hidden_fields(array(
@@ -183,7 +216,7 @@ class upload_module
 						}
 						else
 						{
-							redirect($phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode);
+							redirect($this->main_link);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $zip_name), build_hidden_fields(array(
@@ -223,6 +256,7 @@ class upload_module
 					$zip_array[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
 						'U_UPLOAD'			=> $this->main_link . '&amp;action=upload&amp;local_upload=' . urlencode($ff),
+						'U_DOWNLOAD'		=> $this->main_link . '&amp;action=download&amp;zip_name=' . urlencode($ff),
 						'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;zip_name=' . urlencode($ff)
 					);
 				}
@@ -498,7 +532,7 @@ class upload_module
 				$dest_file = $upload_dir . '/' . $request->variable('local_upload', '');
 			}
 
-			include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+			include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
 
 			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 			// We suppose that one user can upload only one extension per session.
@@ -601,6 +635,8 @@ class upload_module
 				}
 				else
 				{
+					$display_name = str_replace(array('/', '\\'), '_', $display_name);
+					$ext_version = str_replace(array('/', '\\'), '_', $ext_version);
 					// Save this file and any other files that were uploaded with the same name.
 					if(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip"))
 					{
@@ -686,6 +722,16 @@ class upload_module
 					$phpbb_log->add('admin', $user->data['user_id'], $user->ip, 'LOG_EXT_DISABLE', time(), array($destination));
 					$made_update = true;
 				}
+				$old_ext_name = $destination;
+				if($old_composery = $this->getComposer($phpbb_root_path . 'ext/' . $destination))
+				{
+					$old_string = file_get_contents($old_composery);
+					$old_json_a = json_decode($old_string, true);
+					$old_display_name = (isset($old_json_a['extra']['display-name'])) ? $old_json_a['extra']['display-name'] : $old_ext_name;
+					$old_ext_version = (isset($old_json_a['version'])) ? $old_json_a['version'] : '0.0.0';
+					$old_ext_name = $old_display_name . '_' . $old_ext_version;
+				}
+				$this->save_zip_archive('ext/' . $destination . '/', str_replace(array('/', '\\'), '_', $old_ext_name) . '_old');
 				$this->rrmdir($phpbb_root_path . 'ext/' . $destination);
 			}
 			$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
@@ -742,6 +788,18 @@ class upload_module
 		));
 
 		return true;
+	}
+
+	/**
+	 * Save previous version of the extension that is being updated in a zip archive file
+	 */
+	function save_zip_archive($dest_file, $dest_name) {
+		global $phpbb_root_path, $phpEx;
+		include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+
+		$zip = new \compress_zip('w', $this->zip_dir . '/' . $dest_name . '.zip');
+		$zip->add_file($dest_file);
+		$zip->close();
 	}
 
 	/**
