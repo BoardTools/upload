@@ -16,6 +16,6 @@ if (empty($lang) || !is_array($lang))
 $lang = array();
 }
 $lang = array_merge($lang, array(
-'ACP_UPLOAD_EXT_TITLE'	=> 'Télécharger des extensions',
-'ACP_UPLOAD_EXT_CONFIG_TITLE'	=> 'Télécharger des extensions',
+'ACP_UPLOAD_EXT_TITLE'	=> 'Transférer des extensions',
+'ACP_UPLOAD_EXT_CONFIG_TITLE'	=> 'Transférer des extensions',
 ));
