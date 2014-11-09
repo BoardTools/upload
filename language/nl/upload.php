@@ -61,6 +61,7 @@ $lang = array_merge($lang, array(
 	'EXT_ENABLE'						=> 'Inschakelen',
 	'EXT_UPLOADED'						=> 'geüpload',
 	'EXT_UPDATED'						=> 'geüpdatet',
+	'KEEP_EXT'						=> 'Beaar extensie',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'update naar de laatste versie',
 	'EXT_UPLOAD_BACK'					=> '« Terug naar Upload Extensions',
 
