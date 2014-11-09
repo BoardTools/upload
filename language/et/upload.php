@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvesta üles laaditud zip fail',
 	'ZIP_UPLOADED'						=> 'zip arhiiv on üles laaditud',
 	'EXT_ENABLE'						=> 'Luba',
+	'KEEP_EXT'						=> 'Keep extension',
 	'EXT_UPLOADED'						=> 'üles laaditud',
 	'EXT_UPDATED'						=> 'uuendatud',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'uuendatud uusimale versioonile',
