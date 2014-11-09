@@ -60,6 +60,7 @@ $lang = array_merge($lang, array(
 	'ZIP_UPLOADED'						=> 'Загруженные zip файлы расширений',
 	'EXT_ENABLE'						=> 'Включить',
 	'EXT_UPLOADED'						=> 'загружено',
+	'KEEP_EXT'						=> 'Keep extension',
 	'EXT_UPDATED'						=> 'обновлено',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'обновлено до последней версии',
 	'EXT_UPLOAD_BACK'					=> '« Вернуться в Загрузку Расширений',
