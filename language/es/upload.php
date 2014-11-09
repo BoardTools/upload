@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Guardar archivo zip subido',
 	'ZIP_UPLOADED'						=> 'Paquetes zip subidos de extensiones',
 	'EXT_ENABLE'						=> 'Habilitar',
+	'KEEP_EXT'						=> 'Keep extension',
 	'EXT_UPLOADED'						=> 'subidas',
 	'EXT_UPDATED'						=> 'actualizadas',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'actualizadas a la última versión',
