@@ -49,6 +49,7 @@ $lang = array_merge($lang, array(
 'EXT_UPLOAD_SAVE_ZIP'	=> 'ذخیره سازی فایل zip شده',
 'ZIP_UPLOADED'	=> 'فایل zip افزونه بارگزاری شده است.',
 'EXT_ENABLE'	=> 'فعال سازی',
+'KEEP_EXT'						=> 'Keep extension',
 'EXT_UPLOADED'	=> 'آپلود شده',
 'EXT_UPDATED'						=> 'به روز رسانی شده',
 'EXT_UPDATED_LATEST_VERSION'		=> 'به روز رسانی به آخرین نسخه',
