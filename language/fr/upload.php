@@ -52,6 +52,7 @@ $lang = array_merge($lang, array(
 'EXT_ENABLE'	=> 'Activer',
 'EXT_UPLOADED'	=> 'transférée',
 'EXT_UPDATED'	=> 'mise à jour',
+'KEEP_EXT'						=> 'Keep extension',
 'EXT_UPDATED_LATEST_VERSION'	=> 'mise à jour vers la dernière version',
 'EXT_UPLOAD_BACK'	=> '« Retourner vers Transférer des extensions',
 'ACP_UPLOAD_EXT_DIR'	=> 'Chemin vers le dossier de sauvegardes des archives d’extensions transférées',
