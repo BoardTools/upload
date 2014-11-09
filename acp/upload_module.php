@@ -557,7 +557,7 @@ class upload_module
 			}
 			$string = file_get_contents($composery);
 			$json_a = json_decode($string, true);
-			$destination = $json_a['name'];
+			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
 			if (strpos($destination, '/') === false)
 			{
