@@ -59,6 +59,7 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Spara uppladdad zip-fil',
 	'ZIP_UPLOADED'						=> 'Plugin-zip-fil har laddats upp',
 	'EXT_ENABLE'						=> 'Aktivera',
+	'KEEP_EXT'						=> 'Keep extension',
 	'EXT_UPLOADED'						=> 'Uppladdat',
 	'EXT_UPDATED'						=> 'Uppdaterat',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'Uppdaterat till senaste versionen',
