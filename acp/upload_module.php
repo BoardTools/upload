@@ -83,6 +83,16 @@ class upload_module
 		}
 		$this->self_update = $upload_extensions_download;
 
+		$string = file_get_contents('http://forumhulp.com/ext/phpbb.json');
+		$json_phpbb = json_decode($string, true);
+		$valid_phpbb_ext = '';
+		foreach($json_phpbb as $ext => $value)
+		{
+			$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' version: ' . $value['version'] . '</option>';
+		}
+
+		$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
+
 		switch ($action)
 		{
 			case 'details':
