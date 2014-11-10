@@ -83,6 +83,27 @@ class upload_module
 		}
 		$this->self_update = $upload_extensions_download;
 
+		$valid_phpbb_ext = $file_contents = '';
+		if (!($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')))
+		{
+			$this->trigger_error($user->lang('FILE_CONTENT_ERR', 'http://forumhulp.com/ext/phpbb.json'), E_USER_NOTICE);
+		}
+
+		if (($metadata = @json_decode($file_contents, true)) === null)
+		{
+			$this->trigger_error($user->lang('FILE_JSON_DECODE_ERR', 'http://forumhulp.com/ext/phpbb.json'), E_USER_NOTICE);
+		}
+
+		if (sizeof($metadata))
+		{
+			foreach($metadata as $ext => $value)
+			{
+				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' version: ' . $value['version'] . '</option>';
+			}
+		}
+
+		$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
+
 		switch ($action)
 		{
 			case 'details':

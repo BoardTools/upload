@@ -31,6 +31,11 @@
 			$("#markdown").fadeIn(1000);
 		});
 	});
+	
+	$('#valid_phpbb').bind('change keyup', function() {
+	  $('#remote_upload').val($(this).val());
+	});
+
 })(jQuery, window, document);
 
 function browseFile() 
