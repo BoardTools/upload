@@ -68,7 +68,8 @@
             <legend>{L_EXTENSION_UPLOAD}</legend>
             <div id="ext_upload_content">
                 <p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-                <input type="text" id="remote_upload" name="remote_upload" />
+                <input type="text" id="remote_upload" name="remote_upload" /><br /><br />
+                <select id="valid_phpbb" name="valid_phpbb" style="width:81%;"><option value="">---</option>{VALID_PHPBB_EXT}</select> Valid phpBB extensions
                 <input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
                 <input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
                 {S_FORM_TOKEN}
