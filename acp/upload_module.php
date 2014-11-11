@@ -35,7 +35,8 @@ class upload_module
 		// if 'i' is a number - continue displaying a number
 		$mode = $request->variable('mode', $mode);
 		$id = $request->variable('i', $id);
-		$this->main_link = $phpbb_root_path . 'adm/index.' . $phpEx . '?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
+		$this->main_link = $this->u_action;
+		//$phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
 		$this->back_link = ($request->is_ajax()) ? adm_back_link($this->u_action) : '';
 
 		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.' . $phpEx);
@@ -317,11 +318,15 @@ class upload_module
 		}
 		else if (file_exists($dir))
 		{
-			unlink($dir);
+			if (!(@unlink(realpath($dir))))
+			{
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
 		}
 	}
 
-	// Function to Copy folders and files
+	// Function to copy folders and files
 	function rcopy($src, $dst)
 	{
 		if (file_exists($dst))
@@ -555,7 +560,14 @@ class upload_module
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
-			$string = file_get_contents($composery);
+			$string = @file_get_contents($composery);
+			if ($string === false)
+			{
+				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
+				$file->remove();
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				return false;
+			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
@@ -661,14 +673,13 @@ class upload_module
 			// All checks were done previously. Now we only need to restore the variables.
 			// We try to restore the data of the current upload.
 			$ext_tmp = 'tmp/' . (int) $user->data['user_id'];
-			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)))
+			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
-			$string = file_get_contents($composery);
 			$json_a = json_decode($string, true);
-			$destination = $json_a['name'];
+			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, '/') === false)
 			{
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
@@ -682,14 +693,13 @@ class upload_module
 			// All checks were done previously. Now we only need to restore the variables.
 			// We try to restore the data of the current upload.
 			$ext_tmp = 'boardtools/new_upload';
-			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)))
+			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
-			$string = file_get_contents($composery);
 			$json_a = json_decode($string, true);
-			$destination = $json_a['name'];
+			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, 'boardtools/') === false)
 			{
 				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
@@ -779,7 +789,7 @@ class upload_module
 			'S_UPLOADED_SELF'	=> ($action == 'upload_self'),
 			'EXT_UPDATED'		=> $made_update,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
-			'S_ACTION'			=> ($action != 'upload_self') ? $phpbb_root_path . 'adm/index.' . $phpEx . '?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
+			'S_ACTION'			=> ($action != 'upload_self') ? $phpbb_root_path . 'adm/index.'.$phpEx.'?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,
 			'README_MARKDOWN'	=> $readme,
