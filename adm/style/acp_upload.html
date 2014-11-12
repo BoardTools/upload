@@ -68,13 +68,20 @@
             <legend>{L_EXTENSION_UPLOAD}</legend>
             <div id="ext_upload_content">
                 <p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-                <input type="text" id="remote_upload" name="remote_upload" />
-                <input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
-                <input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+				<!-- IF VALID_PHPBB_EXT -->
+				<div id="valid_phpbb_ext_wrapper">
+					phpbb.com CDB:
+					<select id="valid_phpbb_ext" name="valid_phpbb_ext">
+						<option value="">---</option>{VALID_PHPBB_EXT}
+					</select>
+				</div>
+				<!-- ENDIF -->
+				<input type="text" id="remote_upload" name="remote_upload" />
+				<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
+				<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
                 {S_FORM_TOKEN}
                 {S_HIDDEN_FIELDS}
-                <br />
-                <br />
+                <span id="br_form_upload"></span>
 				<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
                 <label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
                 <input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
@@ -83,14 +90,14 @@
         </fieldset>
     </form>
     <!-- IF .zip -->
-    <table style="width:100%; table-layout: fixed; margin-top:16px;">
+    <table class="ext_zips_table">
     <tbody>
     <tr>
         <td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
     </tr>
     <!-- BEGIN zip -->
     <tr class="ext_disabled">
-		<td style="width:50%;"><div style="width:100%; overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-size:100%;"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
+		<td class="zip_name"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
         <td style="text-align: center;">
 			<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
 		</td>

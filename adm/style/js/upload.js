@@ -31,6 +31,18 @@
 			$("#markdown").fadeIn(1000);
 		});
 	});
+
+	$("#valid_phpbb_ext").bind('change keyup', function () {
+		if ($(this).val() !== '')
+		{
+			$("#remote_upload").val($(this).val());
+			$("#remote_upload, #button_upload").css("display", "none");
+		}
+		else
+		{
+			$("#remote_upload, #button_upload").css("display", "inline-block");
+		}
+	});
 })(jQuery, window, document);
 
 function browseFile() 

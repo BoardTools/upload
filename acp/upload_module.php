@@ -36,8 +36,7 @@ class upload_module
 		$mode = $request->variable('mode', $mode);
 		$id = $request->variable('i', $id);
 		$this->main_link = $this->u_action;
-		//$phpbb_root_path . 'adm/index.php?i=' . $id . '&amp;sid=' .$user->session_id . '&amp;mode=' . $mode;
-		$this->back_link = ($request->is_ajax()) ? adm_back_link($this->u_action) : '';
+		$this->back_link = ($request->is_ajax()) ? '' : adm_back_link($this->u_action);
 
 		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.' . $phpEx);
 		$file = $request->variable('file', '');
@@ -119,10 +118,13 @@ class upload_module
 				{
 					$action = 'upload_local';
 				}
-				/* We use '!== false' because strpos can return 0 if the needle is found in position 0 */
-				else if (strpos($request->variable('remote_upload', ''), 'http://') !== false || strpos($request->variable('remote_upload', ''), 'https://') !== false)
+				else if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
 				{
 					$action = 'upload_remote';
+				}
+				else if (strpos($request->variable('valid_phpbb_ext', ''), 'http://') === 0 || strpos($request->variable('valid_phpbb_ext', ''), 'https://') === 0)
+				{
+					$action = 'upload_from_phpbb';
 				}
 
 			case 'upload_remote':
@@ -131,6 +133,7 @@ class upload_module
 			case 'upload_self_update':
 				$this->upload_ext($action);
 				$this->listzip();
+				$this->get_valid_extensions();
 				$this->list_available_exts($phpbb_extension_manager);
 				$template->assign_vars(array(
 					'U_ACTION'			=> $this->u_action,
@@ -182,20 +185,28 @@ class upload_module
 					{
 						// Ensure that we can delete extensions only in ext/ directory.
 						$ext_name = str_replace('.', '', $ext_name);
+						$no_errors = true;
 						if (substr_count($ext_name, '/') === 1 && is_dir($phpbb_root_path . 'ext/' . $ext_name))
 						{
 							$dir = substr($ext_name, 0, strpos($ext_name, '/'));
 							$extensions = sizeof(glob($phpbb_root_path . 'ext/' . $dir . '/*'));
 							$dir = ($extensions === 1) ? $dir : $ext_name;
-							$this->rrmdir($phpbb_root_path . 'ext/' . $dir);
+							$no_errors = $this->rrmdir($phpbb_root_path . 'ext/' . $dir, true);
 						}
-						if ($request->is_ajax())
+						if ($no_errors)
 						{
-							trigger_error($user->lang('EXT_DELETE_SUCCESS'));
+							if ($request->is_ajax())
+							{
+								trigger_error($user->lang('EXT_DELETE_SUCCESS'));
+							}
+							else
+							{
+								redirect($this->main_link);
+							}
 						}
 						else
 						{
-							redirect($this->main_link);
+							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_DELETE_CONFIRM', $ext_name), build_hidden_fields(array(
@@ -210,14 +221,21 @@ class upload_module
 				{
 					if (confirm_box(true))
 					{
-						$this->rrmdir($this->zip_dir . '/' . substr($zip_name, 0, -4) . '.zip');
-						if ($request->is_ajax())
+						$no_errors = $this->rrmdir($this->zip_dir . '/' . substr($zip_name, 0, -4) . '.zip', true);
+						if ($no_errors)
 						{
-							trigger_error($user->lang('EXT_ZIP_DELETE_SUCCESS'));
+							if ($request->is_ajax())
+							{
+								trigger_error($user->lang('EXT_ZIP_DELETE_SUCCESS'));
+							}
+							else
+							{
+								redirect($this->main_link);
+							}
 						}
 						else
 						{
-							redirect($this->main_link);
+							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $zip_name), build_hidden_fields(array(
@@ -232,6 +250,7 @@ class upload_module
 
 			default:
 				$this->listzip();
+				$this->get_valid_extensions();
 				$this->list_available_exts($phpbb_extension_manager);
 				$template->assign_vars(array(
 					'U_ACTION'			=> $this->u_action,
@@ -302,7 +321,7 @@ class upload_module
 	}
 
 	// Function to remove folders and files
-	function rrmdir($dir)
+	function rrmdir($dir, $no_errors = true)
 	{
 		if (is_dir($dir))
 		{
@@ -311,19 +330,20 @@ class upload_module
 			{
 				if ($file != '.' && $file != '..')
 				{
-					$this->rrmdir($dir . '/' . $file);
+					$no_errors = $this->rrmdir($dir . '/' . $file, $no_errors);
 				}
 			}
 			rmdir($dir);
 		}
 		else if (file_exists($dir))
 		{
-			if (!(@unlink(realpath($dir))))
+			if (!(@unlink($dir)))
 			{
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
 				return false;
 			}
 		}
+		return $no_errors;
 	}
 
 	// Function to copy folders and files
@@ -401,6 +421,21 @@ class upload_module
 	protected function sort_extension_meta_data_table($val1, $val2)
 	{
 		return strnatcasecmp($val1['META_DISPLAY_NAME'], $val2['META_DISPLAY_NAME']);
+	}
+
+	function get_valid_extensions()
+	{
+		global $template;
+
+		$valid_phpbb_ext = $file_contents = $metadata = '';
+		if (($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
+		{
+			foreach($metadata as $ext => $value)
+			{
+				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' (v' . $value['version'] . ')</option>';
+			}
+			$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
+		}
 	}
 
 	protected function trigger_error($error, $type)
@@ -487,6 +522,10 @@ class upload_module
 		else if ($action == 'upload_remote')
 		{
 			$file = $this->remote_upload($upload, $request->variable('remote_upload', ''));
+		}
+		else if ($action == 'upload_from_phpbb')
+		{
+			$file = $this->remote_upload($upload, $request->variable('valid_phpbb_ext', ''));
 		}
 		else if ($action == 'upload_self')
 		{
@@ -789,7 +828,7 @@ class upload_module
 			'S_UPLOADED_SELF'	=> ($action == 'upload_self'),
 			'EXT_UPDATED'		=> $made_update,
 			'FILETREE'			=> \filetree::php_file_tree($phpbb_root_path . 'ext/' . $destination, $display_name, $this->main_link),
-			'S_ACTION'			=> ($action != 'upload_self') ? $phpbb_root_path . 'adm/index.'.$phpEx.'?i=acp_extensions&amp;sid=' .$user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
+			'S_ACTION'			=> ($action != 'upload_self') ? $phpbb_root_path . 'adm/index.' . $phpEx . '?i=acp_extensions&amp;sid=' . $user->session_id . '&amp;mode=main&amp;action=enable_pre&amp;ext_name=' . urlencode($destination) : $this->main_link . '&amp;action=upload_self_update',
 			'S_ACTION_BACK'		=> $this->main_link,
 			'U_ACTION'			=> $this->u_action,
 			'README_MARKDOWN'	=> $readme,
