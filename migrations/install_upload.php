@@ -13,7 +13,7 @@ class install_upload extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
-		return isset($this->config['upload_version']) && version_compare($this->config['upload_version'], '3.1.0', '>=');
+		return isset($this->config['upload_version']) && version_compare($this->config['upload_version'], '3.1.1', '>=');
 	}
 
 	static public function depends_on()
@@ -24,7 +24,7 @@ class install_upload extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('upload_version', '3.1.0')),
+			array('config.add', array('upload_version', '3.1.1')),
 			array('module.add', array(
 				'acp', 'ACP_EXTENSION_MANAGEMENT', array(
 					'module_basename'	=> '\boardtools\upload\acp\upload_module',
