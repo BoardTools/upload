@@ -41,10 +41,12 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'Borrar extensión',
 	'EXTENSION_DELETE_CONFIRM'			=> '¿Está seguro de querer borrar la extensión “%s”?',
 	'EXT_DELETE_SUCCESS'				=> 'La extensión ha sido borrada correctamente.',
+	'EXT_DELETE_ERROR'					=> 'No hay archivo especificado o se produjo un error durante el proceso de subida.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Borrar archivo zip',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> '¿Está seguro de querer borrar el archivo zip “%s”?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'El archivo zip de la extensión ha sido borrado correctamente.',
+	'EXT_ZIP_DELETE_ERROR'				=> 'No hay archivo especificado o se produjo un error durante el proceso de subida.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'No hay ninguna carpeta vendor o destino en el archivo zip subido. El archivo no se ha guardado en el servidor.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json no se encontró en el archivo zip subido. El archivo no se ha guardado en el servidor.',
@@ -69,4 +71,6 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'La extensión instalada se ha actualizado.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Ha subido un archivo zip para una extensión ya instalada. La extensión <strong>ha sido deshabilitada automáticamente</strong> para hacer más seguro el proceso de actualización. Ahora por favor <strong>compruebe</strong> si los archivos subidos son correctos y haga clic en <strong>habilitar</strong> la extensión si todavía quiere utilizarla en el foro.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 ));

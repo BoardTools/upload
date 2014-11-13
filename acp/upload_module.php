@@ -152,20 +152,9 @@ class upload_module
 
 					$mimetype = 'application/zip';
 
-					header('Cache-Control: private, no-cache');
-					header("Content-Type: $mimetype; name=\"$download_name.zip\"");
-					header("Content-disposition: attachment; filename=$download_name.zip");
+					include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filedownload.' . $phpEx);
 
-					$fp = @fopen("$filename.zip", 'rb');
-					if ($fp)
-					{
-						while ($buffer = fread($fp, 1024))
-						{
-							echo $buffer;
-						}
-						fclose($fp);
-					}
-					else
+					if (!(\filedownload::download_file($filename, $download_name, $mimetype)))
 					{
 						redirect($this->main_link);
 					}
@@ -206,7 +195,7 @@ class upload_module
 						}
 						else
 						{
-							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+							trigger_error($user->lang['EXT_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_DELETE_CONFIRM', $ext_name), build_hidden_fields(array(
@@ -235,7 +224,7 @@ class upload_module
 						}
 						else
 						{
-							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+							trigger_error($user->lang['EXT_ZIP_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $zip_name), build_hidden_fields(array(
@@ -491,7 +480,10 @@ class upload_module
 		//$can_upload = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !@extension_loaded('zlib')) ? false : true;
 
 		$user->add_lang('posting');  // For error messages
-		include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
+		if (!class_exists('\fileupload'))
+		{
+			include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
+		}
 		$upload = new \fileupload();
 		$upload->set_allowed_extensions(array('zip'));	// Only allow ZIP files
 
@@ -576,7 +568,10 @@ class upload_module
 				$dest_file = $upload_dir . '/' . $request->variable('local_upload', '');
 			}
 
-			include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+			if (!class_exists('\compress_zip'))
+			{
+				include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+			}
 
 			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 			// We suppose that one user can upload only one extension per session.
@@ -845,7 +840,10 @@ class upload_module
 	function save_zip_archive($dest_file, $dest_name)
 	{
 		global $phpbb_root_path, $phpEx;
-		include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+		if (!class_exists('\compress_zip'))
+		{
+			include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+		}
 
 		$zip = new \compress_zip('w', $this->zip_dir . '/' . $dest_name . '.zip');
 		$zip->add_file($dest_file);

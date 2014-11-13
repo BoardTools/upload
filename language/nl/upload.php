@@ -28,7 +28,7 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOAD_INIT_FAIL'				=> 'Er is een fout opgetreden bij het voorbereiden op de installatie.',
 	'EXT_NOT_WRITABLE'					=> 'De ext/ map is niet schrijfbaar. Dit is vereist om “Upload extension” goed te laten functioneren. Verander de permissies of probeer het opnieuw.',
 	'EXT_UPLOAD_ERROR'					=> 'De extensie is niet geüpload. Controleer of het een zip bestand is en probeer het opnieuw.',
-	'NO_UPLOAD_FILE'					=> 'Geen bestand gekozen of er was een probleem met het uploaden',
+	'NO_UPLOAD_FILE'					=> 'Geen bestand gekozen of er was een probleem met het uploaden.',
 	'NOT_AN_EXTENSION'					=> 'Het zip bestand bevat geen phpBB extensie. Het bestand is niet opgeslagen op de server.',
 
 	'EXTENSION_UPLOADED'				=> 'Extensie “%s” succesvol geüpload.',
@@ -41,10 +41,12 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'Verwijder extensie',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Weet je zeker dat je de extensie “%s” wil verwijderen?',
 	'EXT_DELETE_SUCCESS'				=> 'Extensie succesvol verwijderd.',
+	'EXT_DELETE_ERROR'					=> 'Geen bestand gekozen of er was een probleem met het uploaden.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Verwijder zip bestand',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Weet je zeker dat je het zip bestand “%s” wil verwijderen?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Het zip bestand van de extensie is succesvol verwijderd.',
+	'EXT_ZIP_DELETE_ERROR'				=> 'Geen bestand gekozen of er was een probleem met het uploaden.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Geen vendor of bestandslocatie gevonden in het bestand. Het bestand is niet opgeslagen op de server.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json is niet gevonden in het zip bestand. Het bestand is niet opgeslagen op de server.',
@@ -69,4 +71,6 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'De geïnstalleerde extensie is geüpdatet.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Je hebt een zip bestand geüpload voor een extensie die al geïnstalleerd is. Deze extensie <strong>is automatisch uitgeschakeld</strong> om het update proces veiliger te maken. <strong>Controleer</strong> nu of de geüploade bestanden juist zijn en <strong>schakel de extensie in</strong> als het gebruikt wordt op het forum.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 ));

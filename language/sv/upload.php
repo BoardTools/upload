@@ -41,10 +41,12 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'Radera plugin',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Är du säker på att du vill radera plugin “%s”?',
 	'EXT_DELETE_SUCCESS'				=> 'Detta plugin har raderats.',
+	'EXT_DELETE_ERROR'					=> 'Ingen fil har angivits eller ett fel uppstod under uppladdningen.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Radera zip-filen',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Är du säker på att du vill radera zip-filen “%s”?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Zip-filen har raderats.',
+	'EXT_ZIP_DELETE_ERROR'				=> 'Ingen fil har angivits eller ett fel uppstod under uppladdningen.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Ingen vendor eller sökväg har angivits i den uppladdade zip-filen. Filen sparade ej på servern.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Filen composer.json kunde ej hittas i den uppladdade zip-filen. Filen sparade ej på servern.',
@@ -69,4 +71,6 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'Installerat plugin har uppdaterats.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Du har laddat upp en zip-fil för ett plugin som redan är istallerat. Detta plugin <strong>deaktiverades automatiskt</strong> för att säkerställa uppdateringsproceduren. Nu bör du <strong>kontrollera</strong> att de uppladdade filerna är korrekta och <strong>aktivera</strong> detta plugin om du fortfarande vill använda det i forumet.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 ));

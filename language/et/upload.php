@@ -41,10 +41,12 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'Kustuta laiendus',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Oled sa kindel, et soovid kustutada “%s” laienduse?',
 	'EXT_DELETE_SUCCESS'				=> 'Laiendus on edukalt kustutatud.',
+	'EXT_DELETE_ERROR'					=> 'Ühtegi faili pole määratud või tekkis viga üles laadimise protsessi jooksul.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Kustuta zip fail',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Oled sa kindel, et soovid kustutada zip faili - “%s”?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Laienduse zip fail on edukalt kustutatud.',
+	'EXT_ZIP_DELETE_ERROR'				=> 'Ühtegi faili pole määratud või tekkis viga üles laadimise protsessi jooksul.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Vendor\'it või kausta sihtkohta üles laaditud zip failil pole. Faili ei salvestatud serverisse.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json ei leitud üles laaditud zip failist. Faili ei salvestatud serverisse.',
@@ -69,4 +71,6 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'Paigaldatud laiendus on uuendatud.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Sa oled üles laadinud juba olemas oleva laienduse zip faili. Antud laiendus <strong>keelati automaatselt</strong>, et teha uuendamise protsess ohutumaks. Nüüd palun <strong>kontrolli</strong> kas üles laaditud failid oli õiged, ning <strong>luba</strong> laiendus, kui on see kasutusel foorumis.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 ));

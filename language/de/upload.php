@@ -41,10 +41,12 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'Erweiterung Löschen',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Bist du sicher das du die Erweiterung “%s” löschen möchtest?',
 	'EXT_DELETE_SUCCESS'				=> 'Erweiterung erfolgreich gelöscht.',
+	'EXT_DELETE_ERROR'					=> 'Keine Datei angegeben, oder es gab einen Fehler beim Hochladen.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Zip-Archiv Löschen',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Bist du sicher das du das Zip-Archiv “%s” löschen möchtest?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Zip-Archiv erfolgreich gelöscht.',
+	'EXT_ZIP_DELETE_ERROR'				=> 'Keine Datei angegeben, oder es gab einen Fehler beim Hochladen.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Kein Anbieter oder Zielordner in der hochgeladenen Zip-Datei. Die Datei wurde nicht auf dem Server gespeichert.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Die Datei composer.json wurde nicht in der hochgeladenen Zip-Datei gefunden. Die Datei wurde nicht auf dem Server gespeichert.',
@@ -69,4 +71,6 @@ $lang = array_merge($lang, array(
 
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'Die installierte Erweiterung wurde aktualisiert.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Du hast ein Zip-Archiv zu einer bereits installierten Erweiterung hochgeladen. Diese Erweiterung wurde <strong>automatisch deaktiviert</strong> um eine sichere Aktualiserung zu gewährleisten. Bitte <strong>kontrolliere</strong>, daß die hochgeladenen Daten korrekt sind und <strong>aktiviere</strong> danach die Erweiterung.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 ));
