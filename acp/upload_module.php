@@ -92,7 +92,7 @@ class upload_module
 				if ($this->self_update !== false)
 				{
 					$template->assign_vars(array(
-						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self',
+						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self_confirm',
 					));
 				}
 
@@ -140,6 +140,17 @@ class upload_module
 					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload',
 					'U_UPLOAD_REMOTE'	=> $this->main_link . '&amp;action=upload_remote',
 					'S_FORM_ENCTYPE'	=> ' enctype="multipart/form-data"',
+				));
+				break;
+
+			case 'upload_self_confirm':
+				$template->assign_vars(array(
+					'U_ACTION'			=> $this->u_action,
+					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload_self',
+					'U_UPLOAD_EXT_SELF'	=> $this->self_update,
+					'S_UPLOAD_EXT_SELF'	=> true,
+					'S_HIDDEN_FIELDS'	=> build_hidden_fields(array('self_update'	=> $this->self_update)),
+					'S_FORM_ENCTYPE'	=> '',
 				));
 				break;
 
@@ -521,7 +532,8 @@ class upload_module
 		}
 		else if ($action == 'upload_self')
 		{
-			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update, $match_phpbb)) || (preg_match('#^(https://)github.com/BoardTools/upload/archive/(.*?)\.zip$#i', $this->self_update, $match_phpbb)))
+			$this->self_update = $request->variable('self_update', '');
+			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)) || (preg_match('#^(https://)github.com/BoardTools/upload/archive/(.*?)\.zip$#i', $this->self_update)))
 			{
 				$file = $this->remote_upload($upload, $this->self_update);
 			}
@@ -742,9 +754,9 @@ class upload_module
 			$source = substr($composery, 0, -14);
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
 		}
+		$made_update = false;
 		if ($action != 'upload_self' && $action != 'upload_self_update')
 		{
-			$made_update = false;
 			// Delete the previous version of extension files - we're able to update them.
 			if (is_dir($phpbb_root_path . 'ext/' . $destination))
 			{

@@ -10,7 +10,7 @@
 
 <a name="maincontent"></a>
 
-<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="simpledialog"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF --><a href="{U_ACTION}&amp;action=details" class="simpledialog" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1>
+<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="simpledialog"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF and not S_UPLOAD_EXT_SELF --><a href="{U_ACTION}&amp;action=details" class="simpledialog" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1>
 
 <p>{L_ACP_UPLOAD_EXT_TITLE_EXPLAIN}</p>
 
@@ -53,6 +53,23 @@
 	<!-- IF README_MARKDOWN -->
 	<div id="markdown">{README_MARKDOWN}</div>
 	<!-- ENDIF -->
+<!-- ELSEIF S_UPLOAD_EXT_SELF -->
+	<hr />
+	<!-- IF UPLOAD_ERROR -->
+	<div class="errorbox">{UPLOAD_ERROR}</div>
+	<!-- ENDIF -->
+    <form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+		<fieldset style="padding-bottom: 15px;">
+			<div id="ext_upload_content">
+				<h1 style="margin-bottom: 15px;"><i class="fa fa-refresh" id="uploaded_ok"></i>{L_UPDATE} {L_ACP_UPLOAD_EXT_TITLE}</h1>
+				{L_FROM}{L_COLON} <span style="display: inline-block; background-color: #d7fdd3; font-weight: bold; padding: 3px 7px;">{U_UPLOAD_EXT_SELF}</span>
+				{S_FORM_TOKEN}
+				{S_HIDDEN_FIELDS}
+				<input class="button1" type="submit" name="submit" value="{L_UPDATE}" id="submit" />
+			</div>
+			<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
+		</fieldset>
+    </form>
 <!-- ELSE -->
 	<hr />
 	<!-- IF UPLOAD_ERROR -->

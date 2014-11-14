@@ -33,15 +33,7 @@
 	});
 
 	$("#valid_phpbb_ext").bind('change keyup', function () {
-		if ($(this).val() !== '')
-		{
-			$("#remote_upload").val($(this).val());
-			$("#remote_upload, #button_upload").css("display", "none");
-		}
-		else
-		{
-			$("#remote_upload, #button_upload").css("display", "inline-block");
-		}
+		$("#remote_upload").val($(this).val());
 	});
 })(jQuery, window, document);
 
