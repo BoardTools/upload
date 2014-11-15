@@ -339,7 +339,7 @@ class upload_module
 		{
 			if (!(@unlink($dir)))
 			{
-				$this->trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['NO_UPLOAD_FILE'], E_USER_WARNING);
 				return false;
 			}
 		}
@@ -508,7 +508,7 @@ class upload_module
 
 		if (!is_writable($phpbb_root_path . 'ext'))
 		{
-			$this->trigger_error($user->lang['EXT_NOT_WRITABLE'] . $this->back_link, E_USER_WARNING);
+			$this->trigger_error($user->lang['EXT_NOT_WRITABLE'], E_USER_WARNING);
 			return false;
 		}
 
@@ -539,7 +539,7 @@ class upload_module
 			}
 			else
 			{
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 		}
@@ -554,13 +554,13 @@ class upload_module
 			{
 				if (empty($file->filename))
 				{
-					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']), E_USER_WARNING);
 					return false;
 				}
 				else if ($file->init_error || sizeof($file->error))
 				{
 					$file->remove();
-					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']), E_USER_WARNING);
 					return false;
 				}
 
@@ -570,7 +570,7 @@ class upload_module
 				if (sizeof($file->error))
 				{
 					$file->remove();
-					$this->trigger_error(implode('<br />', $file->error) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error(implode('<br />', $file->error), E_USER_WARNING);
 					return false;
 				}
 				$dest_file = $file->destination_file;
@@ -603,7 +603,7 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'], E_USER_WARNING);
 				return false;
 			}
 			$string = @file_get_contents($composery);
@@ -611,7 +611,7 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
@@ -621,14 +621,14 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'], E_USER_WARNING);
 				return false;
 			}
 			else if (strpos($destination, $this->upload_ext_name) !== false && $action != 'upload_self')
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
@@ -639,7 +639,7 @@ class upload_module
 				{
 					$file->remove();
 				}
-				$this->trigger_error($user->lang['NOT_AN_EXTENSION'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['NOT_AN_EXTENSION'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
@@ -669,7 +669,7 @@ class upload_module
 					{
 						$file->remove();
 					}
-					$this->trigger_error($user->lang['EXTENSION_NOT_AVAILABLE'] . $this->back_link, E_USER_WARNING);
+					$this->trigger_error($user->lang['EXTENSION_NOT_AVAILABLE'], E_USER_WARNING);
 					return false;
 				}
 			}
@@ -680,7 +680,7 @@ class upload_module
 				{
 					$file->remove();
 				}
-				$this->trigger_error($e . ' ' . $user->lang['ACP_UPLOAD_EXT_ERROR_NOT_SAVED'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($e . ' ' . $user->lang['ACP_UPLOAD_EXT_ERROR_NOT_SAVED'], E_USER_WARNING);
 				return false;
 			}
 
@@ -721,14 +721,14 @@ class upload_module
 			$ext_tmp = 'tmp/' . (int) $user->data['user_id'];
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, '/') === false)
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
@@ -741,14 +741,14 @@ class upload_module
 			$ext_tmp = 'boardtools/new_upload';
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, 'boardtools/') === false)
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
