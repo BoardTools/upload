@@ -89,7 +89,7 @@ class upload_module
 
 				$md_manager->output_template_data();
 
-				if ($this->self_update !== false)
+				if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)))
 				{
 					$template->assign_vars(array(
 						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self_confirm',
@@ -533,7 +533,7 @@ class upload_module
 		else if ($action == 'upload_self')
 		{
 			$this->self_update = $request->variable('self_update', '');
-			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)) || (preg_match('#^(https://)github.com/BoardTools/upload/archive/(.*?)\.zip$#i', $this->self_update)))
+			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)))
 			{
 				$file = $this->remote_upload($upload, $this->self_update);
 			}

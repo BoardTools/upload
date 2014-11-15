@@ -73,7 +73,11 @@
 			<a href="{updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
 			<!-- ENDIF -->
 			<!-- IF updates_available.download -->
+			<!-- IF U_UPLOAD_EXT_UPDATE -->
 			<a href="{U_UPLOAD_EXT_UPDATE}" id="enable_uploaded" style="float: none;"><i class="fa fa-refresh"></i> {L_UPDATE}</a>
+			<!-- ELSE -->
+			<a href="{updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
+			<!-- ENDIF -->
 			<!-- ENDIF -->
 		</div>
 	</fieldset>
