@@ -271,7 +271,7 @@ class upload_module
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if (strpos($ff,'.zip') == (strlen($ff) - 4))
+				if (strpos($ff,'.zip') === (strlen($ff) - 4))
 				{
 					$zip_array[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
