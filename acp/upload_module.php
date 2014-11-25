@@ -469,7 +469,7 @@ class upload_module
 
 		$version_check = $meta['extra']['version-check'];
 
-		$version_helper = new \phpbb\version_helper($cache, $config, $user);
+		$version_helper = new \phpbb\version_helper($cache, $config, new \phpbb\file_downloader(), $user);
 		$version_helper->set_current_version($meta['version']);
 		$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename']);
 		$version_helper->force_stability($config['extension_force_unstable'] ? 'unstable' : null);
