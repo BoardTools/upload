@@ -13,7 +13,7 @@ With this extension you can install/update/delete extensions without using FTP. 
 You can install this extension on the latest version of [phpBB 3.1](https://www.phpbb.com/downloads/) or on the latest development version of [phpBB 3.1-dev](https://github.com/phpbb/phpbb3) by doing the following:
 
 1. Download the extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
-2. Check out the existing of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
+2. Check out the existence of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
 3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
 5. Click `Enable`.
