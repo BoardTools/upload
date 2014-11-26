@@ -469,7 +469,7 @@ class upload_module
 
 		$version_check = $meta['extra']['version-check'];
 
-		if (version_compare($config['version'], '3.1.2', '>='))
+		if (version_compare($config['version'], '3.1.1', '>'))
 		{
 			$version_helper = new \phpbb\version_helper($cache, $config, new \phpbb\file_downloader(), $user);
 		}
