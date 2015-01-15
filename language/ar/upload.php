@@ -74,4 +74,16 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'لقد قمت برفع ملف مضغوط لإضافة موجودة مُسبقاً. <strong>تم تعطيل</strong> تلك الإضافة <strong>تلقائياً</strong> لتنفيذ عملية التحديث بصورة آمنة. نرجوا الآن <strong>التأكد</strong> من صحة عمل الإضافة و <strong>تفعيلها</strong> اذا تريد ذلك.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'الإضافات المُعتمدة',
+
+	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
+	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',
+	'UPLOAD_DESCRIPTION_UPLOAD_LOCAL'	=> 'Local PC',
+	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> 'Remote server',
+	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Update phpBB extensions',
+	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'You can update any of already uploaded extensions. The extension that you want to update will be disabled automatically so that any updates will be safe.',
+	'UPLOAD_DESCRIPTION_ZIP'			=> 'ZIP files management',
+	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Save zips in a directory of your choice',
+	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Unpack a zip file to install an extension',
+	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Extension Cleaner tool',
+	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'You can delete extension directories or zip files of extensions from the server.',
 ));

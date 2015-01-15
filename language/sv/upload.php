@@ -73,4 +73,16 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Du har laddat upp en zip-fil för ett plugin som redan är istallerat. Detta plugin <strong>deaktiverades automatiskt</strong> för att säkerställa uppdateringsproceduren. Nu bör du <strong>kontrollera</strong> att de uppladdade filerna är korrekta och <strong>aktivera</strong> detta plugin om du fortfarande vill använda det i forumet.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+
+	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
+	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',
+	'UPLOAD_DESCRIPTION_UPLOAD_LOCAL'	=> 'Local PC',
+	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> 'Remote server',
+	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Update phpBB extensions',
+	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'You can update any of already uploaded extensions. The extension that you want to update will be disabled automatically so that any updates will be safe.',
+	'UPLOAD_DESCRIPTION_ZIP'			=> 'ZIP files management',
+	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Save zips in a directory of your choice',
+	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Unpack a zip file to install an extension',
+	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Extension Cleaner tool',
+	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'You can delete extension directories or zip files of extensions from the server.',
 ));

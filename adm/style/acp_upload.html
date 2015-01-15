@@ -39,8 +39,10 @@
 		{authors.AUTHOR}<!-- IF not authors.S_LAST_ROW -->, <!-- ENDIF -->
 		<!-- END authors -->
 		<!-- ENDIF -->
-		<span id="show_filetree" style="display: <!-- IF README_MARKDOWN -->block;<!-- ELSE -->none;<!-- ENDIF -->">{L_SHOW_FILETREE}</span>
-		<span style="display: <!-- IF not README_MARKDOWN -->block;<!-- ELSE -->none;<!-- ENDIF -->" id="hide_filetree">{L_HIDE_FILETREE}</span>
+		<!-- IF README_MARKDOWN -->
+		<span id="show_filetree" style="display: block;">{L_SHOW_FILETREE}</span>
+		<span id="hide_filetree" style="display: none;">{L_HIDE_FILETREE}</span>
+		<!-- ENDIF -->
 	</div>
     <div id="filetree"<!-- IF not README_MARKDOWN --> style="display:block;"<!-- ENDIF -->>
         <div id="filetreenames">{FILETREE}</div>
