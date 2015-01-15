@@ -873,16 +873,9 @@ class upload_module
 			// Now Upload Extensions will update itself. We suppose that it will be fast and without errors.
 			// Otherwise users will need to use FTP.
 			$phpbb_extension_manager->disable($destination);
-			if (!($this->rcopy($source, $phpbb_root_path . 'ext/' . $destination)))
-			{
-				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
-				return false;
-			}
+			$this->rcopy($source, $phpbb_root_path . 'ext/' . $destination);
 			$phpbb_extension_manager->enable($destination);
-			if (!($this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp)))
-			{
-				return false;
-			}
+			$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 			$template->assign_vars(array(
 				'S_UPDATED_SELF'		=> $display_name,
 			));
