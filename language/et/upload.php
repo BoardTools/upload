@@ -1,11 +1,11 @@
 <?php
 /**
-* upload.php [Estonian]
-* @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
-* @copyright (c) 2014 Upload Extensions Estonian language pack version 0.1 by http://www.phpbbeesti.com/
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*/
+ * upload.php [Estonian]
+ * @package Upload Extensions
+ * @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+ * @copyright (c) 2014 Upload Extensions Estonian language pack version 0.3 by http://www.phpbbeesti.com/
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ */
 
 if (!defined('IN_PHPBB'))
 {
@@ -32,7 +32,7 @@ $lang = array_merge($lang, array(
 	'NOT_AN_EXTENSION'					=> 'Üles laaditud zip fail ei ole phpBB laiendus. Faili ei salvestatud serverisse.',
 
 	'EXTENSION_UPLOADED'				=> 'Laiendus “%s” on edukalt üles laaditud.',
-	'EXTENSIONS_AVAILABLE'				=> 'Saadaval laiendused',
+	'EXTENSIONS_AVAILABLE'				=> 'Üleslaaditud, ning aktiveerimist ootavad laiendused',
 	'EXTENSION_INVALID_LIST'			=> 'Laienduste nimekiri',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Luba üles laaditud laiendused',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Paki laiendus lahti',
@@ -58,7 +58,7 @@ $lang = array_merge($lang, array(
 	'SHOW_FILETREE'						=> '<< Näita faili puud >>',
 	'HIDE_FILETREE'						=> '>> Peida faili puu <<',
 
-	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvesta üles laaditud zip fail',
+	'EXT_UPLOAD_SAVE_ZIP'				=> 'Salvestan üles laaditud zip faili serverisse?',
 	'ZIP_UPLOADED'						=> 'zip arhiiv on üles laaditud',
 	'EXT_ENABLE'						=> 'Luba',
 	'EXT_UPLOADED'						=> 'üles laaditud',
@@ -72,18 +72,18 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'Paigaldatud laiendus on uuendatud.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Sa oled üles laadinud juba olemas oleva laienduse zip faili. Antud laiendus <strong>keelati automaatselt</strong>, et teha uuendamise protsess ohutumaks. Nüüd palun <strong>kontrolli</strong> kas üles laaditud failid oli õiged, ning <strong>luba</strong> laiendus, kui on see kasutusel foorumis.',
 
-	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'VALID_PHPBB_EXTENSIONS'			=> 'Laadi laiendus üles otse phpbb.com laienduste andmebaasist',
 	'EXT_VERSION_LETTER'				=> 'v',
 
-	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
-	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',
-	'UPLOAD_DESCRIPTION_UPLOAD_LOCAL'	=> 'Local PC',
-	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> 'Remote server',
-	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Update phpBB extensions',
-	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'You can update any of already uploaded extensions. The extension that you want to update will be disabled automatically so that any updates will be safe.',
-	'UPLOAD_DESCRIPTION_ZIP'			=> 'ZIP files management',
-	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Save zips in a directory of your choice',
-	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Unpack a zip file to install an extension',
-	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Extension Cleaner tool',
-	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'You can delete extension directories or zip files of extensions from the server.',
+	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Laadi üles phpBB laiendus',
+	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'phpBB.com laienduste andmebaas',
+	'UPLOAD_DESCRIPTION_UPLOAD_LOCAL'	=> 'Kohalik arvuti',
+	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> '<i>Remote</i> server',
+	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Uuenda phpBB laiendusi',
+	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'Sa saad uuendada kõiki juba üleslaaditud laiendusi. Laiendust, mida sa soovid uuendada keelatakse automaatselt, et uuendamine oleks ohutum.',
+	'UPLOAD_DESCRIPTION_ZIP'			=> 'ZIP failide haldus',
+	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Salvesta zip failid enda poolt valitud kausta',
+	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Paki lahti zip fail, et paigaldada laiendus',
+	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Laienduse puhastaja',
+	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'Sa saad kustutada laienduse või selle zip faile oma serverist.',
 ));
