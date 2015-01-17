@@ -7,6 +7,8 @@
 *
 */
 
+namespace boardtools\upload\filetree;
+
 class filetree
 {
 	public static function get_file($file)

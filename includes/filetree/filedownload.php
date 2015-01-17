@@ -7,6 +7,8 @@
 *
 */
 
+namespace boardtools\upload\filetree;
+
 class filedownload
 {
 	public static function download_file($filename, $download_name, $mimetype)

@@ -45,7 +45,7 @@ class upload_module
 		$file = $request->variable('file', '');
 		if ($file != '')
 		{
-			\filetree::get_file($file);
+			\boardtools\upload\filetree\filetree::get_file($file);
 		}
 
 		$this->upload_ext_name = 'boardtools/upload';
@@ -168,7 +168,7 @@ class upload_module
 
 					include($phpbb_root_path . 'ext/boardtools/upload/includes/filetree/filedownload.' . $phpEx);
 
-					if (!(\filedownload::download_file($filename, $download_name, $mimetype)))
+					if (!(\boardtools\upload\filetree\filedownload::download_file($filename, $download_name, $mimetype)))
 					{
 						redirect($this->main_link);
 					}
