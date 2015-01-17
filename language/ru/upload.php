@@ -73,6 +73,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Вы загрузили zip файл для установленного ранее расширения. Это расширение <strong>было автоматически отключено</strong>, чтобы сделать процесс обновления безопаснее. Теперь, пожалуйста, <strong>проверьте</strong> корректность загруженных файлов и <strong>включите</strong> расширение, если оно всё ещё должно использоваться на конференции.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

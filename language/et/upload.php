@@ -73,6 +73,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Sa oled üles laadinud juba olemas oleva laienduse zip faili. Antud laiendus <strong>keelati automaatselt</strong>, et teha uuendamise protsess ohutumaks. Nüüd palun <strong>kontrolli</strong> kas üles laaditud failid oli õiged, ning <strong>luba</strong> laiendus, kui on see kasutusel foorumis.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

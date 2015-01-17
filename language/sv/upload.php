@@ -73,6 +73,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Du har laddat upp en zip-fil för ett plugin som redan är istallerat. Detta plugin <strong>deaktiverades automatiskt</strong> för att säkerställa uppdateringsproceduren. Nu bör du <strong>kontrollera</strong> att de uppladdade filerna är korrekta och <strong>aktivera</strong> detta plugin om du fortfarande vill använda det i forumet.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

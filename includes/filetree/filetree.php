@@ -14,7 +14,9 @@ class filetree
 		if ($file != '')
 		{
 			$string = file_get_contents($file);
+			/** @ignore	*/
 			echo '<div class="filename">' . substr($file, strrpos($file, '/') + 1) . '</div><div class="filecontent">' .  highlight_string($string, true) . '</div>';
+			/** @ignore	*/
 			exit();
 		}
 		return false;
@@ -38,7 +40,9 @@ class filetree
 		if (function_exists('scandir'))
 		{
 			$file = scandir($directory);
-		} else {
+		}
+		else
+		{
 			$file = php4_scandir($directory);
 		}
 		natcasesort($file);
@@ -50,7 +54,9 @@ class filetree
 			if (is_dir($directory . '/' . $this_file))
 			{
 				$dirs[] = $this_file;
-			} else {
+			}
+			else
+			{
 				$files[] = $this_file;
 			}
 		}
@@ -92,7 +98,9 @@ class filetree
 						$php_file_tree .= '<li class="pft-directory"><span>' . htmlspecialchars($this_file) . '</span>';
 						$php_file_tree .= \filetree::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
 						$php_file_tree .= '</li>';
-					} else {
+					}
+					else
+					{
 						// File
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);

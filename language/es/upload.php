@@ -73,6 +73,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Ha subido un archivo zip para una extensión ya instalada. La extensión <strong>ha sido deshabilitada automáticamente</strong> para hacer más seguro el proceso de actualización. Ahora por favor <strong>compruebe</strong> si los archivos subidos son correctos y haga clic en <strong>habilitar</strong> la extensión si todavía quiere utilizarla en el foro.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'CDB de phpBB.com',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Subir extensiones de phpBB',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB de phpBB.com',

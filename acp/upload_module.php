@@ -8,6 +8,7 @@
 */
 
 namespace boardtools\upload\acp;
+use \Michelf\MarkdownExtra;
 
 class upload_module
 {
@@ -40,7 +41,7 @@ class upload_module
 		$this->back_link = ($request->is_ajax()) ? '' : adm_back_link($this->u_action);
 		$this->phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(\?sid\=[a-zA-Z0-9]*?)?$#i';
 
-		include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filetree.' . $phpEx);
+		include($phpbb_root_path . 'ext/boardtools/upload/includes/filetree/filetree.' . $phpEx);
 		$file = $request->variable('file', '');
 		if ($file != '')
 		{
@@ -165,7 +166,7 @@ class upload_module
 
 					$mimetype = 'application/zip';
 
-					include($phpbb_root_path . 'ext/boardtools/upload/vendor/filetree/filedownload.' . $phpEx);
+					include($phpbb_root_path . 'ext/boardtools/upload/includes/filetree/filedownload.' . $phpEx);
 
 					if (!(\filedownload::download_file($filename, $download_name, $mimetype)))
 					{
@@ -458,14 +459,14 @@ class upload_module
 
 	function get_valid_extensions()
 	{
-		global $template;
+		global $template, $user;
 
 		$valid_phpbb_ext = $file_contents = $metadata = '';
 		if (($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
 		{
 			foreach($metadata as $ext => $value)
 			{
-				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' (v' . $value['version'] . ')</option>';
+				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' (' . $user->lang['EXT_VERSION_LETTER'] . $value['version'] . ')</option>';
 			}
 			$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
 		}
@@ -892,7 +893,6 @@ class upload_module
 		$string = @file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
 		if ($string !== false)
 		{
-			include($phpbb_root_path . 'ext/boardtools/upload/vendor/Markdown/Michelf/MarkdownExtra.inc.' . $phpEx);
 			$readme = \Michelf\MarkdownExtra::defaultTransform($string);
 		} else {
 			$readme = false;

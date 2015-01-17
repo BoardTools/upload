@@ -74,6 +74,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Vous avez transféré une archive pour une extension déjà installée. Cette extension <strong>a été désactivée automatiquement</strong> pour assurer une mise à jour plus sûre. Veuillez maintenant <strong>vérifier</strong> si l’archive transférée est correcte puis <strong>activer</strong> l’extension si vous souhaitez toujours l’utiliser sur votre forum.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

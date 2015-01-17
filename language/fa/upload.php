@@ -74,6 +74,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'شما فایل زیپ شده ای برای به روز رسانی افزونه مورد نظر آپلود کرده اید. افزونه <strong>به صورت خودکار غیر فعال  شده</strong> تا به صورت امن به روز رسانی انجام شود. حالا لطفا <strong>بررسی کنید</strong> فایل آپلود شده صحیح می باشد و <strong>فعال کنید</strong> افزونه مورد نظر را جهت استفاده در انجمن',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

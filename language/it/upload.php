@@ -73,6 +73,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'È stata caricata un\'estensione già installata. Quest\'estensione <strong>è stata automaticamente disabilitata</strong> per la sicurezza del processo di aggiornamento. <strong>Controllare</strong> la correttezza dei file caricati e <strong>riabilitare</strong> l\'estensione qualora debba ancora essere usata.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'Archivio ufficiale phpbb.com',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

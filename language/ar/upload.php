@@ -74,6 +74,7 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'لقد قمت برفع ملف مضغوط لإضافة موجودة مُسبقاً. <strong>تم تعطيل</strong> تلك الإضافة <strong>تلقائياً</strong> لتنفيذ عملية التحديث بصورة آمنة. نرجوا الآن <strong>التأكد</strong> من صحة عمل الإضافة و <strong>تفعيلها</strong> اذا تريد ذلك.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'الإضافات المُعتمدة',
+	'EXT_VERSION_LETTER'				=> 'v',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',
