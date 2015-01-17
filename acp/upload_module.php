@@ -8,7 +8,6 @@
 */
 
 namespace boardtools\upload\acp;
-use \Michelf\MarkdownExtra;
 
 class upload_module
 {

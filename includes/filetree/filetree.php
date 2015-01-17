@@ -38,7 +38,7 @@ class filetree
 	}
 
 	public static function php_file_tree_dir($directory, $uaction, $extensions = array(), $first_call = true)
-	{	
+	{
 		if (function_exists('scandir'))
 		{
 			$file = scandir($directory);
