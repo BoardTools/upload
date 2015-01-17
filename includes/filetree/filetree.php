@@ -15,10 +15,8 @@ class filetree
 	{
 		if ($file != '')
 		{
-			$string = file_get_contents($file);
-			/** @ignore	*/
+			$string = @file_get_contents($file);
 			echo '<div class="filename">' . substr($file, strrpos($file, '/') + 1) . '</div><div class="filecontent">' .  highlight_string($string, true) . '</div>';
-			/** @ignore	*/
 			exit();
 		}
 		return false;
@@ -33,19 +31,16 @@ class filetree
 		{
 			$directory = substr($directory, 0, strlen($directory) - 1);
 		}
-		$code .= \filetree::php_file_tree_dir($directory, $uaction, $extensions);
+		$code .= self::php_file_tree_dir($directory, $uaction, $extensions);
 		return $code;
 	}
 
 	public static function php_file_tree_dir($directory, $uaction, $extensions = array(), $first_call = true)
 	{
-		if (function_exists('scandir'))
+		$file = @scandir($directory);
+		if (!$file)
 		{
-			$file = scandir($directory);
-		}
-		else
-		{
-			$file = php4_scandir($directory);
+			return false;
 		}
 		natcasesort($file);
 
@@ -98,7 +93,7 @@ class filetree
 					{
 						// Directory
 						$php_file_tree .= '<li class="pft-directory"><span>' . htmlspecialchars($this_file) . '</span>';
-						$php_file_tree .= \filetree::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
+						$php_file_tree .= self::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
 						$php_file_tree .= '</li>';
 					}
 					else

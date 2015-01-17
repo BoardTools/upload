@@ -22,9 +22,6 @@ class filedownload
 		{
 			while ($buffer = fread($fp, 1024))
 			{
-				/**
-				* @ignore
-				*/
 				echo $buffer;
 			}
 			fclose($fp);
