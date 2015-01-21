@@ -33,6 +33,11 @@ h1 {position: relative;}
     background: linear-gradient(to bottom, #92d992 0%, #228822 100%);
 }
 
+.rtl #uploaded_ok {
+    margin-right: 0px;
+    margin-left: 15px;
+}
+
 #enable_uploaded {
     display: inline-block;
     float: right;
@@ -99,6 +104,10 @@ h1 {position: relative;}
 #show_filetree:hover, #hide_filetree:hover {
     color: #bc2a4d;
     text-decoration: underline;
+}
+
+.rtl #show_filetree, .rtl #hide_filetree {
+    float: left;
 }
 
 .select_all_code {

@@ -4,7 +4,8 @@
 	$("a.simpledialog").simpleDialog({
 	    opacity: 0.1,
 	    width: '650px',
-		height: '600px'
+	    height: '600px',
+	    closeLabel: '&times;'
 	});
 
 	/* For noscript compatibility we do it here instead of css file */
