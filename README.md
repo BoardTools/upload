@@ -10,13 +10,13 @@ With this extension you can install/update/delete extensions without using FTP. 
 * PHP 5.3.3 or higher
 
 ## Sources
-You can get the extension from one of the following sources:
+You can get Upload Extensions from one of the following sources:
 * phpbb.com: https://www.phpbb.com/customise/db/extension/upload/
 * github.com: https://github.com/BoardTools/upload
 
 The support from the authors is given only for the packages uploaded from the sources listed above.
 
-## Installation, Update, Uninstallation
+## Installation, update, uninstallation
 The information about the installation/update/uninstallation process can be found in FAQ and Wiki:
 * For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq.
 * For the packages uploaded from github.com: https://github.com/BoardTools/upload/wiki.
@@ -74,4 +74,4 @@ If you have uploaded different zip files with the same name, they will be rename
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2014 - John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+© 2014 - 2015 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
