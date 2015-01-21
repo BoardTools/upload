@@ -305,7 +305,10 @@ class upload_module
 
 	function getComposer($dir)
 	{
-		global $composer;
+		if (@is_file($dir.'/composer.json'))
+		{
+			return $dir . '/composer.json';
+		}
 		$ffs = @scandir($dir);
 		if (!$ffs)
 		{
@@ -316,14 +319,13 @@ class upload_module
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if ($ff == 'composer.json')
+				if (@is_dir($dir.'/'.$ff))
 				{
-					$composer = $dir . '/' . $ff;
-					break;
+					$composer = $this->getComposer($dir . '/' . $ff);
 				}
-				if(is_dir($dir.'/'.$ff))
+				if ($composer !== false)
 				{
-					$this->getComposer($dir . '/' . $ff);
+					return $composer;
 				}
 			}
 		}
@@ -333,7 +335,8 @@ class upload_module
 	// Function to remove folders and files
 	function rrmdir($dir, $no_errors = true)
 	{
-		if (is_dir($dir))
+		global $user;
+		if (@is_dir($dir))
 		{
 			$files = @scandir($dir);
 			if ($files === false)
@@ -350,7 +353,7 @@ class upload_module
 			}
 			rmdir($dir);
 		}
-		else if (file_exists($dir))
+		else if (@file_exists($dir))
 		{
 			if (!(@unlink($dir)))
 			{
@@ -364,7 +367,8 @@ class upload_module
 	// Function to copy folders and files
 	function rcopy($src, $dst)
 	{
-		if (file_exists($dst))
+		global $user;
+		if (@file_exists($dst))
 		{
 			if (!($this->rrmdir($dst)))
 			{
@@ -372,7 +376,7 @@ class upload_module
 				return false;
 			}
 		}
-		if (is_dir($src))
+		if (@is_dir($src))
 		{
 			$this->recursive_mkdir($dst, 0755);
 			$files = @scandir($src);
@@ -392,7 +396,7 @@ class upload_module
 				}
 			}
 		}
-		else if (file_exists($src))
+		else if (@file_exists($src))
 		{
 			if (!(@copy($src, $dst)))
 			{
@@ -836,11 +840,17 @@ class upload_module
 				$old_ext_name = $destination;
 				if($old_composery = $this->getComposer($phpbb_root_path . 'ext/' . $destination))
 				{
-					$old_string = file_get_contents($old_composery);
-					$old_json_a = json_decode($old_string, true);
-					$old_display_name = (isset($old_json_a['extra']['display-name'])) ? $old_json_a['extra']['display-name'] : $old_ext_name;
-					$old_ext_version = (isset($old_json_a['version'])) ? $old_json_a['version'] : '0.0.0';
-					$old_ext_name = $old_display_name . '_' . $old_ext_version;
+					if (!($old_string = @file_get_contents($old_composery)))
+					{
+						$old_ext_name = $old_ext_name . '_0.0.0';
+					}
+					else
+					{
+						$old_json_a = json_decode($old_string, true);
+						$old_display_name = (isset($old_json_a['extra']['display-name'])) ? $old_json_a['extra']['display-name'] : $old_ext_name;
+						$old_ext_version = (isset($old_json_a['version'])) ? $old_json_a['version'] : '0.0.0';
+						$old_ext_name = $old_display_name . '_' . $old_ext_version;
+					}
 				}
 				$this->save_zip_archive('ext/' . $destination . '/', str_replace(array('/', '\\'), '_', $old_ext_name) . '_old');
 				if (!($this->rrmdir($phpbb_root_path . 'ext/' . $destination)))
