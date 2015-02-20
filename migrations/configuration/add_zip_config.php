@@ -42,6 +42,10 @@ class add_zip_config extends \phpbb\db\migration\migration
 				$directory = 'ext';
 			}
 		}
+		else if (!is_writable($this->phpbb_root_path . $directory))
+		{
+			@chmod($this->phpbb_root_path . $directory, 0755);
+		}
 
 		return $directory;
 	}
