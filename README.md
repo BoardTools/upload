@@ -9,14 +9,30 @@ With this extension you can install/update/delete extensions without using FTP. 
 * phpBB 3.1.0 or higher
 * PHP 5.3.3 or higher
 
-## Installation
-You can install this extension on the latest version of [phpBB 3.1](https://www.phpbb.com/downloads/) or on the latest development version of [phpBB 3.1-dev](https://github.com/phpbb/phpbb3) by doing the following:
+## Sources
+You can get Upload Extensions from one of the following sources:
+* phpbb.com: https://www.phpbb.com/customise/db/extension/upload/
+* github.com: https://github.com/BoardTools/upload
 
-1. Download the extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
-2. Check out the existence of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
-4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
-5. Click `Enable`.
+The support from the authors is given only for the packages uploaded from the sources listed above.
+
+## Installation, update, uninstallation
+The information about the installation/update/uninstallation process can be found in FAQ and Wiki:
+* For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq.
+* For the packages uploaded from github.com: https://github.com/BoardTools/upload/wiki.
+
+### General installation information (for the case if you don't have access to the resources listed above)
+In general you'll need to copy the contents of the uploaded zip package to `ext/boardtools/upload`.
+As a result the path to the `composer.json` file should become `ext/boardtools/upload/composer.json`.
+Then navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
+
+### General information about standard updates
+To update Upload Extensions in standard way navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
+Then you can install the updated version of the extension.
+
+### General uninstallation information
+Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
+For permanent uninstallation click also `Delete data` and then you can safely remove the `ext/boardtools/upload` folder.
 
 ## Usage
 ### Upload extensions
@@ -55,25 +71,7 @@ You can do the following actions with zip files uploaded with Upload Extensions:
 All uploaded zip files will contain the version numbers of the uploaded extensions.
 If you have uploaded different zip files with the same name, they will be renamed properly so that they all will be saved.
 
-## Update
-### Quick update
-1. Navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
-2. When an update is available, you will see an update button on the page.
-3. Click on it and also click on other `Update` buttons that will appear on the screen. And the extension will be updated!
-
-### Standard update
-1. Download the updated extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
-2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
-4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
-5. Click `Details` or `Re-Check all versions` link to follow updates.
-
-## Uninstallation
-Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
-
-For permanent uninstallation click `Delete Data` and then you can safely delete the `/ext/boardtools/upload/` folder.
-
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2014 - John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+© 2014 - 2015 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)

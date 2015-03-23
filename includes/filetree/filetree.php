@@ -7,13 +7,15 @@
 *
 */
 
+namespace boardtools\upload\filetree;
+
 class filetree
 {
 	public static function get_file($file)
 	{
 		if ($file != '')
 		{
-			$string = file_get_contents($file);
+			$string = @file_get_contents($file);
 			echo '<div class="filename">' . substr($file, strrpos($file, '/') + 1) . '</div><div class="filecontent">' .  highlight_string($string, true) . '</div>';
 			exit();
 		}
@@ -25,21 +27,20 @@ class filetree
 		global $user;
 
 		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
-		if(substr($directory, -1) == '/' )
+		if (substr($directory, -1) == '/')
 		{
 			$directory = substr($directory, 0, strlen($directory) - 1);
 		}
-		$code .= \filetree::php_file_tree_dir($directory, $uaction, $extensions);
+		$code .= self::php_file_tree_dir($directory, $uaction, $extensions);
 		return $code;
 	}
 
 	public static function php_file_tree_dir($directory, $uaction, $extensions = array(), $first_call = true)
-	{	
-		if (function_exists('scandir'))
+	{
+		$file = @scandir($directory);
+		if (!$file)
 		{
-			$file = scandir($directory);
-		} else {
-			$file = php4_scandir($directory);
+			return false;
 		}
 		natcasesort($file);
 
@@ -50,7 +51,9 @@ class filetree
 			if (is_dir($directory . '/' . $this_file))
 			{
 				$dirs[] = $this_file;
-			} else {
+			}
+			else
+			{
 				$files[] = $this_file;
 			}
 		}
@@ -72,6 +75,7 @@ class filetree
 			}
 		}
 
+		$php_file_tree = '';
 		if (count($file) > 2)
 		{ // Use 2 instead of 0 to account for . and .. directories
 			$php_file_tree = '<ul';
@@ -89,15 +93,17 @@ class filetree
 					{
 						// Directory
 						$php_file_tree .= '<li class="pft-directory"><span>' . htmlspecialchars($this_file) . '</span>';
-						$php_file_tree .= \filetree::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
+						$php_file_tree .= self::php_file_tree_dir($directory . '/' . $this_file, $uaction, $extensions, false);
 						$php_file_tree .= '</li>';
-					} else {
+					}
+					else
+					{
 						// File
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
-						$link = $uaction . '&file=' . $directory . '/' . urlencode($this_file);
-						$nolink = (in_array($ext, array('ext-gif', 'ext-jpg', 'ext-jpeg', 'ext-tif', 'ext-png'))) ? false : true;
-						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '"' . (($nolink) ? ' onclick="loadXMLDoc(\''. $link . '\')"' : '') . ' title="' . $this_file . '"><span' . (($nolink) ? '' : ' style="cursor:default;"') . '>' . htmlspecialchars($this_file) . '</span></li>';
+						$link = $uaction . '&file=' . urlencode($directory . '/' . $this_file);
+						$show_link = (in_array($ext, array('ext-gif', 'ext-jpg', 'ext-jpeg', 'ext-tif', 'ext-png'))) ? false : true;
+						$php_file_tree .= '<li class="pft-file ' . htmlspecialchars(strtolower($ext)) . '"' . (($show_link) ? ' onclick="loadXMLDoc(\''. $link . '\')"' : '') . ' title="' . htmlspecialchars($this_file) . '"><span' . (($show_link) ? '' : ' style="cursor: default;"') . '>' . htmlspecialchars($this_file) . '</span></li>';
 					}
 				}
 			}

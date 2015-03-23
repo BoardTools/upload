@@ -20,11 +20,11 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_TITLE'				=> 'Subir Extensiones',
 	'ACP_UPLOAD_EXT_CONFIG_TITLE'		=> 'Subir Extensiones',
-	'ACP_UPLOAD_EXT_TITLE_EXPLAIN'		=> 'Upload Extensions le permite subir archivos zip de extensiones o eliminar extensiones de carpetas del servidor.<br />Con esta extensión puede instalar/actualizar/borras extensiones sin utilizar FTP. Si ya existe la extensión subida, se actualizará con los archivos subidos.',
+	'ACP_UPLOAD_EXT_TITLE_EXPLAIN'		=> 'Subir Extensiones le permite subir archivos zip de extensiones o eliminar extensiones de carpetas del servidor.<br />Con esta extensión puede instalar/actualizar/borras extensiones sin utilizar FTP. Si ya existe la extensión subida, se actualizará con los archivos subidos.',
 	'UPLOAD'							=> 'Subir',
 	'BROWSE'							=> 'Navegar...',
 	'EXTENSION_UPLOAD'					=> 'Subir Extensión',
-	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Aquí puede cargar un paquete de extensión zip que contiene los archivos necesarios para realizar la instalación desde el equipo local o en un servidor remoto. “Upload Extensions” luego intentará descomprimir el archivo y tenerlo listo para la instalación.<br />Elija un archivo o escriba un enlace en los campos de abajo.',
+	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Aquí puede cargar un paquete de extensión zip que contiene los archivos necesarios para realizar la instalación desde el equipo local o en un servidor remoto. “Subir Extensiones” luego intentará descomprimir el archivo y tenerlo listo para la instalación.<br />Elija un archivo o escriba un enlace en los campos de abajo.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'Se ha producido un error al inicializar el proceso de subida de la extensión.',
 	'EXT_NOT_WRITABLE'					=> 'En el directorio ext/ no se puede escribir. Esto es requerido para que “Upload extension” funcione correctamente. Por favor, ajuste sus permisos y/o la configuración y vuelva a intentarlo.',
 	'EXT_UPLOAD_ERROR'					=> 'La extensión no se ha subido. Por favor, confirma que cargue el archivo de extensión zip verdadera y vuelva a intentarlo.',
@@ -64,7 +64,7 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOADED'						=> 'subidas',
 	'EXT_UPDATED'						=> 'actualizadas',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'actualizadas a la última versión',
-	'EXT_UPLOAD_BACK'					=> '« Volver a Upload Extensions',
+	'EXT_UPLOAD_BACK'					=> '« Volver a Subir Extensiones',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Ruta de almacenamiento de paquetes zip de extensiones',
 	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Ruta desde el directorio phpBB, por ejemplo <samp>ext</samp>.<br />Puede cambiar esta ruta para almacenar los paquetes zip en una carpeta especial (por ejemplo, si desea permitir que los usuarios descargan los archivos, puede cambiarlo a <em>descargas</em>, y si desea prohibir esas descargas, se puede cambiar a la ruta raíz del http a un ni9vel superior de su sitio web (o puede crear una carpeta con el archivo .htaccess apropiado)).',
@@ -72,5 +72,18 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'La extensión instalada se ha actualizado.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Ha subido un archivo zip para una extensión ya instalada. La extensión <strong>ha sido deshabilitada automáticamente</strong> para hacer más seguro el proceso de actualización. Ahora por favor <strong>compruebe</strong> si los archivos subidos son correctos y haga clic en <strong>habilitar</strong> la extensión si todavía quiere utilizarla en el foro.',
 
-	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'VALID_PHPBB_EXTENSIONS'			=> 'CDB de phpBB.com',
+	'EXT_VERSION_LETTER'				=> 'v',
+
+	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Subir extensiones de phpBB',
+	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB de phpBB.com',
+	'UPLOAD_DESCRIPTION_UPLOAD_LOCAL'	=> 'PC local',
+	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> 'Servidor remoto',
+	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Subir extensiones phpBB',
+	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'Puede actualizar cualquiera de las extensiones ya subidas. La extensión que desea actualizar se desactivará automáticamente para que las actualizaciones esten a salvo.',
+	'UPLOAD_DESCRIPTION_ZIP'			=> 'Gestión de archivos ZIP',
+	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Guardar zips en un directorio que elija',
+	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Descomprimir un archivo zip para instalar la extensión',
+	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Herramienta limpiadora de extensión',
+	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'Puede eliminar los directorios de extensiones o archivos zip de extensiones del servidor.',
 ));

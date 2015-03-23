@@ -1,0 +1,105 @@
+[
+    {
+        "name": "fortawesome/font-awesome",
+        "version": "v4.2.0",
+        "version_normalized": "4.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/FortAwesome/Font-Awesome.git",
+            "reference": "a65bd93d81e9e6bd5ebfa41757a4474960b973b4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/a65bd93d81e9e6bd5ebfa41757a4474960b973b4",
+            "reference": "a65bd93d81e9e6bd5ebfa41757a4474960b973b4",
+            "shasum": ""
+        },
+        "require-dev": {
+            "jekyll": "1.0.2",
+            "lessc": "1.4.2"
+        },
+        "time": "2014-08-26 16:36:44",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "OFL-1.1",
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Dave Gandy",
+                "email": "dave@fontawesome.io",
+                "homepage": "http://twitter.com/davegandy",
+                "role": "Developer"
+            }
+        ],
+        "description": "The iconic font and CSS framework",
+        "homepage": "http://fontawesome.io/",
+        "keywords": [
+            "FontAwesome",
+            "awesome",
+            "bootstrap",
+            "font",
+            "icon"
+        ]
+    },
+    {
+        "name": "michelf/php-markdown",
+        "version": "1.4.1",
+        "version_normalized": "1.4.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/michelf/php-markdown.git",
+            "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/michelf/php-markdown/zipball/de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+            "reference": "de9a19c7bf352d41cc99ed86c3c0ef17e87394b6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-05-05 02:43:50",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-lib": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Michelf": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Michel Fortin",
+                "email": "michel.fortin@michelf.ca",
+                "homepage": "http://michelf.ca/",
+                "role": "Developer"
+            },
+            {
+                "name": "John Gruber",
+                "homepage": "http://daringfireball.net/"
+            }
+        ],
+        "description": "PHP Markdown",
+        "homepage": "http://michelf.ca/projects/php-markdown/",
+        "keywords": [
+            "markdown"
+        ]
+    }
+]

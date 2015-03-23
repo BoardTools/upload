@@ -20,7 +20,9 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "michelf/php-markdown": "~1.4",
+        "fortawesome/font-awesome": "~4.2"
     },
     "require-dev": {
         "phpbb/epv": "dev-master"
