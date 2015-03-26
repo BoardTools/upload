@@ -1,0 +1,32 @@
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <strong>{L_ACP_UPLOAD_ZIP_TITLE}</strong>
+<hr class="upload_ext_navigation" />
+<!-- IF .zip -->
+<form id="list" method="post" action="{U_DELETE_ACTION}" data-ajax="rows_delete">
+	<table class="ext_zips_table" id="zips_list">
+		<tbody>
+			<tr>
+				<td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
+				<td class="row3" style="text-align: center; width: 100px;">{L_MARK}</td>
+			</tr>
+			<!-- BEGIN zip -->
+			<tr class="ext_disabled">
+				<td class="zip_name"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
+				<td style="text-align: center;">
+					<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+				</td>
+				<td style="text-align: center;"><input type="checkbox" class="radio" name="mark[]" value="{zip.META_DISPLAY_NAME}" /></td>
+			</tr>
+			<!-- END zip -->
+		</tbody>
+	</table>
+	<!-- IF .pagination -->
+	<div class="pagination" id="upload_pagination">
+		<!-- INCLUDE acp_upload_pagination.html -->
+	</div>
+	<!-- ENDIF -->
+	<fieldset class="quick">
+		<input class="button2" type="submit" name="delmarked" value="{L_DELETE_MARKED}" /><br />
+		<p class="small"><a href="#" onclick="marklist('zips_list', 'mark', true); return false;">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('zips_list', 'mark', false); return false;">{L_UNMARK_ALL}</a></p>
+	</fieldset>
+</form>
+<!-- ENDIF -->

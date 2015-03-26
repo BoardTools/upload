@@ -23,48 +23,75 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_TITLE_EXPLAIN'		=> 'Upload Extensions enables you to upload extensions’ zip files or delete extensions’ folders from the server.<br />With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.',
 	'UPLOAD'							=> 'Upload',
 	'BROWSE'							=> 'Browse...',
-	'EXTENSION_UPLOAD'					=> 'Upload extension',
+	'EXTENSION_UPLOAD'					=> 'Upload an extension',
 	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Here you can upload a zipped extension package containing the necessary files to perform installation from your local computer or a remote server. “Upload Extensions” will then attempt to unzip the file and have it ready for installation.<br />Choose a file or type a link in the fields below.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'There was an error when initialising the extension upload process.',
 	'EXT_NOT_WRITABLE'					=> 'The ext/ directory is not writable. This is required for “Upload extension” to work properly. Please adjust your permissions or settings and try again.',
 	'EXT_UPLOAD_ERROR'					=> 'The extension wasn’t uploaded. Please confirm that you upload the true extension zip file and try again.',
 	'NO_UPLOAD_FILE'					=> 'No file specified or there was an error during the upload process.',
 	'NOT_AN_EXTENSION'					=> 'The uploaded zip file is not a phpBB extension. The file was not saved on the server.',
+	'EXT_ACTION_ERROR'					=> 'The requested action cannot be performed for the selected phpBB extension.<br />Note: “Upload Extensions” can be managed only through the standard Extensions Manager.',
+
+	'EXTENSION_UPLOAD_UPDATE'			=> 'Update the extension',
+	'EXTENSION_UPLOAD_UPDATE_EXPLAIN'	=> '“Upload Extensions” will perform the upload from the link shown below.',
 
 	'EXTENSION_UPLOADED'				=> 'Extension “%s” was uploaded successfully.',
-	'EXTENSIONS_AVAILABLE'				=> 'Available extensions',
+	'EXTENSIONS_AVAILABLE'				=> 'Uninstalled extensions',
+	'EXTENSIONS_UPLOADED'				=> 'Uploaded extensions',
+	'EXTENSION_BROKEN'					=> 'Broken extension',
 	'EXTENSION_INVALID_LIST'			=> 'Extension list',
+
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Enable the uploaded extension',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Unpack extension',
-	'ACP_UPLOAD_EXT_CONT'				=> 'Content of package: %s',
+	'ACP_UPLOAD_EXT_CONT'				=> 'Content of the package “%s”',
 
 	'EXTENSION_DELETE'					=> 'Delete extension',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Are you sure that you want to delete the “%s” extension?',
+	'EXTENSIONS_DELETE_CONFIRM'		=> array(
+		2	=> 'Are you sure that you want to delete <strong>%1$s</strong> extensions?',
+	),
 	'EXT_DELETE_SUCCESS'				=> 'Extension was deleted successfully.',
+	'EXTS_DELETE_SUCCESS'				=> 'Extensions were deleted successfully.',
 	'EXT_DELETE_ERROR'					=> 'No file specified or there was an error during the deletion.',
+	'EXT_DELETE_NO_FILE'				=> 'No file was specified for the deletion.',
+	'EXT_CANNOT_BE_PURGED'				=> 'The data of the enabled extension cannot be purged. Disable the extension to be able to purge its data.',
 
 	'EXTENSION_ZIP_DELETE'				=> 'Delete zip file',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Are you sure that you want to delete the zip file “%s”?',
+	'EXTENSIONS_ZIP_DELETE_CONFIRM'		=> array(
+		2	=> 'Are you sure that you want to delete <strong>%1$s</strong> zip files?',
+	),
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Extension’s zip file was deleted successfully.',
+	'EXT_ZIPS_DELETE_SUCCESS'			=> 'Extensions’ zip files were deleted successfully.',
 	'EXT_ZIP_DELETE_ERROR'				=> 'No file specified or there was an error during the deletion.',
 
 	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'No vendor or destination folder in the uploaded zip file. The file was not saved on the server.',
 	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'composer.json wasn’t found in the uploaded zip file. The file was not saved on the server.',
 	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_TRY_SELF'		=> '“Upload Extensions” can be updated only by the special Updater or through FTP.',
 	'ACP_UPLOAD_EXT_WRONG_RESTORE'		=> 'An error occurred during the update of an installed extension. Try to update it again.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Developers',
 
-	'SHOW_FILETREE'						=> '<< Show file tree >>',
-	'HIDE_FILETREE'						=> '>> Hide file tree <<',
-
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Save uploaded zip file',
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',
 	'EXT_ENABLE'						=> 'Enable',
-	'EXT_UPLOADED'						=> 'uploaded',
-	'EXT_UPDATED'						=> 'updated',
+	'EXT_ENABLE_DISABLE'				=> 'Enable/Disable the extension',
+	'EXT_ENABLED'						=> 'The extension was enabled successfully.',
+	'EXT_DISABLED'						=> 'The extension was disabled successfully.',
+	'EXT_PURGE'							=> 'Purge extension’s data',
+	'EXT_PURGED'						=> 'The extension’s data was purged successfully.',
+	'EXT_UPLOADED'						=> 'The upload was successful.',
+	'EXT_UPDATE_ENABLE'					=> 'Click on the toggle to enable the extension.',
+	'EXT_UPDATE_ERROR'					=> 'The update process errored.',
+	'EXT_UPDATE_TIMEOUT'				=> 'The update process timed out.',
+	'EXT_UPDATED'						=> 'The update was successful.',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
+
+	'ERROR_COPY_FILE'					=> 'The attempt to copy the file “%1$s” to the location “%2$s” failed.',
+	'ERROR_CREATE_DIRECTORY'			=> 'The attempt to create the directory “%s” failed.',
+	'ERROR_REMOVE_DIRECTORY'			=> 'The attempt to remove the directory “%s” failed.',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions’ zip packages storage path',
 	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Path under your phpBB root directory, e.g. <samp>ext</samp>.<br />You can change this path to store zip packages in a special folder (for example, if you want to let users download those files, you can change it to <em>downloads</em>, and if you want to prohibit those downloads, you can change it to the path that is upper by one level than http root of your website (or you can create a folder with the appropriate .htaccess file)).',
@@ -74,6 +101,18 @@ $lang = array_merge($lang, array(
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 	'EXT_VERSION_LETTER'				=> 'v',
+
+	'ACP_UPLOAD_EXT_MANAGER_EXPLAIN'	=> 'The Extensions Manager of Upload Extensions is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them.',
+	'ACP_UPLOAD_ZIP_TITLE'				=> 'ZIP files management',
+	'ACP_UPLOAD_UNINSTALLED_TITLE'		=> 'Delete extensions',
+
+	'EXT_DETAILS_README'				=> 'Readme',
+	'EXT_DETAILS_CHANGELOG'				=> 'Changelog',
+	'EXT_DETAILS_FILETREE'				=> 'File tree',
+
+	'EXT_LOAD_ERROR'					=> 'Loading errored',
+	'EXT_LOAD_TIMEOUT'					=> 'Loading timed out',
+	'EXT_LOAD_ERROR_EXPLAIN'			=> 'An error occurred during the loading process.',	
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

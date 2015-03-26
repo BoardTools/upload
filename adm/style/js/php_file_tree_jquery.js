@@ -1,16 +1,15 @@
-$(document).ready( function() {
-	
+function setFileTree() {
 	// Hide all subfolders at startup
 	$(".php-file-tree").find("UL").hide();
 	
 	// Expand/collapse on click
-	$(".pft-directory span").click( function() {
+	$(".pft-directory span").click(function() {
 		$(this).parent().find("UL:first").slideToggle("medium");
-		if( $(this).parent().attr('className') == "pft-directory" ) return false;
+		if($(this).parent().attr('className') == "pft-directory") return false;
 	});
+}
 
-});
-
+$(document).ready(function () { setFileTree(); });
 
 function selectCode(a) {
 	// Get ID of code block

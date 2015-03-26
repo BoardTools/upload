@@ -1,0 +1,59 @@
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <strong>{L_EXTENSIONS_ADMIN}</strong>
+<hr class="upload_ext_navigation" />
+<p>{L_ACP_UPLOAD_EXT_MANAGER_EXPLAIN}</p>
+<div id="force_unstable_updated" class="ext_uploaded_notice"<!-- IF not FORCE_UNSTABLE_UPDATED --> style="display:none"<!-- ENDIF -->>
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{L_CONFIG_UPDATED}</h1>
+</div>
+<fieldset class="quick">
+	<span class="small"><a href="{U_VERSIONCHECK_FORCE}">{L_VERSIONCHECK_FORCE_UPDATE_ALL}</a> &bull; <a id="set_force_unstable_link" href="{U_ACTION_LIST}&amp;set_force_unstable=true">{L_SETTINGS}</a></span>
+</fieldset>
+<form id="version_check_settings" method="post" action="{U_ACTION}"<!-- IF not SET_FORCE_UNSTABLE --> style="display:none"<!-- ENDIF -->>
+	<fieldset>
+		<legend id="version_check_settings_title">{L_EXTENSIONS_VERSION_CHECK_SETTINGS}</legend>
+		<dl>
+			<dt><label for="force_unstable">{L_FORCE_UNSTABLE}{L_COLON}</label></dt>
+			<dd>
+				<label><input type="radio" id="force_unstable" name="force_unstable" class="radio" value="1"<!-- IF FORCE_UNSTABLE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" name="force_unstable" class="radio" value="0"<!-- IF not FORCE_UNSTABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="update" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" name="reset" value="{L_RESET}" />
+			<input type="hidden" name="action" value="set_config_version_check_force_unstable" />
+			{S_FORM_TOKEN}
+		</p>
+	</fieldset>
+</form>
+<div class="upload_ext_list">
+	<!-- IF .enabled -->
+	<div class="upload_ext_list_title upload_ext_list_title_enabled">{L_EXTENSIONS_UPLOADED}</div>
+	<!-- BEGIN enabled -->
+	<div class="upload_ext_list_content" data-ext-name="{enabled.META_NAME}">
+		<a href="{U_ACTION}&amp;action=<!-- IF enabled.S_IS_ENABLED -->disable<!-- ELSE -->enable<!-- ENDIF -->&amp;ext_name={enabled.META_NAME}" class="extension_toggle_wrapper <!-- IF enabled.S_IS_ENABLED -->extension_toggle_enabled<!-- ELSE -->extension_toggle_disabled<!-- ENDIF --><!-- IF not enabled.S_IS_ENABLED and not enabled.S_IS_DISABLED --> extension_toggle_purged<!-- ENDIF --><!-- IF enabled.S_LOCKED_TOGGLE --> locked_toggle<!-- ENDIF -->" title="{L_EXT_ENABLE_DISABLE}"><span class="extension_toggle"><i class="fa fa-power-off"></i></span></a>
+		<a href="{U_ACTION}&amp;action=purge&amp;ext_name={enabled.META_NAME}" class="extension_remove_data_button" title="{L_EXT_PURGE}"><i class="fa fa-trash"></i></a>
+		<a href="{enabled.U_DETAILS}" class="upload_get_details_link" data-ext-name="{enabled.META_NAME}" title="{L_DETAILS}">
+			<span class="upload_ext_list_name">{enabled.META_DISPLAY_NAME}</span>
+			<!-- IF enabled.S_VERSIONCHECK && enabled.S_UP_TO_DATE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value description_value_ok">{enabled.META_VERSION}</span>
+			</div>
+			<!-- ELSE IF enabled.S_VERSIONCHECK && not enabled.S_UP_TO_DATE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value description_value_old">{enabled.META_VERSION}</span>
+			</div>
+			<!-- ELSE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value">{enabled.META_VERSION}</span>
+			</div>
+			<!-- ENDIF -->
+		</a>
+		<div class="upload_ext_list_update_success_wrapper" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}"><i class="fa fa-check fa-lg"></i><span class="upload_ext_list_update_success"></span></div>
+		<div class="upload_ext_list_update_error_wrapper" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}"><i class="fa fa-warning fa-lg"></i><span class="upload_ext_list_update_error"></span></div>
+	</div>
+	<!-- END enabled -->
+	<!-- ENDIF -->
+</div>

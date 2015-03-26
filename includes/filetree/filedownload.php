@@ -7,7 +7,7 @@
 *
 */
 
-namespace boardtools\upload\filetree;
+namespace boardtools\upload\includes\filetree;
 
 class filedownload
 {
