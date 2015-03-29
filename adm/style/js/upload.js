@@ -681,6 +681,20 @@
 	function load_page_process(action, id, local, element) {
 		var getExtension = ["details", "enable", "disable", "purge"];
 		var page_url = $("#upload_main").attr("data-page-action"), data = {}, method = 'GET';
+		function page_loaded($this, s)
+		{
+			$("#upload_main_wrapper").slideUp(100, function () {
+				$this.html(s);
+				parse_document($("#upload_main_wrapper"));
+				add_ajax();
+				bind_load_events(action);
+				$().upload_loading_end();
+				$("#upload_main_wrapper").finish().slideDown(700, "linear", function () {
+					$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
+					$("#upload_main").trigger("loaded");
+				});
+			});
+		}
 		if (action === "upload" || action === "upload_update") {
 			var $this = (action === "upload") ? $("#ext_upload") : $("#upload_ext_update");
 			action = "upload"; // The common action for the server.
@@ -706,15 +720,7 @@
 				},
 				success: function (s, x) {
 					if (check_response(s)) {
-						$(this).html(s);
-						parse_document($("#upload_main_wrapper"));
-						add_ajax();
-						bind_load_events(action);
-						$().upload_loading_end();
-						$("#upload_main_wrapper").slideDown(700, "linear", function () {
-							$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
-							$("#upload_main").trigger("loaded");
-						});
+						page_loaded($(this), s);
 					}
 				}
 			});
@@ -758,15 +764,7 @@
 					return;
 				}
 				if (check_response(s)) {
-					$(this).html(s);
-					parse_document($("#upload_main_wrapper"));
-					add_ajax();
-					bind_load_events(action);
-					$().upload_loading_end();
-					$("#upload_main_wrapper").slideDown(700, "linear", function () {
-						$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
-						$("#upload_main").trigger("loaded");
-					});
+					page_loaded($(this), s);
 				}
 			},
 			cache: false
