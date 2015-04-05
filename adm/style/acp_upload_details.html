@@ -3,13 +3,14 @@
 <a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <a href="{U_ACTION_LIST}" id="upload_load_main_list">{L_EXTENSIONS_ADMIN}</a> &raquo; <strong>{$EXTENSION_NAME}</strong>
 <hr class="upload_ext_navigation" />
 <div id="extension_details_name_wrapper">
-	<h1 class="ExtensionName">
+	<h1 class="ExtensionName<!-- IF NOT_AVAILABLE --> ext_not_available<!-- ENDIF -->">
 		<i class="fa fa-cog"></i> {$EXTENSION_NAME}
 		<span data-ext-name="{META_NAME}" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}" data-ext-update-enable="{L_EXT_UPDATE_ENABLE}">
 			<a href="{U_ACTION}&amp;action=<!-- IF S_IS_ENABLED -->disable<!-- ELSE -->enable<!-- ENDIF -->&amp;ext_name={META_NAME}" class="extension_toggle_wrapper <!-- IF S_IS_ENABLED -->extension_toggle_enabled<!-- ELSE -->extension_toggle_disabled<!-- ENDIF --><!-- IF not S_IS_ENABLED and not S_IS_DISABLED --> extension_toggle_purged<!-- ENDIF -->" title="{L_EXT_ENABLE_DISABLE}"><span class="extension_toggle"><i class="fa fa-power-off"></i></span></a>
 			<a href="{U_ACTION}&amp;action=purge&amp;ext_name={META_NAME}" class="extension_remove_data_button" title="{L_EXT_PURGE}"><i class="fa fa-trash"></i></a>
 		</span>
 	</h1>
+	<!-- IF META_VERSION -->
 	<!-- IF S_VERSIONCHECK && S_UP_TO_DATE -->
 	<div class="description_bubble small_bubble ext_version_bubble">
 		<span class="description_name">{L_VERSION}</span>
@@ -54,17 +55,13 @@
 		<span class="description_value" id="meta_version">{META_VERSION}</span>
 	</div>
 	<!-- ENDIF -->
+	<!-- ENDIF -->
 </div>
-<!-- IF S_VERSIONCHECK -->
-<!-- ELSE IF S_VERSIONCHECK_STATUS == 0 -->
-<div class="errorbox notice">
-	<p>{L_VERSIONCHECK_FAIL}</p>
-	<p>{VERSIONCHECK_FAIL_REASON}</p>
-	<p><a href="{U_VERSIONCHECK_FORCE}">{L_VERSIONCHECK_FORCE_UPDATE}</a></p>
-</div>
-<!-- ELSE IF S_VERSIONCHECK_STATUS == 1 -->
-<div class="errorbox notice">
-	<p>{VERSIONCHECK_FAIL_REASON}</p>
+<!-- IF META_VERSION -->
+<div id="ext_versioncheck_error_box" class="errorbox notice"<!-- IF not S_VERSIONCHECK --> style="display:block;"<!-- ENDIF -->>
+	<p class="ext_versioncheck_error_box_title"<!-- IF not S_VERSIONCHECK and S_VERSIONCHECK_STATUS == 0 --> style="display:block;"<!-- ENDIF -->>{L_VERSIONCHECK_FAIL}</p>
+	<p class="ext_versioncheck_error_box_reason"><!-- IF not S_VERSIONCHECK -->{VERSIONCHECK_FAIL_REASON}<!-- ENDIF --></p>
+	<p class="ext_versioncheck_error_box_link"<!-- IF not S_VERSIONCHECK and S_VERSIONCHECK_STATUS == 0 --> style="display:block;"<!-- ENDIF -->><a href="{U_VERSIONCHECK_FORCE}" class="ext_versioncheck_force_link">{L_VERSIONCHECK_FORCE_UPDATE}</a></p>
 </div>
 <!-- ENDIF -->
 <!-- IF EXT_ENABLE_STATUS -->
@@ -81,6 +78,12 @@
 <div class="ext_updated_notice">
 	<h1><i class="fa fa-refresh"></i> {L_ACP_UPLOAD_EXT_UPDATED}</h1>
 	<p>{L_ACP_UPLOAD_EXT_UPDATED_EXPLAIN}</p>
+</div>
+<!-- ENDIF -->
+<!-- IF NOT_AVAILABLE and (S_IS_ENABLED || S_IS_DISABLED) -->
+<div class="ext_broken_notice">
+	<h1><i class="fa fa-warning"></i> {L_EXTENSION_BROKEN_TITLE}</h1>
+	<span>{L_EXTENSION_BROKEN_EXPLAIN}</span>
 </div>
 <!-- ENDIF -->
 <div class="ext_details_container">
@@ -144,6 +147,9 @@
 		<!-- ENDIF -->
 		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE) || IS_AJAX -->
 		<div id="ext_details_content">
+			<!-- IF NOT_AVAILABLE -->
+			<div class="errorbox">{NOT_AVAILABLE}</div>
+			<!-- ELSE -->
 			<!-- IF META_DESCRIPTION -->
 			<fieldset class="description_fieldset">
 				<span id="meta_description" class="description_title">{L_DESCRIPTION}</span>
@@ -219,6 +225,7 @@
 				</div>
 				<!-- END meta_authors -->
 			</fieldset>
+		<!-- ENDIF -->
 		</div>
 		<!-- ENDIF -->
 	</div>

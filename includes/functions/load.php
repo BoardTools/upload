@@ -71,7 +71,7 @@ class load
 	public static function details($ext_name, $ext_show)
 	{
 		// If they've specified an extension, let's load the metadata manager and validate it.
-		if ($ext_name && $ext_name !== "boardtools/upload")
+		if ($ext_name && $ext_name !== objects::$upload_ext_name)
 		{
 			$ext_md_manager = new \phpbb\extension\metadata_manager($ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$user, objects::$phpbb_root_path);
 
@@ -80,37 +80,41 @@ class load
 				$ext_md_manager->get_metadata('all');
 				$ext_name = $ext_md_manager->get_metadata('name'); // Just to be sure of the name.
 				$display_name = $ext_md_manager->get_metadata('display-name');
+
+				// Output it to the template
+				$ext_md_manager->output_template_data();
+
+				try
+				{
+					$updates_available = extensions::version_check($ext_md_manager, objects::$request->variable('versioncheck_force', false));
+
+					objects::$template->assign_vars(array(
+						'S_UP_TO_DATE'		=> empty($updates_available),
+						'S_VERSIONCHECK'	=> true,
+						'UP_TO_DATE_MSG'	=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $ext_md_manager->get_metadata('display-name')),
+					));
+
+					foreach ($updates_available as $branch => $version_data)
+					{
+						objects::$template->assign_block_vars('updates_available', $version_data);
+					}
+				}
+				catch (\RuntimeException $e)
+				{
+					objects::$template->assign_vars(array(
+						'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
+						'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== objects::$user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
+					));
+				}
 			}
 			catch(\phpbb\extension\exception $e)
 			{
-				// Display errors and exit the script.
-				files::catch_errors($e);
-				return false;
-			}
-			// Output it to the template
-			$ext_md_manager->output_template_data();
-
-			try
-			{
-				$updates_available = extensions::version_check($ext_md_manager, objects::$request->variable('versioncheck_force', false));
-
+				// Display errors in the details tab.
 				objects::$template->assign_vars(array(
-					'S_UP_TO_DATE'		=> empty($updates_available),
-					'S_VERSIONCHECK'	=> true,
-					'UP_TO_DATE_MSG'	=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $ext_md_manager->get_metadata('display-name')),
+					'META_NAME'			=> $ext_name,
+					'NOT_AVAILABLE'		=> $e,
 				));
-
-				foreach ($updates_available as $branch => $version_data)
-				{
-					objects::$template->assign_block_vars('updates_available', $version_data);
-				}
-			}
-			catch (\RuntimeException $e)
-			{
-				objects::$template->assign_vars(array(
-					'S_VERSIONCHECK_STATUS'			=> $e->getCode(),
-					'VERSIONCHECK_FAIL_REASON'		=> ($e->getMessage() !== objects::$user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : '',
-				));
+				$display_name = $ext_name;
 			}
 
 			objects::$template->assign_vars(array(

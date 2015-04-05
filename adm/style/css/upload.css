@@ -267,6 +267,21 @@ h1 {position: relative;}
 .ext_updated_notice h1 {color: #706e25 !important;}
 .ext_updated_notice p {margin: 5px 0 5px 0;}
 
+.ext_broken_notice {
+    width: 100%;
+	border: 1px solid #BC2A4D;
+    border-radius: 15px;
+    position: relative;
+    margin: 15px 0;
+    padding: 10px 15px;
+    background-color: #fadedf;
+    box-sizing: border-box;
+    color: #BC2A4D;
+    display: block;
+}
+.ext_broken_notice h1 {color: #BC2A4D !important;}
+.ext_broken_notice p {margin: 5px 0 5px 0;}
+
 .ext_self_updated_notice {
     width: 100%;
     background-color: #d7fdd3;
@@ -497,8 +512,53 @@ div.ext_zip_name {
     margin-bottom: 10px;
 }
 
-.upload_ext_list .upload_ext_list_title_disabled {
-    margin-top: 20px;
+.upload_ext_list .upload_ext_list_title_unavailable {
+    margin-top: 30px;
+}
+
+.upload_ext_list .upload_ext_list_unavailable {
+    display: block;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 0px 15px 10px 15px;
+    margin: 30px 0 0 0;
+    box-shadow: 0 0 10px #a8a8a8;
+    position: relative;
+}
+
+.upload_ext_list .upload_ext_list_unavailable_wrapper {
+    margin: 0 0 15px 0;
+}
+
+.upload_ext_list .upload_ext_unavailable_name {
+    display: inline-block;
+    position: relative;
+    top: -10px;
+    left: 0px;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #c74564;
+    border-radius: 15px;
+    padding: 3px 15px;
+    margin: 0;
+    box-shadow: 0 -5px 5px -3.5px #a8a8a8;
+    border-top: none;
+    vertical-align: middle;
+    position: relative;
+}
+
+.upload_ext_list a.upload_ext_list_unavailable:hover .upload_ext_unavailable_name {
+    box-shadow: 0 -5px 5px -3.5px #eea2a7;
+}
+
+.upload_ext_list .upload_ext_list_unavailable .ext_broken_notice {
+    margin: 5px 0 10px 0;
+}
+
+.upload_ext_list .upload_ext_unavailable_reason {
+    padding: 0 0 0 15px;
 }
 
 .upload_ext_list .ext_version_bubble {
@@ -518,12 +578,10 @@ div.ext_zip_name {
     transition: all 0.5s ease;
 }
 
-.upload_ext_list .upload_ext_list_content a.upload_get_details_link {
+.upload_ext_list a.upload_get_details_link {
     display: block;
     background-color: #fff;
     border-radius: 15px;
-    padding: 0px 0 0px 100px;
-    margin: 0;
     text-decoration: none;
     box-shadow: 0 0 10px #a8a8a8;
     -webkit-transition: all 0.5s ease;
@@ -533,7 +591,12 @@ div.ext_zip_name {
     transition: all 0.5s ease;
 }
 
-.upload_ext_list .upload_ext_list_content a.upload_get_details_link:hover {
+.upload_ext_list .upload_ext_list_content a.upload_get_details_link {
+    padding: 0px 0 0px 100px;
+    margin: 0;
+}
+
+.upload_ext_list a.upload_get_details_link:hover {
     background-color: #fdfcd3;
     box-shadow: 0 0 10px #eea2a7;
 }
@@ -898,6 +961,11 @@ fieldset {
 
 #upload_main .extension_toggle_wrapper.locked_toggle .extension_toggle {
     background-color: #a8a8a8;
+}
+
+#upload_main .ext_not_available .extension_toggle_disabled,
+#upload_main .ext_not_available .extension_toggle_purged {
+    display: none;
 }
 
 #upload_main .extension_toggle_enabled .extension_toggle, .rtl #upload_main .extension_toggle_disabled .extension_toggle {
@@ -1309,6 +1377,11 @@ fieldset {
     width: 100%;
     resize: none;
     height: auto;
+}
+#ext_versioncheck_error_box,
+#ext_versioncheck_error_box .ext_versioncheck_error_box_title,
+#ext_versioncheck_error_box .ext_versioncheck_error_box_link {
+    display: none;
 }
 .extension_author {
     display: inline-block;

@@ -73,6 +73,8 @@ class upload_module
 		objects::$is_ajax = false;
 		if($request->is_ajax() && !empty($ajax_action))
 		{
+			$template->assign_var('IS_AJAX', true);
+			objects::$is_ajax = true;
 			switch ($ajax_action)
 			{
 				case 'main':
@@ -99,9 +101,10 @@ class upload_module
 				case 'uninstalled':
 					$this->tpl_name = 'acp_upload_uninstalled';
 					break;
+				case 'versioncheck_force':
+					extensions::ajax_versioncheck($request->variable('ext_name', ''));
+					break;
 			}
-			$template->assign_var('IS_AJAX', true);
-			objects::$is_ajax = true;
 			$action = $ajax_action;
 		}
 		// Detect whether this is an Ajax request - END
@@ -134,29 +137,23 @@ class upload_module
 				}
 				else if (objects::$is_ajax)
 				{
-				    $md_manager = extensions::get_manager($ext_name);
-				    if ($md_manager !== false)
-				    {
-						load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
-							'i'			=> $id,
-							'mode'		=> $mode,
-							'action'	=> $action,
-							'ext_name'	=> $ext_name,
-						)));
-					}
+				    $md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+					load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
+						'i'			=> $id,
+						'mode'		=> $mode,
+						'action'	=> $action,
+						'ext_name'	=> $ext_name,
+					)));
 				}
 				else
 				{
-				    $md_manager = extensions::get_manager($ext_name);
-					if ($md_manager !== false)
-					{
-						confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
-							'i'			=> $id,
-							'mode'		=> $mode,
-							'action'	=> $action,
-							'ext_name'	=> $ext_name,
-						)));
-					}
+				    $md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+					confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
+						'i'			=> $id,
+						'mode'		=> $mode,
+						'action'	=> $action,
+						'ext_name'	=> $ext_name,
+					)));
 				}
 				break;
 

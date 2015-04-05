@@ -247,7 +247,7 @@ class extensions
 					'META_VERSION'		=> $meta['version'],
 					'S_IS_ENABLED'		=> objects::$phpbb_extension_manager->is_enabled($name),
 					'S_IS_DISABLED'		=> objects::$phpbb_extension_manager->is_disabled($name),
-					'S_LOCKED_TOGGLE'	=> ($name === "boardtools/upload"),
+					'S_LOCKED_TOGGLE'	=> ($name === objects::$upload_ext_name),
 				);
 
 				$force_update = objects::$request->variable('versioncheck_force', false);
@@ -259,12 +259,12 @@ class extensions
 			}
 			catch(\phpbb\extension\exception $e)
 			{
-				objects::$template->assign_block_vars('enabled', array(
-					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $e),
+				objects::$template->assign_block_vars('unavailable', array(
 					'META_NAME'				=> $name,
-					'S_IS_ENABLED'			=> false,
-					'S_LOCKED_TOGGLE'		=> true,
-					'S_VERSIONCHECK'		=> false,
+					'NOT_AVAILABLE'			=> $e,
+					'S_IS_ENABLED'			=> objects::$phpbb_extension_manager->is_enabled($name),
+					'S_IS_DISABLED'			=> objects::$phpbb_extension_manager->is_disabled($name),
+					'S_LOCKED_TOGGLE'		=> ($name === objects::$upload_ext_name),
 				));
 			}
 			catch (\RuntimeException $e)
@@ -279,7 +279,7 @@ class extensions
 		{
 			$block_vars['U_DETAILS'] = objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($name);
 
-			objects::$template->assign_block_vars('enabled', $block_vars);
+			objects::$template->assign_block_vars('available', $block_vars);
 		}
 	}
 
@@ -312,6 +312,7 @@ class extensions
 	/**
 	* The function that gets the manager for the specified extension.
     * @param string $ext_name The name of the extension.
+	* @return \phpbb\extension\metadata_manager|bool
 	*/
 	public static function get_manager($ext_name)
 	{
@@ -368,6 +369,7 @@ class extensions
 	/**
 	* The function that enables the specified extension.
     * @param string $ext_name The name of the extension.
+	* @return bool
 	*/
 	public static function enable($ext_name)
 	{
@@ -466,6 +468,7 @@ class extensions
 	/**
 	* The function that disables the specified extension.
     * @param string $ext_name The name of the extension.
+	* @return bool
 	*/
 	public static function disable($ext_name)
 	{
@@ -473,10 +476,14 @@ class extensions
 		$safe_time_limit = (ini_get('max_execution_time') / 2);
 		$start_time = time();
 
-		$md_manager = self::get_manager($ext_name);
-
-		if ($md_manager === false)
+		// We do not check the metadata to be able to disable broken extensions.
+		if (!$ext_name || $ext_name === objects::$upload_ext_name)
 		{
+			self::response(array(
+				'ext_name'	=> $ext_name,
+				'status'	=> 'error',
+				'error'		=> objects::$user->lang['EXT_ACTION_ERROR']
+			));
 			return false;
 		}
 
@@ -521,6 +528,7 @@ class extensions
 	/**
 	* The function that purges data of the specified extension.
     * @param string $ext_name The name of the extension.
+	* @return bool
 	*/
 	public static function purge($ext_name)
 	{
@@ -528,10 +536,14 @@ class extensions
 		$safe_time_limit = (ini_get('max_execution_time') / 2);
 		$start_time = time();
 
-		$md_manager = self::get_manager($ext_name);
-
-		if ($md_manager === false)
+		// We do not check the metadata to be able to purge broken extensions.
+		if (!$ext_name || $ext_name === objects::$upload_ext_name)
 		{
+			self::response(array(
+				'ext_name'	=> $ext_name,
+				'status'	=> 'error',
+				'error'		=> objects::$user->lang['EXT_ACTION_ERROR']
+			));
 			return false;
 		}
 
@@ -585,5 +597,48 @@ class extensions
 			'status'	=> 'purged'
 		));
 		return true;
+	}
+
+	/**
+	* Checks availability of updates for the specified extension.
+    * @param string $ext_name The name of the extension.
+	* @return null
+	*/
+	public static function ajax_versioncheck($ext_name)
+	{
+		$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+
+		try
+		{
+			$meta = $md_manager->get_metadata('all');
+
+			$force_update = true;
+			$updates = self::version_check($md_manager, $force_update, !$force_update);
+
+			self::response(array(
+				'ext_name'		=> $ext_name,
+				'status'		=> 'success',
+				'versioncheck'	=> (empty($updates)) ? "up_to_date" : "not_up_to_date",
+				'message'		=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name'))
+			));
+		}
+		catch(\phpbb\extension\exception $e)
+		{
+			self::response(array(
+				'ext_name'		=> $ext_name,
+				'status'		=> 'success',
+				'versioncheck'	=> 'error',
+				'reason'		=> $e
+			));
+		}
+		catch (\RuntimeException $e)
+		{
+			self::response(array(
+				'ext_name'		=> $ext_name,
+				'status'		=> 'success',
+				'versioncheck'	=> ($e->getCode()) ? 'error' : 'error_timeout',
+				'reason'		=> ($e->getMessage() !== objects::$user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : ''
+			));
+		}
 	}
 }

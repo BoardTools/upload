@@ -235,6 +235,9 @@
 			event.preventDefault();
 			event.stopPropagation();
 			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
+			if ($(this).siblings(".extension_toggle_wrapper").hasClass("locked_toggle")) {
+				return;
+			}
 			$(this).qtip({
 				content: {
 					text: function (event, api) {
@@ -306,6 +309,39 @@
 			$(".extension_toggle_wrapper").unbind("click", hide_uploaded_message);
 		}
 		$(".extension_toggle_wrapper").bind("click", hide_uploaded_message);
+	}
+
+	function get_versioncheck_result(result, element) {
+		if (typeof result.status !== "undefined" && result.status === "success") {
+			switch (result.versioncheck)
+			{
+				case "up_to_date":
+					$().upload_loading_end();
+					$("#meta_version").addClass("description_value_ok").attr("title", result.message);
+					break;
+				case "not_up_to_date":
+					// Reload the details page to show an update button (if needed).
+					load_page("details", $("h1.ExtensionName span").attr("data-ext-name"));
+					break;
+				case "error_timeout":
+				case "error":
+					$().upload_loading_end();
+					var $error_box = $("#ext_versioncheck_error_box");
+					$error_box.stop().slideUp(100, function () {
+						if (result.versioncheck === "error_timeout") $error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").show();
+						else $error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").hide();
+						$error_box.children(".ext_versioncheck_error_box_reason").html(result.reason);
+						$error_box.slideDown(700);
+					});
+					break;
+			}
+		}
+		else {
+			$().upload_loading_end();
+			$("#upload_loading_error").css("display", "inline-block");
+			$("#upload_loading_error_wrapper").slideDown(700);
+			loading_errors = true;
+		}
 	}
 
 	function load_main_page() {
@@ -508,6 +544,14 @@
 				});
 			});
 		});
+		$(".ext_versioncheck_force_link").click(function (event) {
+			event.preventDefault();
+			$().upload_loading_start();
+			close_error_wrapper();
+			$("#ext_versioncheck_error_box").slideUp(700);
+			$("#meta_version").removeClass("description_value_ok description_value_old").attr("title", "");
+			load_page("versioncheck_force", $("h1.ExtensionName span").attr("data-ext-name"), get_versioncheck_result, $(this));
+		});
 	}
 
 	function check_details_page() {
@@ -538,7 +582,6 @@
 					}, 3000);
 				}
 				else {
-					$().upload_loading_end();
 					$("#upload_loading_error").css("display", "inline-block");
 					$("#upload_loading_error_wrapper").slideDown(700);
 					loading_errors = true;
@@ -679,7 +722,7 @@
 	}
 
 	function load_page_process(action, id, local, element) {
-		var getExtension = ["details", "enable", "disable", "purge"];
+		var getExtension = ["details", "enable", "disable", "purge", "versioncheck_force"];
 		var page_url = $("#upload_main").attr("data-page-action"), data = {}, method = 'GET';
 		function page_loaded($this, s)
 		{
@@ -694,6 +737,15 @@
 					$("#upload_main").trigger("loaded");
 				});
 			});
+		}
+		function generate_get_request() {
+			if ($.inArray(action, getExtension) > -1) return "&ext_name=" + id;
+			switch (action) {
+				case "local_upload": return "&local_upload=" + id;
+				case "set_config_force_unstable": return "&force_unstable=" + id;
+				case "list": return (typeof id !== "undefined" && id === "versioncheck_force") ? "&versioncheck_force=1" : "";
+			}
+			return "";
 		}
 		if (action === "upload" || action === "upload_update") {
 			var $this = (action === "upload") ? $("#ext_upload") : $("#upload_ext_update");
@@ -726,7 +778,7 @@
 			});
 		}
 		else $.ajax({
-			url: ((action === "zip_packages" && typeof id !== "undefined") ? id : page_url) + "&ajax_action=" + action + (($.inArray(action, getExtension) > -1) ? "&ext_name=" + id : ((action === "local_upload") ? "&local_upload=" + id : ((action === "set_config_force_unstable") ? "&force_unstable=" + id : ""))),
+			url: ((action === "zip_packages" && typeof id !== "undefined") ? id : page_url) + "&ajax_action=" + action + generate_get_request(),
 			context: $("#upload_main"),
 			/*xhrFields: {
 				onprogress: function (e) {
@@ -796,6 +848,11 @@
 		$("#upload_load_main_list").click(function (event) {
 			event.preventDefault();
 			load_page("list");
+		});
+
+		$("#versioncheck_force_update_all").click(function (event) {
+			event.preventDefault();
+			load_page("list", "versioncheck_force");
 		});
 
 		$("#ext_upload").submit(function (event) {
