@@ -24,7 +24,9 @@ class extensions
 	*/
 	public static function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false)
 	{
-		$cache = objects::$cache; $config = objects::$config; $user = objects::$user;
+		$cache = objects::$cache;
+		$config = objects::$config;
+		$user = objects::$user;
 		$meta = $md_manager->get_metadata('all');
 
 		if (!isset($meta['extra']['version-check']))

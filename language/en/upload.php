@@ -118,7 +118,7 @@ $lang = array_merge($lang, array(
 
 	'EXT_LOAD_ERROR'					=> 'Loading errored',
 	'EXT_LOAD_TIMEOUT'					=> 'Loading timed out',
-	'EXT_LOAD_ERROR_EXPLAIN'			=> 'An error occurred during the loading process.',	
+	'EXT_LOAD_ERROR_EXPLAIN'			=> 'An error occurred during the loading process.',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

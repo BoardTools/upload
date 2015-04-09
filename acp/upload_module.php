@@ -43,7 +43,7 @@ class upload_module
 
 		// This is the dir where we will store zip files of extensions.
 		$this->zip_dir = $phpbb_root_path . $config['upload_ext_dir'];
-		
+
 		// get any url vars
 		$action = $request->variable('action', '');
 
@@ -57,11 +57,20 @@ class upload_module
 		$phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(\?sid\=[a-zA-Z0-9]*?)?$#i';
 
 		// Work with objects class instead of $this.
-		objects::$phpbb_root_path = $phpbb_root_path; objects::$phpbb_link_template = $phpbb_link_template; objects::$phpEx = $phpEx;
-		objects::$cache = &$cache; objects::$config = &$config; objects::$request = &$request; objects::$log = &$phpbb_log;
-		objects::$template = &$template; objects::$u_action = $this->u_action; objects::$user = &$user;
-		objects::$phpbb_container = &$phpbb_container; objects::$tpl_name = &$this->tpl_name; objects::$zip_dir = &$this->zip_dir;
+		objects::$cache = &$cache;
+		objects::$config = &$config;
+		objects::$log = &$phpbb_log;
+		objects::$phpEx = $phpEx;
+		objects::$phpbb_container = &$phpbb_container;
 		objects::$phpbb_extension_manager = &$phpbb_extension_manager;
+		objects::$phpbb_link_template = $phpbb_link_template;
+		objects::$phpbb_root_path = $phpbb_root_path;
+		objects::$request = &$request;
+		objects::$template = &$template;
+		objects::$tpl_name = &$this->tpl_name;
+		objects::$u_action = $this->u_action;
+		objects::$user = &$user;
+		objects::$zip_dir = &$this->zip_dir;
 
 		// Get the information about Upload Extensions - START
 		objects::$upload_ext_name = 'boardtools/upload';
@@ -137,7 +146,7 @@ class upload_module
 				}
 				else if (objects::$is_ajax)
 				{
-				    $md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+					$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
 					load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
 						'i'			=> $id,
 						'mode'		=> $mode,
@@ -147,7 +156,7 @@ class upload_module
 				}
 				else
 				{
-				    $md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+					$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
 					confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
 						'i'			=> $id,
 						'mode'		=> $mode,
@@ -297,7 +306,7 @@ class upload_module
 			case 'delete_zip':
 				$ext_name	= $request->variable('ext_name', '', true);
 				$zip_name	= $request->variable('zip_name', '', true);
-				$marked		= request_var('mark', array(''), true);
+				$marked		= $request->variable('mark', array(''), true);
 				$deletemark	= $request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
 
 				if ($action == 'delete_ext' && $ext_name != '')
