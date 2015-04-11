@@ -10,6 +10,7 @@
 namespace boardtools\upload\includes\functions;
 
 use \boardtools\upload\includes\objects;
+use \boardtools\upload\includes\filetree\filedownload;
 
 class extensions
 {
@@ -641,6 +642,78 @@ class extensions
 				'versioncheck'	=> ($e->getCode()) ? 'error' : 'error_timeout',
 				'reason'		=> ($e->getMessage() !== objects::$user->lang('VERSIONCHECK_FAIL')) ? $e->getMessage() : ''
 			));
+		}
+	}
+
+	/**
+	* Creates a ZIP package of the extension and prepares it for downloading.
+    * @param string $ext_name The name of the extension.
+	* @return null|bool
+	*/
+	public static function download_extension($ext_name)
+	{
+		$composery = files::getComposer(objects::$phpbb_root_path . 'ext/' . $ext_name);
+		if (!$composery)
+		{
+			return false;
+		}
+		$string = @file_get_contents($composery);
+		if ($string === false)
+		{
+			return false;
+		}
+		$json_a = json_decode($string, true);
+		$composer_ext_name = (isset($json_a['name'])) ? $json_a['name'] : '';
+		$composer_ext_type = (isset($json_a['type'])) ? $json_a['type'] : '';
+		if ($composer_ext_name !== $ext_name || $composer_ext_type !== "phpbb-extension")
+		{
+			return false;
+		}
+		$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
+
+		$ext_delete_prefix = objects::$request->variable('ext_delete_prefix', false);
+		if ($ext_delete_prefix)
+		{
+			if (isset($json_a['version']) && preg_match("/^([\d]+\.[\d]+\.[\d]+)(.+)$/u", $ext_version, $matches))
+			{
+				$restore_composery = $string;
+				$fp = @fopen($composery, 'w');
+				if ($fp)
+				{
+					$string = preg_replace("/\"version\"\:[\s]*\"".preg_quote($ext_version, "/")."\"/u", "\"version\": \"".$matches[1]."\"", $string);
+					fwrite($fp, $string);
+					fclose($fp);
+				}
+			}
+		}
+
+		$download_name = str_replace('/', '_', $ext_name) . "_" . str_replace('.', '_', $ext_version);
+
+		$ext_tmp = objects::$phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int) objects::$user->data['user_id'];
+		// Ensure that we don't have any previous files in the working directory.
+		if (is_dir($ext_tmp))
+		{
+			if (!(files::catch_errors(files::rrmdir($ext_tmp))))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			files::recursive_mkdir($ext_tmp);
+		}
+		$download_path = $ext_tmp . '/' . $download_name;
+		files::save_zip_archive('ext/' . $ext_name . '/', $download_name, $ext_tmp);
+		filedownload::download_file($download_path, $download_name, 'application/zip');
+		files::rrmdir($ext_tmp); // No errors are printed here.
+		if ($ext_delete_prefix && $restore_composery)
+		{
+			$fp = @fopen($composery, 'w');
+			if ($fp)
+			{
+				fwrite($fp, $restore_composery);
+				fclose($fp);
+			}
 		}
 	}
 }

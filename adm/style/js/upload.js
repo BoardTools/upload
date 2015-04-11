@@ -503,20 +503,24 @@
 				$(".ext_details_tabs .activetab").toggleClass("activetab");
 				switch (current_tab.attr("id")) {
 					case 'ext_details_main_tab':
-						$(".ext_details_markdown, #filetree").css("display", "none");
+						$(".ext_details_markdown, #filetree, #ext_details_tools").css("display", "none");
 						$("#ext_details_content").css("display", "block");
 						break;
 					case 'ext_details_readme_tab':
-						$("#filetree, #ext_details_changelog, #ext_details_content").css("display", "none");
+						$("#filetree, #ext_details_changelog, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#ext_details_readme").css("display", "block");
 						break;
 					case 'ext_details_changelog_tab':
-						$("#filetree, #ext_details_readme, #ext_details_content").css("display", "none");
+						$("#filetree, #ext_details_readme, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#ext_details_changelog").css("display", "block");
 						break;
 					case 'ext_details_filetree_tab':
-						$(".ext_details_markdown, #ext_details_content").css("display", "none");
+						$(".ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#filetree").css("display", "block");
+						break;
+					case 'ext_details_tools_tab':
+						$(".ext_details_markdown, #filetree, #ext_details_content").css("display", "none");
+						$("#ext_details_tools").css("display", "block");
 						break;
 				}
 				current_tab.toggleClass("activetab");

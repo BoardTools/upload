@@ -171,8 +171,10 @@ class files
 			include(objects::$phpbb_root_path . 'includes/functions_compress.' . objects::$phpEx);
 		}
 
+		// Remove additional ext/ prefix.
+		$src_rm_prefix = (strpos($dest_file, 'ext/') === 0) ? substr($dest_file, 0, 4) : '';
 		$zip = new \compress_zip('w', $zip_dir . '/' . $dest_name . '.zip');
-		$zip->add_file($dest_file);
+		$zip->add_file($dest_file, $src_rm_prefix);
 		$zip->close();
 	}
 

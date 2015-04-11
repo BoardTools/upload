@@ -115,6 +115,12 @@ $lang = array_merge($lang, array(
 	'EXT_DETAILS_README'				=> 'Readme',
 	'EXT_DETAILS_CHANGELOG'				=> 'Changelog',
 	'EXT_DETAILS_FILETREE'				=> 'File tree',
+	'EXT_DETAILS_TOOLS'					=> 'Tools',
+
+	'EXT_TOOLS_DOWNLOAD_TITLE'			=> 'Download packaged extension',
+	'EXT_TOOLS_DOWNLOAD'				=> 'You can download a properly packaged ZIP file of the extension to your PC. You can also choose to delete the prefix of the development version (e.g. to shorten the time for preparing the extension for the CDB).',
+	'EXT_TOOLS_DOWNLOAD_DELETE_PREFIX'	=> 'Delete the development prefix if it does exist',
+	'EXT_DOWNLOAD_ERROR'				=> 'The attempt to download the extension “%s” failed.',
 
 	'EXT_LOAD_ERROR'					=> 'Loading errored',
 	'EXT_LOAD_TIMEOUT'					=> 'Loading timed out',

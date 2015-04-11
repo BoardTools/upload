@@ -213,9 +213,12 @@ class upload_module
 
 			case 'download':
 				$zip_name = $request->variable('zip_name', '');
+				$ext_name = $request->variable('ext_name', '');
 				if ($zip_name != '')
 				{
 					$download_name = substr($zip_name, 0, -4);
+					// Ensure that downloads can be done only from the $zip_dir directory.
+					$download_name = str_replace('../', '', $download_name);
 					$filename = objects::$zip_dir . '/' . $download_name;
 
 					$mimetype = 'application/zip';
@@ -223,6 +226,13 @@ class upload_module
 					if (!(filedownload::download_file($filename, $download_name, $mimetype)))
 					{
 						redirect($this->main_link);
+					}
+				}
+				else if ($ext_name != '')
+				{
+					if (!extensions::download_extension($ext_name))
+					{
+						files::catch_errors($user->lang('EXT_DOWNLOAD_ERROR', $ext_name));
 					}
 				}
 				else

@@ -253,6 +253,15 @@ class load
 						objects::$template->assign_var('SHOW_DETAILS_TAB', 'filetree');
 						break;
 					}
+				case 'tools':
+					objects::$template->assign_vars(array(
+						'EXT_DETAILS_TOOLS'	=> true,
+					));
+					if (!objects::$is_ajax)
+					{
+						objects::$template->assign_var('SHOW_DETAILS_TAB', 'tools');
+						break;
+					}
 				default:
 					objects::$template->assign_vars(array(
 						'SHOW_DETAILS_TAB'		=> 'details',

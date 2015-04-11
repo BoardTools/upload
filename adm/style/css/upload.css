@@ -1243,6 +1243,10 @@ fieldset {
     background-color: #fff;
 }
 
+#ext_details_tools {
+    display: none;
+}
+
 .big_bubble .description_name {
     /*width: 90px;*/
     width: auto;
