@@ -36,6 +36,7 @@
 			<!-- IF EXT_DETAILS_README --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'readme' --> activetab<!-- ENDIF -->" id="ext_details_readme_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=readme"><i class="fa fa-info"></i> <span>{L_EXT_DETAILS_README}</span></a></li><!-- ENDIF -->
 			<!-- IF EXT_DETAILS_CHANGELOG --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'changelog' --> activetab<!-- ENDIF -->" id="ext_details_changelog_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=changelog"><i class="fa fa-pencil"></i> <span>{L_EXT_DETAILS_CHANGELOG}</span></a></li><!-- ENDIF -->
 			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'filetree' --> activetab<!-- ENDIF -->" id="ext_details_filetree_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=filetree"><i class="fa fa-sitemap"></i> <span>{L_EXT_DETAILS_FILETREE}</span></a></li>
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'tools' --> activetab<!-- ENDIF -->" id="ext_details_tools_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=tools"><i class="fa fa-wrench"></i> <span>{L_EXT_DETAILS_TOOLS}</span></a></li>
 		</ul>
 	</div>
 	<div class="ext_details_block">
@@ -63,7 +64,21 @@
 			</div>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE) || IS_AJAX -->
+		<!-- IF EXT_DETAILS_TOOLS || IS_AJAX -->
+		<div id="ext_details_tools"
+			<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+			<fieldset class="description_fieldset description_update_form">
+				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
+				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
+					<span class="description_update_form_explain">{L_EXT_TOOLS_DOWNLOAD}</span>
+					<input type="checkbox" name="ext_delete_prefix" id="ext_delete_prefix" title="{L_EXT_TOOLS_DOWNLOAD_DELETE_PREFIX}" />
+					<label for="ext_delete_prefix">{L_EXT_TOOLS_DOWNLOAD_DELETE_PREFIX}</label>
+					<input class="button1" type="submit" name="submit" value="{L_DOWNLOAD}" />
+				</form>
+			</fieldset>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS) || IS_AJAX -->
 		<div id="ext_details_content">
 			<!-- IF META_DESCRIPTION -->
 			<fieldset class="description_fieldset">

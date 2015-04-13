@@ -16,6 +16,10 @@ You can get Upload Extensions from one of the following sources:
 
 The support from the authors is given only for the packages uploaded from the sources listed above.
 
+## Website
+Find the information about Upload Extensions and its features on the special website:
+http://boardtools.github.io/upload/
+
 ## Installation, update, uninstallation
 The information about the installation/update/uninstallation process can be found in FAQ and Wiki:
 * For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq.
@@ -35,6 +39,9 @@ Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -
 For permanent uninstallation click also `Delete data` and then you can safely remove the `ext/boardtools/upload` folder.
 
 ## Usage
+
+Information about usage of the new features (such as built-in Extensions Manager) will be added soon.
+
 ### Upload extensions
 To upload extensions navigate in the ACP to `Customise -> Extension Management -> Upload extensions`.
 Choose your extension zip file and click upload. The extension will unpack your file in the folder mentioned in composer.json. After that you can enable the uploaded extension in `Manage extensions` page (or simply click the link `Enable the uploaded extension`).

@@ -314,7 +314,7 @@ class extensions
 
 	/**
 	* The function that gets the manager for the specified extension.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return \phpbb\extension\metadata_manager|bool
 	*/
 	public static function get_manager($ext_name)
@@ -350,7 +350,7 @@ class extensions
 	/**
 	* Output the response.
 	* @param array $data The name of the extension and the status of the process.
-    *                    The text of the error can also be provided if the status is 'error'.
+	*                    The text of the error can also be provided if the status is 'error'.
 	*/
 	protected static function response(array $data)
 	{
@@ -371,7 +371,7 @@ class extensions
 
 	/**
 	* The function that enables the specified extension.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return bool
 	*/
 	public static function enable($ext_name)
@@ -470,7 +470,7 @@ class extensions
 
 	/**
 	* The function that disables the specified extension.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return bool
 	*/
 	public static function disable($ext_name)
@@ -530,7 +530,7 @@ class extensions
 
 	/**
 	* The function that purges data of the specified extension.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return bool
 	*/
 	public static function purge($ext_name)
@@ -604,7 +604,7 @@ class extensions
 
 	/**
 	* Checks availability of updates for the specified extension.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return null
 	*/
 	public static function ajax_versioncheck($ext_name)
@@ -647,7 +647,7 @@ class extensions
 
 	/**
 	* Creates a ZIP package of the extension and prepares it for downloading.
-    * @param string $ext_name The name of the extension.
+	* @param string $ext_name The name of the extension.
 	* @return null|bool
 	*/
 	public static function download_extension($ext_name)
@@ -674,6 +674,7 @@ class extensions
 		$ext_delete_prefix = objects::$request->variable('ext_delete_prefix', false);
 		if ($ext_delete_prefix)
 		{
+			$restore_composery = false;
 			if (isset($json_a['version']) && preg_match("/^([\d]+\.[\d]+\.[\d]+)(.+)$/u", $ext_version, $matches))
 			{
 				$restore_composery = $string;

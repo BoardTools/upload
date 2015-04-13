@@ -14,8 +14,8 @@ use \boardtools\upload\includes\objects;
 class updater
 {
 	/**
-	 * The function that gets extension metadata manager for Upload Extensions.
-	 */
+	* The function that gets extension metadata manager for Upload Extensions.
+	*/
 	public static function get_manager()
 	{
 		objects::$md_manager = new \phpbb\extension\metadata_manager(objects::$upload_ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$user, objects::$phpbb_root_path);

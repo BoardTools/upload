@@ -17,11 +17,11 @@ class files
 
 	/**
 	* The function that catches the errors of another functions.
-    * USAGE 1: files::catch_errors(my_function()); => If my_function returns true, continue.
-    *          Otherwise the result of my_function() is printed as an error string.
-    * USAGE 2: files::catch_errors($user->['MY_ERROR'], my_function()); => If my_function returns true, continue.
+	* USAGE 1: files::catch_errors(my_function()); => If my_function returns true, continue.
+	*          Otherwise the result of my_function() is printed as an error string.
+	* USAGE 2: files::catch_errors($user->['MY_ERROR'], my_function()); => If my_function returns true, continue.
 	*          If my_function returns false, print the string of MY_ERROR.
-    * USAGE 3: files::catch_errors($user->['MY_ERROR']); => Print the string of MY_ERROR.
+	* USAGE 3: files::catch_errors($user->['MY_ERROR']); => Print the string of MY_ERROR.
 	* @param bool|string	$error	The text to display in the case of an error. True if there were no errors.
 	* @param bool			$result	The result of the function what we need to catch errors of. True if there were no errors.
 	* @return bool			$result

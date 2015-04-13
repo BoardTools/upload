@@ -65,8 +65,8 @@ class load
 
 	/**
 	* The function that displays the details page.
-    * @param string $ext_name The name of the extension.
-    * @param string $ext_show The section that we need to display.
+	* @param string $ext_name The name of the extension.
+	* @param string $ext_show The section that we need to display.
 	*/
 	public static function details($ext_name, $ext_show)
 	{

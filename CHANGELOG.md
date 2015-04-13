@@ -14,6 +14,7 @@ This files contains the list of changes between different versions of Upload Ext
 * [FEATURE] Loading status in JavaScript.
 * [FEATURE] Navigation and menu bars.
 * [FEATURE] Downloads of properly packaged extensions.
+* [FEATURE] User-friendly status messages.
 
 ### Improvements
 
