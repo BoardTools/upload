@@ -140,6 +140,19 @@ p {
 	border-top-right-radius: 20px;
 }
 
+.row-founders {
+	margin: 30px -30px 0px -30px;
+	padding: 60px 0 60px 90px;
+	background-color: #fcfed9;
+	color: #a75615;
+	/*color: #895214;*/
+}
+
+.row-experience {
+	margin: 30px -30px 0px -30px;
+	padding: 30px 0 30px 90px;
+}
+
 #upload_table_wrapper {
 	width: 100%;
 	padding: 0 0px;
@@ -293,7 +306,7 @@ p {
 <div class="container" id="container">
 	<div class="row row-info">
 		<h1><i class="fa fa-search fa-fw"></i>Explore the possibilities</h1>
-		<p>Upload Extensions is a tool for your <strong>phpBB 3.1</strong> board that makes it possible to download other extensions without using FTP. In addition it lets you manage uploaded extensions and ZIP packages and view the detailed information when you need it.</p>
+		<p>Upload Extensions is a tool for your <strong>phpBB 3.1</strong> board that makes it possible to upload other extensions without using FTP. In addition it lets you manage uploaded extensions and ZIP packages and view the detailed information when you need it.</p>
 	</div>
 	<div class="row" id="sources">
 		<div class="col-md-7">
@@ -515,6 +528,23 @@ p {
 			</tr>
 			<tr>
 				<td class='upload_table_feature'>
+					<span>Ability to handle broken extensions (disable/uninstall)</span>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
 					<span>Ability to remove the directory of a single extension/MOD from the server</span>
 				</td>
 				<td class='upload_table_software upload_table_no'>
@@ -550,6 +580,87 @@ p {
 			<tr>
 				<td colspan=5 class='upload_table_notes'>
 					<div>* At first you need to uninstall a MOD and then you can install its new version.</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=5 class='upload_table_section'>
+					<span>Information and tools for extensions/MODs</span>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
+					<span>Standard detailed information *</span>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes upload_table_note'>
+					<div>
+						<i class='fa fa-check'></i><span class='upload_table_note'>**</span>
+					</div>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
+					<span>Contents of Readme and Changelog files</span>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
+					<span>File tree of the extension/MOD</span>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
+					<span>Ability to package the extensions/MODs properly and download those packages to a local PC</span>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td colspan=5 class='upload_table_notes'>
+					<div>* Such kind of information includes the version number of the extension/MOD, names of its developers, compatibility with current PHP and phpBB versions etc.</div>
+					<div>** Only basic information (names of developers) is shown, other kinds of information can be found in composer.json file displayed in file tree.</div>
 				</td>
 			</tr>
 			<tr>
@@ -754,7 +865,7 @@ p {
 			</tr>
 			<tr>
 				<td class='upload_table_feature'>
-					<span>Details about extensions/MODs</span>
+					<span>Standard status messages *</span>
 				</td>
 				<td class='upload_table_software upload_table_yes'>
 					<i class='fa fa-check'></i>
@@ -762,28 +873,49 @@ p {
 				<td class='upload_table_software upload_table_yes'>
 					<i class='fa fa-check'></i>
 				</td>
-				<td class='upload_table_software upload_table_yes upload_table_note'>
-					<div>
-						<i class='fa fa-check'></i><span class='upload_table_note'>*</span>
-					</div>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
 				</td>
-				<td class='upload_table_software upload_table_yes upload_table_note'>
-					<div>
-						<i class='fa fa-check'></i><span class='upload_table_note'>**</span>
-					</div>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
+				</td>
+			</tr>
+			<tr>
+				<td class='upload_table_feature'>
+					<span>User-friendly status messages **</span>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_no'>
+					<i class='fa fa-times'></i>
+				</td>
+				<td class='upload_table_software upload_table_yes'>
+					<i class='fa fa-check'></i>
 				</td>
 			</tr>
 			<tr>
 				<td colspan=5 class='upload_table_notes'>
-					<div>* Only the contents of Readme files and file tree.</div>
-					<div>** Readme and Changelog files can be displayed as well as file tree and styled details information.</div>
+					<div>* Information boxes after successfully done actions or in case of errors.</div>
+					<div>** Styled built-in self-closing boxes and colourful tooltips.</div>
 				</td>
 			</tr>
 		</table>
 	</div>
+	<div class="row row-founders">
+		<h1><i class="fa fa-users fa-fw"></i>Know the founders</h1>
+		<p>The first version of Upload Extensions was created in 2014 by <strong>Igor Lavrov</strong> and <strong>John Peskens</strong>.</p>
+	</div>
+	<div class="row row-experience">
+		<h1><i class="fa fa-thumbs-up fa-fw"></i>Have the best experience!</h1>
+		<p>We hope that you will like your experience in istalling extensions with Upload Extensions.<br />Each installation process is really easy, quick and informative!</p>
+	</div>
 	<div class="copyright">
 		<div class="container">
-			<span>© 2014 - 2015 John Peskens and Igor Lavrov</span>
+			<span>© 2015 Igor Lavrov - website developer and extension maintainer</span>
 		</div>
 	</div>
 </div>
