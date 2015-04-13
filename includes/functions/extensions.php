@@ -671,8 +671,8 @@ class extensions
 		}
 		$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
 
-		$ext_delete_prefix = objects::$request->variable('ext_delete_prefix', false);
-		if ($ext_delete_prefix)
+		$ext_delete_suffix = objects::$request->variable('ext_delete_suffix', false);
+		if ($ext_delete_suffix)
 		{
 			$restore_composery = false;
 			if (isset($json_a['version']) && preg_match("/^([\d]+\.[\d]+\.[\d]+)(.+)$/u", $ext_version, $matches))
@@ -684,6 +684,7 @@ class extensions
 					$string = preg_replace("/\"version\"\:[\s]*\"".preg_quote($ext_version, "/")."\"/u", "\"version\": \"".$matches[1]."\"", $string);
 					fwrite($fp, $string);
 					fclose($fp);
+					$ext_version = $matches[1];
 				}
 			}
 		}
@@ -707,7 +708,7 @@ class extensions
 		files::save_zip_archive('ext/' . $ext_name . '/', $download_name, $ext_tmp);
 		filedownload::download_file($download_path, $download_name, 'application/zip');
 		files::rrmdir($ext_tmp); // No errors are printed here.
-		if ($ext_delete_prefix && $restore_composery)
+		if ($ext_delete_suffix && $restore_composery)
 		{
 			$fp = @fopen($composery, 'w');
 			if ($fp)

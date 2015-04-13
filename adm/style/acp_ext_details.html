@@ -55,8 +55,7 @@
 		</script>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_FILETREE || IS_AJAX -->
-		<div id="filetree"
-			<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="filetree"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
 			<div id="filetreenames">{FILETREE}</div>
 			<div id="filecontent_wrapper">
 				<div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
@@ -65,14 +64,13 @@
 		</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_TOOLS || IS_AJAX -->
-		<div id="ext_details_tools"
-			<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="ext_details_tools"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
 			<fieldset class="description_fieldset description_update_form">
 				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
 				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
 					<span class="description_update_form_explain">{L_EXT_TOOLS_DOWNLOAD}</span>
-					<input type="checkbox" name="ext_delete_prefix" id="ext_delete_prefix" title="{L_EXT_TOOLS_DOWNLOAD_DELETE_PREFIX}" />
-					<label for="ext_delete_prefix">{L_EXT_TOOLS_DOWNLOAD_DELETE_PREFIX}</label>
+					<input type="checkbox" name="ext_delete_suffix" id="ext_delete_suffix" title="{L_EXT_TOOLS_DOWNLOAD_DELETE_SUFFIX}" />
+					<label for="ext_delete_suffix">{L_EXT_TOOLS_DOWNLOAD_DELETE_SUFFIX}</label>
 					<input class="button1" type="submit" name="submit" value="{L_DOWNLOAD}" />
 				</form>
 			</fieldset>
