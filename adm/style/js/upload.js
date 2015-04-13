@@ -362,7 +362,7 @@
 	function load_details_page() {
 		setFileTree();
 		add_enable_toggle();
-		$(".ext_version_bubble i").css("display", "inline-block").qtip({
+		$(".ext_version_bubble .show_ext_updates").css("display", "inline-block").qtip({
 			content: {
 				text: $("#description_updates")
 			},
