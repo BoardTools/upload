@@ -196,6 +196,7 @@
 				element.qtip('api').destroy();
 			});
 		} else {
+			element.qtip('api').destroy();
 			get_enable_result({
 				ext_name: element.parent().attr("data-ext-name"),
 				status: 'load_error',
@@ -285,6 +286,32 @@
 				},
 				style: {
 					classes: 'qtip-blue qtip-shadow qtip-rounded'
+				},
+				position: {
+					my: 'bottom center',
+					at: 'top center',
+					viewport: true
+				},
+				show: {
+					ready: true
+				},
+				hide: {
+					event: 'unfocus'
+				},
+				events: {
+					hidden: function (event, api) {
+						api.destroy(true);
+					}
+				}
+			});
+			$("#ext_details_filetree_tab").qtip({
+				content: {
+					text: function (event, api) {
+						return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
+					}
+				},
+				style: {
+					classes: 'qtip-yellow qtip-shadow qtip-rounded'
 				},
 				position: {
 					my: 'bottom center',
@@ -396,7 +423,7 @@
 			}
 		});
 		$(".extension_update_link").bind("click", function () {
-			$(".ext_version_bubble i").qtip().hide();
+			$(".ext_version_bubble .show_ext_updates").qtip().hide();
 		}).qtip({
 			content: {
 				text: $("#update_ext_confirm"),

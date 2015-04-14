@@ -26,9 +26,18 @@ $lang = array_merge($lang, array(
 	'EXTENSION_UPLOAD'					=> 'Upload an extension',
 	'EXTENSION_UPLOAD_EXPLAIN'			=> 'Here you can upload a zipped extension package containing the necessary files to perform installation from your local computer or a remote server. “Upload Extensions” will then attempt to unzip the file and have it ready for installation.<br />Choose a file or type a link in the fields below.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'There was an error when initialising the extension upload process.',
-	'EXT_NOT_WRITABLE'					=> 'The ext/ directory is not writable. This is required for “Upload extension” to work properly. Please adjust your permissions or settings and try again.',
-	'EXT_UPLOAD_ERROR'					=> 'The extension wasn’t uploaded. Please confirm that you upload the true extension zip file and try again.',
-	'NO_UPLOAD_FILE'					=> 'No file specified or there was an error during the upload process.',
+	'EXT_NOT_WRITABLE'					=> array(
+		'error'		=> 'The ext/ directory is not writable. This is required for “Upload Extensions” to work properly.',
+		'solution'	=> 'Please adjust your permissions or settings and try again.',
+	),
+	'EXT_UPLOAD_ERROR'					=> array(
+		'error'		=> 'The extension wasn’t uploaded.',
+		'solution'	=> 'Please confirm that you upload the true extension zip file and try again.',
+	),
+	'NO_UPLOAD_FILE'					=> array(
+		'error'		=> 'No file specified or there was an error during the upload process.',
+		'solution'	=> 'Please confirm that you upload the true extension zip file and try again.',
+	),
 	'NOT_AN_EXTENSION'					=> 'The uploaded zip file is not a phpBB extension. The file was not saved on the server.',
 	'EXT_ACTION_ERROR'					=> 'The requested action cannot be performed for the selected phpBB extension.<br />Note: “Upload Extensions” can be managed only through the standard Extensions Manager.',
 
@@ -53,7 +62,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_DELETE'					=> 'Delete extension',
 	'EXTENSION_DELETE_CONFIRM'			=> 'Are you sure that you want to delete the “%s” extension?',
-	'EXTENSIONS_DELETE_CONFIRM'		=> array(
+	'EXTENSIONS_DELETE_CONFIRM'			=> array(
 		2	=> 'Are you sure that you want to delete <strong>%1$s</strong> extensions?',
 	),
 	'EXT_DELETE_SUCCESS'				=> 'Extension was deleted successfully.',
@@ -89,6 +98,7 @@ $lang = array_merge($lang, array(
 	'EXT_PURGED'						=> 'The extension’s data was purged successfully.',
 	'EXT_UPLOADED'						=> 'The upload was successful.',
 	'EXT_UPDATE_ENABLE'					=> 'Click on the toggle to enable the extension.',
+	'EXT_UPDATE_CHECK_FILETREE'			=> 'Please verify the file tree of the extension.',
 	'EXT_UPDATE_ERROR'					=> 'The update process errored.',
 	'EXT_UPDATE_TIMEOUT'				=> 'The update process timed out.',
 	'EXT_UPDATED'						=> 'The update was successful.',
@@ -107,6 +117,7 @@ $lang = array_merge($lang, array(
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
 	'EXT_VERSION_LETTER'				=> 'v',
+	'POSSIBLE_SOLUTIONS'				=> 'Possible solutions',
 
 	'ACP_UPLOAD_EXT_MANAGER_EXPLAIN'	=> 'The Extensions Manager of Upload Extensions is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them.',
 	'ACP_UPLOAD_ZIP_TITLE'				=> 'ZIP files management',

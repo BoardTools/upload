@@ -298,8 +298,7 @@ class load
 	*/
 	public static function ajax_confirm_box($check, $title = '', $hidden = '', $u_action = '')
 	{
-		global $user, $template, $db, $request;
-		global $config, $phpbb_path_helper;
+		global $user, $db, $request;
 
 		if (!$request->is_ajax())
 		{
@@ -347,10 +346,9 @@ class load
 			return false;
 		}
 
-		// re-add sid / transform & to &amp; for user->page (user->page is always using &)
-		$use_page = ($u_action) ? $u_action : str_replace('&', '&amp;', $user->page['page']);
-		$u_action = reapply_sid($phpbb_path_helper->get_valid_page($use_page, $config['enable_mod_rewrite']));
-		$u_action .= ((strpos($u_action, '?') === false) ? '?' : '&amp;') . 'confirm_key=' . $confirm_key;
+		$use_page = ($u_action) ? $u_action : objects::$phpbb_root_path . str_replace('&', '&amp;', $user->page['page']);
+		$u_action = reapply_sid($use_page);
+		$u_action .= ((strpos($u_action, '?') === false) ? '?' : '&') . 'confirm_key=' . $confirm_key;
 
 		$sql = 'UPDATE ' . USERS_TABLE . " SET user_last_confirm_key = '" . $db->sql_escape($confirm_key) . "'
 				WHERE user_id = " . $user->data['user_id'];
@@ -364,7 +362,7 @@ class load
 
 			'YES_VALUE'			=> $user->lang['YES'],
 			'NO_VALUE'			=> $user->lang['NO'],
-			'S_CONFIRM_ACTION'	=> str_replace('&amp;', '&', $u_action), //inefficient, rewrite whole function
+			'S_CONFIRM_ACTION'	=> str_replace('&amp;', '&', $u_action),
 			'S_HIDDEN_FIELDS'	=> $hidden . $s_hidden_fields
 		));
 	}

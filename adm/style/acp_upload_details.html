@@ -5,7 +5,7 @@
 <div id="extension_details_name_wrapper">
 	<h1 class="ExtensionName<!-- IF NOT_AVAILABLE --> ext_not_available<!-- ENDIF -->">
 		<i class="fa fa-cog"></i> {$EXTENSION_NAME}
-		<span data-ext-name="{META_NAME}" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}" data-ext-update-enable="{L_EXT_UPDATE_ENABLE}">
+		<span data-ext-name="{META_NAME}" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}" data-ext-update-enable="{L_EXT_UPDATE_ENABLE}" data-ext-update-check-filetree="{L_EXT_UPDATE_CHECK_FILETREE}">
 			<a href="{U_ACTION}&amp;action=<!-- IF S_IS_ENABLED -->disable<!-- ELSE -->enable<!-- ENDIF -->&amp;ext_name={META_NAME}" class="extension_toggle_wrapper <!-- IF S_IS_ENABLED -->extension_toggle_enabled<!-- ELSE -->extension_toggle_disabled<!-- ENDIF --><!-- IF not S_IS_ENABLED and not S_IS_DISABLED --> extension_toggle_purged<!-- ENDIF -->" title="{L_EXT_ENABLE_DISABLE}"><span class="extension_toggle"><i class="fa fa-power-off"></i></span></a>
 			<a href="{U_ACTION}&amp;action=purge&amp;ext_name={META_NAME}" class="extension_remove_data_button" title="{L_EXT_PURGE}"><i class="fa fa-trash"></i></a>
 		</span>

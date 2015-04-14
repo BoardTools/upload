@@ -14,6 +14,7 @@ use \boardtools\upload\includes\objects;
 class files
 {
 	public static $catched_errors;
+	public static $catched_solutions;
 
 	/**
 	* The function that catches the errors of another functions.
@@ -34,6 +35,13 @@ class files
 		}
 		if (!$result)
 		{
+			// Catch solutions.
+			if (is_array($error) && isset($error['solution']))
+			{
+				self::$catched_solutions = (isset(self::$catched_solutions)) ? self::$catched_solutions . "<br />" . $error['solution'] : $error['solution'];
+				objects::$template->assign_var('UPLOAD_ERROR_SOLUTIONS', self::$catched_solutions);
+				$error = $error['error'];
+			}
 			self::$catched_errors = $error = (isset(self::$catched_errors)) ? self::$catched_errors . "<br />" . $error : $error;
 			objects::$template->assign_var('UPLOAD_ERROR', $error);
 		}

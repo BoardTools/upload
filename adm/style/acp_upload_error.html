@@ -1,4 +1,13 @@
 <a href="{S_ACTION_BACK}" class="back_to_upload" id="upload_load_main">{L_EXT_UPLOAD_BACK}</a>
 <!-- IF UPLOAD_ERROR -->
-<div class="errorbox">{UPLOAD_ERROR}</div>
+<div class="ext_error_notice">
+	<h1><i class="fa fa-warning fa-fw"></i> {L_ERROR}</h1>
+	<span>{UPLOAD_ERROR}</span>
+</div>
+<!-- ENDIF -->
+<!-- IF UPLOAD_ERROR_SOLUTIONS -->
+<div class="ext_solution_notice">
+	<h1><i class="fa fa-lightbulb-o fa-fw"></i> {L_POSSIBLE_SOLUTIONS}</h1>
+	<span>{UPLOAD_ERROR_SOLUTIONS}</span>
+</div>
 <!-- ENDIF -->
