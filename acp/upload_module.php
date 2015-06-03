@@ -32,7 +32,6 @@ class upload_module
 		$this->tpl_name = 'acp_upload';
 		$user->add_lang(array('install', 'acp/extensions', 'migrator'));
 		$user->add_lang_ext('boardtools/upload', 'upload');
-		// TODO: handle Re-Check version (including details page).
 
 		// Instead of using new pages we do it here.
 		$file = $request->variable('file', '');

@@ -20,7 +20,9 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_TITLE'				=> 'Upload Extensions',
 	'ACP_UPLOAD_EXT_CONFIG_TITLE'		=> 'Upload extensions',
+	'ACP_UPLOAD_EXT_DESCRIPTION'		=> 'Install/update/delete extensions, manage their ZIP files and more without using FTP.',
 	'ACP_UPLOAD_EXT_TITLE_EXPLAIN'		=> 'Upload Extensions enables you to upload extensions’ zip files or delete extensions’ folders from the server.<br />With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.',
+	'ACP_UPLOAD_EXT_HELP'				=> 'Upload Extensions: Usage guide',
 	'UPLOAD'							=> 'Upload',
 	'BROWSE'							=> 'Browse...',
 	'EXTENSION_UPLOAD'					=> 'Upload an extension',
@@ -136,6 +138,7 @@ $lang = array_merge($lang, array(
 	'EXT_LOAD_ERROR'					=> 'Loading errored',
 	'EXT_LOAD_TIMEOUT'					=> 'Loading timed out',
 	'EXT_LOAD_ERROR_EXPLAIN'			=> 'An error occurred during the loading process.',
+	'EXT_LOAD_SOLUTIONS'				=> 'Please check out the error log files on your server, eliminate the problem and try again.',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'Upload phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPLOAD_CDB'		=> 'CDB on phpbb.com',

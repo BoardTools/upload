@@ -35,6 +35,7 @@
 			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'details' --> activetab<!-- ENDIF -->" id="ext_details_main_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=details"><i class="fa fa-book"></i> <span>{L_EXT_DETAILS}</span></a></li>
 			<!-- IF EXT_DETAILS_README --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'readme' --> activetab<!-- ENDIF -->" id="ext_details_readme_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=readme"><i class="fa fa-info"></i> <span>{L_EXT_DETAILS_README}</span></a></li><!-- ENDIF -->
 			<!-- IF EXT_DETAILS_CHANGELOG --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'changelog' --> activetab<!-- ENDIF -->" id="ext_details_changelog_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=changelog"><i class="fa fa-pencil"></i> <span>{L_EXT_DETAILS_CHANGELOG}</span></a></li><!-- ENDIF -->
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'faq' --> activetab<!-- ENDIF -->" id="ext_details_faq_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=faq"><i class="fa fa-question-circle"></i> <span>{L_FAQ}</span></a></li>
 			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'filetree' --> activetab<!-- ENDIF -->" id="ext_details_filetree_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=filetree"><i class="fa fa-sitemap"></i> <span>{L_EXT_DETAILS_FILETREE}</span></a></li>
 			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'tools' --> activetab<!-- ENDIF -->" id="ext_details_tools_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=tools"><i class="fa fa-wrench"></i> <span>{L_EXT_DETAILS_TOOLS}</span></a></li>
 		</ul>
@@ -54,6 +55,22 @@
 			// ]]>
 		</script>
 		<!-- ENDIF -->
+        <!-- IF SHOW_DETAILS_TAB == 'faq' || IS_AJAX -->
+        <div id="ext_details_faq" data-ext-show-faq="{S_EXT_DETAILS_SHOW_FAQ}"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+            <!-- BEGIN upload_ext_faq_block -->
+            <div id="upload_ext_faq_item_{upload_ext_faq_block.SECTION_NUMBER}">
+                <span class="upload_ext_faq_title">{upload_ext_faq_block.BLOCK_TITLE}</span>
+                <!-- BEGIN faq_row -->
+                <div class="upload_ext_faq">
+                    <span class="upload_ext_faq_question">{upload_ext_faq_block.faq_row.FAQ_QUESTION}</span>
+                    <div class="upload_ext_faq_answer">{upload_ext_faq_block.faq_row.FAQ_ANSWER}</div>
+                </div>
+                <!-- END faq_row -->
+            </div>
+            <!-- IF not upload_ext_faq_block.S_LAST_ROW --><hr class="dashed" /><!-- ENDIF -->
+            <!-- END upload_ext_faq_block -->
+        </div>
+        <!-- ENDIF -->
 		<!-- IF EXT_DETAILS_FILETREE || IS_AJAX -->
 		<div id="filetree"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
 			<div id="filetreenames">{FILETREE}</div>
@@ -76,12 +93,12 @@
 			</fieldset>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS) || IS_AJAX -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS and not (SHOW_DETAILS_TAB == 'faq')) || IS_AJAX -->
 		<div id="ext_details_content">
 			<!-- IF META_DESCRIPTION -->
 			<fieldset class="description_fieldset">
 				<span id="meta_description" class="description_title">{L_DESCRIPTION}</span>
-				<fieldset style="width: 48%;">
+				<fieldset class="ext_description_column1">
 					<div>
 						<h1 style="color: #706e25; background-color: #fdfcd3;"><i class="fa fa-upload"></i> {L_UPLOAD_DESCRIPTION_UPLOAD}</h1>
 						<p class="description_list">
@@ -91,14 +108,14 @@
 						</p>
 					</div>
 				</fieldset>
-				<fieldset style="float: right; width: 48%;">
+				<fieldset class="ext_description_column2">
 					<div>
 						<h1 style="color: #1e5c18; background-color: #d7fdd3;"><i class="fa fa-refresh"></i> {L_UPLOAD_DESCRIPTION_UPDATE}</h1>
 						<p>{L_UPLOAD_DESCRIPTION_UPDATE_ABOUT}</p>
 					</div>
 				</fieldset>
 				<br style="clear: both;" />
-				<fieldset style="width: 48%;">
+				<fieldset class="ext_description_column1">
 					<div>
 						<h1 style="color: #103f53; background-color: #e0f5fe;"><i class="fa fa-archive"></i> {L_UPLOAD_DESCRIPTION_ZIP}</h1>
 						<p class="description_list">
@@ -107,7 +124,7 @@
 						</p>
 					</div>
 				</fieldset>
-				<fieldset style="float: right; width: 48%;">
+				<fieldset class="ext_description_column2">
 					<div>
 						<h1 style="color: #5e1043; background-color: #fcdff2;"><i class="fa fa-paint-brush"></i> {L_UPLOAD_DESCRIPTION_CLEANER}</h1>
 						<p>{L_UPLOAD_DESCRIPTION_CLEANER_ABOUT}</p>

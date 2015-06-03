@@ -14,7 +14,7 @@ namespace boardtools\upload\includes;
 */
 class objects
 {
-	/** @var \phpbb\cache\driver */
+	/** @var \phpbb\cache\service */
 	public static $cache;
 
 	/** @var \phpbb\config\config */

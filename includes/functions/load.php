@@ -139,6 +139,41 @@ class load
 			//    ));
 			//}
 
+			if (objects::$is_ajax || $ext_show == 'faq')
+			{
+				objects::$user->add_lang_ext('boardtools/upload', 'upload', false, true);
+				$faq_sections = 0;
+				foreach (objects::$user->help as $help_ary)
+				{
+					if ($help_ary[0] == '--')
+					{
+						$faq_sections++;
+						objects::$template->assign_block_vars('upload_ext_faq_block', array(
+							'BLOCK_TITLE'		=> $help_ary[1],
+							'SECTION_NUMBER'	=> $faq_sections,
+						));
+						continue;
+					}
+					objects::$template->assign_block_vars('upload_ext_faq_block.faq_row', array(
+							'FAQ_QUESTION'		=> $help_ary[0],
+							'FAQ_ANSWER'		=> $help_ary[1])
+					);
+				}
+				if (!objects::$is_ajax)
+				{
+					objects::$template->assign_vars(array(
+						'SHOW_DETAILS_TAB'		=> 'faq',
+					));
+				}
+				else
+				{
+					if ($ext_show == 'faq')
+					{
+						objects::$template->assign_var('S_EXT_DETAILS_SHOW_FAQ', "true"); // "true" is the specially handled text
+					}
+				}
+			}
+
 			if (!objects::$is_ajax)
 			{
 				objects::$template->assign_var('S_UPLOAD_DETAILS', true);
@@ -193,6 +228,7 @@ class load
 
 			switch ($ext_show)
 			{
+				case 'faq':
 				case 'update':
 					break;
 				case 'readme':

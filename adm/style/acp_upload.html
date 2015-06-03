@@ -1,43 +1,43 @@
 <!-- IF S_ALLOW_CDN -->
 <!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css -->
 <!-- ELSE -->
-<!-- INCLUDECSS ./../../ext/boardtools/upload/vendor/fortawesome/font-awesome/css/font-awesome.min.css -->
+<!-- INCLUDECSS {ROOT_PATH}ext/boardtools/upload/vendor/fortawesome/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
 <!-- INCLUDECSS css/jquery.qtip.min.css -->
 <!-- INCLUDECSS css/upload.css -->
-
+<!-- IF S_CONTENT_DIRECTION == 'rtl' --><!-- INCLUDECSS css/upload.rtl.css --><!-- ENDIF -->
 <!-- INCLUDE overall_header.html -->
 
-<a name="maincontent"></a>
-
-<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="upload_details_link"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF and not S_UPLOAD_EXT_SELF --><a href="{U_ACTION}&amp;action=details" class="upload_details_link" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1>
-
-<p>{L_ACP_UPLOAD_EXT_TITLE_EXPLAIN}</p>
-
-<div id="upload_loading"><span id="upload_loading_text">{L_LOADING}</span><span id="upload_loading_status"></span></div>
-<div id="upload_loading_error_wrapper" title="{L_EXT_LOAD_ERROR_EXPLAIN}"><span id="upload_loading_error">{L_EXT_LOAD_ERROR}</span><span id="upload_loading_timeout">{L_EXT_LOAD_TIMEOUT}</span></div>
-<div id="upload_main_wrapper">
-	<div id="upload_main" data-page-action="{U_ACTION}">
-		<!-- IF S_NEXT_STEP -->
-		<div class="successbox notice">
-			<p>{S_NEXT_STEP}</p>
+<div id="upload_ext_wrapper">
+	<a name="maincontent"></a>
+	{# <h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="upload_details_link"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF and not S_UPLOAD_EXT_SELF --><a href="{U_ACTION}&amp;action=details" class="upload_details_link" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1> #}
+	<div id="upload_extensions_title_block"><a href="{U_ACTION}" id="upload_extensions_title"><i class="fa fa-upload"></i> {L_ACP_UPLOAD_EXT_TITLE}</a><div id="upload_extensions_title_links"><a href="{U_ACTION}&amp;action=details" class="upload_details_link"><i class="fa fa-info-circle"></i></a><a href="{U_ACTION}&amp;action=details&amp;ext_show=faq" class="upload_faq_link"><i class="fa fa-question-circle"></i></a><span id="upload_extensions_links_show_slider"><i class="fa fa-ellipsis-v"></i></span></div></div>
+	<p>{L_ACP_UPLOAD_EXT_DESCRIPTION}</p>
+	<div id="upload_loading"><span id="upload_loading_text">{L_LOADING}</span><span id="upload_loading_status"></span></div>
+	<div id="upload_loading_error_wrapper" title="{L_EXT_LOAD_ERROR_EXPLAIN}"><span id="upload_loading_error">{L_EXT_LOAD_ERROR}</span><span id="upload_loading_timeout">{L_EXT_LOAD_TIMEOUT}</span><span id="upload_loading_error_status" data-load-error-solutions-title="{L_POSSIBLE_SOLUTIONS}" data-load-error-solutions="{L_EXT_LOAD_SOLUTIONS}"></span></div>
+	<div id="upload_main_wrapper">
+		<div id="upload_main" data-page-action="{U_ACTION}">
+			<!-- IF S_NEXT_STEP -->
+			<div class="successbox notice">
+				<p>{S_NEXT_STEP}</p>
+			</div>
+			<!-- ELSEIF S_EXT_LIST -->
+			<!-- INCLUDE acp_upload_list.html -->
+			<!-- ELSEIF S_ZIP_PACKAGES -->
+			<!-- INCLUDE acp_upload_zip_packages.html -->
+			<!-- ELSEIF S_UNINSTALLED -->
+			<!-- INCLUDE acp_upload_uninstalled.html -->
+			<!-- ELSEIF S_DETAILS -->
+			<!-- INCLUDE acp_upload_details.html -->
+			<!-- ELSEIF S_UPLOAD_DETAILS -->
+			<!-- INCLUDE acp_ext_details.html -->
+			<!-- ELSEIF S_EXT_ERROR -->
+			<!-- INCLUDE acp_upload_error.html -->
+			<!-- ELSE -->
+			<!-- INCLUDE acp_upload_main.html -->
+			<!-- ENDIF -->
+			<br style="clear:both" />
 		</div>
-		<!-- ELSEIF S_EXT_LIST -->
-		<!-- INCLUDE acp_upload_list.html -->
-		<!-- ELSEIF S_ZIP_PACKAGES -->
-		<!-- INCLUDE acp_upload_zip_packages.html -->
-		<!-- ELSEIF S_UNINSTALLED -->
-		<!-- INCLUDE acp_upload_uninstalled.html -->
-		<!-- ELSEIF S_DETAILS -->
-		<!-- INCLUDE acp_upload_details.html -->
-		<!-- ELSEIF S_UPLOAD_DETAILS -->
-		<!-- INCLUDE acp_ext_details.html -->
-		<!-- ELSEIF S_EXT_ERROR -->
-		<!-- INCLUDE acp_upload_error.html -->
-		<!-- ELSE -->
-		<!-- INCLUDE acp_upload_main.html -->
-		<!-- ENDIF -->
-		<br style="clear:both" />
 	</div>
 </div>
 

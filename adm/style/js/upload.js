@@ -6,7 +6,18 @@
 		load_page("details", "boardtools/upload");
 	});
 
+	$(".upload_faq_link").click(function (event) {
+		event.preventDefault();
+		load_page("details", "boardtools/upload&ext_show=faq");
+	});
+
 	var loading_errors = false;
+
+	// Detect the direction.
+	// The RTL look is based upon swapping LTR style.
+	var direction_rtl = $("body").hasClass("rtl"),
+		direction_left = (direction_rtl) ? 'right' : 'left',
+		direction_right = (direction_rtl) ? 'left' : 'right';
 
 	/**
 	 * The function that removes the marked rows of the form that triggered the callback.
@@ -57,8 +68,8 @@
 					classes: 'qtip-green qtip-shadow qtip-rounded'
 				},
 				position: {
-					my: 'left center',
-					at: 'right center',
+					my: direction_left + ' center',
+					at: direction_right + ' center',
 					viewport: true
 				},
 				show: {
@@ -96,8 +107,8 @@
 					classes: 'qtip-red qtip-shadow qtip-rounded'
 				},
 				position: {
-					my: 'left center',
-					at: 'right center',
+					my: direction_left + ' center',
+					at: direction_right + ' center',
 					viewport: true
 				},
 				show: {
@@ -254,8 +265,8 @@
 					classes: 'qtip-light qtip-shadow qtip-rounded'
 				},
 				position: {
-					my: 'left center',
-					at: 'right center',
+					my: direction_left + ' center',
+					at: direction_right + ' center',
 					viewport: true
 				},
 				show: {
@@ -314,8 +325,8 @@
 					classes: 'qtip-yellow qtip-shadow qtip-rounded'
 				},
 				position: {
-					my: 'bottom center',
-					at: 'top center',
+					my: 'top center',
+					at: 'bottom center',
 					viewport: true
 				},
 				show: {
@@ -404,9 +415,9 @@
 			},
 			position: {
 				at: 'bottom center',
-				my: 'top right',
+				my: 'top ' + direction_right,
 				adjust: {
-					x: 15
+					x: (direction_rtl) ? -15 : 15
 				}
 			},
 			show: {
@@ -433,8 +444,8 @@
 				classes: 'qtip-light qtip-shadow qtip-rounded'
 			},
 			position: {
-				my: 'right center',
-				at: 'left center',
+				my: direction_right + ' center',
+				at: direction_left + ' center',
 				target: $(".ext_version_bubble")
 			},
 			show: {
@@ -530,23 +541,27 @@
 				$(".ext_details_tabs .activetab").toggleClass("activetab");
 				switch (current_tab.attr("id")) {
 					case 'ext_details_main_tab':
-						$(".ext_details_markdown, #filetree, #ext_details_tools").css("display", "none");
+						$(".ext_details_markdown, #ext_details_faq, #filetree, #ext_details_tools").css("display", "none");
 						$("#ext_details_content").css("display", "block");
 						break;
 					case 'ext_details_readme_tab':
-						$("#filetree, #ext_details_changelog, #ext_details_content, #ext_details_tools").css("display", "none");
+						$("#filetree, .ext_details_markdown, #ext_details_faq, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#ext_details_readme").css("display", "block");
 						break;
 					case 'ext_details_changelog_tab':
-						$("#filetree, #ext_details_readme, #ext_details_content, #ext_details_tools").css("display", "none");
+						$("#filetree, .ext_details_markdown, #ext_details_faq, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#ext_details_changelog").css("display", "block");
 						break;
+					case 'ext_details_faq_tab':
+						$("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
+						$("#ext_details_faq").css("display", "block");
+						break;
 					case 'ext_details_filetree_tab':
-						$(".ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
+						$(".ext_details_markdown, #ext_details_faq, #ext_details_content, #ext_details_tools").css("display", "none");
 						$("#filetree").css("display", "block");
 						break;
 					case 'ext_details_tools_tab':
-						$(".ext_details_markdown, #filetree, #ext_details_content").css("display", "none");
+						$(".ext_details_markdown, #ext_details_faq, #filetree, #ext_details_content").css("display", "none");
 						$("#ext_details_tools").css("display", "block");
 						break;
 				}
@@ -575,6 +590,30 @@
 				});
 			});
 		});
+		if ($("#ext_details_faq").length) {
+            // Detect the request to load the FAQ tab.
+            if ($("#ext_details_faq").attr("data-ext-show-faq") === "true") {
+                $(".ext_details_tabs .activetab, #ext_details_faq_tab").toggleClass("activetab");
+                $("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
+                $("#ext_details_faq").css("display", "block");
+            }
+            $(".upload_ext_faq_answer").hide();
+            var show_upload_ext_faq_element = function (event) {
+                var $element = $(this);
+                $(".upload_ext_faq_question").not(".grey_question").not(this).unbind("click").bind("click", show_upload_ext_faq_element).addClass("grey_question").next(".upload_ext_faq_answer").slideUp();
+                $element.unbind("click", show_upload_ext_faq_element).removeClass("grey_question").next(".upload_ext_faq_answer").slideDown(function () {
+                    $element.bind("click", hide_upload_ext_faq_element);
+                });
+            },
+            hide_upload_ext_faq_element = function (event) {
+                var $element = $(this);
+                $element.unbind("click", hide_upload_ext_faq_element).next(".upload_ext_faq_answer").slideUp(function () {
+                    $element.bind("click", show_upload_ext_faq_element);
+                });
+                $(".upload_ext_faq_question").not(this).removeClass("grey_question");
+            };
+            $(".upload_ext_faq_question").css("cursor", "pointer").bind("click", show_upload_ext_faq_element);
+		}
 		$(".ext_versioncheck_force_link").click(function (event) {
 			event.preventDefault();
 			$().upload_loading_start();
@@ -736,9 +775,43 @@
 		if (loading_errors)
 		{
 			$("#upload_loading_error_wrapper").slideUp(700, function () {
-				$("#upload_loading_error, #upload_loading_timeout").css("display", "none");
+				$("#upload_loading_error, #upload_loading_timeout, #upload_loading_error_status").css("display", "none");
 			});
+			loading_errors = false;
 		}
+	}
+
+	function show_error_box(e, text, ee) {
+		// Source: http://stackoverflow.com/a/4835406
+		function escape_html(text) {
+			var map = {
+				'&': '&amp;',
+				'<': '&lt;',
+				'>': '&gt;',
+				'"': '&quot;',
+				"'": '&#039;'
+			};
+			return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+		}
+		if (text == "timeout" || ee == "timeout") {
+			$("#upload_loading_timeout").css("display", "inline-block");
+			$("#upload_loading_error_wrapper").slideDown(700);
+		} else {
+			if (typeof ee !== "undefined") {
+				var $errorbox = $("#upload_loading_error_status");
+				$errorbox.html(escape_html(e.status + " - " + ee));
+				$("#upload_main").html('<div class="ext_solution_notice"><h1><i class="fa fa-lightbulb-o fa-fw"></i> ' + $errorbox.attr("data-load-error-solutions-title") + '</h1><span>' + $errorbox.attr("data-load-error-solutions") + '</span></div>');
+				$errorbox.css("display", "inline-block");
+				$("#upload_main_wrapper").stop().slideUp(100, function () {
+					$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
+						$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
+					});
+				});
+			}
+			else $("#upload_loading_error").css("display", "inline-block");
+			$("#upload_loading_error_wrapper").slideDown(700);
+		}
+		loading_errors = true;
 	}
 
 	function load_page(action, id, local, element) {
@@ -757,13 +830,13 @@
 		var page_url = $("#upload_main").attr("data-page-action"), data = {}, method = 'GET';
 		function page_loaded($this, s)
 		{
-			$("#upload_main_wrapper").slideUp(100, function () {
+			$("#upload_main_wrapper").stop().slideUp(100, function () {
 				$this.html(s);
 				parse_document($("#upload_main_wrapper"));
 				add_ajax();
 				bind_load_events(action);
 				$().upload_loading_end();
-				$("#upload_main_wrapper").finish().slideDown(700, "linear", function () {
+				$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
 					$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
 					$("#upload_main").trigger("loaded");
 				});
@@ -793,13 +866,7 @@
 				},
 				error: function (e, text, ee) {
 					$().upload_loading_end();
-					if (text == "timeout") {
-						$("#upload_loading_timeout").css("display", "inline-block");
-						$("#upload_loading_error_wrapper").slideDown(700);
-					} else {
-						$("#upload_loading_error").css("display", "inline-block");
-						$("#upload_loading_error_wrapper").slideDown(700);
-					}
+					show_error_box(e, text, ee);
 				},
 				success: function (s, x) {
 					if (check_response(s)) {
@@ -829,13 +896,7 @@
 					return;
 				}
 				$().upload_loading_end();
-				if (text == "timeout") {
-					$("#upload_loading_timeout").css("display", "inline-block");
-					$("#upload_loading_error_wrapper").slideDown(700);
-				} else {
-					$("#upload_loading_error").css("display", "inline-block");
-					$("#upload_loading_error_wrapper").slideDown(700);
-				}
+				show_error_box(e, text, ee);
 			},
 			success: function (s, x) {
 				if (typeof local !== "undefined") {
@@ -856,17 +917,17 @@
 
 	// Bind load_page events
 	function bind_load_events(action) {
-		$("#upload_load_zip").click(function (event) {
+		$(".upload_load_zip").click(function (event) {
 			event.preventDefault();
 			load_page("zip_packages");
 		});
 
-		$("#upload_load_uninstalled").click(function (event) {
+		$(".upload_load_uninstalled").click(function (event) {
 			event.preventDefault();
 			load_page("uninstalled");
 		});
 
-		$("#upload_load_list").click(function (event) {
+		$(".upload_load_list").click(function (event) {
 			event.preventDefault();
 			load_page("list");
 		});
@@ -922,6 +983,13 @@
 				break;
 		}
 	}
+	$("#upload_extensions_title").click(function (event) {
+		event.preventDefault();
+		load_page("main");
+	});
+	$("#upload_extensions_links_show_slider").click(function () {
+		$("#upload_extensions_title_links").css("margin-" + direction_left, ($("#upload_extensions_title_links").css("margin-" + direction_left) == "-100px") ? "-15px" : "");
+	});
 	load_main_page();
 	bind_load_events();
 	load_details_page();
@@ -930,12 +998,12 @@
 	check_details_page();
 })(jQuery, window, document);
 
-function browseFile() 
+function browseFile()
 {
 	document.getElementById('extupload').click();
 }
 
-function setFileName() 
+function setFileName()
 {
 	document.getElementById('remote_upload').value = document.getElementById("extupload").files[0].name;
 }
