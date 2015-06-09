@@ -47,16 +47,10 @@
 		<!-- IF IS_AJAX -->
 		<div class="ext_details_markdown" id="ext_details_readme">{EXT_DETAILS_README}</div>
 		<div class="ext_details_markdown" id="ext_details_changelog">{EXT_DETAILS_CHANGELOG}</div>
-		<!-- ELSE -->
-		<script type="text/javascript">
-			// <![CDATA[
-			// Reload the page when scripts become enabled.
-			window.location.href = "{U_ACTION}".replace(/&amp;/g, "&");
-			// ]]>
-		</script>
 		<!-- ENDIF -->
         <!-- IF SHOW_DETAILS_TAB == 'faq' || IS_AJAX -->
         <div id="ext_details_faq" data-ext-show-faq="{S_EXT_DETAILS_SHOW_FAQ}"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+			<h1>{L_ACP_UPLOAD_EXT_HELP}</h1>
             <!-- BEGIN upload_ext_faq_block -->
             <div id="upload_ext_faq_item_{upload_ext_faq_block.SECTION_NUMBER}">
                 <span class="upload_ext_faq_title">{upload_ext_faq_block.BLOCK_TITLE}</span>
@@ -95,6 +89,30 @@
 		<!-- ENDIF -->
 		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS and not (SHOW_DETAILS_TAB == 'faq')) || IS_AJAX -->
 		<div id="ext_details_content">
+			<!-- IF S_UPLOAD_VERSIONCHECK && not S_UPLOAD_UP_TO_DATE -->
+			<div class="ext_solution_notice upload_ext_update_notice">
+				<h1><i class="fa fa-lightbulb-o fa-fw"></i> {L_EXT_UPDATE_METHODS_TITLE}</h1>
+				<span>{L_EXT_UPLOAD_UPDATE_METHODS}</span>
+			</div>
+			<!-- BEGIN upload_updates_available -->
+			<fieldset style="background-color: #fdfcd3;">
+				<span class="requirements_title">{L_LATEST_VERSION}</span>
+				<div class="extension_latest_version_wrapper">
+					<strong class="extension_latest_version">{upload_updates_available.current}</strong>
+					<!-- IF upload_updates_available.announcement -->
+					<a href="{upload_updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
+					<!-- ENDIF -->
+					<!-- IF upload_updates_available.download -->
+					<!-- IF U_UPLOAD_EXT_UPDATE -->
+					<a href="{U_UPLOAD_EXT_UPDATE}" class="upload_ext_update_button" style="float: none;"><i class="fa fa-refresh"></i> {L_UPDATE}</a>
+					<!-- ELSE -->
+					<a href="{upload_updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
+					<!-- ENDIF -->
+					<!-- ENDIF -->
+				</div>
+			</fieldset>
+			<!-- END upload_updates_available -->
+			<!-- ENDIF -->
 			<!-- IF META_DESCRIPTION -->
 			<fieldset class="description_fieldset">
 				<span id="meta_description" class="description_title">{L_DESCRIPTION}</span>
@@ -131,26 +149,6 @@
 					</div>
 				</fieldset>
 			</fieldset>
-			<!-- ENDIF -->
-			<!-- IF S_UPLOAD_VERSIONCHECK && not S_UPLOAD_UP_TO_DATE -->
-			<!-- BEGIN upload_updates_available -->
-			<fieldset style="background-color: #fdfcd3;">
-				<span class="requirements_title">{L_LATEST_VERSION}</span>
-				<div class="extension_latest_version_wrapper">
-					<strong class="extension_latest_version">{upload_updates_available.current}</strong>
-					<!-- IF upload_updates_available.announcement -->
-					<a href="{upload_updates_available.announcement}" class="extension_author_link" title="{L_ANNOUNCEMENT_TOPIC}"><i class="fa fa-bullhorn"></i></a>
-					<!-- ENDIF -->
-					<!-- IF upload_updates_available.download -->
-					<!-- IF U_UPLOAD_EXT_UPDATE -->
-					<a href="{U_UPLOAD_EXT_UPDATE}" id="enable_uploaded" style="float: none;"><i class="fa fa-refresh"></i> {L_UPDATE}</a>
-					<!-- ELSE -->
-					<a href="{upload_updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
-					<!-- ENDIF -->
-					<!-- ENDIF -->
-				</div>
-			</fieldset>
-			<!-- END upload_updates_available -->
 			<!-- ENDIF -->
 			<fieldset>
 				<div class="description_bubble big_bubble">
@@ -192,8 +190,14 @@
 			</fieldset>
 			<!-- ENDIF -->
 			<fieldset>
-				<span class="requirements_title">{L_UPLOAD_EXTENSIONS_DEVELOPERS}</span>
 				<!-- BEGIN meta_authors -->
+				<!-- IF meta_authors.S_FIRST_ROW -->
+				<!-- IF meta_authors.S_LAST_ROW -->
+				<span class="requirements_title">{L_DEVELOPER}</span>
+				<!-- ELSE -->
+				<span class="requirements_title">{L_DEVELOPERS}</span>
+				<!-- ENDIF -->
+				<!-- ENDIF -->
 				<div class="extension_author">
 					<strong class="extension_author_name">{meta_authors.AUTHOR_NAME}</strong>
 					<!-- IF meta_authors.AUTHOR_EMAIL -->

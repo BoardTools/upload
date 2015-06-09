@@ -88,7 +88,8 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_ERROR_TRY_SELF'		=> '“Upload Extensions” can be updated only by the special Updater or through FTP.',
 	'ACP_UPLOAD_EXT_WRONG_RESTORE'		=> 'An error occurred during the update of an installed extension. Try to update it again.',
 
-	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Developers',
+	'DEVELOPER'							=> 'Developer',
+	'DEVELOPERS'						=> 'Developers',
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Save uploaded zip file',
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',
@@ -103,6 +104,9 @@ $lang = array_merge($lang, array(
 	'EXT_UPDATE_CHECK_FILETREE'			=> 'Please verify the file tree of the extension.',
 	'EXT_UPDATE_ERROR'					=> 'The update process errored.',
 	'EXT_UPDATE_TIMEOUT'				=> 'The update process timed out.',
+	'EXT_UPDATES_AVAILABLE'				=> 'Updates are available',
+	'EXT_UPDATE_METHODS_TITLE'			=> 'Available update methods',
+	'EXT_UPLOAD_UPDATE_METHODS'			=> 'You can update the extension by taking one of the possible actions:<ul><li><strong>Updater method.</strong> Upload Extensions can be updated with Upload Extensions Updater. Check out whether this tool is already available. Unless you have this tool, you will need to use the second method.</li><li><strong>FTP method.</strong> Upload Extensions can be updated in a standard way. Download new files on your PC (click on the button below), disable the extension in standard Extensions Manager, copy new files using an FTP client and enable the extension in standard Extensions Manager.</li></ul>',
 	'EXT_UPDATED'						=> 'The update was successful.',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
@@ -117,8 +121,9 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'The installed extension was updated.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'You have uploaded a zip file for an already installed extension. That extension <strong>was disabled automatically</strong> to make the update process safer. Now please <strong>check</strong> whether the uploaded files are correct and <strong>enable</strong> the extension if it still should be used on the board.',
 
-	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
-	'EXT_VERSION_LETTER'				=> 'v',
+	'VALID_PHPBB_EXTENSIONS'			=> 'Valid extensions from the CDB on phpbb.com',
+	'SHOW_VALID_PHPBB_EXTENSIONS'		=> 'Show valid extensions from the CDB on phpbb.com',
+	'VALID_PHPBB_EXTENSIONS_TITLE'		=> 'You can download extensions from the CDB on phpbb.com or check out their release announcements.',
 	'POSSIBLE_SOLUTIONS'				=> 'Possible solutions',
 
 	'ACP_UPLOAD_EXT_MANAGER_EXPLAIN'	=> 'The Extensions Manager of Upload Extensions is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them.',

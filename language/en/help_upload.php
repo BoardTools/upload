@@ -26,11 +26,11 @@ $help = array(
 	),
 	array(
 		0 => 'What is the difference between “Extensions Manager of Upload Extensions” and standard “Extensions Manager”?',
-		1 => 'Just like standard “Extensions Manager”, “Extensions Manager of Upload Extensions” is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them. But it can be determined as an “upgraded version” of the standard module.<br /><br /><strong>Key benefits:</strong><ul><li>All uploaded extensions are sorted alphabetically, no matter if they are enabled, disabled or uninstalled. The exception: broken extensions.</li><li>Broken extensions are shown separately on the same page of “Extensions Manager” below the list of normal extensions. The reasons of unavailability are shown for each broken extension. Additional warning is added to those reasons when broken extension is installed or has some data saved on your board. You can click on the row of any broken extension to see its details just in the same way that is applicable for other extensions.</li><li>Any extension (if it is not a broken one) can be enabled with a single click on the toggle shown on the left of its name in the list.</li></ul>'
+		1 => 'Just like standard “Extensions Manager”, “Extensions Manager of Upload Extensions” is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them. But it can be determined as an “upgraded version” of the standard module.<br /><br /><strong>Key benefits:</strong><ul><li>All uploaded extensions are sorted alphabetically, no matter if they are enabled, disabled or uninstalled. The exception: broken extensions.</li><li>Broken extensions are shown separately on the same page of “Extensions Manager” below the list of normal extensions. The reasons of unavailability are shown for each broken extension. Detailed warning message is added to those reasons when broken extension is installed or has some data saved in your database. You can click on the row of any broken extension to see its details just in the same way that is applicable for other extensions.</li><li>Any extension (if it is not a broken one) can be enabled with a single click on the toggle shown on the left of its name in the list.</li></ul>'
 	),
 	array(
 		0 => 'Why do I need “ZIP files management” module?',
-		1 => 'Sometimes you can find it useful if you can save archives of your extensions or share them. The archives can be old versions of uploaded extensions (that are created automatically for data safety), any packages that you have chosen to save by ticking the flag “Save uploaded zip file” before an upload process or any zip files of extensions that are stored in the specified directory (see question “Where can I specify the directory for saving zip files of extensions?” below). You have possibilities to unpack, to download and to delete those packages.'
+		1 => 'Sometimes you can find it useful if you can save archives of your extensions or share them. The archives can be old versions of uploaded extensions (that are packaged automatically for data safety), any packages that you have chosen to save by ticking the flag “Save uploaded zip file” before an upload process or any zip files of extensions that are stored in the specified directory (see question “Where can I specify the directory for saving zip files of extensions?” below). You have possibilities to unpack, to download and to delete those packages.'
 	),
 	array(
 		0 => 'How can I use “Delete extensions” module?',
@@ -42,7 +42,7 @@ $help = array(
 	),
 	array(
 		0 => 'How can I perform an upload from the CDB on phpbb.com?',
-		1 => 'Select the extension that you want to upload in the list of valid extensions shown on the main page of Upload Extensions and click “Upload”.'
+		1 => 'On the main page of Upload Extensions click on the link “Show valid extensions from the CDB on phpbb.com”. Select the extension that you want to upload and click on the “Download” button in the row of that extension. Note: wordplay here: the extension will be <em>downloaded</em> from the CDB on phpbb.com and <em>uploaded</em> to your server.'
 	),
 	array(
 		0 => 'How can I perform an upload from other remote resources?',
@@ -82,7 +82,7 @@ $help = array(
 	),
 	array(
 		0 => 'What can I do with the extension on the details page?',
-		1 => 'You are able to:<ul><li>Enable the extension if its toggle is red.</li><li>Disable the extension if its toggle is green.</li><li>Delete extension’s data from the database if the red trash bin button is shown.</li><li>Check out the status of the current version of the extension if the link to the version check file is provided by extension developers. If extension’s version is shown in a green bubble - the extension is up-to-date. If the bubble is red - the extension is not up-to-date. Otherwise - the version check information could not be obtained.</li><li>If you see a cogwheel near the extension’s version bubble, then you can receive an update for that extension. Click on the cogwheel: if an “Update” button is shown - then you can click on it, confirm your action and Upload Extensions will update your extension. You can also see the release announcement by clicking on the corresponding link if the link is provided by extension developers. <strong>NOTE:</strong> if JavaScript is disabled in your browser, those buttons will be located inside the extension details section block.</li><li>You can also download the extension’s package (see question “What is the purpose of the feature “Download packaged extension”?” below).</li></ul>'
+		1 => 'You are able to:<ul><li>Enable the extension if its toggle is red.</li><li>Disable the extension if its toggle is green.</li><li>Delete extension’s data from the database if the red trash bin button is shown.</li><li>Check out the status of the current version of the extension if the link to the version check file is provided by extension developers. If extension’s version is shown in a green bubble - the extension is up-to-date. If the bubble is red - the extension is not up-to-date. Otherwise - the version check information could not be obtained.</li><li>If you see a cogwheel near the extension’s version bubble, then you can receive an update for that extension. Click on the cogwheel: if an “Update” button is shown - then you can click on it, confirm your action and Upload Extensions will update your extension. You can also see the release announcement by clicking on the corresponding button if the link is provided by extension developers. <strong>NOTE:</strong> if JavaScript is disabled in your browser, those buttons will be located inside the extension details section block.</li><li>You can also download the extension’s package (see question “What is the purpose of the feature “Download packaged extension”?” below).</li></ul>'
 	),
 	array(
 		0 => 'What is the purpose of the feature “Download packaged extension”?',
@@ -102,7 +102,15 @@ $help = array(
 	),
 	array(
 		0 => '--',
-		1 => '“Delete extensions” module'
+		1 => 'Extension Cleaner tool'
+	),
+	array(
+		0 => 'What is “Extension Cleaner tool”?',
+		1 => '“Extension Cleaner tool” is the name of “Delete extensions” module of Upload Extensions sometimes used in its documentation.'
+	),
+	array(
+		0 => 'An extension is installed on my board but I cannot delete it. Why?',
+		1 => 'The extension that you want to remove should be disabled and its data should be deleted from the database before you use “Extension Cleaner tool”. See question “How can I use “Delete extensions” module?” above.'
 	),
 	array(
 		0 => 'How can I delete several extensions at once?',

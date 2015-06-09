@@ -226,8 +226,14 @@
 			</fieldset>
 			<!-- ENDIF -->
 			<fieldset>
-				<span class="requirements_title">{L_UPLOAD_EXTENSIONS_DEVELOPERS}</span>
 				<!-- BEGIN meta_authors -->
+				<!-- IF meta_authors.S_FIRST_ROW -->
+				<!-- IF meta_authors.S_LAST_ROW -->
+				<span class="requirements_title">{L_DEVELOPER}</span>
+				<!-- ELSE -->
+				<span class="requirements_title">{L_DEVELOPERS}</span>
+				<!-- ENDIF -->
+				<!-- ENDIF -->
 				<div class="extension_author">
 					<strong class="extension_author_name">{meta_authors.AUTHOR_NAME}</strong>
 					<!-- IF meta_authors.AUTHOR_EMAIL -->

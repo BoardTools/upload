@@ -27,6 +27,10 @@ The information about the installation/update/uninstallation process can be foun
 * For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq.
 * For the packages uploaded from github.com: https://github.com/BoardTools/upload/wiki.
 
+## Language packages
+Available language packages and the information about translations can be found here:
+https://github.com/BoardTools/upload/wiki/Translations
+
 ### General installation information (for the case if you don't have access to the resources listed above)
 In general you'll need to copy the contents of the uploaded zip package to `ext/boardtools/upload`.
 As a result the path to the `composer.json` file should become `ext/boardtools/upload/composer.json`.
@@ -115,4 +119,4 @@ If you have uploaded different zip files with the same name, they will be rename
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2014 - 2015 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+© 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)

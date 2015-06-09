@@ -85,6 +85,7 @@ class upload_module
 			objects::$is_ajax = true;
 			switch ($ajax_action)
 			{
+				case 'list_from_cdb':
 				case 'main':
 					$this->tpl_name = 'acp_upload_main';
 					break;
@@ -419,8 +420,11 @@ class upload_module
 				}
 				break;
 
-			default:
+			case 'list_from_cdb':
+				objects::$template->assign_var('S_SHOW_VALID_PHPBB_EXTENSIONS', true);
 				$this->get_valid_extensions();
+
+			default:
 				$template->assign_vars(array(
 					'U_ACTION'			=> objects::$u_action,
 					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload',
@@ -434,16 +438,19 @@ class upload_module
 
 	function get_valid_extensions()
 	{
-		global $template, $user;
-
 		$valid_phpbb_ext = $file_contents = $metadata = '';
 		if (($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
 		{
 			foreach($metadata as $ext => $value)
 			{
-				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' (' . $user->lang['EXT_VERSION_LETTER'] . $value['version'] . ')</option>';
+				objects::$template->assign_block_vars("phpbb_cdb", array(
+					'EXT_NAME'              => $ext,
+					'EXT_VERSION'           => $value['version'],
+					'EXT_DOWNLOAD'          => $value['download'],
+					'EXT_DOWNLOAD_ENCODED'  => urlencode($value['download']),
+					'EXT_ANNOUNCEMENT'      => $value['announcement'],
+				));
 			}
-			$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
 		}
 	}
 

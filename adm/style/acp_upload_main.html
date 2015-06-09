@@ -9,25 +9,18 @@
 </fieldset>
 <!-- ENDIF -->
 <div class="upload-main-content">
-	<div class="ext_upload_wrapper">
-		<form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+	<form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+		<div class="ext_upload_wrapper">
 			<fieldset>
 				<div id="ext_upload_content">
 					<span class="ext_upload_form_name"><i class="fa fa-upload fa-lg"></i> {L_EXTENSION_UPLOAD}</span>
 					<p class="ext_upload_form_explain">{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-					<!-- IF VALID_PHPBB_EXT -->
-					<div id="valid_phpbb_ext_wrapper">
-						{L_VALID_PHPBB_EXTENSIONS}{L_COLON}
-						<select id="valid_phpbb_ext" name="valid_phpbb_ext">
-							<option value="">---</option>{VALID_PHPBB_EXT}
-						</select>
-					</div>
-					<!-- ENDIF -->
 					<input type="text" id="remote_upload" name="remote_upload" />
 					<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
 					<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
 					{S_FORM_TOKEN}
 					{S_HIDDEN_FIELDS}
+					<input type="hidden" id="valid_phpbb_ext" name="valid_phpbb_ext" />
 					<span id="br_form_upload"></span>
 					<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
 					<label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
@@ -35,11 +28,22 @@
 				</div>
 				<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
 			</fieldset>
-		</form>
-	</div>
-	<div class="upload-menu">
-		<a href="{U_ACTION}&action=list" class="upload_main_link upload_load_list"><i class="fa fa-gears"></i><span>{L_EXTENSIONS_ADMIN}</span></a>
-		<a href="{U_ACTION}&action=zip_packages" class="upload_main_link upload_load_zip"><i class="fa fa-archive"></i><span>{L_ACP_UPLOAD_ZIP_TITLE}</span></a>
-		<a href="{U_ACTION}&action=uninstalled" class="upload_main_link upload_load_uninstalled"><i class="fa fa-paint-brush"></i><span>{L_ACP_UPLOAD_UNINSTALLED_TITLE}</span></a>
-	</div>
+			<!-- IF not S_SHOW_VALID_PHPBB_EXTENSIONS -->
+			<a href="{U_ACTION}&action=list_from_cdb" class="upload_main_page_link_block" id="load_valid_phpbb_extensions">
+				<i class="fa fa-cogs"></i>{L_SHOW_VALID_PHPBB_EXTENSIONS}
+			</a>
+			<!-- ENDIF -->
+		</div>
+		<div class="upload-menu">
+			<a href="{U_ACTION}&action=list" class="upload_main_link upload_load_list"><i class="fa fa-gears"></i><span>{L_EXTENSIONS_ADMIN}</span></a>
+			<a href="{U_ACTION}&action=zip_packages" class="upload_main_link upload_load_zip"><i class="fa fa-archive"></i><span>{L_ACP_UPLOAD_ZIP_TITLE}</span></a>
+			<a href="{U_ACTION}&action=uninstalled" class="upload_main_link upload_load_uninstalled"><i class="fa fa-paint-brush"></i><span>{L_ACP_UPLOAD_UNINSTALLED_TITLE}</span></a>
+		</div>
+		<!-- IF S_SHOW_VALID_PHPBB_EXTENSIONS -->
+		<div id="valid_phpbb_extensions">
+			<div id="valid_phpbb_extensions_title"><i class="fa fa-cogs"></i> {L_VALID_PHPBB_EXTENSIONS}</div>
+			<!-- INCLUDE acp_upload_cdb.html -->
+		</div>
+		<!-- ENDIF -->
+	</form>
 </div>

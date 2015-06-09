@@ -45,6 +45,44 @@
 		});
 	}
 
+	// Source: http://stackoverflow.com/a/4835406
+	function escape_html(text) {
+		var map = {
+			'&': '&amp;',
+			'<': '&lt;',
+			'>': '&gt;',
+			'"': '&quot;',
+			"'": '&#039;'
+		};
+		return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+	}
+
+	function show_error_box(e, text, ee) {
+		var error_status = e.status || e;
+		if (text == "timeout" || ee == "timeout") {
+			$("#upload_loading_timeout").css("display", "inline-block");
+			$("#upload_loading_error_wrapper").slideDown(700);
+		} else {
+			if (typeof ee !== "undefined" && ee != "") {
+				var $errorbox = $("#upload_loading_error_status");
+				$errorbox.html(escape_html(error_status + " - " + ee));
+				// Detect whether we need to show solutions.
+				if (typeof e.status !== "undefined") {
+					$("#upload_main").html('<div class="ext_solution_notice"><h1><i class="fa fa-lightbulb-o fa-fw"></i> ' + $errorbox.attr("data-load-error-solutions-title") + '</h1><span>' + $errorbox.attr("data-load-error-solutions") + '</span></div>');
+					$("#upload_main_wrapper").stop().slideUp(100, function () {
+						$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
+							$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
+						});
+					});
+				}
+				$errorbox.css("display", "inline-block");
+			}
+			else $("#upload_loading_error").css("display", "inline-block");
+			$("#upload_loading_error_wrapper").slideDown(700);
+		}
+		loading_errors = true;
+	}
+
 	function enable_result_success(element, attr_text) {
 		if (element.parent(".upload_ext_list_content").length > 0) {
 			element.parent(".upload_ext_list_content").addClass("upload_ext_update_success");
@@ -62,7 +100,7 @@
 				content: {
 					text: function (event, api) {
 						return $(this).attr(attr_text);
-					},
+					}
 				},
 				style: {
 					classes: 'qtip-green qtip-shadow qtip-rounded'
@@ -148,10 +186,15 @@
 					enable_result_error(element, result.error);
 					break;
 				case 'load_error':
-					if (result.error === "timeout")	{
+					if (result.error === "timeout" || result.message === "timeout")	{
 						enable_result_error(element, $data_wrapper.attr("data-ext-update-timeout"));
 					} else {
-						enable_result_error(element, $data_wrapper.attr("data-ext-update-error"));
+						var error_status = '';
+						if (typeof result.message !== "undefined" && result.message != "") {
+							var status_divider = (element.parent(".upload_ext_list_content").length > 0) ? ' ' : '<br />';
+							error_status = status_divider + escape_html(result.code + " - " + result.message);
+						}
+						enable_result_error(element, $data_wrapper.attr("data-ext-update-error") + error_status);
 					}
 					break;
 			}
@@ -170,7 +213,9 @@
 				get_enable_result({
 					ext_name: element.parent().attr("data-ext-name"),
 					status: 'load_error',
-					error: text
+					error: text,
+					code: e.status,
+					message: ee
 				}, element.siblings(".extension_toggle_wrapper"));
 			},
 			success: function (s, x) {
@@ -181,7 +226,7 @@
 						get_enable_result({
 							ext_name: element.parent().attr("data-ext-name"),
 							status: 'load_error',
-							error: '' // This is not used in the code.
+							error: '' // Display standard error message.
 						}, element.siblings(".extension_toggle_wrapper"));
 					}
 				} else {
@@ -211,7 +256,9 @@
 			get_enable_result({
 				ext_name: element.parent().attr("data-ext-name"),
 				status: 'load_error',
-				error: '' // This is not used in the code.
+				error: result.error,
+				code: result.code,
+				message: result.message
 			}, element.siblings(".extension_toggle_wrapper"));
 		}
 	}
@@ -376,9 +423,7 @@
 		}
 		else {
 			$().upload_loading_end();
-			$("#upload_loading_error").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
-			loading_errors = true;
+			show_error_box(result.code, result.error, result.message);
 		}
 	}
 
@@ -395,78 +440,92 @@
 			$("#ext_upload_content").css("display", "none");
 			$("#upload").css("display", "block");
 		});
+
+		$("#load_valid_phpbb_extensions").click(function (event) {
+			event.preventDefault();
+			load_page("list_from_cdb");
+		});
+
+		$(".upload_valid_ext_download_link").click(function (event) {
+			event.preventDefault();
+			$("#valid_phpbb_ext").attr("value", $(this).attr("data-ext-source"));
+			load_page("upload");
+		});
 	}
 
 	function load_details_page() {
 		setFileTree();
 		add_enable_toggle();
-		$(".ext_version_bubble .show_ext_updates").css("display", "inline-block").qtip({
-			content: {
-				text: $("#description_updates")
-			},
-			style: {
-				classes: 'qtip-light qtip-shadow qtip-rounded',
-				tip: {
-					corner: true,
-					mimic: 'center',
-					width: 10,
-					height: 10
-				}
-			},
-			position: {
-				at: 'bottom center',
-				my: 'top ' + direction_right,
-				adjust: {
-					x: (direction_rtl) ? -15 : 15
-				}
-			},
-			show: {
-				event: 'click',
-				effect: function (offset) {
-					$(this).fadeIn(500); // "this" refers to the tooltip
-				}
-			},
-			hide: {
-				event: 'click unfocus',
-				effect: function (offset) {
-					$(this).fadeOut(500); // "this" refers to the tooltip
-				}
-			}
-		});
-		$(".extension_update_link").bind("click", function () {
-			$(".ext_version_bubble .show_ext_updates").qtip().hide();
-		}).qtip({
-			content: {
-				text: $("#update_ext_confirm"),
-				title: $("#update_ext_confirm_title")
-			},
-			style: {
-				classes: 'qtip-light qtip-shadow qtip-rounded'
-			},
-			position: {
-				my: direction_right + ' center',
-				at: direction_left + ' center',
-				target: $(".ext_version_bubble")
-			},
-			show: {
-				modal: {
-					on: true
+		if ($("#description_updates").length > 0) {
+			$(".ext_version_bubble .show_ext_updates").css("display", "inline-block").qtip({
+				content: {
+					text: $("#description_updates")
 				},
-				event: 'click',
-				effect: function (offset) {
-					$(this).fadeIn(500); // "this" refers to the tooltip
+				style: {
+					classes: 'qtip-light qtip-shadow qtip-rounded',
+					tip: {
+						corner: true,
+						mimic: 'center',
+						width: 10,
+						height: 10
+					}
+				},
+				position: {
+					at: 'bottom center',
+					my: 'top ' + direction_right,
+					adjust: {
+						x: (direction_rtl) ? -15 : 15
+					}
+				},
+				show: {
+					event: 'click',
+					effect: function (offset) {
+						$(this).fadeIn(500); // "this" refers to the tooltip
+					}
+				},
+				hide: {
+					event: 'click unfocus',
+					effect: function (offset) {
+						$(this).fadeOut(500); // "this" refers to the tooltip
+					}
 				}
-			},
-			hide: {
-				event: 'unfocus',
-				effect: function (offset) {
-					$(this).fadeOut(500); // "this" refers to the tooltip
+			});
+			$(".extension_update_link").bind("click", function () {
+				$(".ext_version_bubble .show_ext_updates").qtip().hide();
+			}).qtip({
+				content: {
+					text: $("#update_ext_confirm"),
+					title: $("#update_ext_confirm_title")
+				},
+				style: {
+					classes: 'qtip-light qtip-shadow qtip-rounded'
+				},
+				position: {
+					my: direction_right + ' center',
+					at: direction_left + ' center',
+					target: $(".ext_version_bubble")
+				},
+				show: {
+					modal: {
+						on: true
+					},
+					event: 'click',
+					effect: function (offset) {
+						$(this).fadeIn(500); // "this" refers to the tooltip
+					}
+				},
+				hide: {
+					event: 'unfocus',
+					effect: function (offset) {
+						$(this).fadeOut(500); // "this" refers to the tooltip
+					}
 				}
-			}
-		});
-		$("#upload_ext_update_submit").bind("click", function () {
-			$(".extension_update_link").qtip().hide();
-		});
+			});
+			$("#upload_main").one("loading", function () {
+				$(".extension_update_link").qtip('hide').qtip('destroy', true);
+				$(".show_ext_updates[data-hasqtip]").qtip('hide').qtip('destroy', true);
+			})
+		}
 		/* Responsive tabs */
 		$("#upload_main").find('.ext_details_tabs').not('[data-skip-responsive]').each(function () {
 			var $this = $(this),
@@ -591,28 +650,28 @@
 			});
 		});
 		if ($("#ext_details_faq").length) {
-            // Detect the request to load the FAQ tab.
-            if ($("#ext_details_faq").attr("data-ext-show-faq") === "true") {
-                $(".ext_details_tabs .activetab, #ext_details_faq_tab").toggleClass("activetab");
-                $("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
-                $("#ext_details_faq").css("display", "block");
-            }
-            $(".upload_ext_faq_answer").hide();
-            var show_upload_ext_faq_element = function (event) {
-                var $element = $(this);
-                $(".upload_ext_faq_question").not(".grey_question").not(this).unbind("click").bind("click", show_upload_ext_faq_element).addClass("grey_question").next(".upload_ext_faq_answer").slideUp();
-                $element.unbind("click", show_upload_ext_faq_element).removeClass("grey_question").next(".upload_ext_faq_answer").slideDown(function () {
-                    $element.bind("click", hide_upload_ext_faq_element);
-                });
-            },
-            hide_upload_ext_faq_element = function (event) {
-                var $element = $(this);
-                $element.unbind("click", hide_upload_ext_faq_element).next(".upload_ext_faq_answer").slideUp(function () {
-                    $element.bind("click", show_upload_ext_faq_element);
-                });
-                $(".upload_ext_faq_question").not(this).removeClass("grey_question");
-            };
-            $(".upload_ext_faq_question").css("cursor", "pointer").bind("click", show_upload_ext_faq_element);
+			// Detect the request to load the FAQ tab.
+			if ($("#ext_details_faq").attr("data-ext-show-faq") === "true") {
+				$(".ext_details_tabs .activetab, #ext_details_faq_tab").toggleClass("activetab");
+				$("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools").css("display", "none");
+				$("#ext_details_faq").css("display", "block");
+			}
+			$(".upload_ext_faq_answer").hide();
+			var show_upload_ext_faq_element = function (event) {
+				var $element = $(this);
+				$(".upload_ext_faq_question").not(".grey_question").not(this).unbind("click").bind("click", show_upload_ext_faq_element).addClass("grey_question").next(".upload_ext_faq_answer").slideUp();
+				$element.unbind("click", show_upload_ext_faq_element).removeClass("grey_question").next(".upload_ext_faq_answer").slideDown(function () {
+					$element.bind("click", hide_upload_ext_faq_element);
+				});
+			},
+			hide_upload_ext_faq_element = function (event) {
+				var $element = $(this);
+				$element.unbind("click", hide_upload_ext_faq_element).next(".upload_ext_faq_answer").slideUp(function () {
+					$element.bind("click", show_upload_ext_faq_element);
+				});
+				$(".upload_ext_faq_question").not(this).removeClass("grey_question");
+			};
+			$(".upload_ext_faq_question").css("cursor", "pointer").bind("click", show_upload_ext_faq_element);
 		}
 		$(".ext_versioncheck_force_link").click(function (event) {
 			event.preventDefault();
@@ -639,9 +698,7 @@
 			data: data + "&confirm=" + result.YES_VALUE,
 			error: function (e, text, ee) {
 				$().upload_loading_end();
-				$("#upload_loading_error").css("display", "inline-block");
-				$("#upload_loading_error_wrapper").slideDown(700);
-				loading_errors = true;
+				show_error_box(e, text, ee);
 			},
 			success: function (s, x) {
 				$().upload_loading_end();
@@ -683,10 +740,9 @@
 				$("#force_unstable_updated").slideUp(700);
 			}, 3000);
 		} else {
+			element.qtip('api').destroy();
 			$().upload_loading_end();
-			$("#upload_loading_error").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
-			loading_errors = true;
+			show_error_box(result.code, result.error, result.message);
 		}
 	}
 
@@ -767,6 +823,9 @@
 			$("#upload_loading_error_wrapper").slideDown(700);
 			loading_errors = true;
 			return false;
+		} else if (res.substr(0, 9) == "<!DOCTYPE") {
+			// Reload the page after logout.
+			window.location.href = $("#upload_main").attr("data-page-action");
 		}
 		return true;
 	}
@@ -779,39 +838,6 @@
 			});
 			loading_errors = false;
 		}
-	}
-
-	function show_error_box(e, text, ee) {
-		// Source: http://stackoverflow.com/a/4835406
-		function escape_html(text) {
-			var map = {
-				'&': '&amp;',
-				'<': '&lt;',
-				'>': '&gt;',
-				'"': '&quot;',
-				"'": '&#039;'
-			};
-			return text.replace(/[&<>"']/g, function (m) { return map[m]; });
-		}
-		if (text == "timeout" || ee == "timeout") {
-			$("#upload_loading_timeout").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
-		} else {
-			if (typeof ee !== "undefined") {
-				var $errorbox = $("#upload_loading_error_status");
-				$errorbox.html(escape_html(e.status + " - " + ee));
-				$("#upload_main").html('<div class="ext_solution_notice"><h1><i class="fa fa-lightbulb-o fa-fw"></i> ' + $errorbox.attr("data-load-error-solutions-title") + '</h1><span>' + $errorbox.attr("data-load-error-solutions") + '</span></div>');
-				$errorbox.css("display", "inline-block");
-				$("#upload_main_wrapper").stop().slideUp(100, function () {
-					$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
-						$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
-					});
-				});
-			}
-			else $("#upload_loading_error").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
-		}
-		loading_errors = true;
 	}
 
 	function load_page(action, id, local, element) {
@@ -891,7 +917,9 @@
 					local({
 						ext_name: id,
 						status: 'load_error',
-						error: text
+						error: text,
+						code: e.status,
+						message: ee
 					}, element);
 					return;
 				}
@@ -913,6 +941,7 @@
 			},
 			cache: false
 		});
+		$("#upload_main").trigger("loading");
 	}
 
 	// Bind load_page events
@@ -964,6 +993,7 @@
 
 		switch (action)
 		{
+			case "list_from_cdb":
 			case "main":
 				load_main_page();
 				break;
