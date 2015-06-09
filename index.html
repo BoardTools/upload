@@ -71,7 +71,11 @@ p {
 	padding: 0;
 }
 
-@media (min-width:992px) {
+#sources #sources-links {
+	padding: 20px 0 0 0;
+}
+
+@media (min-width:1200px) {
 	#sources #sources-links {
 		text-align: right;
 		padding: 10px 30px 0 0;
@@ -140,8 +144,15 @@ p {
 	border-top-right-radius: 20px;
 }
 
+.row-compare {
+	margin: 60px -30px 0px -30px;
+	padding: 60px 0 0px 90px;
+	background-color: #1F4E79;
+	color: #fff;
+}
+
 .row-founders {
-	margin: 30px -30px 0px -30px;
+	margin: 0px -30px 0px -30px;
 	padding: 60px 0 60px 90px;
 	background-color: #fcfed9;
 	color: #a75615;
@@ -154,9 +165,12 @@ p {
 }
 
 #upload_table_wrapper {
-	width: 100%;
+	background-color: #1F4E79;
+	margin: 0 -30px;
+	padding: 0 30px 60px 30px;
+	/*width: 100%;
 	padding: 0 0px;
-	margin: 0 auto;
+	margin: 0 auto;*/
 }
 
 .upload_table {
@@ -167,7 +181,7 @@ p {
 	background-color: #fff;
 }
 
-.upload_table tr:first-child td:first-child {
+/*.upload_table tr:first-child td:first-child {
 	border-top-left-radius: 10px;
 }
 
@@ -181,7 +195,7 @@ p {
 
 .upload_table tr:last-child td:last-child {
 	border-bottom-right-radius: 10px;
-}
+}*/
 
 .upload_table td {
 	vertical-align: middle;
@@ -205,6 +219,7 @@ p {
 .upload_table .upload_table_feature_header {
 	width: 35%;
 	font-weight: bold;
+	background: #1F4E79;
 }
 
 .upload_table .upload_table_feature {
@@ -309,19 +324,23 @@ p {
 		<p>Upload Extensions is a tool for your <strong>phpBB 3.1</strong> board that makes it possible to upload other extensions without using FTP. In addition it lets you manage uploaded extensions and ZIP packages and view the detailed information when you need it.</p>
 	</div>
 	<div class="row" id="sources">
-		<div class="col-md-7">
+		<div class="col-lg-7">
 			<h1><i class="fa fa-map-marker fa-fw"></i>Choose the source</h1>
 			<p>You can download the extension from one of the available sources.</p>
 		</div>
-		<div class="col-md-5" id="sources-links">
-			<a href="https://www.phpbb.com/customise/db/extension/upload/" class="source source-phpbb"><i class="fa fa-globe fa-fw"></i><span>phpbb.com</span></a><a href="https://github.com/BoardTools/upload" class="source source-github"><i class="fa fa-github fa-fw"></i><span>github.com</span></a>
+		<div class="col-lg-5" id="sources-links">
+			<a href="https://www.phpbb.com/customise/db/extension/upload/" class="source source-phpbb" title="Coming soon!"><i class="fa fa-globe fa-fw"></i><span>phpbb.com (soon)</span></a><a href="https://github.com/BoardTools/upload" class="source source-github"><i class="fa fa-github fa-fw"></i><span>github.com</span></a>
 		</div>
 	</div>
 	<div class="row row-inverse">
 		<h1><i class="fa fa-cog fa-fw"></i>Proceed the installation</h1>
-		<p>You can install Upload Extensions on your <strong>phpBB 3.1</strong> board by following the instructions of <a href="https://www.phpbb.com/customise/db/extension/upload/faq">FAQ</a> or <a href="https://github.com/BoardTools/upload/wiki">Wiki</a> (depending on the source where you took the extension).</p>
+		<p>You can install Upload Extensions on your <strong>phpBB 3.1</strong> board by following the instructions of <a href="https://www.phpbb.com/customise/db/extension/upload/faq">FAQ (coming soon)</a> or <a href="https://github.com/BoardTools/upload/wiki">Wiki</a> (depending on the source where you took the extension).<br />Available language packages and instructions about translations can be found on the <a href="https://github.com/BoardTools/upload/wiki/Translations">special Wiki page</a>.</p>
 	</div>
 	<div class="row">
+		<h1><i class="fa fa-tasks fa-fw"></i>Read the documentation</h1>
+		<p>Upload Extensions 3.1.2 has built-in Usage guide that consists of answers to different questions. Move the cursor over the logo (or tap on the ellipsis) on the page of the extension in the ACP of your board and click on the question button.</p>
+	</div>
+	<div class="row row-compare">
 		<h1><i class="fa fa-exchange fa-fw"></i>Compare the software</h1>
 		<p>Explore the benefits of <strong>Upload Extensions 3.1.2</strong> together with phpBB 3.1.</p>
 	</div>
