@@ -441,8 +441,16 @@ class upload_module
 		$valid_phpbb_ext = $file_contents = $metadata = '';
 		if (($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
 		{
+			// Sanitize any data we retrieve from a server
+			$json_sanitizer = function (&$value, $key) {
+				$type_cast_helper = new \phpbb\request\type_cast_helper();
+				$type_cast_helper->set_var($value, $value, gettype($value), true);
+			};
+			array_walk_recursive($metadata, $json_sanitizer);
+			$type_cast_helper = new \phpbb\request\type_cast_helper();
 			foreach($metadata as $ext => $value)
 			{
+				$type_cast_helper->set_var($ext, $ext, gettype($ext), true);
 				objects::$template->assign_block_vars("phpbb_cdb", array(
 					'EXT_NAME'              => $ext,
 					'EXT_VERSION'           => $value['version'],
