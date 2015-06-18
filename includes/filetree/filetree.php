@@ -46,7 +46,7 @@ class filetree
 
 		// Make directories first
 		$files = $dirs = array();
-		foreach($file as $this_file)
+		foreach ($file as $this_file)
 		{
 			if (is_dir($directory . '/' . $this_file))
 			{
@@ -62,7 +62,7 @@ class filetree
 		// Filter unwanted extensions
 		if (!empty($extensions))
 		{
-			foreach(array_keys($file) as $key)
+			foreach (array_keys($file) as $key)
 			{
 				if (!is_dir($directory . '/' . $file[$key]))
 				{
@@ -85,7 +85,7 @@ class filetree
 				$first_call = false;
 			}
 			$php_file_tree .= '>';
-			foreach($file as $this_file)
+			foreach ($file as $this_file)
 			{
 				if ($this_file != '.' && $this_file != '..' )
 				{

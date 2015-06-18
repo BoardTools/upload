@@ -25,7 +25,7 @@ class load
 		{
 			return false;
 		}
-		foreach($ffs as $ff)
+		foreach ($ffs as $ff)
 		{
 			if ($ff != '.' && $ff != '..')
 			{
@@ -51,7 +51,7 @@ class load
 		$pagination->generate_template_pagination($base_url, 'pagination', 'start', $zip_count, $per_page, $start);
 
 		uasort($zip_array, array('self', 'sort_extension_meta_data_table'));
-		for($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
+		for ($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
 		{
 			objects::$template->assign_block_vars('zip', $zip_array[$i]);
 		}
@@ -109,7 +109,7 @@ class load
 					));
 				}
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				// Display errors in the details tab.
 				objects::$template->assign_vars(array(

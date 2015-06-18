@@ -77,7 +77,7 @@ class upload_module
 		// Detect whether this is an Ajax request - START
 		$ajax_action = $request->variable('ajax_action', '');
 		objects::$is_ajax = false;
-		if($request->is_ajax() && !empty($ajax_action))
+		if ($request->is_ajax() && !empty($ajax_action))
 		{
 			$template->assign_var('IS_AJAX', true);
 			objects::$is_ajax = true;
@@ -521,7 +521,7 @@ class upload_module
 		{
 			// Sanitize any data we retrieve from a server
 			$metadata = objects::$request->escape($metadata, true);
-			foreach($metadata as $ext => $value)
+			foreach ($metadata as $ext => $value)
 			{
 				objects::$template->assign_block_vars("phpbb_cdb", array(
 					'EXT_NAME'				=> $ext,
@@ -655,7 +655,7 @@ class upload_module
 			$dest_file = $upload_dir . '/' . $request->variable('local_upload', '');
 		}
 
-		if($action != 'upload_local')
+		if ($action != 'upload_local')
 		{
 			// Make security checks if checksum is provided.
 			$checksum = $request->variable('ext_checksum', '');
@@ -721,7 +721,7 @@ class upload_module
 			{
 				if (!(files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp))))
 				{
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -742,7 +742,7 @@ class upload_module
 			if (!$composery)
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -753,7 +753,7 @@ class upload_module
 			if ($string === false)
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -766,7 +766,7 @@ class upload_module
 			if (strpos($destination, '/') === false)
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -776,7 +776,7 @@ class upload_module
 			else if (strpos($destination, objects::$upload_ext_name) !== false)
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -787,7 +787,7 @@ class upload_module
 			if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -803,7 +803,7 @@ class upload_module
 				if (!(files::catch_errors(files::rcopy($source, $phpbb_root_path . 'ext/' . $source_for_check))))
 				{
 					files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -815,10 +815,10 @@ class upload_module
 			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($source_for_check, $template);
 			try
 			{
-				if($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)
+				if ($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)
 				{
 					files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -826,10 +826,10 @@ class upload_module
 					return false;
 				}
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -838,7 +838,7 @@ class upload_module
 			}
 
 			// Save/remove the uploaded archive file.
-			if($action != 'upload_local')
+			if ($action != 'upload_local')
 			{
 				if (($request->variable('keepext', false)) == false)
 				{
@@ -850,10 +850,10 @@ class upload_module
 					$ext_version = str_replace(array('/', '\\'), '_', $ext_version);
 					$file_base_name = substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version;
 					// Save this file and any other files that were uploaded with the same name.
-					if(@file_exists($file_base_name . ".zip"))
+					if (@file_exists($file_base_name . ".zip"))
 					{
 						$finder = 1;
-						while(@file_exists($file_base_name . "(" . $finder . ").zip"))
+						while (@file_exists($file_base_name . "(" . $finder . ").zip"))
 						{
 							$finder++;
 						}
@@ -935,10 +935,10 @@ class upload_module
 			$dest_name = str_replace(array('/', '\\'), '_', $old_ext_name) . '_old';
 			$file_base_name = objects::$zip_dir . '/' . $dest_name;
 			// Save this file and any other files that were uploaded with the same name.
-			if(@file_exists($file_base_name . ".zip"))
+			if (@file_exists($file_base_name . ".zip"))
 			{
 				$finder = 1;
-				while(@file_exists($file_base_name . "(" . $finder . ").zip"))
+				while (@file_exists($file_base_name . "(" . $finder . ").zip"))
 				{
 					$finder++;
 				}
@@ -1019,7 +1019,7 @@ class upload_module
 		{
 			if (!(files::catch_errors(files::rrmdir($ext_tmp))))
 			{
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -1036,7 +1036,7 @@ class upload_module
 		$zip->extract($ext_tmp . '/');
 		$zip->close();
 
-		if($action != 'upload_local')
+		if ($action != 'upload_local')
 		{
 			$file->remove();
 		}

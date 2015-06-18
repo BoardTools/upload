@@ -40,7 +40,7 @@ class listener implements EventSubscriberInterface
 
 	public function add_config($event)
 	{
-		if($event['mode'] == 'server')
+		if ($event['mode'] == 'server')
 		{
 			$this->user->add_lang_ext('boardtools/upload', 'upload');
 			$display_vars = $event['display_vars'];

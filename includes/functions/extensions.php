@@ -82,7 +82,7 @@ class extensions
 				$enabled_extension_meta_data[$name]['S_VERSIONCHECK'] = true;
 				$enabled_extension_meta_data[$name]['U_VERSIONCHECK_FORCE'] = objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($md_manager->get_metadata('name'));
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				objects::$template->assign_block_vars('disabled', array(
 					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $e),
@@ -140,7 +140,7 @@ class extensions
 				$disabled_extension_meta_data[$name]['S_VERSIONCHECK'] = true;
 				$disabled_extension_meta_data[$name]['U_VERSIONCHECK_FORCE'] = objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($md_manager->get_metadata('name'));
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				objects::$template->assign_block_vars('disabled', array(
 					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $e),
@@ -198,7 +198,7 @@ class extensions
 					'U_EXT_NAME'		=> $name
 				);
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				$available_extension_meta_data[$name] = array(
 					'IS_BROKEN'			=> true,
@@ -260,7 +260,7 @@ class extensions
 				$extension_meta_data[$name]['S_VERSIONCHECK'] = true;
 				$extension_meta_data[$name]['U_VERSIONCHECK_FORCE'] = objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($md_manager->get_metadata('name'));
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				objects::$template->assign_block_vars('unavailable', array(
 					'META_NAME'				=> $name,
@@ -328,7 +328,7 @@ class extensions
 			{
 				$md_manager->get_metadata('all');
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				self::response(array(
 					'ext_name'	=> $ext_name,
@@ -625,7 +625,7 @@ class extensions
 				'message'		=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name'))
 			));
 		}
-		catch(\phpbb\extension\exception $e)
+		catch (\phpbb\extension\exception $e)
 		{
 			self::response(array(
 				'ext_name'		=> $ext_name,

@@ -9,9 +9,6 @@
 
 namespace boardtools\upload\includes\functions;
 
-use \boardtools\upload\includes\objects;
-use \boardtools\upload\includes\filetree\filedownload;
-
 class languages
 {
 	/**
