@@ -33,6 +33,8 @@ class load
 				{
 					$zip_array[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
+						'FILE_SIZE_KB'		=> ($file_size = @filesize(objects::$zip_dir . '/' . $ff)) ? round($file_size / 1000) : false,
+						'FILE_DATE'			=> ($file_date = @filemtime(objects::$zip_dir . '/' . $ff)) ? objects::$user->format_date($file_date) : '',
 						'U_UPLOAD'			=> objects::$u_action . '&amp;action=upload&amp;local_upload=' . urlencode($ff),
 						'U_DOWNLOAD'		=> objects::$u_action . '&amp;action=download&amp;zip_name=' . urlencode($ff),
 						'U_DELETE'			=> objects::$u_action . '&amp;action=delete_zip&amp;zip_name=' . urlencode($ff)
@@ -132,12 +134,8 @@ class load
 			$display_name = objects::$md_manager->get_metadata('display-name');
 			objects::$md_manager->output_template_data();
 
-			//if (objects::$self_update !== false && (preg_match(objects::$phpbb_link_template, objects::$self_update)))
-			//{
-			//    objects::$template->assign_vars(array(
-			//        'U_UPLOAD_EXT_UPDATE'	=> objects::$u_action . '&amp;action=upload_self_confirm',
-			//    ));
-			//}
+			// Output update link to the template if Upload Extensions Updater is installed and updates are available.
+			updater::set_update_link();
 
 			if (objects::$is_ajax || $ext_show == 'faq')
 			{
@@ -223,6 +221,10 @@ class load
 			// We output everything if this is an ajax request.
 			if (objects::$is_ajax)
 			{
+				if ($ext_show == 'languages')
+				{
+					objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
+				}
 				$ext_show = 'readme';
 			}
 
@@ -275,6 +277,29 @@ class load
 					{
 						break;
 					}
+				case 'languages':
+					if (($result = objects::$request->variable('result', '')) == 'deleted' || $result == 'deleted1')
+					{
+						objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE' . (($result == 'deleted') ? 'S' : '') . '_DELETE_SUCCESS'));
+					}
+					$language_directory = objects::$phpbb_root_path . 'ext/' . $ext_name . '/language';
+					$langs = files::get_languages($language_directory);
+					$default_lang = (in_array(objects::$config['default_lang'], $langs)) ? objects::$config['default_lang'] : 'en';
+					foreach ($langs as $lang)
+					{
+						$lang_info = languages::details($language_directory, $lang);
+						objects::$template->assign_block_vars('ext_languages', array(
+							'NAME'		=> $lang_info['name'] . (($lang === $default_lang) ? ' (' . objects::$user->lang('DEFAULT') . ')' : ''),
+						));
+					}
+					if (!objects::$is_ajax)
+					{
+						objects::$template->assign_vars(array(
+							'SHOW_DETAILS_TAB'		=> 'languages',
+							'EXT_DETAILS_LANGUAGES'	=> true,
+						));
+						break;
+					}
 				case 'filetree':
 					filetree::$ext_name = $ext_name;
 					$ext_file = objects::$request->variable('ext_file', '/composer.json');
@@ -308,12 +333,14 @@ class load
 			objects::$template->assign_vars(array(
 				//'S_EXT_DETAILS'			=> true,
 				'U_ACTION_LIST'			=> objects::$u_action . '&amp;action=list',
-				'U_ACTION' 				=> objects::$u_action,
-				'U_UPLOAD'				=> objects::$u_action . '&amp;action=upload',
+				'U_UPLOAD'				=> objects::$u_action . '&amp;action=upload_language',
+				'U_DELETE_ACTION'		=> objects::$u_action . '&amp;action=delete_language&amp;ext_name=' . urlencode($ext_name),
 				'U_BACK'				=> objects::$u_action . '&amp;action=list',
 				'U_EXT_DETAILS'			=> objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name),
 				'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($ext_name),
 				'UPDATE_EXT_PURGE_DATA'	=> objects::$user->lang('EXTENSION_DELETE_DATA_CONFIRM', $display_name),
+				'S_EXT_NAME'			=> $ext_name,
+				'S_FORM_ENCTYPE'		=> ' enctype="multipart/form-data"',
 			));
 		}
 		else

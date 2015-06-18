@@ -1,7 +1,5 @@
-<!--<span class="upload_ext_menu_name"><strong>{L_ACP_UPLOAD_EXT_TITLE}</strong> &raquo; </span><a href="{U_ACTION}&action=list" class="upload_main_link" id="upload_load_list"><i class="fa fa-gears"></i><span>{L_EXTENSIONS_ADMIN}</span></a> <a href="{U_ACTION}&action=zip_packages" class="upload_main_link" id="upload_load_zip"><i class="fa fa-archive"></i><span>{L_ACP_UPLOAD_ZIP_TITLE}</span></a> <a href="{U_ACTION}&action=uninstalled" class="upload_main_link" id="upload_load_uninstalled"><i class="fa fa-paint-brush"></i><span>{L_ACP_UPLOAD_UNINSTALLED_TITLE}</span></a>
-<hr class="upload_ext_navigation" />-->
 <!-- IF UPLOAD_ERROR -->
-<div class="errorbox">{UPLOAD_ERROR}</div>
+<div class="errorbox" xmlns="http://www.w3.org/1999/html">{UPLOAD_ERROR}</div>
 <!-- ENDIF -->
 <!-- IF S_UPDATED_SELF -->
 <fieldset class="ext_self_updated_notice">
@@ -20,11 +18,15 @@
 					<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
 					{S_FORM_TOKEN}
 					{S_HIDDEN_FIELDS}
-					<input type="hidden" id="valid_phpbb_ext" name="valid_phpbb_ext" />
 					<span id="br_form_upload"></span>
-					<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
-					<label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
-					<input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
+					<label for="ext_checksum">{L_CHECKSUM}{L_COLON}</label>
+					<input type="radio" name="ext_checksum_type" id="ext_checksum_type_md5" value="md5" checked="checked" />
+					<label for="ext_checksum_type_md5">md5</label>
+					<input type="radio" name="ext_checksum_type" id="ext_checksum_type_sha1" value="sha1" />
+					<label for="ext_checksum_type_sha1">sha1</label>
+					<input type="text" id="ext_checksum" name="ext_checksum" />
+					<span class="upload_ext_save_zip"><input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" /><label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label></span>
+					<button class="upload_ext_upload_button" type="submit" name="submit" value="{L_UPLOAD}" id="submit"><i class="fa fa-upload"></i> {L_UPLOAD}</button>
 				</div>
 				<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
 			</fieldset>

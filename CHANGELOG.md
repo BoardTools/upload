@@ -3,6 +3,22 @@ Upload Extensions - Changelog
 This file contains the list of changes between different versions of Upload Extensions.
 
 # Version 3.1.2
+## Changes since 3.1.2-beta
+### New features
+* [FEATURE] Language packages management page for each extension.
+* [FEATURE] Uploads of language packages for extensions.
+* [FEATURE] Integration with Upload Extensions Updater.
+
+### Improvements
+* [SECURITY] Checksums are now checked for uploaded zip packages.
+* [ZIP] File dates and file sizes are now displayed on ZIP files management page.
+* [INTERFACE] A link to reload pages by JavaScript.
+
+### Bug fixes
+* The received data for valid extensions is now sanitized.
+* The list of suggested extensions from phpbb.com is now obtained from extension's repository.
+* JavaScript fixes and improvements.
+
 ## Changes since 3.1.1
 ### New features
 * [FEATURE] Full Ajax support.

@@ -17,12 +17,12 @@ class files
 	public static $catched_solutions;
 
 	/**
-	* The function that catches the errors of another functions.
+	* The function that catches errors of other functions.
 	* USAGE 1: files::catch_errors(my_function()); => If my_function returns true, continue.
 	*          Otherwise the result of my_function() is printed as an error string.
-	* USAGE 2: files::catch_errors($user->['MY_ERROR'], my_function()); => If my_function returns true, continue.
-	*          If my_function returns false, print the string of MY_ERROR.
-	* USAGE 3: files::catch_errors($user->['MY_ERROR']); => Print the string of MY_ERROR.
+	* USAGE 2: files::catch_errors('MY_ERROR', my_function()); => If my_function returns true, continue.
+	*          If my_function returns false, print the string MY_ERROR.
+	* USAGE 3: files::catch_errors('MY_ERROR'); => Print the string MY_ERROR.
 	* @param bool|string	$error	The text to display in the case of an error. True if there were no errors.
 	* @param bool			$result	The result of the function what we need to catch errors of. True if there were no errors.
 	* @return bool			$result
@@ -65,7 +65,7 @@ class files
 			return false;
 		}
 		$composer = false;
-		foreach($ffs as $ff)
+		foreach ($ffs as $ff)
 		{
 			if ($ff != '.' && $ff != '..')
 			{
@@ -145,7 +145,7 @@ class files
 			{
 				return objects::$user->lang('ERROR_COPY_FILE', str_replace(objects::$phpbb_root_path, 'PHPBB_ROOT/', $src), str_replace(objects::$phpbb_root_path, 'PHPBB_ROOT/', $dst));
 			}
-			foreach($files as $file)
+			foreach ($files as $file)
 			{
 				if ($file != '.' && $file != '..')
 				{
@@ -170,7 +170,7 @@ class files
 	* Saves the contents of a file or a directory in a zip archive file.
 	* @param string $dest_file The path to the contents for adding to the zip file.
 	* @param string $dest_name The name of the zip file.
-	* @param string $zip_dir The directory for saving zip files.
+	* @param string $zip_dir   The directory for saving zip files.
 	*/
 	public static function save_zip_archive($dest_file, $dest_name, $zip_dir)
 	{
@@ -214,6 +214,34 @@ class files
 			}
 		}
 		return true;
+	}
+
+	/**
+	* Gets languages in the specified directory.
+	* @param string $path   The path to the language directory without slash at the end.
+	* @return array
+	*/
+	public static function get_languages($path)
+	{
+		$return = array();
+		if (@is_dir($path))
+		{
+			$files = @scandir($path);
+			if ($files === false)
+			{
+				return $return;
+			}
+			$type_cast_helper = new \phpbb\request\type_cast_helper();
+			foreach ($files as $file)
+			{
+				if ($file != '.' && $file != '..' && @is_dir($path . '/' . $file))
+				{
+					$type_cast_helper->set_var($file, $file, gettype($file), true);
+					$return[] = $file;
+				}
+			}
+		}
+		return $return;
 	}
 
 	/**

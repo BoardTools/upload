@@ -43,6 +43,9 @@ $lang = array_merge($lang, array(
 	'NOT_AN_EXTENSION'					=> 'The uploaded zip file is not a phpBB extension. The file was not saved on the server.',
 	'EXT_ACTION_ERROR'					=> 'The requested action cannot be performed for the selected phpBB extension.<br />Note: “Upload Extensions” can be managed only through the standard Extensions Manager.',
 
+	'SOURCE'							=> 'Source',
+	'EXTENSION_UPDATE_NO_LINK'			=> 'Download link is not provided.',
+	'EXTENSION_TO_BE_ENABLED'			=> 'Upload Extensions will be disabled during the update process and enabled again after the update.',
 	'EXTENSION_UPLOAD_UPDATE'			=> 'Update the extension',
 	'EXTENSION_UPLOAD_UPDATE_EXPLAIN'	=> '“Upload Extensions” will perform the upload from the link shown below.',
 
@@ -92,6 +95,8 @@ $lang = array_merge($lang, array(
 	'DEVELOPERS'						=> 'Developers',
 
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Save uploaded zip file',
+	'CHECKSUM'							=> 'Checksum',
+	'RESTORE'							=> 'Restore',
 	'ZIP_UPLOADED'						=> 'Uploaded zip packages of extensions',
 	'EXT_ENABLE'						=> 'Enable',
 	'EXT_ENABLE_DISABLE'				=> 'Enable/Disable the extension',
@@ -106,14 +111,24 @@ $lang = array_merge($lang, array(
 	'EXT_UPDATE_TIMEOUT'				=> 'The update process timed out.',
 	'EXT_UPDATES_AVAILABLE'				=> 'Updates are available',
 	'EXT_UPDATE_METHODS_TITLE'			=> 'Available update methods',
-	'EXT_UPLOAD_UPDATE_METHODS'			=> 'You can update the extension by taking one of the possible actions:<ul><li><strong>Updater method.</strong> Upload Extensions can be updated with Upload Extensions Updater. Check out whether this tool is already available. Unless you have this tool, you will need to use the second method.</li><li><strong>FTP method.</strong> Upload Extensions can be updated in a standard way. Download new files on your PC (click on the button below), disable the extension in standard Extensions Manager, copy new files using an FTP client and enable the extension in standard Extensions Manager.</li></ul>',
+	'EXT_UPLOAD_UPDATE_METHODS'			=> 'You can update the extension by taking one of the possible actions:<ul><li><strong>Updater method.</strong> Upload Extensions can be updated with Upload Extensions Updater. Check out whether this tool is already available. Unless you have this tool, you will need to use the second method.</li><li><strong>FTP method.</strong> Upload Extensions can be updated in a standard way. Download new files to your PC (click on the button below), disable the extension in standard Extensions Manager, copy new files using an FTP client and enable the extension in standard Extensions Manager.</li></ul>',
 	'EXT_UPDATED'						=> 'The update was successful.',
 	'EXT_UPDATED_LATEST_VERSION'		=> 'updated to the latest version',
+	'EXT_SAVED_OLD_ZIP'					=> '<strong>NOTE:</strong> the previous version of the extension was saved in the file <strong>%s</strong> on your server. Check out “ZIP files management” module.',
+	'EXT_RESTORE_LANGUAGE'				=> '<strong>One language directory is absent in the uploaded version of the extension.</strong> You can restore the directory %s from the saved zip archive of the previous version. Then you may need to update the files of that directory for compatibility with the uploaded version of the extension.',
+	'EXT_RESTORE_LANGUAGES'				=> '<strong>Some language directories are absent in the uploaded version of the extension.</strong> You can restore the directories %1$s and %2$s from the saved zip archive of the previous version. Then you may need to update the files of those directories for compatibility with the uploaded version of the extension.',
+	'EXT_LANGUAGES_RESTORED'			=> 'The restore process was completed successfully.',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
+	'EXT_RELOAD_PAGE'					=> 'Reload the page',
 
 	'ERROR_COPY_FILE'					=> 'The attempt to copy the file “%1$s” to the location “%2$s” failed.',
 	'ERROR_CREATE_DIRECTORY'			=> 'The attempt to create the directory “%s” failed.',
 	'ERROR_REMOVE_DIRECTORY'			=> 'The attempt to remove the directory “%s” failed.',
+	'ERROR_CHECKSUM_MISMATCH'			=> 'The %s-hash of the uploaded file differs from the provided checksum. The file was not saved on the server.',
+	'ERROR_ZIP_NO_COMPOSER'				=> 'composer.json was not found in the requested zip package.',
+	'ERROR_DIRECTORIES_NOT_RESTORED'	=> 'The restore process could not be completed due to errors.',
+	'ERROR_LANGUAGE_UNKNOWN_STRUCTURE'	=> 'The structure of the uploaded language package is unrecognised. The file was not saved on the server.',
+	'ERROR_LANGUAGE_NOT_DEFINED'		=> 'The ISO code of the language should be defined for the proper upload of the language package. Please fill in the required field of the form and try again.',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions’ zip packages storage path',
 	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Path under your phpBB root directory, e.g. <samp>ext</samp>.<br />You can change this path to store zip packages in a special folder (for example, if you want to let users download those files, you can change it to <em>downloads</em>, and if you want to prohibit those downloads, you can change it to the path that is upper by one level than http root of your website (or you can create a folder with the appropriate .htaccess file)).',
@@ -121,9 +136,12 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED'			=> 'The installed extension was updated.',
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'You have uploaded a zip file for an already installed extension. That extension <strong>was disabled automatically</strong> to make the update process safer. Now please <strong>check</strong> whether the uploaded files are correct and <strong>enable</strong> the extension if it still should be used on the board.',
 
-	'VALID_PHPBB_EXTENSIONS'			=> 'Valid extensions from the CDB on phpbb.com',
-	'SHOW_VALID_PHPBB_EXTENSIONS'		=> 'Show valid extensions from the CDB on phpbb.com',
-	'VALID_PHPBB_EXTENSIONS_TITLE'		=> 'You can download extensions from the CDB on phpbb.com or check out their release announcements.',
+	'ACP_UPLOAD_EXT_NO_CHECKSUM_TITLE'	=> 'No checksum was provided for the uploaded file.',
+	'ACP_UPLOAD_EXT_NO_CHECKSUM'		=> 'Upload Extensions was unable to perform security checks because the <strong>checksum was not provided</strong> for the uploaded zip file. Checksum is used to make sure that the uploaded file is not corrupted and not compromised.',
+
+	'VALID_PHPBB_EXTENSIONS'			=> 'Suggested extensions from the CDB on phpbb.com',
+	'SHOW_VALID_PHPBB_EXTENSIONS'		=> 'Show suggested extensions from the CDB on phpbb.com',
+	'VALID_PHPBB_EXTENSIONS_TITLE'		=> 'You can download extensions from the CDB on phpbb.com or check out their release announcements.<br />NOTE: the list of extensions is currently kept up-to-date by the developers of Upload Extensions.',
 	'POSSIBLE_SOLUTIONS'				=> 'Possible solutions',
 
 	'ACP_UPLOAD_EXT_MANAGER_EXPLAIN'	=> 'The Extensions Manager of Upload Extensions is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them.',
@@ -132,8 +150,23 @@ $lang = array_merge($lang, array(
 
 	'EXT_DETAILS_README'				=> 'Readme',
 	'EXT_DETAILS_CHANGELOG'				=> 'Changelog',
+	'EXT_DETAILS_LANGUAGES'				=> 'Languages',
 	'EXT_DETAILS_FILETREE'				=> 'File tree',
 	'EXT_DETAILS_TOOLS'					=> 'Tools',
+
+	'DEFAULT'							=> 'default',
+	'EXT_LANGUAGE_ISO_CODE'				=> 'ISO code',
+	'EXT_LANGUAGES'						=> 'Uploaded language packages',
+	'EXT_LANGUAGES_UPLOAD'				=> 'Upload a language package',
+	'EXT_LANGUAGES_UPLOAD_EXPLAIN'		=> 'Here you can upload a zipped package containing the necessary language files for this extension from your local computer or a remote server. “Upload Extensions” will then attempt to unzip the files and move them to the right location.<br />Choose a file or type a link in the fields below.<br />Don’t forget to specify the language ISO code in the corresponding field below (example: <strong>en</strong>).<br /><strong>IMPORTANT!</strong> Your current extension’s language directory with that ISO code will be deleted if it exists, <strong>no zip archive will be made for it</strong>.',
+	'EXT_LANGUAGE_UPLOADED'				=> 'The language package “%s” was uploaded successfully.',
+	'EXT_LANGUAGE_DELETE_CONFIRM'		=> 'Are you sure that you want to delete the language package “%s”?',
+	'EXT_LANGUAGES_DELETE_CONFIRM'		=> array(
+		2	=> 'Are you sure that you want to delete <strong>%1$s</strong> language packages?',
+	),
+	'EXT_LANGUAGE_DELETE_SUCCESS'		=> 'Extension’s language package was deleted successfully.',
+	'EXT_LANGUAGES_DELETE_SUCCESS'		=> 'Extension’s language packages were deleted successfully.',
+	'EXT_LANGUAGE_DELETE_ERROR'			=> 'No file specified or there was an error during the deletion.',
 
 	'EXT_TOOLS_DOWNLOAD_TITLE'			=> 'Download packaged extension',
 	'EXT_TOOLS_DOWNLOAD'				=> 'You can download a properly packaged ZIP file of the extension to your PC. You can also choose to delete the suffix of the development version (e.g. to shorten the time for preparing the extension for the CDB).',

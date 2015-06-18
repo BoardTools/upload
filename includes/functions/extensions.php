@@ -718,4 +718,57 @@ class extensions
 			}
 		}
 	}
+
+	/**
+	* Gets missing language directories for an extension from a specified zip file.
+	* @param string $ext_name The name of the extension.
+	* @param string $zip_file The name of zip file.
+	* @return null|bool
+	*/
+	public static function restore_languages($ext_name, $zip_file)
+	{
+		$ext_tmp = objects::$phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int) objects::$user->data['user_id'];
+		// Ensure that we don't have any previous files in the working directory.
+		if (is_dir($ext_tmp))
+		{
+			if (!(files::catch_errors(files::rrmdir($ext_tmp))))
+			{
+				files::catch_errors(objects::$user->lang['ERROR_DIRECTORIES_NOT_RESTORED']);
+				return false;
+			}
+		}
+		if (!class_exists('\compress_zip'))
+		{
+			include(objects::$phpbb_root_path . 'includes/functions_compress.' . objects::$phpEx);
+		}
+		$zip = new \compress_zip('r', objects::$zip_dir . '/' . $zip_file);
+		$zip->extract($ext_tmp . '/');
+		$zip->close();
+
+		$composery = files::getComposer($ext_tmp);
+		if (!$composery)
+		{
+			files::catch_errors(files::rrmdir($ext_tmp));
+			files::catch_errors(objects::$user->lang['ERROR_ZIP_NO_COMPOSER']);
+			files::catch_errors(objects::$user->lang['ERROR_DIRECTORIES_NOT_RESTORED']);
+			return false;
+		}
+		$source = substr($composery, 0, -14);
+
+		// Check languages missing in the new version.
+		$ext_path = objects::$phpbb_root_path . 'ext/' . $ext_name;
+		$old_langs = files::get_languages($source . '/language');
+		$new_langs = files::get_languages($ext_path . '/language');
+		$old_langs = array_diff($old_langs, $new_langs);
+		if (sizeof($old_langs))
+		{
+			foreach ($old_langs as $lang)
+			{
+				files::catch_errors(files::rcopy($source . '/language/' . $lang, $ext_path . '/language/' . $lang));
+			}
+			objects::$template->assign_var('EXT_LANGUAGES_RESTORED', true);
+		}
+
+		files::catch_errors(files::rrmdir($ext_tmp));
+	}
 }

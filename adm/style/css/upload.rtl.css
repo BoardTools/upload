@@ -2,6 +2,22 @@
 .rtl .ext_upload_wrapper {
 	padding: 0 80px 0 0;
 }
+.rtl .upload_ext_upload_button {
+	float: left;
+	left: -10px;
+	right: auto;
+	border-top-left-radius: 0;
+	border-top-right-radius: 10px;
+	box-shadow: 1px -1px 1px 1px #78cef7;
+}
+/*.rtl #ext_language_code, .rtl #ext_checksum {
+	margin-right: 0;
+	margin-left: 10px;
+}*/
+.rtl .upload_ext_save_zip label {
+	margin-left: 0;
+	margin-right: 5px;
+}
 .rtl .upload-menu {
 	left: auto;
 	right: 0;
@@ -23,6 +39,10 @@
 .rtl #upload_load_main:hover {
 	margin: 0 15px 0 5px;
 	padding: 5px 10px;
+}
+.rtl .ext_reload_link {
+	float: left;
+	margin: 0 15px 0 5px;
 }
 .rtl #uploaded_ok {
 	margin-right: 0;
@@ -201,6 +221,9 @@
 .rtl .upload_ext_faq ul, .upload_ext_faq ol {
 	margin: 5px 15px 0 0;
 }
+.rtl .ext_language_actions {
+	float: left;
+}
 .rtl .ext_version_bubble {
 	float: left;
 	margin: 5px 0 5px 15px;
@@ -234,6 +257,10 @@
 }
 .rtl #ext_details_content .description_fieldset .ext_description_column2 {
 	float: left;
+}
+.rtl #ext_details_content .extension_announcement_link span {
+	margin-left: 0;
+	margin-right: 10px;
 }
 .rtl #ext_details_content .extension_get_update_link {
 	padding: 6px 0 6px 15px;

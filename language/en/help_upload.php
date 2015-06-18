@@ -22,7 +22,7 @@ $help = array(
 	),
 	array(
 		0 => 'What can I do with “Upload an extension” feature?',
-		1 => 'You are able to upload extensions from different sources without the necessity of using an FTP client. When you upload an extension that already exists on your board, its old version will be automatically saved in the specified directory on your board - check out “ZIP files management” module. You can also save zip file of currently uploaded version of the extension - tick the flag “Save uploaded zip file” before the upload process.'
+		1 => 'You are able to upload extensions from different sources without the necessity of using an FTP client. When you upload an extension that already exists on your board, its old version will be automatically saved in the specified directory on your board - check out “ZIP files management” module. You can also save zip file of currently uploaded version of the extension - tick the flag “Save uploaded zip file” before the upload process. You can make sure that you upload the true extension’s zip package if you specify its checksum in the corresponding form field.'
 	),
 	array(
 		0 => 'What is the difference between “Extensions Manager of Upload Extensions” and standard “Extensions Manager”?',
@@ -42,7 +42,7 @@ $help = array(
 	),
 	array(
 		0 => 'How can I perform an upload from the CDB on phpbb.com?',
-		1 => 'On the main page of Upload Extensions click on the link “Show valid extensions from the CDB on phpbb.com”. Select the extension that you want to upload and click on the “Download” button in the row of that extension. Note: wordplay here: the extension will be <em>downloaded</em> from the CDB on phpbb.com and <em>uploaded</em> to your server.'
+		1 => 'On the main page of Upload Extensions click on the link “Show suggested extensions from the CDB on phpbb.com”. Select the extension that you want to upload and click on the “Download” button in the row of that extension. Note: wordplay here: the extension will be <em>downloaded</em> from the CDB on phpbb.com and <em>uploaded</em> to your server.'
 	),
 	array(
 		0 => 'How can I perform an upload from other remote resources?',
@@ -55,6 +55,10 @@ $help = array(
 	array(
 		0 => 'I have copied the link to the extension’s zip package into the field and clicked the “Upload” button, but I see an error. What’s wrong with the link?',
 		1 => 'To be able to upload the extension you should make sure that the following conditions are met:<ol><li>The link should be <strong>direct</strong>: for uploads from resources other than phpbb.com it should have <code>.zip</code> at the end.</li><li>The link should lead to the <strong>zip file</strong> of the extension, not to its description page.</li></ol>'
+	),
+	array(
+		0 => 'What is the checksum? Where can I take it?',
+		1 => 'Checksum is used to verify the integrity of the uploaded file. It is checked to make sure that the file on the remote server and the file uploaded to your server are the same. Checksum can be usually obtained from the same resource where the original file is stored.'
 	),
 	array(
 		0 => '--',
@@ -78,11 +82,15 @@ $help = array(
 	),
 	array(
 		0 => 'What information is shown for my extensions?',
-		1 => 'Displayed information depends on several circumstances.<ul><li>General description provided by extension developers in the <code>composer.json</code> file (or warning message if the extension is broken).</li><li>The version number of the extension (if it is not broken).</li><li>The contents of the <code>README.md</code> file (if it exists in the extension’s directory).</li><li>The contents of the <code>CHANGELOG.md</code> file (if it exists in the extension’s directory).</li><li>The file tree for the extension and contents of its files.</li></ul>'
+		1 => 'Displayed information depends on several circumstances.<ul><li>General description provided by extension developers in the <code>composer.json</code> file (or warning message if the extension is broken).</li><li>The version number of the extension (if it is not broken).</li><li>The contents of the <code>README.md</code> file (if it exists in the extension’s directory).</li><li>The contents of the <code>CHANGELOG.md</code> file (if it exists in the extension’s directory).</li><li>Uploaded language packages for the extension.</li><li>The file tree for the extension and contents of its files.</li></ul>'
 	),
 	array(
 		0 => 'What can I do with the extension on the details page?',
-		1 => 'You are able to:<ul><li>Enable the extension if its toggle is red.</li><li>Disable the extension if its toggle is green.</li><li>Delete extension’s data from the database if the red trash bin button is shown.</li><li>Check out the status of the current version of the extension if the link to the version check file is provided by extension developers. If extension’s version is shown in a green bubble - the extension is up-to-date. If the bubble is red - the extension is not up-to-date. Otherwise - the version check information could not be obtained.</li><li>If you see a cogwheel near the extension’s version bubble, then you can receive an update for that extension. Click on the cogwheel: if an “Update” button is shown - then you can click on it, confirm your action and Upload Extensions will update your extension. You can also see the release announcement by clicking on the corresponding button if the link is provided by extension developers. <strong>NOTE:</strong> if JavaScript is disabled in your browser, those buttons will be located inside the extension details section block.</li><li>You can also download the extension’s package (see question “What is the purpose of the feature “Download packaged extension”?” below).</li></ul>'
+		1 => 'You are able to:<ul><li>Enable the extension if its toggle is red.</li><li>Disable the extension if its toggle is green.</li><li>Delete extension’s data from the database if the red trash bin button is shown.</li><li>Check out the status of the current version of the extension if the link to the version check file is provided by extension developers. If extension’s version is shown in a green bubble - the extension is up-to-date. If the bubble is red - the extension is not up-to-date. Otherwise - the version check information could not be obtained.</li><li>Receive an update for the extension if you see a cogwheel near the extension’s version bubble. Click on the cogwheel: if an “Update” button is shown - then you can click on it, confirm your action and Upload Extensions will update your extension. You can also see the release announcement by clicking on the corresponding button if the link is provided by extension developers. <strong>NOTE:</strong> if JavaScript is disabled in your browser, those buttons will be located inside the extension details section block.</li><li>Manage extension’s language packages. You can upload a new language package for the extension - see question “What language packages can I upload for an extension?” below. You can also delete some already installed language packages.</li><li>Download the extension’s package (see question “What is the purpose of the feature “Download packaged extension”?” below).</li></ul>'
+	),
+	array(
+		0 => 'What language packages can I upload for an extension?',
+		1 => 'You can upload any zip packages that contain language files for the extension if those packages have one of the following structures:<ul><li><code>ZIP_FILE_ROOT/language_files</code>, or</li><li><code>ZIP_FILE_ROOT/single_directory/language_files</code>, or</li><li><code>ZIP_FILE_ROOT/single_directory/language_ISO_code/language_files</code>.</li></ul><br />For more information about the uploading process see section “Uploading process” above.'
 	),
 	array(
 		0 => 'What is the purpose of the feature “Download packaged extension”?',
