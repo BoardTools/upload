@@ -1,8 +1,8 @@
 {
-    "unstable": {
+    "stable": {
         "3.1": {
-            "current": "3.1.2-beta",
-            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=14104046#p14104046",
+            "current": "3.1.2-beta2",
+            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=14115401#p14115401",
             "download": "https://github.com/BoardTools/upload/archive/develop.zip",
             "eol": null,
             "security": false
