@@ -469,7 +469,23 @@ class upload_module
 						{
 							if ($request->is_ajax())
 							{
-								trigger_error($user->lang('EXT_LANGUAGE' . ((sizeof($marked) > 1) ? 'S' : '') . '_DELETE_SUCCESS'));
+								$result_text = $user->lang('EXT_LANGUAGE' . ((sizeof($marked) > 1) ? 'S' : '') . '_DELETE_SUCCESS');
+								if ($ext_name === objects::$upload_ext_name && in_array(objects::$user->lang_name, $marked))
+								{
+									$json_response = new \phpbb\json_response;
+									$json_response->send(array(
+										'MESSAGE_TITLE' => $user->lang['INFORMATION'],
+										'MESSAGE_TEXT'  => $result_text,
+										'REFRESH_DATA'  => array(
+											'time'	=> 3,
+											'url'	=> redirect(objects::$u_action . '&amp;action=details&amp;ext_show=languages&amp;result_type=ajax_refresh', true)
+										)
+									));
+								}
+								else
+								{
+									trigger_error($result_text);
+								}
 							}
 							else
 							{
@@ -994,6 +1010,12 @@ class upload_module
 	{
 		global $phpbb_root_path, $phpEx, $user;
 
+		if (empty($ext_name))
+		{
+			files::catch_errors(objects::$user->lang('ERROR_LANGUAGE_NO_EXTENSION'));
+			return false;
+		}
+
 		if (empty($lang_name))
 		{
 			files::catch_errors(objects::$user->lang('ERROR_LANGUAGE_NOT_DEFINED'));
@@ -1079,6 +1101,19 @@ class upload_module
 		if (!(files::catch_errors(files::rrmdir($ext_tmp))))
 		{
 			return false;
+		}
+		if (objects::$is_ajax && $ext_name === objects::$upload_ext_name && $lang_name === objects::$user->lang_name)
+		{
+			/*
+			 * Refresh the page if the uploaded language package
+			 * is currently used by the user of Upload Extensions.
+			 * Only for Ajax requests.
+			 */
+			$response_object = new \phpbb\json_response;
+			$response_object->send(array(
+				"LANGUAGE"	=> urlencode($lang_name),
+				"REFRESH"	=> true
+			));
 		}
 		objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE_UPLOADED', $lang_name));
 		return true;

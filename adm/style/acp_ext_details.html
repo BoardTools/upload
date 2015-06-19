@@ -1,5 +1,5 @@
 <a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <a href="{U_ACTION_LIST}" id="upload_load_main_list">{L_EXTENSIONS_ADMIN}</a> &raquo; <strong>{META_DISPLAY_NAME}</strong>
-<a href="{U_ACTION}&amp;action=details&amp;ext_name={META_NAME}" class="ext_reload_link upload_get_details_link" data-ext-name="{META_NAME}" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<a href="{U_ACTION}&amp;action=details&amp;ext_name={META_NAME}" class="ext_reload_link upload_get_details_link" data-ext-name="{META_NAME}"<!-- IF EXT_LOAD_LANG --> data-ext-lang="{EXT_LOAD_LANG}"<!-- ENDIF --> data-upload-ext="true" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
 <hr class="upload_ext_navigation" />
 <h1 class="ExtensionName"><i class="fa fa-cog"></i> {META_DISPLAY_NAME}</h1>
 <!-- IF S_UPLOAD_VERSIONCHECK && S_UPLOAD_UP_TO_DATE -->
@@ -30,6 +30,17 @@
 	<p>{UPLOAD_VERSIONCHECK_FAIL_REASON}</p>
 </div>
 <!-- ENDIF -->
+<!-- IF EXT_LANGUAGE_UPLOADED -->
+<div class="ext_uploaded_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{EXT_LANGUAGE_UPLOADED}</h1>
+</div>
+<!-- ENDIF -->
+<!-- IF S_EXTENSION_CHECKSUM_NOT_PROVIDED -->
+<div class="ext_updated_notice">
+	<h1><i class="fa fa-exclamation-circle"></i> {L_ACP_UPLOAD_EXT_NO_CHECKSUM_TITLE}</h1>
+	<p>{L_ACP_UPLOAD_EXT_NO_CHECKSUM}</p>
+</div>
+<!-- ENDIF -->
 <div class="ext_details_container">
 	<div class="ext_details_tabs">
 		<ul>
@@ -46,12 +57,12 @@
 		<!-- IF EXT_DETAILS_MARKDOWN and not IS_AJAX -->
 		<div class="ext_details_markdown" style="display:block;">{EXT_DETAILS_MARKDOWN}</div>
 		<!-- ENDIF -->
-		<!-- IF IS_AJAX -->
+		<!-- IF IS_AJAX || S_EXT_DETAILS_SHOW_LANGUAGES -->
 		<div class="ext_details_markdown" id="ext_details_readme">{EXT_DETAILS_README}</div>
 		<div class="ext_details_markdown" id="ext_details_changelog">{EXT_DETAILS_CHANGELOG}</div>
 		<!-- ENDIF -->
-        <!-- IF SHOW_DETAILS_TAB == 'faq' || IS_AJAX -->
-        <div id="ext_details_faq" data-ext-show-faq="{S_EXT_DETAILS_SHOW_FAQ}"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+        <!-- IF SHOW_DETAILS_TAB == 'faq' || IS_AJAX || S_EXT_DETAILS_SHOW_LANGUAGES -->
+        <div id="ext_details_faq" data-ext-show-faq="{S_EXT_DETAILS_SHOW_FAQ}"<!-- IF not IS_AJAX && not S_EXT_DETAILS_SHOW_LANGUAGES --> style="display:block;"<!-- ENDIF-->>
 			<h1>{L_ACP_UPLOAD_EXT_HELP}</h1>
             <!-- BEGIN upload_ext_faq_block -->
             <div id="upload_ext_faq_item_{upload_ext_faq_block.SECTION_NUMBER}">
@@ -70,7 +81,7 @@
 		<!-- IF EXT_DETAILS_LANGUAGES || IS_AJAX -->
 		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
 			<!-- IF .ext_languages -->
-			<form method="post" action="{U_DELETE_ACTION}" data-ajax="language_rows_delete">
+			<form method="post" action="{U_DELETE_ACTION}" data-ajax="language_rows_delete" data-refresh="true">
 				<fieldset id="ext_languages_list">
 					<span class="description_title ext_languages_title">{L_EXT_LANGUAGES}</span>
 					<!-- BEGIN ext_languages -->
@@ -108,7 +119,7 @@
 						<input type="radio" name="ext_checksum_type" id="ext_checksum_type_sha1" value="sha1" />
 						<label for="ext_checksum_type_sha1">sha1</label>
 						<input type="text" id="ext_checksum" name="ext_checksum" />
-						<input type="hidden" name="ext_name" value="{S_EXT_NAME}" />
+						<input type="hidden" name="ext_name" value="{META_NAME}" />
 						<button class="upload_ext_upload_button" type="submit" name="submit" value="{L_UPLOAD}" id="submit"><i class="fa fa-upload"></i> {L_UPLOAD}</button>
 					</div>
 					<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
@@ -117,7 +128,7 @@
 		</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_FILETREE || IS_AJAX -->
-		<div id="filetree"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="filetree"<!-- IF not IS_AJAX && not S_EXT_DETAILS_SHOW_LANGUAGES --> style="display:block;"<!-- ENDIF-->>
 			<div id="filetreenames">{FILETREE}</div>
 			<div id="filecontent_wrapper">
 				<div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
@@ -126,7 +137,7 @@
 		</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_TOOLS || IS_AJAX -->
-		<div id="ext_details_tools"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="ext_details_tools"<!-- IF not IS_AJAX && not S_EXT_DETAILS_SHOW_LANGUAGES --> style="display:block;"<!-- ENDIF-->>
 			<fieldset class="description_fieldset description_update_form">
 				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
 				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
@@ -138,7 +149,7 @@
 			</fieldset>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS and not (SHOW_DETAILS_TAB == 'faq')) || IS_AJAX -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_TOOLS and not (SHOW_DETAILS_TAB == 'faq')) || IS_AJAX || S_EXT_DETAILS_SHOW_LANGUAGES -->
 		<div id="ext_details_content">
 			<!-- IF S_UPLOAD_VERSIONCHECK && not S_UPLOAD_UP_TO_DATE -->
 			<!-- IF not U_UPLOAD_EXT_UPDATE -->

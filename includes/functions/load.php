@@ -72,6 +72,7 @@ class load
 	*/
 	public static function details($ext_name, $ext_show)
 	{
+		$show_lang_page = false;
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name && $ext_name !== objects::$upload_ext_name)
 		{
@@ -137,7 +138,15 @@ class load
 			// Output update link to the template if Upload Extensions Updater is installed and updates are available.
 			updater::set_update_link();
 
-			if (objects::$is_ajax || $ext_show == 'faq')
+			// We output everything if this is an ajax request or if we load languages page for Upload Extensions.
+			if ($ext_show == 'languages' && objects::$request->variable('result_type', '') === "ajax_refresh")
+			{
+				objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
+				$show_lang_page = true;
+				$ext_show = 'readme';
+			}
+
+			if (objects::$is_ajax || $ext_show == 'faq' || $show_lang_page)
 			{
 				objects::$user->add_lang_ext('boardtools/upload', 'upload', false, true);
 				$faq_sections = 0;
@@ -157,7 +166,7 @@ class load
 							'FAQ_ANSWER'		=> $help_ary[1])
 					);
 				}
-				if (!objects::$is_ajax)
+				if (!objects::$is_ajax && !$show_lang_page)
 				{
 					objects::$template->assign_vars(array(
 						'SHOW_DETAILS_TAB'		=> 'faq',
@@ -218,7 +227,7 @@ class load
 					break;
 			}
 
-			// We output everything if this is an ajax request.
+			// We output everything if this is an ajax request or if we load languages page for Upload Extensions.
 			if (objects::$is_ajax)
 			{
 				if ($ext_show == 'languages')
@@ -239,7 +248,7 @@ class load
 					if ($string !== false)
 					{
 						$readme = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax)
+						if (!objects::$is_ajax && !$show_lang_page)
 						{
 							objects::$template->assign_vars(array(
 								'SHOW_DETAILS_TAB'		=> 'readme',
@@ -251,7 +260,7 @@ class load
 							objects::$template->assign_var('EXT_DETAILS_README', $readme);
 						}
 					}
-					if (!objects::$is_ajax)
+					if (!objects::$is_ajax && !$show_lang_page)
 					{
 						break;
 					}
@@ -261,7 +270,7 @@ class load
 					if ($string !== false)
 					{
 						$changelog = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax)
+						if (!objects::$is_ajax && !$show_lang_page)
 						{
 							objects::$template->assign_vars(array(
 								'SHOW_DETAILS_TAB'		=> 'changelog',
@@ -273,7 +282,7 @@ class load
 							objects::$template->assign_var('EXT_DETAILS_CHANGELOG', $changelog);
 						}
 					}
-					if (!objects::$is_ajax)
+					if (!objects::$is_ajax && !$show_lang_page)
 					{
 						break;
 					}
@@ -281,6 +290,14 @@ class load
 					if (($result = objects::$request->variable('result', '')) == 'deleted' || $result == 'deleted1')
 					{
 						objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE' . (($result == 'deleted') ? 'S' : '') . '_DELETE_SUCCESS'));
+					}
+					else if ($result == 'language_uploaded')
+					{
+						$load_lang = objects::$request->variable('lang', '');
+						objects::$template->assign_vars(array(
+							'EXT_LOAD_LANG'			=> $load_lang,
+							'EXT_LANGUAGE_UPLOADED'	=> objects::$user->lang('EXT_LANGUAGE_UPLOADED', $load_lang),
+						));
 					}
 					$language_directory = objects::$phpbb_root_path . 'ext/' . $ext_name . '/language';
 					$langs = files::get_languages($language_directory);
@@ -298,7 +315,10 @@ class load
 							'SHOW_DETAILS_TAB'		=> 'languages',
 							'EXT_DETAILS_LANGUAGES'	=> true,
 						));
-						break;
+						if (!$show_lang_page)
+						{
+							break;
+						}
 					}
 				case 'filetree':
 					filetree::$ext_name = $ext_name;
@@ -309,7 +329,7 @@ class load
 						'FILENAME'				=> substr($ext_file, strrpos($ext_file, '/') + 1),
 						'CONTENT'				=> highlight_string(@file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . $ext_file), true)
 					));
-					if (!objects::$is_ajax)
+					if (!objects::$is_ajax && !$show_lang_page)
 					{
 						objects::$template->assign_var('SHOW_DETAILS_TAB', 'filetree');
 						break;
@@ -318,15 +338,18 @@ class load
 					objects::$template->assign_vars(array(
 						'EXT_DETAILS_TOOLS'	=> true,
 					));
-					if (!objects::$is_ajax)
+					if (!objects::$is_ajax && !$show_lang_page)
 					{
 						objects::$template->assign_var('SHOW_DETAILS_TAB', 'tools');
 						break;
 					}
 				default:
-					objects::$template->assign_vars(array(
-						'SHOW_DETAILS_TAB'		=> 'details',
-					));
+					if (!$show_lang_page)
+					{
+						objects::$template->assign_vars(array(
+							'SHOW_DETAILS_TAB'		=> 'details',
+						));
+					}
 					break;
 			}
 
@@ -339,7 +362,6 @@ class load
 				'U_EXT_DETAILS'			=> objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name),
 				'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($ext_name),
 				'UPDATE_EXT_PURGE_DATA'	=> objects::$user->lang('EXTENSION_DELETE_DATA_CONFIRM', $display_name),
-				'S_EXT_NAME'			=> $ext_name,
 				'S_FORM_ENCTYPE'		=> ' enctype="multipart/form-data"',
 			));
 		}

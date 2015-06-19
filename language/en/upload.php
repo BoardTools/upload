@@ -128,6 +128,7 @@ $lang = array_merge($lang, array(
 	'ERROR_ZIP_NO_COMPOSER'				=> 'composer.json was not found in the requested zip package.',
 	'ERROR_DIRECTORIES_NOT_RESTORED'	=> 'The restore process could not be completed due to errors.',
 	'ERROR_LANGUAGE_UNKNOWN_STRUCTURE'	=> 'The structure of the uploaded language package is unrecognised. The file was not saved on the server.',
+	'ERROR_LANGUAGE_NO_EXTENSION'		=> 'The name of the extension is not specified for the language package.',
 	'ERROR_LANGUAGE_NOT_DEFINED'		=> 'The ISO code of the language should be defined for the proper upload of the language package. Please fill in the required field of the form and try again.',
 
 	'ACP_UPLOAD_EXT_DIR'				=> 'Extensions’ zip packages storage path',

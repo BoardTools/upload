@@ -477,10 +477,6 @@
 		$("#extupload").css("display", "none");
 		$("#button_upload").css("display", "inline-block");
 
-		$("#valid_phpbb_ext").bind('change keyup', function () {
-			$("#remote_upload").val($(this).val());
-		});
-
 		$("#submit, .unpack_zip").click(function () {
 			$("#ext_upload_content").css("display", "none");
 			$("#upload").css("display", "block");
@@ -707,8 +703,9 @@
 		});
 		// Detect the request to load the languages tab.
 		if ($("#ext_languages").attr("data-ext-show-languages") === "true") {
-			$(".ext_details_tabs .activetab, #ext_details_languages_tab").toggleClass("activetab");
-			$("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools, #ext_details_faq_tab").css("display", "none");
+			$(".ext_details_tabs .activetab").toggleClass("activetab");
+			$("#ext_details_languages_tab").addClass("activetab");
+			$("#filetree, .ext_details_markdown, #ext_details_content, #ext_details_tools, #ext_details_faq").css("display", "none");
 			$("#ext_languages").css("display", "block");
 		}
 		if ($("#ext_details_faq").length) {
@@ -750,9 +747,10 @@
 	}
 
 	function check_details_page() {
-		if ($(".ext_details_block").length > 0) // Reload the details page if this was not an ajax request.
+		// Reload the details page if this was not an ajax request (we do not need it if we load languages for Upload Extensions).
+		if ($(".ext_details_block").length > 0 && (typeof $(".ext_reload_link").attr("data-upload-ext") === "undefined" || $("#ext_languages").attr("data-ext-show-languages") !== "true"))
 		{ // This is needed because filetree, readme and changelog are downloaded together if JavaScript is used.
-			load_page("details", $("h1.ExtensionName span").attr("data-ext-name"));
+			load_page("details", $(".ext_reload_link").attr("data-ext-name"));
 		}
 	}
 
@@ -964,7 +962,11 @@
 					show_error_box(e, text, ee);
 				},
 				success: function (s, x) {
-					if (check_response(s)) {
+					if (action === "upload_language" && typeof s === "object" && typeof s.REFRESH !== "undefined") {
+						// Reload the page after installing current language package.
+						window.location.href = $("#upload_main").attr("data-page-action") + "&action=details&ext_show=languages&result=language_uploaded&result_type=ajax_refresh&lang=" + s.LANGUAGE;
+					}
+					else if (check_response(s)) {
 						page_loaded($(this), s);
 					}
 				}
