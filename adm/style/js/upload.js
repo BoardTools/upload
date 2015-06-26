@@ -943,7 +943,7 @@
 		}
 		if (action === "upload" || action === "upload_update" || action === "upload_language") {
 			var $this = $("#ext_upload");
-			if (action === "upload_ext_update") {
+			if (action === "upload_update") {
 				$this = $("#upload_ext_update");
 				action = "upload"; // The common action for the server.
 			}

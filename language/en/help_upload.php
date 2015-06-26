@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -41,12 +41,12 @@ $help = array(
 		1 => 'Uploading process'
 	),
 	array(
-		0 => 'How can I perform an upload from the CDB on phpbb.com?',
-		1 => 'On the main page of Upload Extensions click on the link “Show suggested extensions from the CDB on phpbb.com”. Select the extension that you want to upload and click on the “Download” button in the row of that extension. Note: wordplay here: the extension will be <em>downloaded</em> from the CDB on phpbb.com and <em>uploaded</em> to your server.'
+		0 => 'How can I upload suggested extensions?',
+		1 => 'On the main page of Upload Extensions click on the link “Show suggested extensions”. Select the extension that you want to upload and click on the “Download” button in the row of that extension. Note: wordplay here: the extension will be <em>downloaded</em> from the remote resource and <em>uploaded</em> to your server.'
 	),
 	array(
-		0 => 'How can I perform an upload from other remote resources?',
-		1 => 'Copy the <strong>direct</strong> link to the extension’s zip package (it should end with <code>.zip</code>) into the dedicated field of the form “Upload an extension” and click the “Upload” button.'
+		0 => 'How can I perform an upload from the CDB on phpbb.com or other remote resources?',
+		1 => 'Copy the <strong>direct</strong> link to the extension’s zip package (if the link is not from the phpbb.com website, it should end with <code>.zip</code>) into the dedicated field of the form “Upload an extension” and click the “Upload” button.'
 	),
 	array(
 		0 => 'How can I upload an extension from my local PC?',

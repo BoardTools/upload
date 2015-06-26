@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -30,6 +30,10 @@ $lang = array_merge($lang, array(
 	'EXT_UPLOAD_INIT_FAIL'				=> 'There was an error when initialising the extension upload process.',
 	'EXT_NOT_WRITABLE'					=> array(
 		'error'		=> 'The ext/ directory is not writable. This is required for “Upload Extensions” to work properly.',
+		'solution'	=> 'Please adjust your permissions or settings and try again.',
+	),
+	'EXT_TMP_NOT_WRITABLE'				=> array(
+		'error'		=> 'The ext/boardtools/upload/tmp/ directory is not writable. This is required for “Upload Extensions” to work properly.',
 		'solution'	=> 'Please adjust your permissions or settings and try again.',
 	),
 	'EXT_UPLOAD_ERROR'					=> array(
@@ -140,9 +144,10 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_NO_CHECKSUM_TITLE'	=> 'No checksum was provided for the uploaded file.',
 	'ACP_UPLOAD_EXT_NO_CHECKSUM'		=> 'Upload Extensions was unable to perform security checks because the <strong>checksum was not provided</strong> for the uploaded zip file. Checksum is used to make sure that the uploaded file is not corrupted and not compromised.',
 
-	'VALID_PHPBB_EXTENSIONS'			=> 'Suggested extensions from the CDB on phpbb.com',
-	'SHOW_VALID_PHPBB_EXTENSIONS'		=> 'Show suggested extensions from the CDB on phpbb.com',
-	'VALID_PHPBB_EXTENSIONS_TITLE'		=> 'You can download extensions from the CDB on phpbb.com or check out their release announcements.<br />NOTE: the list of extensions is currently kept up-to-date by the developers of Upload Extensions.',
+	'VALID_PHPBB_EXTENSIONS'			=> 'Suggested extensions',
+	'SHOW_VALID_PHPBB_EXTENSIONS'		=> 'Show suggested extensions',
+	'VALID_PHPBB_EXTENSIONS_TITLE'		=> 'You can download suggested extensions or check out their release announcements.<br />NOTE: the list of extensions is currently kept up-to-date by the developers of Upload Extensions.<br />The data for the list is located here: <a href="http://boardtools.github.io/upload/phpbb.json" target="_blank">http://boardtools.github.io/upload/phpbb.json</a>.',
+	'VALID_PHPBB_EXTENSIONS_EMPTY_LIST'	=> 'No extensions are being suggested at the moment. Please check out the updates for Upload Extensions.',
 	'POSSIBLE_SOLUTIONS'				=> 'Possible solutions',
 
 	'ACP_UPLOAD_EXT_MANAGER_EXPLAIN'	=> 'The Extensions Manager of Upload Extensions is a tool in your phpBB Board that allows you to manage all of your extensions and view information about them.',
@@ -185,9 +190,16 @@ $lang = array_merge($lang, array(
 	'UPLOAD_DESCRIPTION_UPLOAD_REMOTE'	=> 'Remote server',
 	'UPLOAD_DESCRIPTION_UPDATE'			=> 'Update phpBB extensions',
 	'UPLOAD_DESCRIPTION_UPDATE_ABOUT'	=> 'You can update any of already uploaded extensions. The extension that you want to update will be disabled automatically so that any updates will be safe.',
+	'UPLOAD_DESCRIPTION_MANAGE'			=> 'Manage phpBB extensions',
+	'UPLOAD_DESCRIPTION_MANAGE_ACTIONS'	=> 'Install/uninstall any extensions',
+	'UPLOAD_DESCRIPTION_MANAGE_LANG'	=> 'Upload and manage extensions’ language packages',
+	'UPLOAD_DESCRIPTION_MANAGE_DETAILS'	=> 'View the details and file trees',
+	'UPLOAD_DESCRIPTION_DESIGN'			=> 'Interactive interface',
+	'UPLOAD_DESCRIPTION_DESIGN_ABOUT'	=> 'You can perform actions more quickly because of JavaScript functionality. Colourful messages and tooltips will help you in making right decisions.',
 	'UPLOAD_DESCRIPTION_ZIP'			=> 'ZIP files management',
 	'UPLOAD_DESCRIPTION_ZIP_SAVE'		=> 'Save zips in a directory of your choice',
 	'UPLOAD_DESCRIPTION_ZIP_UNPACK'		=> 'Unpack a zip file to install an extension',
+	'UPLOAD_DESCRIPTION_ZIP_DOWNLOAD'	=> 'Download proper zip packages of extensions',
 	'UPLOAD_DESCRIPTION_CLEANER'		=> 'Extension Cleaner tool',
 	'UPLOAD_DESCRIPTION_CLEANER_ABOUT'	=> 'You can delete extension directories or zip files of extensions from the server.',
 ));

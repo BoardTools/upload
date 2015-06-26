@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -597,7 +597,10 @@ class upload_module
 		// Make sure the ext/ directory exists and if it doesn't, create it
 		if (!is_dir($phpbb_root_path . 'ext'))
 		{
-			files::catch_errors(files::recursive_mkdir($phpbb_root_path . 'ext'));
+			if (!files::catch_errors(files::recursive_mkdir($phpbb_root_path . 'ext')))
+			{
+				return false;
+			}
 		}
 
 		if (!is_writable($phpbb_root_path . 'ext'))
@@ -608,7 +611,19 @@ class upload_module
 
 		if (!is_dir(objects::$zip_dir))
 		{
-			files::catch_errors(files::recursive_mkdir(objects::$zip_dir));
+			if (!files::catch_errors(files::recursive_mkdir(objects::$zip_dir)))
+			{
+				return false;
+			}
+		}
+
+		if (!is_writable($phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp'))
+		{
+			if (!phpbb_chmod($phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp', CHMOD_READ | CHMOD_WRITE))
+			{
+				files::catch_errors($user->lang['EXT_TMP_NOT_WRITABLE']);
+				return false;
+			}
 		}
 
 		$file = false;
@@ -677,7 +692,7 @@ class upload_module
 			$checksum = $request->variable('ext_checksum', '');
 			if (!empty($checksum))
 			{
-				$generated_hash = false;
+				$generated_hash = '';
 				$checksum_type = $request->variable('ext_checksum_type', 'md5');
 				switch ($checksum_type)
 				{
@@ -688,7 +703,7 @@ class upload_module
 						$generated_hash = md5_file($dest_file);
 						break;
 				}
-				if ($checksum !== $generated_hash)
+				if (strtolower($checksum) !== strtolower($generated_hash))
 				{
 					$file->remove();
 					files::catch_errors($user->lang('ERROR_CHECKSUM_MISMATCH', $checksum_type));

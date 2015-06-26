@@ -93,6 +93,8 @@ The actions are performed faster because of the new Ajax functionality and impro
 Upload Extensions broadens the list of possibilities and it has some other features:
 
 * You can view Readme and Changelog files of extensions as well as look at their file trees.
+* You can view installed language packages for extensions and delete them.
+* You can upload new language packages for each of the uploaded extensions.
 * You can disable broken extensions and purge their data.
 * You can download proper zip packages of extensions (for example, to prepare them for the CDB on phpbb.com).
 
