@@ -102,10 +102,10 @@
 		"checksum": "9198233b234c296e577031eddc8307d3"
 	},
 	"Cron Status": {
-		"version": "3.1.1",
+		"version": "3.1.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/cronstatus\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111761",
-		"checksum": "9ad6a4d26794d2720ce4890657cab2f1"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115101",
+		"checksum": "6e30ae348dd010ca757d102c12217e2e"
 	},
 	"Database Optimize & Repair Tool": {
 		"version": "1.1.0",
@@ -203,11 +203,17 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/110491",
 		"checksum": "2c25790f6c8184ae658e6ea1ea198903"
 	},
-	"login Redirect": {
+	"Log Failed Logins": {
 		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/log_failed_logins\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115051",
+		"checksum": "f27e0cb694e42dfb02dc884fa111c1b2"
+	},
+	"login Redirect": {
+		"version": "1.1.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/login_redirect\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111086",
-		"checksum": "93656cb9979137b3cbb1c3796a8553fb"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115046",
+		"checksum": "a82b48474397ff5df56a13e160598dce"
 	},
 	"Log New User": {
 		"version": "1.0.2",
@@ -454,5 +460,11 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topicpreview\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/109986",
 		"checksum": "b2d30bf7c3d5a934d4d7c214a8e5a352"
+	},
+	"User Ranks": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/user_ranks_2\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115061",
+		"checksum": "d4b4b1b094b17fcc67e7b65f6a66328f"
 	}
 }
