@@ -353,6 +353,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106086",
 		"checksum": "80615e643680f9ed1d1e234a5c4d740b"
 	},
+	"Previous \/ Next topic": {
+		"version": "1.0.2",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/previous_next_topic\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116891",
+		"checksum": "c5bbad04c28decd45910536c65d66884"
+	},
 	"Private Message Box Status Bars": {
 		"version": "2.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/pm_box_status_bars\/",
@@ -418,6 +424,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/seo_meta_description\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/110921",
 		"checksum": "787217059e512165ce80846d47f9c4b8"
+	},
+	"Site Logo": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/site_logo\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115146",
+		"checksum": "ef5bd009523b0707335dc4bd4501f9c5"
 	},
 	"Snowstorm & Lights": {
 		"version": "1.0.0",
