@@ -73,7 +73,7 @@ $lang = array_merge($lang, array(
 	'EXTENSION_DELETE'					=> 'حذف الإضافة',
 	'EXTENSION_DELETE_CONFIRM'			=> 'هل تريد بالفعل حذف الإضافة “%s” ؟',
 	'EXTENSIONS_DELETE_CONFIRM'			=> array(
-		2	=> 'هل تريد بالفعل حذف عدد <strong>%1$s</strong> إضافات ؟',
+		12	=> 'هل تريد بالفعل حذف عدد <strong>%1$s</strong> إضافات ؟',
 	),
 	'EXT_DELETE_SUCCESS'				=> 'تم حذف الإضافة بنجاح.',
 	'EXTS_DELETE_SUCCESS'				=> 'تم حذف الإضافات بنجاح.',
@@ -84,7 +84,7 @@ $lang = array_merge($lang, array(
 	'EXTENSION_ZIP_DELETE'				=> 'حذف الملف المضغوط',
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'هل تريد بالفعل حذف الملف المضغوط للإضافة “%s” ?',
 	'EXTENSIONS_ZIP_DELETE_CONFIRM'		=> array(
-		2	=> 'هل تريد بالفعل حذف الملفات المضغوطة لعدد <strong>%1$s</strong> إضافات ؟',
+		12	=> 'هل تريد بالفعل حذف الملفات المضغوطة لعدد <strong>%1$s</strong> إضافات ؟',
 	),
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'تم حذف ملف الإضافة المضغوط بنجاح.',
 	'EXT_ZIPS_DELETE_SUCCESS'			=> 'تم حذف الملفات المضغوطة zip للإضافات بنجاح.',
@@ -169,7 +169,7 @@ $lang = array_merge($lang, array(
 	'EXT_LANGUAGE_UPLOADED'				=> 'تم إضافة اللغة “%s” بنجاح.',
 	'EXT_LANGUAGE_DELETE_CONFIRM'		=> 'هل أنت متأكد من حذف اللغة “%s” ?',
 	'EXT_LANGUAGES_DELETE_CONFIRM'		=> array(
-		2	=> 'هل أنت متأكد من حذف عدد <strong>%1$s</strong> لغات ?',
+		12	=> 'هل أنت متأكد من حذف عدد <strong>%1$s</strong> لغات ?',
 	),
 	'EXT_LANGUAGE_DELETE_SUCCESS'		=> 'تم حذف اللغة بنجاح.',
 	'EXT_LANGUAGES_DELETE_SUCCESS'		=> 'تم حذف اللغات بنجاح.',
