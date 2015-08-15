@@ -167,6 +167,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/108391",
 		"checksum": "662763306fedf056d520eb45a638f952"
 	},
+	"gn36 - customize first post edit permissions": {
+		"version": "1.2.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/gn36_firstpostedit\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115946",
+		"checksum": "6701cb3455d20b1a9e65998742133945"
+	},
 	"Google Analytics": {
 		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/googleanalytics\/",
@@ -270,10 +276,10 @@
 		"checksum": "ea650004bad7cf81427b031dd78a8621"
 	},
 	"Pages": {
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/pages\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106826",
-		"checksum": "2844bd47ba7ebc3b99b6556027b0aac1"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116346",
+		"checksum": "965ab1299b4bd597198fa85fa8c9299f"
 	},
 	"Password Strength": {
 		"version": "1.1.0",
