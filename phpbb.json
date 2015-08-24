@@ -12,10 +12,10 @@
 		"checksum": "a5f005a82fcaf330d411eb50eeb348f0"
 	},
 	"Add HostingPics Service": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/addhostingpics\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/114761",
-		"checksum": "f5bc547b4af9f14f0cee8e8b70afeb53"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116326",
+		"checksum": "8407e0bada1a5160626e9d3d95636643"
 	},
 	"AdSense": {
 		"version": "1.0.0",
@@ -114,10 +114,10 @@
 		"checksum": "227aa495cd6807e4fa83d3e33b711910"
 	},
 	"Delete my registration": {
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/delete_my_registration\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/108386",
-		"checksum": "705c06753e4f162081110a995a8e37ed"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116186",
+		"checksum": "714cf57279d8eb066045e3f501e82975"
 	},
 	"Email List": {
 		"version": "1.0.0",
