@@ -35,6 +35,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/114366",
 		"checksum": "8ce48bd6a3df5ed61bf55e327df936a1"
 	},
+	"Analogue Clock": {
+		"version": "1.0.3",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/analogue_clock\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116121",
+		"checksum": "5c1242391933253668ba47eb66ceec65"
+	},
 	"Announcement on Index": {
 		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/announcement_on_index\/",
@@ -443,6 +449,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/110921",
 		"checksum": "787217059e512165ce80846d47f9c4b8"
 	},
+	"Share On": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/shareon\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116161",
+		"checksum": "81f6f29a2c90daaaacc34dd9ac27d17b"
+	},
 	"Simple Portal": {
 		"version": "1.0.3",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/portal\/",
@@ -496,6 +508,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topicpreview\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/109986",
 		"checksum": "b2d30bf7c3d5a934d4d7c214a8e5a352"
+	},
+	"Topic Solved": {
+		"version": "2.1.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topic_solved\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116166",
+		"checksum": "5881ba9f82c341d3fe38136899ba39ea"
 	},
 	"User Ranks": {
 		"version": "1.0.0",
