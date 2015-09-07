@@ -107,6 +107,18 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106026",
 		"checksum": "9198233b234c296e577031eddc8307d3"
 	},
+	"Change Post Time": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/change_post_time\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116941",
+		"checksum": "a3b8b994e78cfd51431a75243412aa56"
+	},
+	"Collapsible Forum Categories": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/collapsible_forum_categories\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116426",
+		"checksum": "49c9593ad23c9b6dd9fec758da36e594"
+	},
 	"Cron Status": {
 		"version": "3.1.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/cronstatus\/",
@@ -160,6 +172,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/forum_disclaimer\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/105671",
 		"checksum": "8af3dfb9cdf2d35ef1934af7478017b9"
+	},
+	"Forum Legend": {
+		"version": "1.0.2",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/forum_legend\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116251",
+		"checksum": "132ac5f89cdc0c070d18d0ead1fed7c2"
 	},
 	"Friends & Foes": {
 		"version": "1.0.2",
@@ -269,17 +287,29 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115516",
 		"checksum": "dd7632edfff458c0f5f811d2fd8a812a"
 	},
+	"Moon Phase": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/moon_phase\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117111",
+		"checksum": "4ff1c12b9fc04f4baa682c01e41c1fa1"
+	},
 	"NavBar Search": {
 		"version": "1.0.9",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/navbar_search\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116076",
 		"checksum": "4033b6a3bb93c84209c313b054b8f04f"
 	},
+	"Obscure Contact Us": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/obscure_contact_us\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116361",
+		"checksum": "8acd44293a423a12bb753a54c28dd1a2"
+	},
 	"Online Status": {
-		"version": "1.0.3",
+		"version": "1.0.4",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/online_status\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112941",
-		"checksum": "ea650004bad7cf81427b031dd78a8621"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117041",
+		"checksum": "4f24205b86e58a627c8b267277239bb2"
 	},
 	"Pages": {
 		"version": "1.0.3",
@@ -324,10 +354,16 @@
 		"checksum": "99f476b9323dfd0d6ca4a5659e623e61"
 	},
 	"phpBB 3.1 Newspage Extension": {
-		"version": "1.2",
+		"version": "1.3",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/nickvergessen_newspage\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/113221",
-		"checksum": "b965bfd8800d9d23d61e2852b178ee88"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116331",
+		"checksum": "b54dfa2163718e21337236a6edd54463"
+	},
+	"phpBB 3.1 Stop Forum Spam": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_3.1_stop_forum_spam\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116846",
+		"checksum": "e82c56a25f319a26d321f82dc92cd89d"
 	},
 	"phpBB 3.1 user Merge": {
 		"version": "1.0.0",
@@ -492,10 +528,10 @@
 		"checksum": "4c1e5676f1a1c6e21cc71dcf466b7ba3"
 	},
 	"Top Five Extension": {
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topfiveext\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/113471",
-		"checksum": "2eb56fde79440ea0c5b467ef6230c62e"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116461",
+		"checksum": "26ccb1407b512d6591ebf9dcdb7aab36"
 	},
 	"Topic Author": {
 		"version": "1.0.1",
