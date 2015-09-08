@@ -299,6 +299,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116076",
 		"checksum": "4033b6a3bb93c84209c313b054b8f04f"
 	},
+	"Nested Color Parser": {
+		"version": "1.1.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/nested_color_parser\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116666",
+		"checksum": "3de0ca270076c44ec6944c94f7adb599"
+	},
 	"Obscure Contact Us": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/obscure_contact_us\/",
@@ -424,6 +430,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/pm_box_status_bars\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112076",
 		"checksum": "2caa49d561710aa80f6a4d76ef5f6a61"
+	},
+	"Private message welcome": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/private_message_welcome\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117196",
+		"checksum": "412eab4788d2e0169014125b0fb70aa4"
 	},
 	"Prune Logs": {
 		"version": "3.1.0",
