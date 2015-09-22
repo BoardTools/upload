@@ -485,6 +485,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112606",
 		"checksum": "91973096e9270e4af1c23d72adbc2ad7"
 	},
+	"Right Header Image": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/right_header_image\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117221",
+		"checksum": "e34ef28b84f5326e1209f52d3d250f6c"
+	},
 	"Scroll To Top": {
 		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/scrolltotop\/",
