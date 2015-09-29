@@ -84,10 +84,10 @@
 		"checksum": "29bdf9c62971f967f84b222babedfdd4"
 	},
 	"Board Announcements": {
-		"version": "1.0.2",
+		"version": "1.0.4",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/boardannouncements\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106821",
-		"checksum": "89a28292099d6dda13f5633dd6817519"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117236",
+		"checksum": "749de6d137b5d0a088cf22b02d179b26"
 	},
 	"Board Rules": {
 		"version": "1.0.2",
@@ -150,10 +150,10 @@
 		"checksum": "cd8003ab550e1d374e1ecc703597cc22"
 	},
 	"External Links Open in New Window": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/elonw\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/108501",
-		"checksum": "2e3ac4aa424831c9d84d79e1cc018493"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120236",
+		"checksum": "5132656b2d3cd5563681441c0aa6e645"
 	},
 	"FAQ Manager": {
 		"version": "1.0.0",
