@@ -152,8 +152,8 @@
 	"External Links Open in New Window": {
 		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/elonw\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120236",
-		"checksum": "5132656b2d3cd5563681441c0aa6e645"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120316",
+		"checksum": "124a61e71a05e2b694258773fc2c9299"
 	},
 	"FAQ Manager": {
 		"version": "1.0.0",
@@ -400,6 +400,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/posting_template_4\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111246",
 		"checksum": "ce0d5fc49fe9550934acc9b209e738b7"
+	},
+	"Post new topic": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/post_new_topic\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117206",
+		"checksum": "6ed6cbff05217ff27468c9b25eba5127"
 	},
 	"Posts merging": {
 		"version": "2.0.2",
