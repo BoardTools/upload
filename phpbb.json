@@ -71,6 +71,18 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112651",
 		"checksum": "9cead6d8e52d9ab57d789db45ae38cf6"
 	},
+	"background forum": {
+		"version": "1.0.4",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/background_forum\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117521",
+		"checksum": "a8c0142282cdbfdfcc122eb9768bb9f5"
+	},
+	"background image in text area": {
+		"version": "1.0.2",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/background_image_in_text_area\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117471",
+		"checksum": "30072e6daeee46ff816047de061de323"
+	},
 	"Ban Hammer": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/ban_hammer_2\/",
@@ -106,6 +118,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/browse_happy\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106026",
 		"checksum": "9198233b234c296e577031eddc8307d3"
+	},
+	"Button roll effect": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/button_roll_effect\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117721",
+		"checksum": "65c0a2ffb687c6e3c9e6ac783908041e"
 	},
 	"Change Post Time": {
 		"version": "1.0.0",
@@ -202,6 +220,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/googleanalytics\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/105491",
 		"checksum": "d8114e65a520d98a996c056f33c4cffb"
+	},
+	"Group Template Variables": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/group_template_variables\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117516",
+		"checksum": "86f20e33476e4fdc6b3473d70bc8eade"
 	},
 	"Holiday Flare": {
 		"version": "2.0",
@@ -526,6 +550,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/site_logo\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115146",
 		"checksum": "ef5bd009523b0707335dc4bd4501f9c5"
+	},
+	"smilies scroll box": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/smilies_scroll_box\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117461",
+		"checksum": "48773aeb43a2eeaccc8e655e80a84ae7"
 	},
 	"Snowstorm & Lights": {
 		"version": "1.0.0",
