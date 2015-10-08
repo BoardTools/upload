@@ -29,6 +29,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/114036",
 		"checksum": "f10ed092922372b227d984faacdfa1ad"
 	},
+	"Ajax Base": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/ajax_base\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118166",
+		"checksum": "c1bfd483278a221ebc248b25c4e3b3cc"
+	},
 	"Ajax Shoutbox": {
 		"version": "1.0.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/ajax_shoutbox\/",
@@ -124,6 +130,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/button_roll_effect\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117721",
 		"checksum": "65c0a2ffb687c6e3c9e6ac783908041e"
+	},
+	"Category Images": {
+		"version": "1.0.2",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/image_category\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117526",
+		"checksum": "8143b2ce0e72fac01513c00ea1ed5b09"
 	},
 	"Change Post Time": {
 		"version": "1.0.0",
@@ -604,6 +616,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topic_solved\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116166",
 		"checksum": "5881ba9f82c341d3fe38136899ba39ea"
+	},
+	"Unique Visits Counter": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/unique_visits_counter\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117756",
+		"checksum": "9e46d08b369526528182e734710bc3a7"
 	},
 	"User Ranks": {
 		"version": "1.0.0",
