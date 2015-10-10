@@ -306,10 +306,10 @@
 		"checksum": "d5e2322bf561b9ece2198391cc4db7ef"
 	},
 	"Member time counter": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/member_time_counter\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111021",
-		"checksum": "8ec2baecb50e4445e9f189667e794331"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118046",
+		"checksum": "c4fad81cbef80767b6a61e976bbe6395"
 	},
 	"MOB add Active Topics link on viewtopic tools": {
 		"version": "1.0.1",
