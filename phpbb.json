@@ -66,10 +66,10 @@
 		"checksum": "40d388734c7238382735de08db71246d"
 	},
 	"Auto Groups": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/auto_groups\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/113866",
-		"checksum": "b9bbccef7f1a0edce6feda1679936f29"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119131",
+		"checksum": "e6552f7f6cf9851d19bf86a9ff513794"
 	},
 	"Avatar in last post": {
 		"version": "1.0.2",
@@ -233,11 +233,29 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/105491",
 		"checksum": "d8114e65a520d98a996c056f33c4cffb"
 	},
+	"Google Search": {
+		"version": "2.5.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/googlesearch\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118361",
+		"checksum": "25cb799cc4b9143603de1f941ae8f1d9"
+	},
 	"Group Template Variables": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/group_template_variables\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117516",
 		"checksum": "86f20e33476e4fdc6b3473d70bc8eade"
+	},
+	"Hide Birthdays": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/hide_birthdays\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118221",
+		"checksum": "e123fcf1eddfda99f06fbcd021499720"
+	},
+	"Hide custom profile fields for guests": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/hides_the_custom_profile_fields_to_guests\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120851",
+		"checksum": "d750e9b0206eee6ccac8ce05227cb622"
 	},
 	"Holiday Flare": {
 		"version": "2.0",
@@ -437,6 +455,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111246",
 		"checksum": "ce0d5fc49fe9550934acc9b209e738b7"
 	},
+	"Post Models": {
+		"version": "1.1.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/post_models\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118291",
+		"checksum": "15807885eb94d36a65b23972e5d14367"
+	},
 	"Post new topic": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/post_new_topic\/",
@@ -496,6 +520,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/quick_login\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112436",
 		"checksum": "56b48e2f22456a71312074c43c55486b"
+	},
+	"Quick Reply Toggle": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/quick_reply_toggle\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118556",
+		"checksum": "78724b28143a40bc2a90f44a675e731d"
 	},
 	"Quick Style": {
 		"version": "1.3.5",
@@ -630,9 +660,9 @@
 		"checksum": "d4b4b1b094b17fcc67e7b65f6a66328f"
 	},
 	"Zodiacs": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/zodiacs\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115411",
-		"checksum": "dd12989a0ecc97da516c314ba076d6c4"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118631",
+		"checksum": "79cd26473079e49f1d18b71a79797fa6"
 	}
 }
