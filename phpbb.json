@@ -653,6 +653,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117756",
 		"checksum": "9e46d08b369526528182e734710bc3a7"
 	},
+	"Upcoming Birthday List": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/upcoming_birthday_list\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/121031",
+		"checksum": "e305f48b82240ff70ddd4708a2ae1797"
+	},
 	"User Ranks": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/user_ranks_2\/",
