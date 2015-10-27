@@ -101,6 +101,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115756",
 		"checksum": "29bdf9c62971f967f84b222babedfdd4"
 	},
+	"Board3 Portal": {
+		"version": "2.1.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/board3_portal_ext\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/118146",
+		"checksum": "ef1bc208c45c8ad2a03fbc400ce9c9aa"
+	},
 	"Board Announcements": {
 		"version": "1.0.4",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/boardannouncements\/",
@@ -149,6 +155,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116426",
 		"checksum": "49c9593ad23c9b6dd9fec758da36e594"
 	},
+	"Copyright in footer": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/copyright_in_footer\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119511",
+		"checksum": "094f3ba09328c2ed0e9351858acd8946"
+	},
 	"Cron Status": {
 		"version": "3.1.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/cronstatus\/",
@@ -162,10 +174,10 @@
 		"checksum": "227aa495cd6807e4fa83d3e33b711910"
 	},
 	"Delete my registration": {
-		"version": "1.0.2",
+		"version": "1.0.3",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/delete_my_registration\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116186",
-		"checksum": "714cf57279d8eb066045e3f501e82975"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119536",
+		"checksum": "f498ccc7b20a282734813cc58520dbca"
 	},
 	"Email List": {
 		"version": "1.0.0",
@@ -287,6 +299,18 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115796",
 		"checksum": "dafbb33ce95b38d0ae9ee995e6b10382"
 	},
+	"Lightbox": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/lightbox\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119506",
+		"checksum": "974a1ba7d6564aa19accf44f4d347534"
+	},
+	"Link menu": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/link_menu\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119326",
+		"checksum": "6f3132e6fd6424ca9be9b67754d83fe1"
+	},
 	"Loading indicator": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/loading_indicator\/",
@@ -358,6 +382,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/nested_color_parser\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116666",
 		"checksum": "3de0ca270076c44ec6944c94f7adb599"
+	},
+	"Newest members": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/newest_members\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119386",
+		"checksum": "c2be0ffd9b0c3b0621d88677ffe557ff"
 	},
 	"Obscure Contact Us": {
 		"version": "1.0.0",
@@ -436,6 +466,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_countdown_5\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111506",
 		"checksum": "976810b3258e2367c9eb5198ec368e92"
+	},
+	"phpBB Directory": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_directory\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119261",
+		"checksum": "f674f291e7a1e4972b4f0c602866c581"
 	},
 	"phpBB Display Age Users": {
 		"version": "1.0.1",
@@ -533,6 +569,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112431",
 		"checksum": "6ceaae9267bdf331e577dd2d0f5c14f5"
 	},
+	"Quoted Image as Thumbnail": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/quoted_image_as_thumbnail\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119271",
+		"checksum": "2c7fca14723ac8cc5cd108ec982ebcaa"
+	},
 	"Rank Post Styling": {
 		"version": "1.0.3",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/rank_post_styling\/",
@@ -550,6 +592,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/referrer\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/106071",
 		"checksum": "65ac99c1d3d05d678d4b191dff55b0c6"
+	},
+	"Remove Subject from Replies": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/remove_subject_from_replies\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119256",
+		"checksum": "7b19fcef29c61011a0a12b5a21a79851"
 	},
 	"Reset Login Attempts": {
 		"version": "1.0.2",
@@ -646,6 +694,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topic_solved\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/116166",
 		"checksum": "5881ba9f82c341d3fe38136899ba39ea"
+	},
+	"Total active extensions": {
+		"version": "1.0.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/total_active_extensions\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119291",
+		"checksum": "9a3f3497d1c9b11c5b6ba9609867b6f6"
 	},
 	"Unique Visits Counter": {
 		"version": "1.0.1",
