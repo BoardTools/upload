@@ -203,6 +203,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111091",
 		"checksum": "392e93a78e922f986816fdb38d49d789"
 	},
+	"File Download": {
+		"version": "1.0.1",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/file_download\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119636",
+		"checksum": "0a4b8dd25bf14ad273ca493b2cd05f29"
+	},
 	"Fixed footer navbar": {
 		"version": "1.0.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/fixed_footer_navbar\/",
@@ -485,6 +491,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/108691",
 		"checksum": "6a0064c16ee0947d2a75dfdc9b0259c8"
 	},
+	"Posting reset button": {
+		"version": "1.0.3",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/posting_reset_button\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119651",
+		"checksum": "65dc6cf469bf4a89047ea30bf64a23d7"
+	},
 	"Posting Template": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/posting_template_4\/",
@@ -546,10 +558,10 @@
 		"checksum": "15e48a0bae1045f8b223260b9cfb263e"
 	},
 	"Quickedit": {
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/quickedit\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/112111",
-		"checksum": "5bb23639ced46d8fdd49b5461693b04b"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120441",
+		"checksum": "839b61d88fd77da2834e761ac193d9e4"
 	},
 	"Quick Login": {
 		"version": "1.0.5",
@@ -684,10 +696,10 @@
 		"checksum": "46ce47d70433f4c55d060be37af592e7"
 	},
 	"Topic Preview": {
-		"version": "2.2.1",
+		"version": "2.2.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/topicpreview\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/109986",
-		"checksum": "b2d30bf7c3d5a934d4d7c214a8e5a352"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119746",
+		"checksum": "ac3ab7e30f1778d24764b56bce5d6e4b"
 	},
 	"Topic Solved": {
 		"version": "2.1.0",
