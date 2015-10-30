@@ -101,6 +101,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/115756",
 		"checksum": "29bdf9c62971f967f84b222babedfdd4"
 	},
+	"Blinking counter, for new pm and new notify": {
+		"version": "1.0.3",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/blinking_counter,_for_every_new_pm_and_or_new_notify\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120541",
+		"checksum": "847655bd19946024dd0377d080ae19b7"
+	},
 	"Board3 Portal": {
 		"version": "2.1.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/board3_portal_ext\/",
@@ -197,6 +203,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120316",
 		"checksum": "124a61e71a05e2b694258773fc2c9299"
 	},
+	"Failed logins": {
+		"version": "1.1.0",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/failedlogins\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119781",
+		"checksum": "676aa97ddb5df610ad150fa1d3712a71"
+	},
 	"FAQ Manager": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/faq_manager_2\/",
@@ -208,6 +220,12 @@
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/file_download\/",
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119636",
 		"checksum": "0a4b8dd25bf14ad273ca493b2cd05f29"
+	},
+	"First Post On Every Page": {
+		"version": "2.0.2",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/firstpostoneverypage\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/119971",
+		"checksum": "9c6dc39f32b227861d6ef1c8d27856d3"
 	},
 	"Fixed footer navbar": {
 		"version": "1.0.2",
@@ -473,6 +491,12 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111506",
 		"checksum": "976810b3258e2367c9eb5198ec368e92"
 	},
+	"phpbb Countdown": {
+		"version": "1.0.3",
+		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_countdown_5\/",
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120091",
+		"checksum": "762738d7ed88391afba04a9d30ff172d"
+	},
 	"phpBB Directory": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_directory\/",
@@ -654,10 +678,10 @@
 		"checksum": "ef5bd009523b0707335dc4bd4501f9c5"
 	},
 	"smilies scroll box": {
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/smilies_scroll_box\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/117461",
-		"checksum": "48773aeb43a2eeaccc8e655e80a84ae7"
+		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120566",
+		"checksum": "a7938d6e8d31d007e0231e5680a1efe3"
 	},
 	"Snowstorm & Lights": {
 		"version": "1.0.0",
