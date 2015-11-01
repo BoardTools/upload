@@ -491,12 +491,6 @@
 		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/120091",
 		"checksum": "762738d7ed88391afba04a9d30ff172d"
 	},
-	"Phpbb Countdown": {
-		"version": "1.0.2",
-		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_countdown_5\/",
-		"download": "https:\/\/www.phpbb.com\/customise\/db\/download\/111506",
-		"checksum": "976810b3258e2367c9eb5198ec368e92"
-	},
 	"phpBB Directory": {
 		"version": "1.0.0",
 		"announcement": "https:\/\/www.phpbb.com\/customise\/db\/extension\/phpbb_directory\/",
