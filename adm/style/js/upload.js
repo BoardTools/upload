@@ -1231,7 +1231,9 @@
 			parse_response($this, s);
 			parse_document(upload_ext.elem.wrapper);
 			add_ajax();
-			bind_load_events(action);
+			if (s.status != "error") {
+				bind_load_events(action);
+			}
 			if (upload_replace_history) {
 				upload_replace_history = false;
 				phpbb.history.replaceUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action, document.title, {
