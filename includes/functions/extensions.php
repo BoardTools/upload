@@ -463,7 +463,8 @@ class extensions
 		}
 		self::response(array(
 			'ext_name'	=> $ext_name,
-			'status'	=> 'enabled'
+			'status'	=> 'enabled',
+			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
 		));
 		return true;
 	}
@@ -523,7 +524,8 @@ class extensions
 		objects::$log->add('admin', objects::$user->data['user_id'], objects::$user->ip, 'LOG_EXT_DISABLE', time(), array($ext_name));
 		self::response(array(
 			'ext_name'	=> $ext_name,
-			'status'	=> 'disabled'
+			'status'	=> 'disabled',
+			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
 		));
 		return true;
 	}
@@ -597,7 +599,8 @@ class extensions
 		}
 		self::response(array(
 			'ext_name'	=> $ext_name,
-			'status'	=> 'purged'
+			'status'	=> 'purged',
+			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
 		));
 		return true;
 	}

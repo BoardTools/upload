@@ -111,16 +111,16 @@
 			<!-- IF EXT_DETAILS_UPDATE --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'update' --> activetab<!-- ENDIF -->" id="ext_details_update_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=update"><i class="fa fa-refresh"></i> <span>{L_UPDATE}</span></a></li><!-- ENDIF -->
 		</ul>
 	</div>
-	<div class="ext_details_block">
+	<div class="ext_details_block" data-load-full-page="{S_LOAD_FULL_PAGE}">
 		<!-- IF EXT_DETAILS_MARKDOWN and not IS_AJAX -->
 		<div class="ext_details_markdown" style="display:block;">{EXT_DETAILS_MARKDOWN}</div>
 		<!-- ENDIF -->
-		<!-- IF IS_AJAX -->
+		<!-- IF IS_AJAX || S_LOAD_FULL_PAGE -->
 		<div class="ext_details_markdown" id="ext_details_readme">{EXT_DETAILS_README}</div>
 		<div class="ext_details_markdown" id="ext_details_changelog">{EXT_DETAILS_CHANGELOG}</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_LANGUAGES || IS_AJAX -->
-		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<!-- IF .ext_languages -->
 			<form method="post" action="{U_DELETE_ACTION}" data-ajax="language_rows_delete">
 				<fieldset id="ext_languages_list">
@@ -169,7 +169,7 @@
 		</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_FILETREE || IS_AJAX -->
-		<div id="filetree"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="filetree"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<div id="filetreenames">{FILETREE}</div>
 			<div id="filecontent_wrapper">
 				<div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
@@ -178,7 +178,7 @@
 		</div>
 		<!-- ENDIF -->
 		<!-- IF EXT_DETAILS_TOOLS || IS_AJAX -->
-		<div id="ext_details_tools"<!-- IF not IS_AJAX --> style="display:block;"<!-- ENDIF-->>
+		<div id="ext_details_tools"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<fieldset class="description_fieldset description_update_form">
 				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
 				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
@@ -227,7 +227,7 @@
 			<!-- ENDIF -->
 		</div>
 		<!-- ENDIF -->
-		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE and not EXT_DETAILS_TOOLS) || IS_AJAX -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE and not EXT_DETAILS_TOOLS) || IS_AJAX || S_LOAD_FULL_PAGE -->
 		<div id="ext_details_content">
 			<!-- IF NOT_AVAILABLE -->
 			<div class="errorbox">{NOT_AVAILABLE}</div>

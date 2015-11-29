@@ -105,7 +105,7 @@ class filetree
 						// Noscript support
 						$getlink = $uaction . '&amp;action=details&amp;ext_name=' . self::$ext_name . '&amp;ext_show=filetree&amp;ext_file=' . urlencode(substr($directory, strpos($directory, self::$ext_name) + strlen(self::$ext_name)) . '/' . $this_file);
 						$show_link = (in_array($ext, array('ext-gif', 'ext-jpg', 'ext-jpeg', 'ext-tif', 'ext-png'))) ? false : true;
-						$php_file_tree .= '<li class="pft-file ' . htmlspecialchars(strtolower($ext)) . '"' . (($show_link) ? ' onclick="loadXMLDoc(event, \''. $link . '\')"' : '') . ' title="' . htmlspecialchars($this_file) . '"><a' . (($show_link) ? ' href="' . $getlink . '"' : ' style="cursor: default;"') . '>' . htmlspecialchars($this_file) . '</a></li>';
+						$php_file_tree .= '<li class="pft-file ' . htmlspecialchars(strtolower($ext)) . '"' . (($show_link) ? ' data-file-link="'. $link . '"' : '') . ' title="' . htmlspecialchars($this_file) . '"><a' . (($show_link) ? ' href="' . $getlink . '"' : ' style="cursor: default;"') . '>' . htmlspecialchars($this_file) . '</a></li>';
 					}
 				}
 			}

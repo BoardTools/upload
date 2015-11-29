@@ -72,7 +72,7 @@ class load
 	*/
 	public static function details($ext_name, $ext_show)
 	{
-		$show_lang_page = false;
+		$show_lang_page = $load_full_page = false;
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name && $ext_name !== objects::$upload_ext_name)
 		{
@@ -128,6 +128,13 @@ class load
 			if (!objects::$is_ajax)
 			{
 				objects::$template->assign_var('S_DETAILS', true);
+
+				// We output everything if required.
+				if (objects::$request->variable('result_type', '') === "ajax_refresh")
+				{
+					$load_full_page = true;
+					$ext_show = 'readme';
+				}
 			}
 		}
 		else
@@ -142,7 +149,7 @@ class load
 			if ($ext_show == 'languages' && objects::$request->variable('result_type', '') === "ajax_refresh")
 			{
 				objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
-				$show_lang_page = true;
+				$show_lang_page = $load_full_page = true;
 				$ext_show = 'readme';
 			}
 
@@ -248,7 +255,7 @@ class load
 					if ($string !== false)
 					{
 						$readme = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax && !$show_lang_page)
+						if (!objects::$is_ajax && !$load_full_page)
 						{
 							objects::$template->assign_vars(array(
 								'SHOW_DETAILS_TAB'		=> 'readme',
@@ -260,7 +267,7 @@ class load
 							objects::$template->assign_var('EXT_DETAILS_README', $readme);
 						}
 					}
-					if (!objects::$is_ajax && !$show_lang_page)
+					if (!objects::$is_ajax && !$load_full_page)
 					{
 						break;
 					}
@@ -270,7 +277,7 @@ class load
 					if ($string !== false)
 					{
 						$changelog = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax && !$show_lang_page)
+						if (!objects::$is_ajax && !$load_full_page)
 						{
 							objects::$template->assign_vars(array(
 								'SHOW_DETAILS_TAB'		=> 'changelog',
@@ -282,7 +289,7 @@ class load
 							objects::$template->assign_var('EXT_DETAILS_CHANGELOG', $changelog);
 						}
 					}
-					if (!objects::$is_ajax && !$show_lang_page)
+					if (!objects::$is_ajax && !$load_full_page)
 					{
 						break;
 					}
@@ -309,13 +316,13 @@ class load
 							'NAME'		=> $lang_info['name'] . (($lang === $default_lang) ? ' (' . objects::$user->lang('DEFAULT') . ')' : ''),
 						));
 					}
-					if (!objects::$is_ajax)
+					objects::$template->assign_vars(array(
+						'EXT_DETAILS_LANGUAGES' => true,
+					));
+					if (!objects::$is_ajax && (!$load_full_page || $show_lang_page))
 					{
-						objects::$template->assign_vars(array(
-							'SHOW_DETAILS_TAB'		=> 'languages',
-							'EXT_DETAILS_LANGUAGES'	=> true,
-						));
-						if (!$show_lang_page)
+						objects::$template->assign_var('SHOW_DETAILS_TAB', 'languages');
+						if (!$load_full_page)
 						{
 							break;
 						}
@@ -329,7 +336,7 @@ class load
 						'FILENAME'				=> substr($ext_file, strrpos($ext_file, '/') + 1),
 						'CONTENT'				=> highlight_string(@file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . $ext_file), true)
 					));
-					if (!objects::$is_ajax && !$show_lang_page)
+					if (!objects::$is_ajax && !$load_full_page)
 					{
 						objects::$template->assign_var('SHOW_DETAILS_TAB', 'filetree');
 						break;
@@ -338,7 +345,7 @@ class load
 					objects::$template->assign_vars(array(
 						'EXT_DETAILS_TOOLS'	=> true,
 					));
-					if (!objects::$is_ajax && !$show_lang_page)
+					if (!objects::$is_ajax && !$load_full_page)
 					{
 						objects::$template->assign_var('SHOW_DETAILS_TAB', 'tools');
 						break;
@@ -363,6 +370,7 @@ class load
 				'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($ext_name),
 				'UPDATE_EXT_PURGE_DATA'	=> objects::$user->lang('EXTENSION_DELETE_DATA_CONFIRM', $display_name),
 				'S_FORM_ENCTYPE'		=> ' enctype="multipart/form-data"',
+				'S_LOAD_FULL_PAGE'		=> $load_full_page,
 			));
 		}
 		else

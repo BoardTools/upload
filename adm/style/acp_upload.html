@@ -1,5 +1,5 @@
 <!-- IF S_ALLOW_CDN -->
-<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css -->
+<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css -->
 <!-- ELSE -->
 <!-- INCLUDECSS {ROOT_PATH}ext/boardtools/upload/vendor/fortawesome/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
@@ -11,12 +11,13 @@
 <div id="upload_ext_wrapper">
 	<a name="maincontent"></a>
 	<div id="upload_extensions_title_block"><a href="{U_ACTION}" id="upload_extensions_title"><i class="fa fa-upload"></i> {L_ACP_UPLOAD_EXT_TITLE}</a><div id="upload_extensions_title_links"><a href="{U_ACTION}&amp;action=details" class="upload_details_link"><i class="fa fa-info-circle"></i></a><a href="{U_ACTION}&amp;action=details&amp;ext_show=faq" class="upload_faq_link"><i class="fa fa-question-circle"></i></a><span id="upload_extensions_links_show_slider"><i class="fa fa-ellipsis-v"></i></span></div></div>
+	<span class="upload_ext_error_show" title="{L_EXT_LOAD_ERROR_SHOW}"><i class="fa fa-warning"></i></span>
 	<!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOAD_DETAILS --><a href="{U_ACTION}&amp;action=details" class="upload_details_link upload_ext_update_button upload_ext_updates_info_link"><i class="fa fa-refresh"></i> {L_EXT_UPDATES_AVAILABLE}</a><!-- ENDIF -->
 	<p>{L_ACP_UPLOAD_EXT_DESCRIPTION}</p>
 	<div id="upload_loading"><span id="upload_loading_text">{L_LOADING}</span><span id="upload_loading_status"></span></div>
 	<div id="upload_loading_error_wrapper" title="{L_EXT_LOAD_ERROR_EXPLAIN}"><span id="upload_loading_error">{L_EXT_LOAD_ERROR}</span><span id="upload_loading_timeout">{L_EXT_LOAD_TIMEOUT}</span><span id="upload_loading_error_status" data-load-error-solutions-title="{L_POSSIBLE_SOLUTIONS}" data-load-error-solutions="{L_EXT_LOAD_SOLUTIONS}"></span></div>
 	<div id="upload_main_wrapper">
-		<div id="upload_main" data-page-action="{U_ACTION}">
+		<div id="upload_main" data-page-action="{U_ACTION}" data-load-action="{S_LOAD_ACTION}" data-page-url="{U_MAIN_PAGE_URL}">
 			<!-- IF S_NEXT_STEP -->
 			<div class="successbox notice">
 				<p>{S_NEXT_STEP}</p>
@@ -40,6 +41,8 @@
 		</div>
 	</div>
 </div>
+<div id="upload_temp_container"></div>
+<div id="upload_modal_box_wrapper"><div id="upload_modal_box"></div></div>
 
 <!-- INCLUDEJS js/php_file_tree_jquery.js -->
 <!-- INCLUDEJS js/jquery.form.js -->

@@ -1,11 +1,11 @@
 <?php
 /**
-*
-* @package Upload Extensions
-* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * @package       Upload Extensions
+ * @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+ * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ *
+ */
 
 namespace boardtools\upload\acp;
 
@@ -16,13 +16,16 @@ use \boardtools\upload\includes\functions\load;
 use \boardtools\upload\includes\functions\updater;
 use \boardtools\upload\includes\filetree\filetree;
 use \boardtools\upload\includes\filetree\filedownload;
+use \boardtools\upload\includes\sources\extensions_list;
 
 class upload_module
 {
 	public $u_action;
+	public $tpl_name;
 	public $main_link;
 	public $back_link;
 	public $zip_dir = '';
+
 	function main($id, $mode)
 	{
 		global $db, $config, $user, $cache, $template, $request, $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $phpbb_container;
@@ -44,7 +47,7 @@ class upload_module
 		$this->zip_dir = $phpbb_root_path . $config['upload_ext_dir'];
 
 		// get any url vars
-		$action = $request->variable('action', '');
+		$action = $request->variable('action', 'main');
 
 		$this->main_link = $this->u_action;
 		$this->back_link = ($request->is_ajax()) ? '' : adm_back_link($this->u_action);
@@ -86,14 +89,16 @@ class upload_module
 				case 'list_from_cdb':
 				case 'main':
 					$this->tpl_name = 'acp_upload_main';
-					break;
+				break;
 				case 'set_config_force_unstable':
 					$ajax_action = 'set_config_version_check_force_unstable';
+				// no break
 				case 'list':
 					$this->tpl_name = 'acp_upload_list';
-					break;
+				break;
 				case 'local_upload':
 					$ajax_action = 'upload';
+				// no break
 				case 'upload_language':
 				case 'upload':
 				case 'force_update':
@@ -103,18 +108,32 @@ class upload_module
 				case 'restore_languages':
 				case 'details':
 					$this->tpl_name = 'acp_upload_details';
-					break;
+				break;
 				case 'zip_packages':
 					$this->tpl_name = 'acp_upload_zip_packages';
-					break;
+				break;
 				case 'uninstalled':
 					$this->tpl_name = 'acp_upload_uninstalled';
-					break;
+				break;
 				case 'versioncheck_force':
 					extensions::ajax_versioncheck($request->variable('ext_name', ''));
-					break;
+				break;
 			}
 			$action = $ajax_action;
+
+			/*
+			 * Do not output anything (including errors) besides the result object.
+			 * Errors can still be shown in nice box.
+			 * Do it here - page-specific actions go below.
+			 */
+			ob_start();
+		}
+		else
+		{
+			$template->assign_vars(array(
+				'S_LOAD_ACTION'   => $action,
+				'U_MAIN_PAGE_URL' => build_url(array('action')),
+			));
 		}
 		// Detect whether this is an Ajax request - END
 
@@ -124,17 +143,17 @@ class upload_module
 				$ext_name = $request->variable('ext_name', objects::$upload_ext_name);
 				$ext_show = $request->variable('ext_show', '');
 				load::details($ext_name, $ext_show);
-				break;
+			break;
 
 			case 'enable':
 				$ext_name = $request->variable('ext_name', '');
 				extensions::enable($ext_name);
-				break;
+			break;
 
 			case 'disable':
 				$ext_name = $request->variable('ext_name', '');
 				extensions::disable($ext_name);
-				break;
+			break;
 
 			case 'purge':
 				$ext_name = $request->variable('ext_name', '');
@@ -144,34 +163,37 @@ class upload_module
 				{
 					extensions::purge($ext_name);
 				}
-				else if (objects::$is_ajax)
-				{
-					$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
-					load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'ext_name'	=> $ext_name,
-					)));
-				}
 				else
 				{
-					$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
-					confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
-						'i'			=> $id,
-						'mode'		=> $mode,
-						'action'	=> $action,
-						'ext_name'	=> $ext_name,
-					)));
+					if (objects::$is_ajax)
+					{
+						$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+						load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
+							'i'        => $id,
+							'mode'     => $mode,
+							'action'   => $action,
+							'ext_name' => $ext_name,
+						)));
+					}
+					else
+					{
+						$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+						confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
+							'i'        => $id,
+							'mode'     => $mode,
+							'action'   => $action,
+							'ext_name' => $ext_name,
+						)));
+					}
 				}
-				break;
+			break;
 
 			case 'restore_languages':
 				$ext_name = $request->variable('ext_name', '');
 				$zip_file = $request->variable('archive', '');
 				extensions::restore_languages($ext_name, $zip_file);
 				load::details($ext_name, 'details');
-				break;
+			break;
 
 			case 'upload_language':
 				$lang_action = 'upload';
@@ -180,15 +202,18 @@ class upload_module
 				{
 					$lang_action = 'upload_local';
 				}
-				else if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
+				else
 				{
-					$lang_action = 'upload_remote';
+					if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
+					{
+						$lang_action = 'upload_remote';
+					}
 				}
 				$ext_name = $request->variable('ext_name', '');
 				$lang_name = $request->variable('ext_lang_name', '');
 				$this->upload_lang($lang_action, $ext_name, $lang_name);
 				load::details($ext_name, 'languages');
-				break;
+			break;
 
 			case 'upload':
 				/* If we unpack a zip file - ensure that we work locally */
@@ -196,21 +221,24 @@ class upload_module
 				{
 					$action = 'upload_local';
 				}
-				else if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
+				else
 				{
-					$action = 'upload_remote';
+					if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
+					{
+						$action = 'upload_remote';
+					}
 				}
+			// no break
 
 			case 'upload_remote':
 			case 'force_update':
 				$this->upload_ext($action);
-				$this->get_valid_extensions();
 				$template->assign_vars(array(
-					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload',
-					'U_UPLOAD_REMOTE'	=> $this->main_link . '&amp;action=upload_remote',
-					'S_FORM_ENCTYPE'	=> ' enctype="multipart/form-data"',
+					'U_UPLOAD'        => $this->main_link . '&amp;action=upload',
+					'U_UPLOAD_REMOTE' => $this->main_link . '&amp;action=upload_remote',
+					'S_FORM_ENCTYPE'  => ' enctype="multipart/form-data"',
 				));
-				break;
+			break;
 
 			case 'zip_packages':
 				if (($result = $request->variable('result', '')) == 'deleted' || $result == 'deleted1')
@@ -219,10 +247,10 @@ class upload_module
 				}
 				load::zip_files();
 				$template->assign_vars(array(
-					'S_ZIP_PACKAGES'	=> true,
-					'U_DELETE_ACTION'	=> objects::$u_action . "&amp;action=delete_zip",
+					'S_ZIP_PACKAGES'  => true,
+					'U_DELETE_ACTION' => objects::$u_action . "&amp;action=delete_zip",
 				));
-				break;
+			break;
 
 			case 'uninstalled':
 				if (($result = $request->variable('result', '')) == 'deleted' || $result == 'deleted1')
@@ -231,10 +259,10 @@ class upload_module
 				}
 				extensions::list_available_exts($phpbb_extension_manager);
 				$template->assign_vars(array(
-					'S_UNINSTALLED'		=> true,
-					'U_DELETE_ACTION'	=> objects::$u_action . "&amp;action=delete_ext",
+					'S_UNINSTALLED'   => true,
+					'U_DELETE_ACTION' => objects::$u_action . "&amp;action=delete_ext",
 				));
-				break;
+			break;
 
 			case 'download':
 				$zip_name = $request->variable('zip_name', '');
@@ -253,18 +281,21 @@ class upload_module
 						redirect($this->main_link);
 					}
 				}
-				else if ($ext_name != '')
-				{
-					if (!extensions::download_extension($ext_name))
-					{
-						files::catch_errors($user->lang('EXT_DOWNLOAD_ERROR', $ext_name));
-					}
-				}
 				else
 				{
-					redirect($this->main_link);
+					if ($ext_name != '')
+					{
+						if (!extensions::download_extension($ext_name))
+						{
+							files::catch_errors($user->lang('EXT_DOWNLOAD_ERROR', $ext_name));
+						}
+					}
+					else
+					{
+						redirect($this->main_link);
+					}
 				}
-				break;
+			break;
 
 			case 'set_config_version_check_force_unstable':
 				if ((objects::$is_ajax && load::ajax_confirm_box(true)) || confirm_box(true))
@@ -274,7 +305,7 @@ class upload_module
 					{
 						$output = new \phpbb\json_response();
 						$output->send(array(
-							'status'	=> 'success'
+							'status' => 'success'
 						));
 					}
 					else
@@ -289,10 +320,10 @@ class upload_module
 					if ($force_unstable)
 					{
 						$s_hidden_fields = build_hidden_fields(array(
-							'i'					=> $id,
-							'mode'				=> $mode,
-							'action'			=> $action,
-							'force_unstable'	=> $force_unstable,
+							'i'              => $id,
+							'mode'           => $mode,
+							'action'         => $action,
+							'force_unstable' => $force_unstable,
 						));
 
 						if (objects::$is_ajax)
@@ -312,7 +343,7 @@ class upload_module
 						{
 							$output = new \phpbb\json_response();
 							$output->send(array(
-								'status'	=> 'success'
+								'status' => 'success'
 							));
 						}
 						else
@@ -321,35 +352,39 @@ class upload_module
 						}
 					}
 				}
+			// no break
 
 			case 'list':
 				extensions::list_all_exts();
 
 				objects::$template->assign_vars(array(
-					'S_EXT_LIST'			=> true,
-					'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=list&amp;versioncheck_force=1',
-					'FORCE_UNSTABLE'		=> $config['extension_force_unstable'],
-					'SET_FORCE_UNSTABLE'	=> objects::$request->variable('set_force_unstable', false),
-					'U_ACTION_LIST'			=> objects::$u_action . '&amp;action=list',
+					'S_EXT_LIST'           => true,
+					'U_VERSIONCHECK_FORCE' => objects::$u_action . '&amp;action=list&amp;versioncheck_force=1',
+					'FORCE_UNSTABLE'       => $config['extension_force_unstable'],
+					'SET_FORCE_UNSTABLE'   => objects::$request->variable('set_force_unstable', false),
+					'U_ACTION_LIST'        => objects::$u_action . '&amp;action=list',
 				));
 
 				add_form_key('version_check_settings');
-				break;
+			break;
 
 			case 'delete_ext':
 			case 'delete_zip':
-				$ext_name	= $request->variable('ext_name', '', true);
-				$zip_name	= $request->variable('zip_name', '', true);
-				$marked		= $request->variable('mark', array(''), true);
-				$deletemark	= $request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
+				$ext_name = $request->variable('ext_name', '', true);
+				$zip_name = $request->variable('zip_name', '', true);
+				$marked = $request->variable('mark', array(''), true);
+				$deletemark = $request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
 
 				if ($action == 'delete_ext' && $ext_name != '')
 				{
 					$marked = array(0 => $ext_name);
 				}
-				else if ($action == 'delete_zip' && $zip_name != '')
+				else
 				{
-					$marked = array(0 => $zip_name);
+					if ($action == 'delete_zip' && $zip_name != '')
+					{
+						$marked = array(0 => $zip_name);
+					}
 				}
 
 				if (sizeof($marked))
@@ -391,50 +426,53 @@ class upload_module
 						{
 							$confirm_text = (sizeof($marked) > 1) ? $user->lang('EXTENSIONS_DELETE_CONFIRM', sizeof($marked)) : $user->lang('EXTENSION_DELETE_CONFIRM', $marked[0]);
 							confirm_box(false, $confirm_text, build_hidden_fields(array(
-								'i'			=> $id,
-								'mode'		=> $mode,
-								'action'	=> $action,
-								'mark'		=> $marked,
-								'delmarked'	=> $deletemark,
+								'i'         => $id,
+								'mode'      => $mode,
+								'action'    => $action,
+								'mark'      => $marked,
+								'delmarked' => $deletemark,
 							)));
 						}
 					}
-					else if ($action == 'delete_zip')
+					else
 					{
-						if (confirm_box(true))
+						if ($action == 'delete_zip')
 						{
-							$no_errors = true;
-							foreach ($marked as $zip_number => $zip_name)
+							if (confirm_box(true))
 							{
-								// No catching here.
-								$no_errors = files::rrmdir(objects::$zip_dir . '/' . substr($zip_name, 0, -4) . '.zip', true);
-							}
-							if ($no_errors)
-							{
-								if ($request->is_ajax())
+								$no_errors = true;
+								foreach ($marked as $zip_number => $zip_name)
 								{
-									trigger_error($user->lang('EXT_ZIP' . ((sizeof($marked) > 1) ? 'S' : '') . '_DELETE_SUCCESS'));
+									// No catching here.
+									$no_errors = files::rrmdir(objects::$zip_dir . '/' . substr($zip_name, 0, -4) . '.zip', true);
+								}
+								if ($no_errors)
+								{
+									if ($request->is_ajax())
+									{
+										trigger_error($user->lang('EXT_ZIP' . ((sizeof($marked) > 1) ? 'S' : '') . '_DELETE_SUCCESS'));
+									}
+									else
+									{
+										redirect(objects::$u_action . '&amp;action=zip_packages&amp;result=deleted' . ((sizeof($marked) > 1) ? '' : '1'));
+									}
 								}
 								else
 								{
-									redirect(objects::$u_action . '&amp;action=zip_packages&amp;result=deleted' . ((sizeof($marked) > 1) ? '' : '1'));
+									trigger_error($user->lang['EXT_ZIP_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 								}
 							}
 							else
 							{
-								trigger_error($user->lang['EXT_ZIP_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
+								$confirm_text = (sizeof($marked) > 1) ? $user->lang('EXTENSIONS_ZIP_DELETE_CONFIRM', sizeof($marked)) : $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $marked[0]);
+								confirm_box(false, $confirm_text, build_hidden_fields(array(
+									'i'         => $id,
+									'mode'      => $mode,
+									'action'    => $action,
+									'mark'      => $marked,
+									'delmarked' => $deletemark,
+								)));
 							}
-						}
-						else
-						{
-							$confirm_text = (sizeof($marked) > 1) ? $user->lang('EXTENSIONS_ZIP_DELETE_CONFIRM', sizeof($marked)) : $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $marked[0]);
-							confirm_box(false, $confirm_text, build_hidden_fields(array(
-								'i'			=> $id,
-								'mode'		=> $mode,
-								'action'	=> $action,
-								'mark'		=> $marked,
-								'delmarked'	=> $deletemark,
-							)));
 						}
 					}
 				}
@@ -442,12 +480,12 @@ class upload_module
 				{
 					files::catch_errors($user->lang['EXT_DELETE_NO_FILE']);
 				}
-				break;
+			break;
 
 			case 'delete_language':
-				$ext_name	= $request->variable('ext_name', '', true);
-				$marked		= $request->variable('mark', array(''), true);
-				$deletemark	= $request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
+				$ext_name = $request->variable('ext_name', '', true);
+				$marked = $request->variable('mark', array(''), true);
+				$deletemark = $request->variable('delmarked', false, false, \phpbb\request\request_interface::POST);
 
 				if (sizeof($marked) && !empty($ext_name))
 				{
@@ -477,8 +515,8 @@ class upload_module
 										'MESSAGE_TITLE' => $user->lang['INFORMATION'],
 										'MESSAGE_TEXT'  => $result_text,
 										'REFRESH_DATA'  => array(
-											'time'	=> 3,
-											'url'	=> redirect(objects::$u_action . '&amp;action=details&amp;ext_show=languages&amp;result_type=ajax_refresh', true)
+											'time' => 3,
+											'url'  => redirect(objects::$u_action . '&amp;action=details&amp;ext_show=languages&amp;result_type=ajax_refresh', true)
 										)
 									));
 								}
@@ -489,7 +527,7 @@ class upload_module
 							}
 							else
 							{
-								redirect(objects::$u_action . '&amp;action=details&amp;ext_name='.urlencode($ext_name).'&amp;ext_show=languages&amp;result=deleted' . ((sizeof($marked) > 1) ? '' : '1'));
+								redirect(objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name) . '&amp;ext_show=languages&amp;result=deleted' . ((sizeof($marked) > 1) ? '' : '1'));
 							}
 						}
 						else
@@ -501,12 +539,12 @@ class upload_module
 					{
 						$confirm_text = (sizeof($marked) > 1) ? $user->lang('EXT_LANGUAGES_DELETE_CONFIRM', sizeof($marked)) : $user->lang('EXT_LANGUAGE_DELETE_CONFIRM', $marked[0]);
 						confirm_box(false, $confirm_text, build_hidden_fields(array(
-							'i'			=> $id,
-							'mode'		=> $mode,
-							'action'	=> $action,
-							'ext_name'	=> $ext_name,
-							'mark'		=> $marked,
-							'delmarked'	=> $deletemark,
+							'i'         => $id,
+							'mode'      => $mode,
+							'action'    => $action,
+							'ext_name'  => $ext_name,
+							'mark'      => $marked,
+							'delmarked' => $deletemark,
 						)));
 					}
 				}
@@ -514,38 +552,76 @@ class upload_module
 				{
 					files::catch_errors($user->lang['EXT_DELETE_NO_FILE']);
 				}
-				break;
+			break;
 
 			case 'list_from_cdb':
 				objects::$template->assign_var('S_SHOW_VALID_PHPBB_EXTENSIONS', true);
 				$this->get_valid_extensions();
+			// no break
 
+			case 'main':
 			default:
 				$template->assign_vars(array(
-					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload',
-					'U_UPLOAD_REMOTE'	=> $this->main_link . '&amp;action=upload_remote',
-					'S_FORM_ENCTYPE'	=> ' enctype="multipart/form-data"',
+					'U_UPLOAD'        => $this->main_link . '&amp;action=upload',
+					'U_UPLOAD_REMOTE' => $this->main_link . '&amp;action=upload_remote',
+					'S_FORM_ENCTYPE'  => ' enctype="multipart/form-data"',
 				));
-				break;
+			break;
 		}
-		$this->catch_errors();
+
+		if ($this->catch_errors() && objects::$is_ajax)
+		{
+			$this->output_response('error', $action);
+		}
+		else
+		{
+			if (objects::$is_ajax)
+			{
+				$this->output_response('success', $action);
+			}
+		}
 	}
 
 	public function get_valid_extensions()
 	{
-		if (($file_contents = @file_get_contents('http://boardtools.github.io/upload/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
+		$packages = extensions_list::getPackages();
+		if (sizeof($packages))
 		{
 			// Sanitize any data we retrieve from a server
-			$metadata = objects::$request->escape($metadata, true);
-			foreach ($metadata as $ext => $value)
+			$packages = objects::$request->escape($packages, true);
+			foreach ($packages as $ext => $value)
 			{
+				$latest_release = reset($value);
+
+				if (isset($latest_release['dist']) && isset($latest_release['dist']['url']))
+				{
+					$download_link = $latest_release['dist']['url'];
+				}
+				else
+				{
+					continue;
+				}
+
+				$display_name = $latest_release['display_name'];
+				$description = (isset($latest_release['description'])) ? $latest_release['description'] : '';
+				$homepage_link = (isset($latest_release['homepage'])) ? $latest_release['homepage'] : '';
+				$shasum = (isset($latest_release['dist']['shasum'])) ? $latest_release['dist']['shasum'] : '';
+
+				$require_phpbb = (isset($latest_release['extra']['soft-require']['phpbb/phpbb'])) ? $latest_release['extra']['soft-require']['phpbb/phpbb'] : '';
+				$require_php = (isset($latest_release['require']['php'])) ? $latest_release['require']['php'] : '';
+
 				objects::$template->assign_block_vars("phpbb_cdb", array(
-					'EXT_NAME'				=> $ext,
-					'EXT_VERSION'			=> $value['version'],
-					'EXT_DOWNLOAD'			=> $value['download'],
-					'EXT_DOWNLOAD_ENCODED'	=> urlencode($value['download']),
-					'EXT_ANNOUNCEMENT'		=> $value['announcement'],
-					'EXT_CHECKSUM'			=> $value['checksum'],
+					'EXT_NAME'             => $display_name,
+					'EXT_VERSION'          => key($value),
+					'EXT_DOWNLOAD'         => $download_link,
+					'EXT_DOWNLOAD_ENCODED' => urlencode($download_link),
+					'EXT_DESCRIPTION'      => $description,
+					'EXT_HOMEPAGE'         => $homepage_link,
+					'EXT_CHECKSUM'         => $shasum,
+					'REQUIRE_PHPBB'        => $require_phpbb,
+					'REQUIRE_PHPBB_STATUS' => !empty($require_phpbb),
+					'REQUIRE_PHP'          => $require_php,
+					'REQUIRE_PHP_STATUS'   => !empty($require_php),
 				));
 			}
 		}
@@ -553,6 +629,8 @@ class upload_module
 
 	/**
 	 * Displays the special template in a case of errors.
+	 *
+	 * @return bool Whether there are any errors.
 	 */
 	protected function catch_errors()
 	{
@@ -567,15 +645,37 @@ class upload_module
 				objects::$template->assign_var("S_EXT_ERROR", true);
 			}
 			objects::$template->assign_var("S_ACTION_BACK", objects::$u_action);
+			return true;
 		}
+		return false;
+	}
+
+	/**
+	 * Outputs the page as Ajax response.
+	 *
+	 * @param string $status Page status.
+	 * @param string $action Page action.
+	 */
+	protected function output_response($status, $action)
+	{
+		adm_page_header('');
+		$output = ob_get_contents();
+		@ob_end_clean();
+		$json_response = new \phpbb\json_response();
+		$json_response->send(array(
+			'status' => $status,
+			'action' => $action,
+			'result' => objects::$template->assign_display($this->tpl_name . '.html', '', true),
+			'output' => $output,
+		));
 	}
 
 	/**
 	 * Original copyright information for the function from AutoMOD.
 	 * The function was almost totally changed by the authors of Upload Extensions.
-	 * @package automod
+	 * @package       automod
 	 * @copyright (c) 2008 phpBB Group
-	 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License
+	 * @license       http://opensource.org/licenses/gpl-2.0.php GNU Public License
 	 *
 	 * @param string $action Requested action.
 	 * @return \filespec|bool
@@ -592,7 +692,7 @@ class upload_module
 			include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
 		}
 		$upload = new \fileupload();
-		$upload->set_allowed_extensions(array('zip'));	// Only allow ZIP files
+		$upload->set_allowed_extensions(array('zip'));    // Only allow ZIP files
 
 		// Make sure the ext/ directory exists and if it doesn't, create it
 		if (!is_dir($phpbb_root_path . 'ext'))
@@ -638,9 +738,24 @@ class upload_module
 			}
 			$file = $upload->form_upload('extupload');
 		}
-		else if ($action == 'upload_remote')
+		else
 		{
-			$file = files::remote_upload($upload, $user, $request->variable('remote_upload', ''));
+			if ($action == 'upload_remote')
+			{
+				$php_ini = new \phpbb\php\ini();
+				if (!$php_ini->get_bool('allow_url_fopen'))
+				{
+					files::catch_errors($user->lang['EXT_ALLOW_URL_FOPEN_DISABLED']);
+					return false;
+				}
+				$remote_url = $request->variable('remote_upload', '');
+				if (!extension_loaded('openssl') && 'https' === substr($remote_url, 0, 5))
+				{
+					files::catch_errors($user->lang['EXT_OPENSSL_DISABLED']);
+					return false;
+				}
+				$file = files::remote_upload($upload, $user, $remote_url);
+			}
 		}
 		return $file;
 	}
@@ -663,11 +778,14 @@ class upload_module
 				files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']));
 				return false;
 			}
-			else if ($file->init_error || sizeof($file->error))
+			else
 			{
-				$file->remove();
-				files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']));
-				return false;
+				if ($file->init_error || sizeof($file->error))
+				{
+					$file->remove();
+					files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']));
+					return false;
+				}
 			}
 
 			$file->clean_filename('real');
@@ -698,10 +816,10 @@ class upload_module
 				{
 					case 'sha1':
 						$generated_hash = sha1_file($dest_file);
-						break;
+					break;
 					case 'md5':
 						$generated_hash = md5_file($dest_file);
-						break;
+					break;
 				}
 				if (strtolower($checksum) !== strtolower($generated_hash))
 				{
@@ -746,7 +864,7 @@ class upload_module
 			}
 			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 			// We suppose that one user can upload only one extension per session.
-			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
+			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
 			// Ensure that we don't have any previous files in the working directory.
 			if (is_dir($phpbb_root_path . 'ext/' . $ext_tmp))
 			{
@@ -793,6 +911,7 @@ class upload_module
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
+			$destination = str_replace('.', '', $destination);
 			$ext_version = (isset($json_a['version'])) ? $json_a['version'] : '0.0.0';
 			if (strpos($destination, '/') === false)
 			{
@@ -804,15 +923,18 @@ class upload_module
 				files::catch_errors($user->lang['ACP_UPLOAD_EXT_ERROR_DEST']);
 				return false;
 			}
-			else if (strpos($destination, objects::$upload_ext_name) !== false)
+			else
 			{
-				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
-				if ($action != 'upload_local')
+				if (strpos($destination, objects::$upload_ext_name) !== false)
 				{
-					$file->remove();
+					files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
+					if ($action != 'upload_local')
+					{
+						$file->remove();
+					}
+					files::catch_errors($user->lang['ACP_UPLOAD_EXT_ERROR_TRY_SELF']);
+					return false;
 				}
-				files::catch_errors($user->lang['ACP_UPLOAD_EXT_ERROR_TRY_SELF']);
-				return false;
 			}
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : $destination;
 			if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
@@ -903,7 +1025,7 @@ class upload_module
 		{
 			// All checks were done previously. Now we only need to restore the variables.
 			// We try to restore the data of the current upload.
-			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
+			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = files::getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
 				files::catch_errors($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE']);
@@ -911,6 +1033,7 @@ class upload_module
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
+			$destination = str_replace('.', '', $destination);
 			if (strpos($destination, '/') === false)
 			{
 				files::catch_errors($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE']);
@@ -988,8 +1111,8 @@ class upload_module
 			{
 				$last_lang = array_pop($old_langs);
 				$template->assign_vars(array(
-					'S_EXT_LANGS_RESTORE_ZIP'	=> urlencode($saved_zip_file),
-					'EXT_RESTORE_DIRECTORIES'	=> (sizeof($old_langs)) ? objects::$user->lang('EXT_RESTORE_LANGUAGES', '<strong>'.implode('</strong>, <strong>', $old_langs).'</strong>', "<strong>$last_lang</strong>") : objects::$user->lang('EXT_RESTORE_LANGUAGE', "<strong>$last_lang</strong>"),
+					'S_EXT_LANGS_RESTORE_ZIP' => urlencode($saved_zip_file),
+					'EXT_RESTORE_DIRECTORIES' => (sizeof($old_langs)) ? objects::$user->lang('EXT_RESTORE_LANGUAGES', '<strong>' . implode('</strong>, <strong>', $old_langs) . '</strong>', "<strong>$last_lang</strong>") : objects::$user->lang('EXT_RESTORE_LANGUAGE', "<strong>$last_lang</strong>"),
 				));
 			}
 			if (!(files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $destination))))
@@ -1050,7 +1173,7 @@ class upload_module
 		}
 		// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 		// We suppose that one user can upload only one extension per session.
-		$ext_tmp = $phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
+		$ext_tmp = $phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
 		// Ensure that we don't have any previous files in the working directory.
 		if (is_dir($ext_tmp))
 		{
@@ -1126,8 +1249,8 @@ class upload_module
 			 */
 			$response_object = new \phpbb\json_response;
 			$response_object->send(array(
-				"LANGUAGE"	=> urlencode($lang_name),
-				"REFRESH"	=> true
+				"LANGUAGE" => urlencode($lang_name),
+				"REFRESH"  => true
 			));
 		}
 		objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE_UPLOADED', $lang_name));

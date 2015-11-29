@@ -1,14 +1,50 @@
-; (function ($, window, document) {
+;var upload_ext = {};
+
+(function($, window, document) {
 	// do stuff here and use $, window and document safely
 	// https://www.phpbb.com/community/viewtopic.php?p=13589106#p13589106
-	$(".upload_details_link").click(function (event) {
+	/*****************
+	 * Helper object *
+	 *****************/
+	// Main elements
+	upload_ext.elem = {};
+	upload_ext.elem.main = $("#upload_main");
+	upload_ext.elem.modal = $("#upload_modal_box");
+	upload_ext.elem.modal_wrapper = $("#upload_modal_box_wrapper");
+	upload_ext.elem.wrapper = $("#upload_main_wrapper");
+
+	// Global functions
+	upload_ext.fn = {};
+	upload_ext.fn.main_attr = function(attr) {
+		return upload_ext.elem.main.attr(attr);
+	};
+
+	/*********************
+	 * General functions *
+	 *********************/
+	$(".upload_details_link").click(function(event) {
 		event.preventDefault();
 		load_page("details", "boardtools/upload");
 	});
 
-	$(".upload_faq_link").click(function (event) {
+	$(".upload_faq_link").click(function(event) {
 		event.preventDefault();
 		load_page("details", "boardtools/upload&ext_show=faq");
+	});
+
+	$("#upload_extensions_title").click(function(event) {
+		event.preventDefault();
+		load_page("main");
+	});
+
+	$("#upload_extensions_links_show_slider").click(function() {
+		var $title_links = $("#upload_extensions_title_links");
+		$title_links.css("margin-" + direction_left, ($title_links.css("margin-" + direction_left) == "-100px") ? "-15px" : "");
+	});
+
+	upload_ext.elem.wrapper.css("overflow", "hidden");
+	upload_ext.elem.modal.click(function(e) {
+		e.stopPropagation();
 	});
 
 	var loading_errors = false;
@@ -22,7 +58,7 @@
 	/**
 	 * The function that removes the marked rows of the form that triggered the callback.
 	 */
-	phpbb.addAjaxCallback('rows_delete', function (res) {
+	phpbb.addAjaxCallback('rows_delete', function(res) {
 		if (res.SUCCESS !== false) {
 			$("input[name='mark[]']:checkbox:checked").parents('tr').remove();
 		}
@@ -31,7 +67,7 @@
 	/**
 	 * The function that removes the marked rows of the language packages form that triggered the callback.
 	 */
-	phpbb.addAjaxCallback('language_rows_delete', function (res) {
+	phpbb.addAjaxCallback('language_rows_delete', function(res) {
 		if (res.SUCCESS !== false) {
 			$("input[name='mark[]']:checkbox:checked").parents('.ext_language_row').remove();
 		}
@@ -39,7 +75,7 @@
 
 	// From ajax.js. We need to call this function after loading another page
 	function add_ajax() {
-		$('[data-ajax]').each(function () {
+		$('[data-ajax]').each(function() {
 			var $this = $(this),
 				ajax = $this.attr('data-ajax');
 
@@ -63,8 +99,55 @@
 			'"': '&quot;',
 			"'": '&#039;'
 		};
-		return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+		return text.replace(/[&<>"']/g, function(m) {
+			return map[m];
+		});
 	}
+
+	/**
+	 * http://stackoverflow.com/a/4373037
+	 * http://www.davekoelle.com/alphanum.html
+	 * @copyright (C) Brian Huisman, based on the Alphanum Algorithm by David Koelle
+	 * @license LGPL-2.1+
+	 * @param caseInsensitive
+	 */
+	Array.prototype.alphanumSort = function(caseInsensitive) {
+		for (var z = 0, t; t = this[z]; z++) {
+			this[z] = [];
+			var x = 0, y = -1, n = 0, i, j;
+
+			while (i = (j = t.charAt(x++)).charCodeAt(0)) {
+				var m = (i == 46 || (i >=48 && i <= 57));
+				if (m !== n) {
+					this[z][++y] = "";
+					n = m;
+				}
+				this[z][y] += j;
+			}
+		}
+
+		this.sort(function(a, b) {
+			for (var x = 0, aa, bb; (aa = a[x]) && (bb = b[x]); x++) {
+				if (caseInsensitive) {
+					aa = aa.toLowerCase();
+					bb = bb.toLowerCase();
+				}
+				if (aa !== bb) {
+					var c = Number(aa), d = Number(bb);
+					if (c == aa && d == bb) {
+						return c - d;
+					} else {
+						return (aa > bb) ? 1 : -1;
+					}
+				}
+			}
+			return a.length - b.length;
+		});
+
+		for (var z = 0; z < this.length; z++) {
+			this[z] = this[z].join("");
+		}
+	};
 
 	function show_error_box(e, text, ee) {
 		var error_status = e.status || e;
@@ -77,16 +160,17 @@
 				$errorbox.html(escape_html(error_status + " - " + ee));
 				// Detect whether we need to show solutions.
 				if (typeof e.status !== "undefined") {
-					$("#upload_main").html('<div class="ext_solution_notice"><h1><i class="fa fa-lightbulb-o fa-fw"></i> ' + $errorbox.attr("data-load-error-solutions-title") + '</h1><span>' + $errorbox.attr("data-load-error-solutions") + '</span></div>');
-					$("#upload_main_wrapper").stop().slideUp(100, function () {
-						$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
+					upload_ext.elem.main.html('<div class="ext_solution_notice"><h1><i class="fa fa-lightbulb-o fa-fw"></i> ' + $errorbox.attr("data-load-error-solutions-title") + '</h1><span>' + $errorbox.attr("data-load-error-solutions") + '</span></div>');
+					upload_ext.elem.wrapper.stop().slideUp(100, function() {
+						upload_ext.elem.wrapper.attr("style", "display:none;").slideDown(700, "linear", function() {
 							$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
 						});
 					});
 				}
 				$errorbox.css("display", "inline-block");
+			} else {
+				$("#upload_loading_error").css("display", "inline-block");
 			}
-			else $("#upload_loading_error").css("display", "inline-block");
 			$("#upload_loading_error_wrapper").slideDown(700);
 		}
 		loading_errors = true;
@@ -99,15 +183,15 @@
 			$wrapper.children(".upload_ext_list_update_success").html(
 				$wrapper.attr(attr_text));
 			$wrapper.stop().slideDown(700);
-			setTimeout(function () {
-				$wrapper.slideUp(700, function () {
+			setTimeout(function() {
+				$wrapper.slideUp(700, function() {
 					element.parent(".upload_ext_list_content").removeClass("upload_ext_update_success");
 				});
 			}, 3000);
 		} else {
 			element.parent().qtip({
 				content: {
-					text: function (event, api) {
+					text: function(event, api) {
 						return $(this).attr(attr_text);
 					}
 				},
@@ -126,7 +210,7 @@
 					event: 'click unfocus'
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
@@ -140,11 +224,6 @@
 			var $wrapper = element.siblings(".upload_ext_list_update_error_wrapper");
 			$wrapper.children(".upload_ext_list_update_error").html(text);
 			$wrapper.stop().slideDown(700);
-			//setTimeout(function () {
-			//	$wrapper.slideUp(700, function () {
-			//		element.parent(".upload_ext_list_content").removeClass("upload_ext_update_error");
-			//	});
-			//}, 8000);
 		} else {
 			element.parent().qtip({
 				content: {
@@ -165,7 +244,7 @@
 					event: 'click unfocus'
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
@@ -195,7 +274,7 @@
 					enable_result_error(element, result.error);
 					break;
 				case 'load_error':
-					if (result.error === "timeout" || result.message === "timeout")	{
+					if (result.error === "timeout" || result.message === "timeout") {
 						enable_result_error(element, $data_wrapper.attr("data-ext-update-timeout"));
 					} else {
 						var error_status = '';
@@ -206,6 +285,11 @@
 						enable_result_error(element, $data_wrapper.attr("data-ext-update-error") + error_status);
 					}
 					break;
+			}
+			if (result.refresh) {
+				setTimeout(function() {
+					window.location.href = window.location.href + '&result_type=ajax_refresh';
+				}, 1000);
 			}
 		} else {
 			enable_result_error(element, $data_wrapper.attr("data-ext-update-error"));
@@ -218,7 +302,7 @@
 			url: result.S_CONFIRM_ACTION,
 			type: 'POST',
 			data: data + "&confirm=" + result.YES_VALUE + ((typeof hash !== "undefined") ? "&hash=" + hash : ""),
-			error: function (e, text, ee) {
+			error: function(e, text, ee) {
 				get_enable_result({
 					ext_name: element.parent().attr("data-ext-name"),
 					status: 'load_error',
@@ -227,7 +311,7 @@
 					message: ee
 				}, element.siblings(".extension_toggle_wrapper"));
 			},
-			success: function (s, x) {
+			success: function(s, x) {
 				if (typeof s.status !== "undefined" && s.status === "force_update") {
 					if (typeof s.hash !== "undefined") {
 						get_purge_result(result, element, s.hash); // Repeat the request.
@@ -252,12 +336,12 @@
 			$("#ext_purge_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
 			$("#ext_purge_text").html(result.MESSAGE_TEXT);
 			element.qtip('api').reposition();
-			$("#ext_purge_confirm .ext_update_ok").bind("click", function (event) {
+			$("#ext_purge_confirm .ext_update_ok").bind("click", function(event) {
 				element.siblings(".extension_toggle_wrapper").toggleClass("locked_toggle");
 				element.qtip('api').destroy();
 				get_purge_result(result, element);
 			});
-			$("#ext_purge_confirm .ext_update_cancel").bind("click", function (event) {
+			$("#ext_purge_confirm .ext_update_cancel").bind("click", function(event) {
 				element.qtip('api').destroy();
 			});
 		} else {
@@ -273,7 +357,7 @@
 	}
 
 	function add_enable_toggle() {
-		$("#upload_main .extension_toggle_wrapper").bind("click", function (event) {
+		$("#upload_main .extension_toggle_wrapper").bind("click", function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
@@ -281,25 +365,15 @@
 				return;
 			}
 			var process = ($(this).hasClass("extension_toggle_enabled")) ? "disable" : "enable";
-			if ($(this).parent(".upload_ext_list_content").hasClass("upload_ext_update_error"))
-			{
-				$(this).siblings(".upload_ext_list_update_error_wrapper").slideUp(300, function () {
+			if ($(this).parent(".upload_ext_list_content").hasClass("upload_ext_update_error")) {
+				$(this).siblings(".upload_ext_list_update_error_wrapper").slideUp(300, function() {
 					$(this).parent(".upload_ext_list_content").removeClass("upload_ext_update_error");
 				});
 			}
 			$(this).toggleClass("locked_toggle");
 			load_page(process, $(this).parent().attr("data-ext-name"), get_enable_result, $(this));
 		});
-		/*$("#ext_purge_confirm").bind("click", function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-			if ($(this).siblings(".extension_toggle_wrapper").hasClass("locked_toggle")) {
-				return;
-			}
-			$(this).siblings(".extension_toggle_wrapper").toggleClass("locked_toggle");
-			load_page("purge", $(this).parent().attr("data-ext-name"), get_enable_result, $(this).siblings(".extension_toggle_wrapper"));
-		});*/
-		$(".extension_remove_data_button").bind("click", function (event) {
+		$(".extension_remove_data_button").bind("click", function(event) {
 			event.preventDefault();
 			event.stopPropagation();
 			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
@@ -308,11 +382,11 @@
 			}
 			$(this).qtip({
 				content: {
-					text: function (event, api) {
+					text: function(event, api) {
 						load_page('purge', $(this).parent().attr("data-ext-name"), get_purge_confirm, $(this));
 						return "<div id='ext_purge_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_purge_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
 					},
-					title: function (event, api) {
+					title: function(event, api) {
 						//return $(this).attr("title");
 						return $("#upload_loading_text").html();
 					}
@@ -335,7 +409,7 @@
 					event: false
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
@@ -344,10 +418,10 @@
 	}
 
 	function add_enable_tip() {
-		$("#upload_main").one("loaded", function (event) {
+		upload_ext.elem.main.one("loaded", function(event) {
 			$(".extension_toggle_wrapper").qtip({
 				content: {
-					text: function (event, api) {
+					text: function(event, api) {
 						return $(this).parent().attr("data-ext-update-enable");
 					}
 				},
@@ -366,14 +440,14 @@
 					event: 'unfocus'
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
 			});
 			$("#ext_details_filetree_tab").qtip({
 				content: {
-					text: function (event, api) {
+					text: function(event, api) {
 						return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
 					}
 				},
@@ -392,7 +466,7 @@
 					event: 'unfocus'
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
@@ -402,14 +476,15 @@
 			$(".ext_uploaded_notice, .ext_updated_notice").slideUp(500);
 			$(".extension_toggle_wrapper").unbind("click", hide_uploaded_message);
 		}
+
 		$(".extension_toggle_wrapper").bind("click", hide_uploaded_message);
 	}
 
 	function add_language_tip() {
-		$("#upload_main").one("loaded", function (event) {
+		upload_ext.elem.main.one("loaded", function(event) {
 			$("#ext_details_filetree_tab").qtip({
 				content: {
-					text: function (event, api) {
+					text: function(event, api) {
 						return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
 					}
 				},
@@ -428,7 +503,7 @@
 					event: 'unfocus'
 				},
 				events: {
-					hidden: function (event, api) {
+					hidden: function(event, api) {
 						api.destroy(true);
 					}
 				}
@@ -438,13 +513,113 @@
 			$(".ext_uploaded_notice, .ext_updated_notice").slideUp(500);
 			$(".extension_toggle_wrapper").unbind("click", hide_uploaded_message);
 		}
+
 		$(".extension_toggle_wrapper").bind("click", hide_uploaded_message);
+	}
+
+	var $modalDataContainer = false;
+
+	function restore_modal_data_container() {
+		var $modal = upload_ext.elem.modal;
+		if ($modalDataContainer) {
+			$modal.find(".alert_close").remove();
+			$modalDataContainer.html($modal.contents());
+			$modalDataContainer = false;
+		}
+	}
+
+	function show_modal_box(content, bigModalBox, dataContainer) {
+		var $modalBox = upload_ext.elem.modal_wrapper, $modal = upload_ext.elem.modal;
+		restore_modal_data_container();
+		phpbb.clearLoadingTimeout();
+		$(document).on('keydown.phpbb.alert', function(e) {
+			if (e.keyCode === 13 || e.keyCode === 27) {
+				phpbb.alert.close($modalBox, true);
+				e.preventDefault();
+				e.stopPropagation();
+			}
+		});
+		$modalBox.one('click', function(e) {
+			phpbb.alert.close($modalBox, true);
+			e.preventDefault();
+			e.stopPropagation();
+		});
+		$modal.html(content);
+		$modal.removeClass("big_modal_box huge_modal_box");
+		if (bigModalBox === 2) {
+			$modal.addClass("huge_modal_box");
+		} else if (bigModalBox) {
+			$modal.addClass("big_modal_box");
+		}
+		if (dataContainer) {
+			$modalDataContainer = dataContainer;
+		}
+		$modal.prepend('<a href="#" class="alert_close">&times;</a>');
+		phpbb.alert.open($modalBox);
+	}
+
+	function hide_modal_box() {
+		var $modalBox = upload_ext.elem.modal_wrapper;
+		phpbb.alert.close($modalBox, true);
+		restore_modal_data_container();
+	}
+
+	function show_error_modal_box(error) {
+		if (error.substr(0, 9) == "<!DOCTYPE") {
+			var $frame = $('<iframe id="error_frame">');
+			$(".upload_ext_error_show").off("click").click(function() {
+				show_modal_box($frame, 2);
+				$frame[0].contentWindow.document.open();
+				$frame[0].contentWindow.document.write(error);
+				$($frame[0].contentWindow.document).find("a").click(function(e) {
+					$(this).attr("target", "_blank");
+				});
+				$frame[0].contentWindow.document.close();
+			}).show();
+		} else {
+			$(".upload_ext_error_show").off("click").click(function() {
+				show_modal_box(error);
+			}).show();
+		}
+	}
+
+	function set_ext_requirement($extRow, $requirementRow, $requireType) {
+		if ($extRow.attr('data-ext-require-' + $requireType + '-status') == "1") {
+			$requirementRow.removeClass("requirements_value_not_met");
+		} else {
+			$requirementRow.addClass("requirements_value_not_met");
+		}
+		$requirementRow.text($extRow.attr('data-ext-require-' + $requireType) || $('#upload_valid_ext_description').attr("data-not-available"));
+	}
+
+	function display_ext_description($extRow) {
+		var $extDescContainer = $('#upload_valid_ext_description');
+		$extDescContainer
+			.find('.ext_details_name')
+				.text($extRow.find('.upload_valid_ext_name').text())
+			.end()
+			.find('.ext_details_version')
+				.text($extRow.find('.upload_valid_ext_version').text())
+			.end()
+			.find('.ext_details_description')
+				.text($extRow.attr('data-ext-description') || $extDescContainer.attr("data-not-available"))
+			.end()
+			.find('.ext_details_actions')
+				.html($extRow.find('a').clone())
+			.end();
+		set_ext_requirement($extRow, $extDescContainer.find('.ext_details_require_phpbb'), 'phpbb');
+		set_ext_requirement($extRow, $extDescContainer.find('.ext_details_require_php'), 'php');
+		show_modal_box($extDescContainer.html());
+		upload_ext.elem.modal.find('.upload_valid_ext_download_link').click(function(event) {
+			event.preventDefault();
+			$extRow.find('.upload_valid_ext_download_link').click();
+			hide_modal_box();
+		});
 	}
 
 	function get_versioncheck_result(result, element) {
 		if (typeof result.status !== "undefined" && result.status === "success") {
-			switch (result.versioncheck)
-			{
+			switch (result.versioncheck) {
 				case "up_to_date":
 					$().upload_loading_end();
 					$("#meta_version").addClass("description_value_ok").attr("title", result.message);
@@ -457,9 +632,12 @@
 				case "error":
 					$().upload_loading_end();
 					var $error_box = $("#ext_versioncheck_error_box");
-					$error_box.stop().slideUp(100, function () {
-						if (result.versioncheck === "error_timeout") $error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").show();
-						else $error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").hide();
+					$error_box.stop().slideUp(100, function() {
+						if (result.versioncheck === "error_timeout") {
+							$error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").show();
+						} else {
+							$error_box.children(".ext_versioncheck_error_box_title, .ext_versioncheck_error_box_link").hide();
+						}
 						$error_box.children(".ext_versioncheck_error_box_reason").html(result.reason);
 						$error_box.slideDown(700);
 					});
@@ -472,30 +650,236 @@
 		}
 	}
 
+	function get_force_unstable_result(result) {
+		var data = $('<form>' + result.S_HIDDEN_FIELDS + '</form>').serialize();
+		$.ajax({
+			url: result.S_CONFIRM_ACTION,
+			type: 'POST',
+			data: data + "&confirm=" + result.YES_VALUE,
+			error: function(e, text, ee) {
+				$().upload_loading_end();
+				show_error_box(e, text, ee);
+			},
+			success: function(s, x) {
+				$().upload_loading_end();
+				if (typeof s.status !== "undefined" && s.status === "success") {
+					$("#force_unstable_updated").stop().slideDown(700);
+					setTimeout(function() {
+						$("#force_unstable_updated").slideUp(700);
+					}, 3000);
+				}
+				else {
+					$("#upload_loading_error").css("display", "inline-block");
+					$("#upload_loading_error_wrapper").slideDown(700);
+					loading_errors = true;
+				}
+			},
+			cache: false
+		});
+	}
+
+	function get_force_unstable_confirm(result, element) {
+		if (typeof result.S_CONFIRM_ACTION !== "undefined" && result.YES_VALUE) {
+			//element.qtip('api').set('content.title', result.MESSAGE_TITLE);
+			$("#ext_force_unstable_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
+			$("#ext_force_unstable_text").html(result.MESSAGE_TEXT);
+			element.qtip('api').reposition();
+			$("#ext_force_unstable_confirm .ext_update_ok").bind("click", function(event) {
+				$().upload_loading_start();
+				close_error_wrapper();
+				element.qtip('api').destroy();
+				get_force_unstable_result(result);
+			});
+			$("#ext_force_unstable_confirm .ext_update_cancel").bind("click", function(event) {
+				element.qtip('api').destroy();
+			});
+		} else if (typeof result.status !== "undefined" && result.status === "success") {
+			$().upload_loading_end();
+			$("#force_unstable_updated").stop().slideDown(700);
+			setTimeout(function() {
+				$("#force_unstable_updated").slideUp(700);
+			}, 3000);
+		} else {
+			element.qtip('api').destroy();
+			$().upload_loading_end();
+			show_error_box(result.code, result.error, result.message);
+		}
+	}
+
+	function add_set_force_unstable_toggle() {
+		$("#set_force_unstable_link").click(function(event) {
+			event.preventDefault();
+			$("#version_check_settings").slideToggle(700);
+		});
+		$("#version_check_settings").bind("submit", function(event) {
+			event.preventDefault();
+			$("#version_check_settings").slideToggle(700);
+			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
+			var force_unstable = ($("#force_unstable").is(":checked")) ? 1 : 0;
+			if (force_unstable) {
+				$(".upload_ext_list").qtip({
+					content: {
+						text: function(event, api) {
+							load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
+							return "<div id='ext_force_unstable_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_force_unstable_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
+						},
+						title: function(event, api) {
+							return $("#version_check_settings_title").html();
+						}
+					},
+					style: {
+						classes: 'qtip-light qtip-shadow qtip-rounded'
+					},
+					position: {
+						my: 'bottom center',
+						at: 'top center',
+						viewport: true
+					},
+					show: {
+						modal: {
+							on: true
+						},
+						ready: true
+					},
+					hide: {
+						event: false
+					},
+					events: {
+						hidden: function(event, api) {
+							api.destroy(true);
+						}
+					}
+				});
+			}
+			else {
+				$().upload_loading_start();
+				close_error_wrapper();
+				load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
+			}
+		});
+	}
+
+	// Determine extension status
+	function get_ext_status($toggle, determinePurged) {
+		return ($toggle.hasClass("extension_toggle_enabled")) ? 'Enabled' : ((!determinePurged || !$toggle.hasClass("extension_toggle_purged")) ? 'Disabled' : 'Uninstalled');
+	}
+
+	function update_ext_list() {
+		var $downloadListWrapper = $("#download_ext_list_wrapper"),
+			fullList = [], resultList = '',
+			listShow = parseInt($("#download_ext_list_show").val(), 10),
+			listGroup = parseInt($("#download_ext_list_group").val(), 10),
+			useEnglish = $("#download_ext_list_english").is(':checked'),
+			statusTypes = (listGroup == 0) ? ['Uploaded', 'Broken'] : (
+				(listGroup == 1) ? ['Enabled', 'Disabled', 'Broken'] :
+					['Enabled', 'Disabled', 'Uninstalled', 'Broken']
+			);
+		var i = statusTypes.length;
+		while (i--) {
+			fullList[statusTypes[i]] = [];
+		}
+		$(".upload_ext_list_content").each(function() {
+			var $this = $(this), listRow = '', extStatus = get_ext_status($this.find(".extension_toggle_wrapper"), true).toLowerCase();
+			// Include display name
+			if (listShow != 1) {
+				listRow += $this.find(".upload_ext_list_name").text() + ' ';
+			}
+			// Include clean name
+			if (listShow != 2) {
+				listRow += '[' + $this.attr("data-ext-name") + '] ';
+			}
+			listRow += $this.find(".ext_version_bubble .description_value").text();
+			switch (listGroup) {
+				case 0:
+					fullList['Uploaded'].push(listRow + ' (' +
+						((useEnglish) ? extStatus : $downloadListWrapper.attr("data-ext-" + extStatus))
+					+ ')');
+					break;
+				case 1:
+					fullList[get_ext_status($this.find(".extension_toggle_wrapper"))].push(listRow +
+						((extStatus == 'uninstalled') ? ' (' + ((useEnglish) ? extStatus : $downloadListWrapper.attr("data-ext-uninstalled")) + ')' : '')
+					);
+					break;
+				case 2:
+					fullList[get_ext_status($this.find(".extension_toggle_wrapper"), true)].push(listRow);
+					break;
+			}
+		});
+		$(".upload_ext_list_unavailable").each(function() {
+			var $this = $(this), extStatus = (useEnglish) ? $this.attr("data-ext-status") : $downloadListWrapper.attr("data-ext-" + $this.attr("data-ext-status"));
+			fullList['Broken'].push($this.attr("data-ext-name") + ' (' + extStatus + ')');
+		});
+		i = statusTypes.length;
+		while (i--) {
+			if (!fullList[statusTypes[i]].length) {
+				continue;
+			}
+			fullList[statusTypes[i]].alphanumSort(true);
+			resultList = ((useEnglish) ? statusTypes[i] + ':' : $downloadListWrapper.attr("data-exts-" + statusTypes[i].toLowerCase())) + '\r\n' + fullList[statusTypes[i]].join('\r\n') + '\r\n\r\n' + resultList;
+		}
+		resultList = $downloadListWrapper.attr("data-ext-list-title") + '\r\n\r\n' + resultList + $downloadListWrapper.attr("data-ext-list-footer");
+		$("#download_ext_list").val(resultList);
+	}
+
+	/**************************
+	 * Page prepare functions *
+	 **************************/
 	function load_main_page() {
 		/* For noscript compatibility we do it here instead of css file */
 		$("#extupload").css("display", "none");
 		$("#button_upload").css("display", "inline-block");
 
-		$("#submit, .unpack_zip").click(function () {
+		function upload_loading_indicator() {
 			$("#ext_upload_content").css("display", "none");
 			$("#upload").css("display", "block");
+			upload_ext.elem.main.one("loading", function() {
+				$("#ext_upload_content").css("display", "block");
+				$("#upload").css("display", "none");
+			});
+		}
+
+		$("#submit, .unpack_zip").click(function() {
+			upload_loading_indicator();
 		});
 
-		$("#load_valid_phpbb_extensions").click(function (event) {
+		$("#load_valid_phpbb_extensions").click(function(event) {
 			event.preventDefault();
 			load_page("list_from_cdb");
 		});
 
-		$(".upload_valid_ext_download_link").click(function (event) {
+		$(".upload_valid_ext_download_link").click(function(event) {
 			event.preventDefault();
-			$("#ext_upload_content").css("display", "none");
-			$("#upload").css("display", "block");
+			upload_loading_indicator();
 			$("#remote_upload").attr("value", $(this).attr("data-ext-source"));
-			$("#ext_checksum_type_md5").prop("checked", true);
+			$("#ext_checksum_type_sha1").prop("checked", true);
 			$("#ext_checksum").attr("value", $(this).attr("data-ext-checksum"));
 			load_page("upload");
 		});
+	}
+
+	function load_cdb_list_page() {
+		$(".upload_valid_ext_row").click(function(event) {
+			event.preventDefault();
+			display_ext_description($(this));
+		}).attr("title", $("#upload_valid_ext_description").attr("data-show-description"));
+	}
+
+	function load_list_page() {
+		if ($(".upload_ext_list_content").length > 0) {
+			var $download_ext_wrapper = $("#download_ext_list_wrapper");
+			update_ext_list();
+			$("#download_ext_list_link").click(function(event) {
+				event.preventDefault();
+				restore_modal_data_container();
+				update_ext_list();
+				show_modal_box($download_ext_wrapper.contents(), true, $download_ext_wrapper);
+			}).show();
+			$("#download_ext_list_form").change(function() {
+				update_ext_list();
+			}).find(".select_all_content").click(function() {
+				$("#download_ext_list").select();
+			});
+		}
 	}
 
 	function load_details_page() {
@@ -527,18 +911,18 @@
 				},
 				show: {
 					event: 'click',
-					effect: function (offset) {
+					effect: function(offset) {
 						$(this).fadeIn(500); // "this" refers to the tooltip
 					}
 				},
 				hide: {
 					event: 'click unfocus',
-					effect: function (offset) {
+					effect: function(offset) {
 						$(this).fadeOut(500); // "this" refers to the tooltip
 					}
 				}
 			});
-			$(".extension_update_link").bind("click", function () {
+			$(".extension_update_link").bind("click", function() {
 				$(".ext_version_bubble .show_ext_updates").qtip().hide();
 			}).qtip({
 				content: {
@@ -558,26 +942,26 @@
 						on: true
 					},
 					event: 'click',
-					effect: function (offset) {
+					effect: function(offset) {
 						$(this).fadeIn(500); // "this" refers to the tooltip
 					}
 				},
 				hide: {
 					event: 'unfocus',
-					effect: function (offset) {
+					effect: function(offset) {
 						$(this).fadeOut(500); // "this" refers to the tooltip
 					}
 				}
 			});
-			$("#upload_main").one("loading", function () {
+			upload_ext.elem.main.one("loading", function() {
 				$(".extension_update_link").qtip('hide').qtip('destroy', true);
 				$(".show_ext_updates[data-hasqtip]").qtip('hide').qtip('destroy', true);
 			})
 		}
 		/* Responsive tabs */
-		$("#upload_main").find('.ext_details_tabs').not('[data-skip-responsive]').each(function () {
+		upload_ext.elem.main.find('.ext_details_tabs').not('[data-skip-responsive]').each(function() {
 			var $this = $(this),
-				$body = $("#upload_main"),
+				$body = upload_ext.elem.main,
 				ul = $this.children(),
 				tabs = ul.children().not('[data-skip-responsive]'),
 				links = tabs.children('a'),
@@ -585,7 +969,7 @@
 				lastWidth = false,
 				responsive = false;
 
-			links.each(function () {
+			links.each(function() {
 				var link = $(this);
 				link.attr("data-link-image", link.children("i").attr("class"));
 				link.attr("data-link-name", link.children("span").html());
@@ -600,7 +984,7 @@
 					return;
 				}
 
-				links.each(function () {
+				links.each(function() {
 					var link = $(this);
 					link.attr("title", "");
 					link.html('<i class="' + link.attr("data-link-image") + '"></i> <span>' + link.attr("data-link-name") + '</span>');
@@ -624,7 +1008,9 @@
 					var link = tab.children('a');
 					link.attr("title", link.attr("data-link-name"));
 					link.html('<i class="' + link.attr("data-link-image") + '"></i>');
-					if ($this.height() <= maxHeight) return;
+					if ($this.height() <= maxHeight) {
+						return;
+					}
 				}
 				// If the space is really short.
 				tab = tabs.filter('.activetab');
@@ -635,16 +1021,16 @@
 
 			check(true);
 			$(window).resize(check);
-			$("#upload_main").one("loaded", check);
+			upload_ext.elem.main.one("loaded", check);
 			$this.on("tab_changed", check);
 		});
-		$(".ext_details_tabs .tab").click(function (event) {
+		$(".ext_details_tabs .tab").click(function(event) {
 			var current_tab = $(this),
 				details_block = $(".ext_details_block");
 			event.preventDefault();
 			details_block.finish();
 			details_block.parent().stop().css("height", details_block.parent().height() + "px");
-			details_block.slideUp(700, function () {
+			details_block.slideUp(700, function() {
 				$(".ext_details_tabs .activetab").toggleClass("activetab");
 				switch (current_tab.attr("id")) {
 					case 'ext_details_main_tab':
@@ -680,17 +1066,17 @@
 				var restored = false;
 				details_block.slideDown({
 					duration: 700,
-					progress: function (an, progress, ms) {
+					progress: function(an, progress, ms) {
 						if (!restored && details_block.height() >= details_block.parent().height()) {
 							details_block.parent().css("height", "");
 							restored = true;
 						}
 					},
-					complete: function () {
+					complete: function() {
 						if (!restored) {
 							details_block.parent().animate({
 								height: details_block.parent().children(".ext_details_tabs").outerHeight() + details_block.outerHeight()
-							}, 500, function () {
+							}, 500, function() {
 								details_block.parent().css("height", "");
 							});
 							restored = true;
@@ -716,23 +1102,23 @@
 				$("#ext_details_faq").css("display", "block");
 			}
 			$(".upload_ext_faq_answer").hide();
-			var show_upload_ext_faq_element = function (event) {
-				var $element = $(this);
-				$(".upload_ext_faq_question").not(".grey_question").not(this).unbind("click").bind("click", show_upload_ext_faq_element).addClass("grey_question").next(".upload_ext_faq_answer").slideUp();
-				$element.unbind("click", show_upload_ext_faq_element).removeClass("grey_question").next(".upload_ext_faq_answer").slideDown(function () {
-					$element.bind("click", hide_upload_ext_faq_element);
-				});
-			},
-			hide_upload_ext_faq_element = function (event) {
-				var $element = $(this);
-				$element.unbind("click", hide_upload_ext_faq_element).next(".upload_ext_faq_answer").slideUp(function () {
-					$element.bind("click", show_upload_ext_faq_element);
-				});
-				$(".upload_ext_faq_question").not(this).removeClass("grey_question");
-			};
+			var show_upload_ext_faq_element = function(event) {
+					var $element = $(this);
+					$(".upload_ext_faq_question").not(".grey_question").not(this).unbind("click").bind("click", show_upload_ext_faq_element).addClass("grey_question").next(".upload_ext_faq_answer").slideUp();
+					$element.unbind("click", show_upload_ext_faq_element).removeClass("grey_question").next(".upload_ext_faq_answer").slideDown(function() {
+						$element.bind("click", hide_upload_ext_faq_element);
+					});
+				},
+				hide_upload_ext_faq_element = function(event) {
+					var $element = $(this);
+					$element.unbind("click", hide_upload_ext_faq_element).next(".upload_ext_faq_answer").slideUp(function() {
+						$element.bind("click", show_upload_ext_faq_element);
+					});
+					$(".upload_ext_faq_question").not(this).removeClass("grey_question");
+				};
 			$(".upload_ext_faq_question").css("cursor", "pointer").bind("click", show_upload_ext_faq_element);
 		}
-		$(".ext_versioncheck_force_link").click(function (event) {
+		$(".ext_versioncheck_force_link").click(function(event) {
 			event.preventDefault();
 			$().upload_loading_start();
 			close_error_wrapper();
@@ -740,164 +1126,83 @@
 			$("#meta_version").removeClass("description_value_ok description_value_old").attr("title", "");
 			load_page("versioncheck_force", $("h1.ExtensionName span").attr("data-ext-name"), get_versioncheck_result, $(this));
 		});
-		$(".ext_restore_languages").click(function (event) {
+		$(".ext_restore_languages").click(function(event) {
 			event.preventDefault();
 			load_page("restore_languages", $(this).attr("data-ext-restore"));
 		});
 	}
 
 	function check_details_page() {
-		// Reload the details page if this was not an ajax request (we do not need it if we load languages for Upload Extensions).
-		if ($(".ext_details_block").length > 0 && (typeof $(".ext_reload_link").attr("data-upload-ext") === "undefined" || $("#ext_languages").attr("data-ext-show-languages") !== "true"))
-		{ // This is needed because filetree, readme and changelog are downloaded together if JavaScript is used.
-			load_page("details", $(".ext_reload_link").attr("data-ext-name"));
+		var $detailsBlock = $(".ext_details_block"), $reloadLink = $(".ext_reload_link");
+		// Reload the details page if this was not an ajax request and if not the full page has been loaded (we do not need it if we load languages for Upload Extensions).
+		if (($detailsBlock.length > 0) && ($detailsBlock.attr("data-load-full-page") != "1") && (typeof $reloadLink.attr("data-upload-ext") === "undefined" || $("#ext_languages").attr("data-ext-show-languages") !== "true")) { // This is needed because filetree, readme and changelog are downloaded together if JavaScript is used.
+			load_page("details", $reloadLink.attr("data-ext-name"));
 		}
-	}
-
-	function get_force_unstable_result(result) {
-		var data = $('<form>' + result.S_HIDDEN_FIELDS + '</form>').serialize();
-		$.ajax({
-			url: result.S_CONFIRM_ACTION,
-			type: 'POST',
-			data: data + "&confirm=" + result.YES_VALUE,
-			error: function (e, text, ee) {
-				$().upload_loading_end();
-				show_error_box(e, text, ee);
-			},
-			success: function (s, x) {
-				$().upload_loading_end();
-				if (typeof s.status !== "undefined" && s.status === "success") {
-					$("#force_unstable_updated").stop().slideDown(700);
-					setTimeout(function () {
-						$("#force_unstable_updated").slideUp(700);
-					}, 3000);
-				}
-				else {
-					$("#upload_loading_error").css("display", "inline-block");
-					$("#upload_loading_error_wrapper").slideDown(700);
-					loading_errors = true;
-				}
-			},
-			cache: false
-		});
-	}
-
-	function get_force_unstable_confirm(result, element) {
-		if (typeof result.S_CONFIRM_ACTION !== "undefined" && result.YES_VALUE) {
-			//element.qtip('api').set('content.title', result.MESSAGE_TITLE);
-			$("#ext_force_unstable_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
-			$("#ext_force_unstable_text").html(result.MESSAGE_TEXT);
-			element.qtip('api').reposition();
-			$("#ext_force_unstable_confirm .ext_update_ok").bind("click", function (event) {
-				$().upload_loading_start();
-				close_error_wrapper();
-				element.qtip('api').destroy();
-				get_force_unstable_result(result);
-			});
-			$("#ext_force_unstable_confirm .ext_update_cancel").bind("click", function (event) {
-				element.qtip('api').destroy();
-			});
-		} else if (typeof result.status !== "undefined" && result.status === "success") {
-			$().upload_loading_end();
-			$("#force_unstable_updated").stop().slideDown(700);
-			setTimeout(function () {
-				$("#force_unstable_updated").slideUp(700);
-			}, 3000);
-		} else {
-			element.qtip('api').destroy();
-			$().upload_loading_end();
-			show_error_box(result.code, result.error, result.message);
-		}
-	}
-
-	function add_set_force_unstable_toggle() {
-		$("#set_force_unstable_link").click(function (event) {
-			event.preventDefault();
-			$("#version_check_settings").slideToggle(700);
-		});
-		$("#version_check_settings").bind("submit", function (event) {
-			event.preventDefault();
-			$("#version_check_settings").slideToggle(700);
-			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
-			var force_unstable = ($("#force_unstable").is(":checked")) ? 1 : 0;
-			if (force_unstable) {
-				$(".upload_ext_list").qtip({
-					content: {
-						text: function (event, api) {
-							load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
-							return "<div id='ext_force_unstable_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_force_unstable_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
-						},
-						title: function (event, api) {
-							return $("#version_check_settings_title").html();
-						}
-					},
-					style: {
-						classes: 'qtip-light qtip-shadow qtip-rounded'
-					},
-					position: {
-						my: 'bottom center',
-						at: 'top center',
-						viewport: true
-					},
-					show: {
-						modal: {
-							on: true
-						},
-						ready: true
-					},
-					hide: {
-						event: false
-					},
-					events: {
-						hidden: function (event, api) {
-							api.destroy(true);
-						}
-					}
-				});
-			}
-			else {
-				$().upload_loading_start();
-				close_error_wrapper();
-				load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
-			}
-		});
 	}
 
 	function load_zip_packages_page() {
-		$(".unpack_zip").click(function (event) {
+		$(".unpack_zip").click(function(event) {
 			event.preventDefault();
 			load_page("local_upload", $(this).attr("href"));
 		});
-		$("#upload_pagination li a").click(function (event) {
+		$("#upload_pagination li a").click(function(event) {
 			event.preventDefault();
 			load_page("zip_packages", $(this).attr("href"));
 		});
 	}
 
-	$("#upload_main_wrapper").css("overflow", "hidden");
-
+	/*****************************
+	 * Server response functions *
+	 *****************************/
 	function check_response(res) {
 		if (typeof res.FORCE_UPDATE !== "undefined") {
 			load_page("force_update");
 			return false;
-		} else if (typeof res !== "object" && res.trim() === '') {
-			// Blank page is an error.
-			$().upload_loading_end();
-			$("#upload_loading_error").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
-			loading_errors = true;
-			return false;
-		} else if (res.substr(0, 9) == "<!DOCTYPE") {
-			// Reload the page after logout.
-			window.location.href = $("#upload_main").attr("data-page-action");
+		} else if (typeof res !== "object") {
+			if (res.match(/<input/im)) {
+				// Reload the page after logout.
+				window.location.href = upload_ext.fn.main_attr("data-page-action");
+			} else {
+				// Show result error.
+				$().upload_loading_end();
+				$("#upload_loading_error").css("display", "inline-block");
+				$("#upload_loading_error_wrapper").slideDown(700);
+				loading_errors = true;
+				// Blank page is an error, but without text.
+				if (res.trim() !== '') {
+					show_error_modal_box(res);
+				}
+				return false;
+			}
 		}
 		return true;
 	}
 
+	function parse_response(element, res) {
+		var $temp_container = $("#upload_temp_container");
+
+		element.html(res.result);
+
+		if (res.status == "error") {
+			$("#upload_link_back").click(function(e) {
+				e.preventDefault();
+				$("#upload_main_wrapper, #upload_main").addClass("main_transformation");
+				upload_ext.elem.wrapper.slideUp(500, function() {
+					upload_ext.elem.main.empty().append($temp_container.contents());
+					$temp_container.empty();
+					upload_ext.elem.wrapper.attr("style", "display:none;").slideDown(700, "linear", function() {
+						$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
+					});
+				});
+			});
+		} else {
+			$temp_container.empty();
+		}
+	}
+
 	function close_error_wrapper() {
-		if (loading_errors)
-		{
-			$("#upload_loading_error_wrapper").slideUp(700, function () {
+		if (loading_errors) {
+			$("#upload_loading_error_wrapper").slideUp(700, function() {
 				$("#upload_loading_error, #upload_loading_timeout, #upload_loading_error_status").css("display", "none");
 			});
 			loading_errors = false;
@@ -909,7 +1214,9 @@
 			$().upload_loading_start();
 			close_error_wrapper();
 			$("#upload_main_wrapper, #upload_main").addClass("main_transformation");
-			$("#upload_main_wrapper").slideUp(700, load_page_process(action, id, local, element));
+			upload_ext.elem.wrapper.slideUp(500, function() {
+				load_page_process(action, id, local, element);
+			});
 		} else {
 			load_page_process(action, id, local, element);
 		}
@@ -917,30 +1224,55 @@
 
 	function load_page_process(action, id, local, element) {
 		var getExtension = ["details", "enable", "disable", "purge", "versioncheck_force", "restore_languages"];
-		var page_url = $("#upload_main").attr("data-page-action"), data = {}, method = 'GET';
-		function page_loaded($this, s)
-		{
-			$("#upload_main_wrapper").stop().slideUp(100, function () {
-				$this.html(s);
-				parse_document($("#upload_main_wrapper"));
-				add_ajax();
-				bind_load_events(action);
-				$().upload_loading_end();
-				$("#upload_main_wrapper").attr("style", "display:none;").slideDown(700, "linear", function () {
-					$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
-					$("#upload_main").trigger("loaded");
+		var page_url = upload_ext.fn.main_attr("data-page-action"), data = {}, method = 'GET';
+		var $temp_container = $("#upload_temp_container");
+
+		function page_loaded($this, s) {
+			parse_response($this, s);
+			parse_document(upload_ext.elem.wrapper);
+			add_ajax();
+			bind_load_events(action);
+			if (upload_replace_history) {
+				upload_replace_history = false;
+				phpbb.history.replaceUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action, document.title, {
+					action: action,
+					id: id,
+					replaced: true
 				});
+			} else if (upload_stop_history) {
+				upload_stop_history = false;
+			} else {
+				phpbb.history.pushUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action + generate_get_request(), document.title, {
+					action: action,
+					id: id
+				});
+			}
+			$().upload_loading_end();
+			upload_ext.elem.wrapper.finish().attr("style", "display:none;").slideDown(700, "linear", function() {
+				$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
+				upload_ext.elem.main.trigger("loaded");
 			});
 		}
+
 		function generate_get_request() {
-			if ($.inArray(action, getExtension) > -1) return "&ext_name=" + id;
+			if ($.inArray(action, getExtension) > -1) {
+				return "&ext_name=" + id;
+			}
 			switch (action) {
-				case "local_upload": return "&local_upload=" + id;
-				case "set_config_force_unstable": return "&force_unstable=" + id;
-				case "list": return (typeof id !== "undefined" && id === "versioncheck_force") ? "&versioncheck_force=1" : "";
+				case "local_upload":
+					return "&local_upload=" + id;
+				case "set_config_force_unstable":
+					return "&force_unstable=" + id;
+				case "list":
+					return (typeof id !== "undefined" && id === "versioncheck_force") ? "&versioncheck_force=1" : "";
 			}
 			return "";
 		}
+
+		if (typeof local === "undefined") {
+			$temp_container.append(upload_ext.elem.main.contents());
+		}
+
 		if (action === "upload" || action === "upload_update" || action === "upload_language") {
 			var $this = $("#ext_upload");
 			if (action === "upload_update") {
@@ -951,20 +1283,24 @@
 			method = $this.attr('method') || 'GET';
 			$this.ajaxSubmit({
 				url: page_url + "&ajax_action=" + action, // window.location.href
-				target: $("#upload_main"),
-				uploadProgress: function (e, pos, total, percentComplete) {
+				target: upload_ext.elem.main,
+				uploadProgress: function(e, pos, total, percentComplete) {
 					if (percentComplete) {
 						$().upload_loading_progress(percentComplete);
 					}
 				},
-				error: function (e, text, ee) {
+				error: function(e, text, ee) {
+					show_error_modal_box(e.responseText);
+					if (upload_stop_history) {
+						upload_stop_history = false;
+					}
 					$().upload_loading_end();
 					show_error_box(e, text, ee);
 				},
-				success: function (s, x) {
+				success: function(s, x) {
 					if (action === "upload_language" && typeof s === "object" && typeof s.REFRESH !== "undefined") {
 						// Reload the page after installing current language package.
-						window.location.href = $("#upload_main").attr("data-page-action") + "&action=details&ext_show=languages&result=language_uploaded&result_type=ajax_refresh&lang=" + s.LANGUAGE;
+						window.location.href = upload_ext.fn.main_attr("data-page-action") + "&action=details&ext_show=languages&result=language_uploaded&result_type=ajax_refresh&lang=" + s.LANGUAGE;
 					}
 					else if (check_response(s)) {
 						page_loaded($(this), s);
@@ -972,104 +1308,104 @@
 				}
 			});
 		}
-		else $.ajax({
-			url: ((action === "zip_packages" && typeof id !== "undefined") ? id : page_url) + "&ajax_action=" + action + generate_get_request(),
-			context: $("#upload_main"),
-			/*xhrFields: {
-				onprogress: function (e) {
-					if (e.lengthComputable) {
-						var percentComplete = ((e.position || e.loaded) * 100 / (e.totalSize || e.total)).toFixed();
-						$("#upload_loading_status").html(percentComplete + " %");
+		else {
+			$.ajax({
+				url: ((action === "zip_packages" && typeof id !== "undefined") ? id : page_url) + "&ajax_action=" + action + generate_get_request(),
+				context: upload_ext.elem.main,
+				error: function(e, text, ee) {
+					show_error_modal_box(e.responseText);
+					if (typeof local !== "undefined") {
+						local({
+							ext_name: id,
+							status: 'load_error',
+							error: text,
+							code: e.status,
+							message: ee
+						}, element);
+						return;
 					}
-				}
-			},*/
-			error: function (e, text, ee) {
-				if (typeof local !== "undefined") {
-					local({
-						ext_name: id,
-						status: 'load_error',
-						error: text,
-						code: e.status,
-						message: ee
-					}, element);
-					return;
-				}
-				$().upload_loading_end();
-				show_error_box(e, text, ee);
-			},
-			success: function (s, x) {
-				if (typeof local !== "undefined") {
-					if (typeof s.status !== "undefined" && s.status === "force_update") {
-						load_page_process(action, id, local, element); // Repeat the request.
-					} else {
-						local(s, element);
+					if (upload_stop_history) {
+						upload_stop_history = false;
 					}
-					return;
-				}
-				if (check_response(s)) {
-					page_loaded($(this), s);
-				}
-			},
-			cache: false
-		});
-		if(typeof local === "undefined") $("#upload_main").trigger("loading");
+					$().upload_loading_end();
+					show_error_box(e, text, ee);
+				},
+				success: function(s, x) {
+					if (typeof local !== "undefined") {
+						if (typeof s.status !== "undefined" && s.status === "force_update") {
+							load_page_process(action, id, local, element); // Repeat the request.
+						} else {
+							local(s, element);
+						}
+						return;
+					}
+					if (check_response(s)) {
+						page_loaded($(this), s);
+					}
+				},
+				cache: false
+			});
+		}
+		if (typeof local === "undefined") {
+			upload_ext.elem.main.trigger("loading");
+		}
 	}
 
 	// Bind load_page events
 	function bind_load_events(action) {
-		$(".upload_load_zip").click(function (event) {
+		$(".upload_load_zip").click(function(event) {
 			event.preventDefault();
 			load_page("zip_packages");
 		});
 
-		$(".upload_load_uninstalled").click(function (event) {
+		$(".upload_load_uninstalled").click(function(event) {
 			event.preventDefault();
 			load_page("uninstalled");
 		});
 
-		$(".upload_load_list").click(function (event) {
+		$(".upload_load_list").click(function(event) {
 			event.preventDefault();
 			load_page("list");
 		});
 
-		$("#upload_load_main").click(function (event) {
+		$("#upload_load_main").click(function(event) {
 			event.preventDefault();
 			load_page("main");
 		});
 
-		$("#upload_load_main_list").click(function (event) {
+		$("#upload_load_main_list").click(function(event) {
 			event.preventDefault();
 			load_page("list");
 		});
 
-		$("#versioncheck_force_update_all").click(function (event) {
+		$("#versioncheck_force_update_all").click(function(event) {
 			event.preventDefault();
 			load_page("list", "versioncheck_force");
 		});
 
-		$(".upload-main-content #ext_upload").submit(function (event) {
+		$(".upload-main-content #ext_upload").submit(function(event) {
 			event.preventDefault();
 			load_page("upload");
 		});
 
-		$(".ext_details_block #ext_upload").submit(function (event) {
+		$(".ext_details_block #ext_upload").submit(function(event) {
 			event.preventDefault();
 			load_page("upload_language");
 		});
 
-		$("#upload_ext_update").submit(function (event) {
+		$("#upload_ext_update").submit(function(event) {
 			event.preventDefault();
 			load_page("upload_update");
 		});
 
-		$(".upload_get_details_link").click(function (event) {
+		$(".upload_get_details_link").click(function(event) {
 			event.preventDefault();
 			load_page("details", $(this).attr("data-ext-name"));
 		});
 
-		switch (action)
-		{
+		switch (action) {
 			case "list_from_cdb":
+				load_cdb_list_page();
 			case "main":
 				load_main_page();
 				break;
@@ -1088,47 +1424,56 @@
 			case "list":
 				add_enable_toggle();
 				add_set_force_unstable_toggle();
+				load_list_page();
 				break;
 			case "zip_packages":
 				load_zip_packages_page();
 				break;
 		}
 	}
-	$("#upload_extensions_title").click(function (event) {
-		event.preventDefault();
-		load_page("main");
+
+	/* Work with browser's history. */
+	var upload_stop_history = false, upload_replace_history = false;
+	$(window).on("popstate", function(e) {
+		var current_state = e.originalEvent.state;
+		if (current_state.first) {
+			window.location.reload();
+		} else {
+			upload_stop_history = true;
+			load_page(current_state.action, current_state.id);
+		}
 	});
-	$("#upload_extensions_links_show_slider").click(function () {
-		$("#upload_extensions_title_links").css("margin-" + direction_left, ($("#upload_extensions_title_links").css("margin-" + direction_left) == "-100px") ? "-15px" : "");
-	});
-	load_main_page();
-	bind_load_events();
-	load_details_page();
-	add_set_force_unstable_toggle();
-	load_zip_packages_page();
+
+	/* Workaround for browser's cache. */
+	if (phpbb.history.isSupported("state")) {
+		$(window).on("unload", function() {
+			var current_state = history.state, d = new Date();
+			if (current_state !== null) {
+				phpbb.history.replaceUrl(window.location.href + '&ajax_time=' + d.getTime(), document.title, current_state);
+			}
+		});
+
+		var current_state = history.state;
+		if (current_state !== null) {
+			phpbb.history.replaceUrl(window.location.href.replace(/&ajax_time=\d*/i, ''), document.title, current_state);
+		} else {
+			phpbb.history.replaceUrl(window.location.href, document.title, {
+				action: upload_ext.fn.main_attr("data-page-action"),
+				id: null,
+				first: true
+			});
+		}
+	}
+
+	/* Initialize loaded page. */
+	bind_load_events(upload_ext.fn.main_attr("data-load-action"));
 	check_details_page();
 })(jQuery, window, document);
 
-function browseFile()
-{
+function browseFile() {
 	document.getElementById('extupload').click();
 }
 
-function setFileName()
-{
+function setFileName() {
 	document.getElementById('remote_upload').value = document.getElementById("extupload").files[0].name;
-}
-
-function loadXMLDoc(event, url)
-{
-	; (function ($, window, document) {
-		// do stuff here and use $, window and document safely
-		// https://www.phpbb.com/community/viewtopic.php?p=13589106#p13589106
-		event.preventDefault();
-		$("#filecontent_wrapper").fadeOut(500, function () {
-			$("#filecontent").load(url, function () {
-				$("#filecontent_wrapper").fadeIn(500);
-			});
-		});
-	})(jQuery, window, document);
 }

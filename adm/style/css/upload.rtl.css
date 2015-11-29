@@ -48,7 +48,7 @@
 	margin-right: 0;
 	margin-left: 15px;
 }
-.rtl .upload_ext_update_button {
+.rtl .upload_ext_update_button, .rtl .upload_ext_error_show {
 	float: left;
 }
 .rtl .ext_error_notice i, .rtl .ext_solution_notice i {
@@ -88,9 +88,17 @@
 	right: auto;
 	left: 15px;
 }
+.rtl #upload_modal_box .alert_close {
+	float: left;
+	margin-right: 0;
+	margin-left: -35px;
+}
 .rtl .select_all_code {
 	right: auto;
 	left: 15px;
+}
+.rtl .select_all_content {
+	float: left;
 }
 .rtl .upload_main_page_link_block i.fa {
 	margin-right: 0;
@@ -149,7 +157,7 @@
 	margin-right: 30px;
 }
 .rtl .php-file-tree ul {
-	padding: 0 30px 0 0;
+	padding: 0 45px 0 0;
 }
 .rtl .php-file-tree li {
 	direction: rtl;
@@ -157,6 +165,10 @@
 .rtl .php-file-tree li.pft-directory span, .rtl .php-file-tree li.pft-directory a {
 	padding: 0 30px 0 0;
 	margin: 0 -30px 0 0;
+}
+.rtl .php-file-tree .pft-directory {
+	margin-left: 0;
+	margin-right: -22px; /* Fix a bug in Firefox. */
 }
 .rtl .requirements_bubble {
 	margin-left: 0px;
@@ -174,7 +186,12 @@
 	border-left: none;
 	border-right: 1px solid #D7D7D7;
 }
-.rtl #upload_main h1.ExtensionName {
+.rtl .requirements_value:before, .description_value_ok:before,
+.rtl .requirements_value_not_met:before, .description_value_old:before {
+	margin-right: 0px;
+	margin-left: 5px;
+}
+.rtl h1.ExtensionName {
 	margin: 5px 15px 5px 5px;
 }
 .rtl #upload_main .extension_toggle_wrapper {

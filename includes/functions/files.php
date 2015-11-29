@@ -245,6 +245,31 @@ class files
 	}
 
 	/**
+	* Check whether acp/ and/or adm/ directories exist in the specified directory.
+	* @param string $path   The path to the directory without slash at the end.
+	* @return bool
+	*/
+	public static function check_acp_and_adm($path)
+	{
+		if (@is_dir($path))
+		{
+			$files = @scandir($path);
+			if ($files === false)
+			{
+				return false;
+			}
+			foreach ($files as $file)
+			{
+				if (($file == 'acp' || $file == 'adm') && @is_dir($path . '/' . $file))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	* Remote upload method
 	* Uploads file from given url
 	*

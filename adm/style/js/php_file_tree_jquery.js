@@ -3,18 +3,32 @@ function setFileTree() {
 	$(".php-file-tree").find("UL").hide();
 
 	// Expand/collapse on click
-	$(".pft-directory span").click(function () {
+	$(".pft-directory span").click(function() {
 		$(this).parent().find("UL:first").slideToggle("medium");
-		if($(this).parent().attr('className') == "pft-directory") return false;
+		if ($(this).parent().attr('className') == "pft-directory") {
+			return false;
+		}
 	});
 
-	$(".select_all_code").css("display", "inline-block").click(function (event) {
+	$(".php-file-tree [data-file-link]").click(function(event) {
+		event.preventDefault();
+		var $this = $(this);
+		$(".pft-active").removeClass("pft-active");
+		$this.addClass("pft-active");
+		$("#filecontent_wrapper").fadeOut(500, function() {
+			$("#filecontent").load($this.attr("data-file-link"), function() {
+				$("#filecontent_wrapper").fadeIn(500);
+			});
+		});
+	});
+
+	$(".php-file-tree > li[title='composer.json']").addClass("pft-active");
+
+	$(".select_all_code").css("display", "inline-block").click(function(event) {
 		event.preventDefault();
 		selectCode(this);
 	})
 }
-
-$(document).ready(function () { setFileTree(); });
 
 function selectCode(a) {
 	// Get ID of code block

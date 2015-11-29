@@ -3,6 +3,20 @@ Upload Extensions - Changelog
 This file contains the list of changes between different versions of Upload Extensions.
 
 # Version 3.1.2
+## Changes since 3.1.2-beta2
+### New features
+* [FEATURE] Extension's description and requirements can be shown for suggested extensions.
+* [FEATURE] Full downloadable list of uploaded extensions.
+* [FEATURE] Integration with browser's history.
+
+### Improvements
+* [LIST] List of suggested extensions is now taken directly from phpbb.com.
+* [CODE] Errors are now shown in the special modal box.
+* [DESIGN] Small design improvements: status icons and current file in file tree.
+
+### Bug fixes
+* JavaScript fixes and improvements.
+
 ## Changes since 3.1.2-beta
 ### New features
 * [FEATURE] Language packages management page for each extension.
@@ -46,4 +60,4 @@ Already included in 3.1.1.
 
 Initial stable release (changes can be found in the commits of our [repository on GitHub](https://github.com/BoardTools/upload)).
 
-© 2014 - 2015 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+© 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
