@@ -370,6 +370,23 @@ class extensions
 	}
 
 	/**
+	* Generate the link for the refresh in JavaScript.
+	* @param string $ext_name The name of the extension.
+	* @return bool|string
+	*/
+	protected static function generate_refresh_link($ext_name)
+	{
+		if (files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true)))
+		{
+			return str_replace('&amp;', '&', objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name));
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	* The function that enables the specified extension.
 	* @param string $ext_name The name of the extension.
 	* @return bool
@@ -464,7 +481,7 @@ class extensions
 		self::response(array(
 			'ext_name'	=> $ext_name,
 			'status'	=> 'enabled',
-			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
+			'refresh'	=> self::generate_refresh_link($ext_name)
 		));
 		return true;
 	}
@@ -525,7 +542,7 @@ class extensions
 		self::response(array(
 			'ext_name'	=> $ext_name,
 			'status'	=> 'disabled',
-			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
+			'refresh'	=> self::generate_refresh_link($ext_name)
 		));
 		return true;
 	}
@@ -600,7 +617,7 @@ class extensions
 		self::response(array(
 			'ext_name'	=> $ext_name,
 			'status'	=> 'purged',
-			'refresh'	=> files::check_acp_and_adm(objects::$phpbb_extension_manager->get_extension_path($ext_name, true))
+			'refresh'	=> self::generate_refresh_link($ext_name)
 		));
 		return true;
 	}

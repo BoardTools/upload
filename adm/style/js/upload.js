@@ -288,7 +288,7 @@
 			}
 			if (result.refresh) {
 				setTimeout(function() {
-					window.location.href = window.location.href + '&result_type=ajax_refresh';
+					window.location.href = result.refresh + '&result_type=ajax_refresh';
 				}, 1000);
 			}
 		} else {
