@@ -2124,8 +2124,12 @@ a.ext_language_edit {
 	font-size: 0.9em;
 	margin-left: 10px;
 }
+.upload_update_form {
+	display: inline-block;
+}
 #ext_details_content .extension_get_update_link {
 	display: inline-block;
+	border: 0;
 	font-size: 1.1em;
 	border-radius: 15px;
 	padding: 6px 15px 6px 0;

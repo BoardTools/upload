@@ -58,13 +58,12 @@ class updater
 
 	/**
 	* The function that generates the link to Upload Extensions Updater.
-	* @param string $upload_url Download URL.
 	* @return string Download link.
 	*/
-	public static function get_update_link($upload_url)
+	public static function get_update_link()
 	{
 		global $phpbb_admin_path, $phpEx;
-		return append_sid("{$phpbb_admin_path}index.$phpEx", "i=-boardtools-updater-acp-updater_module&amp;mode=main&amp;action=upload&amp;remote_upload=" . urlencode($upload_url));
+		return append_sid("{$phpbb_admin_path}index.$phpEx", "i=-boardtools-updater-acp-updater_module&amp;mode=main&amp;action=upload");
 	}
 
 	/**
@@ -74,7 +73,7 @@ class updater
 	{
 		if (objects::$phpbb_extension_manager->is_enabled("boardtools/updater") && objects::$self_update != false)
 		{
-			objects::$template->assign_var('U_UPLOAD_EXT_UPDATE', self::get_update_link(objects::$self_update));
+			objects::$template->assign_var('U_UPLOAD_EXT_UPDATE', self::get_update_link());
 		}
 	}
 }

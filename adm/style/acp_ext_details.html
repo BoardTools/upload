@@ -176,7 +176,10 @@
 					<!-- ENDIF -->
 					<!-- IF upload_updates_available.download -->
 					<!-- IF U_UPLOAD_EXT_UPDATE -->
-					<a href="{U_UPLOAD_EXT_UPDATE}" class="extension_get_update_link" style="float: none;"><i class="fa fa-refresh"></i> {L_UPDATE}</a>
+					<form class="upload_update_form" action="{U_UPLOAD_EXT_UPDATE}" method="post">
+						<input type="hidden" name="remote_upload" value="{upload_updates_available.download}" />
+						<button type="submit" name="submit" value="{L_UPDATE}" class="extension_get_update_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-refresh"></i> {L_UPDATE}</button>
+					</form>
 					<!-- ELSE -->
 					<a href="{upload_updates_available.download}" class="extension_author_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-download"></i></a>
 					<!-- ENDIF -->
