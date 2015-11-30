@@ -864,7 +864,7 @@ class upload_module
 			}
 			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 			// We suppose that one user can upload only one extension per session.
-			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
+			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
 			// Ensure that we don't have any previous files in the working directory.
 			if (is_dir($phpbb_root_path . 'ext/' . $ext_tmp))
 			{
@@ -1025,7 +1025,7 @@ class upload_module
 		{
 			// All checks were done previously. Now we only need to restore the variables.
 			// We try to restore the data of the current upload.
-			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
+			$ext_tmp = objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = files::getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
 				files::catch_errors($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE']);
@@ -1173,7 +1173,7 @@ class upload_module
 		}
 		// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 		// We suppose that one user can upload only one extension per session.
-		$ext_tmp = $phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int)$user->data['user_id'];
+		$ext_tmp = $phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
 		// Ensure that we don't have any previous files in the working directory.
 		if (is_dir($ext_tmp))
 		{
