@@ -673,6 +673,40 @@ a.upload_ext_update_button {
 	font-size: 16px;
 }
 
+#upload_refresh_notice_wrapper {
+	display: none;
+	margin: -10px -15px 15px -15px;
+	background-color: #fdfcd3;
+	color: #977C1E;
+	box-shadow: 0px 0px 15px #977C1E;
+	text-align: center;
+	font-weight: bold;
+}
+
+#upload_refresh_notice {
+	display: none;
+	padding: 10px 0;
+}
+
+#upload_refresh_notice a {
+	font-size: 1em;
+}
+
+#upload_refresh_notice > i {
+	font-size: 1.5em;
+}
+
+#upload_refresh_notice > span {
+	font-size: 1.3em;
+	margin: 0 5px 0 5px;
+}
+
+#upload_refresh_notice .upload_refresh_notice_close {
+	float: right;
+	cursor: pointer;
+	margin: 5px 15px 0 15px;
+}
+
 #markdown {
 	border: 1px solid #CCCFD3;
 	background-color: #F9F9F9;
@@ -2127,7 +2161,8 @@ a.ext_language_edit {
 .upload_update_form {
 	display: inline-block;
 }
-#ext_details_content .extension_get_update_link {
+#ext_details_content .extension_get_update_link,
+#upload_refresh_notice .page_refresh_link {
 	display: inline-block;
 	border: 0;
 	font-size: 1.1em;
@@ -2144,10 +2179,12 @@ a.ext_language_edit {
 	-o-transition: all 0.3s ease;
 	transition: all 0.3s ease;
 }
-#ext_details_content .extension_get_update_link i {
+#ext_details_content .extension_get_update_link i,
+#upload_refresh_notice .page_refresh_link i {
 	margin: 0 5px 0 15px;
 }
-#ext_details_content .extension_get_update_link:hover {
+#ext_details_content .extension_get_update_link:hover,
+#upload_refresh_notice .page_refresh_link:hover {
 	color: #fff;
 	background-color: #2a70bf;
 }

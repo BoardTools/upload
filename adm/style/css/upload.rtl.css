@@ -93,6 +93,9 @@
 	margin-right: 0;
 	margin-left: -35px;
 }
+.rtl #upload_refresh_notice .upload_refresh_notice_close {
+	float: left;
+}
 .rtl .select_all_code {
 	right: auto;
 	left: 15px;
@@ -271,10 +274,12 @@
 	margin-left: 0;
 	margin-right: 10px;
 }
-.rtl #ext_details_content .extension_get_update_link {
+.rtl #ext_details_content .extension_get_update_link,
+.rtl #upload_refresh_notice .page_refresh_link {
 	padding: 6px 0 6px 15px;
 }
-.rtl #ext_details_content .extension_get_update_link i {
+.rtl #ext_details_content .extension_get_update_link i,
+.rtl #upload_refresh_notice .page_refresh_link i {
 	margin: 0 15px 0 5px;
 }
 .rtl .extension_latest_version_wrapper {

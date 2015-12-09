@@ -82,7 +82,10 @@ class upload_module
 		objects::$is_ajax = false;
 		if ($request->is_ajax() && !empty($ajax_action))
 		{
-			$template->assign_var('IS_AJAX', true);
+			$template->assign_vars(array(
+				'HAS_AJAX' => true,
+				'IS_AJAX'  => true,
+			));
 			objects::$is_ajax = true;
 			switch ($ajax_action)
 			{
@@ -106,6 +109,7 @@ class upload_module
 				case 'disable':
 				case 'purge':
 				case 'restore_languages':
+				case 'faq':
 				case 'details':
 					$this->tpl_name = 'acp_upload_details';
 				break;
@@ -132,10 +136,18 @@ class upload_module
 		{
 			$template->assign_vars(array(
 				'S_LOAD_ACTION'   => $action,
-				'U_MAIN_PAGE_URL' => build_url(array('action')),
+				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show')),
 			));
+
+			if ($request->variable('ajax', 0) === 1)
+			{
+				// Only needed to correctly load the template.
+				$template->assign_var('HAS_AJAX', true);
+			}
 		}
 		// Detect whether this is an Ajax request - END
+
+		$original_action = $action;
 
 		switch ($action)
 		{
@@ -143,6 +155,10 @@ class upload_module
 				$ext_name = $request->variable('ext_name', objects::$upload_ext_name);
 				$ext_show = $request->variable('ext_show', '');
 				load::details($ext_name, $ext_show);
+			break;
+
+			case 'faq':
+				load::details(objects::$upload_ext_name, 'faq');
 			break;
 
 			case 'enable':
@@ -211,8 +227,10 @@ class upload_module
 				}
 				$ext_name = $request->variable('ext_name', '');
 				$lang_name = $request->variable('ext_lang_name', '');
-				$this->upload_lang($lang_action, $ext_name, $lang_name);
-				load::details($ext_name, 'languages');
+				if ($this->upload_lang($lang_action, $ext_name, $lang_name))
+				{
+					load::details($ext_name, 'languages');
+				}
 			break;
 
 			case 'upload':
@@ -516,7 +534,7 @@ class upload_module
 										'MESSAGE_TEXT'  => $result_text,
 										'REFRESH_DATA'  => array(
 											'time' => 3,
-											'url'  => redirect(objects::$u_action . '&amp;action=details&amp;ext_show=languages&amp;result_type=ajax_refresh', true)
+											'url'  => redirect(objects::$u_action . '&amp;action=details&amp;ext_show=languages&amp;ajax=1', true)
 										)
 									));
 								}
@@ -571,13 +589,13 @@ class upload_module
 
 		if ($this->catch_errors() && objects::$is_ajax)
 		{
-			$this->output_response('error', $action);
+			$this->output_response('error', $original_action);
 		}
 		else
 		{
 			if (objects::$is_ajax)
 			{
-				$this->output_response('success', $action);
+				$this->output_response('success', $original_action);
 			}
 		}
 	}
@@ -642,9 +660,12 @@ class upload_module
 			}
 			else
 			{
-				objects::$template->assign_var("S_EXT_ERROR", true);
+				objects::$template->assign_vars(array(
+					'S_EXT_ERROR'   => true,
+					'S_LOAD_ACTION' => 'error',
+				));
 			}
-			objects::$template->assign_var("S_ACTION_BACK", objects::$u_action);
+			objects::$template->assign_var('S_ACTION_BACK', objects::$u_action);
 			return true;
 		}
 		return false;

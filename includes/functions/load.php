@@ -72,9 +72,16 @@ class load
 	*/
 	public static function details($ext_name, $ext_show)
 	{
-		$show_lang_page = $load_full_page = false;
+		if (!$ext_name)
+		{
+			redirect(objects::$u_action . '&amp;action=list');
+		}
+
+		$show_lang_page = false;
+		$load_full_page = (objects::$request->variable('ajax', 0) === 1);
+
 		// If they've specified an extension, let's load the metadata manager and validate it.
-		if ($ext_name && $ext_name !== objects::$upload_ext_name)
+		if ($ext_name !== objects::$upload_ext_name)
 		{
 			$ext_md_manager = new \phpbb\extension\metadata_manager($ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$user, objects::$phpbb_root_path);
 
@@ -130,9 +137,8 @@ class load
 				objects::$template->assign_var('S_DETAILS', true);
 
 				// We output everything if required.
-				if (objects::$request->variable('result_type', '') === "ajax_refresh")
+				if ($load_full_page)
 				{
-					$load_full_page = true;
 					$ext_show = 'readme';
 				}
 			}
@@ -146,14 +152,14 @@ class load
 			updater::set_update_link();
 
 			// We output everything if this is an ajax request or if we load languages page for Upload Extensions.
-			if ($ext_show == 'languages' && objects::$request->variable('result_type', '') === "ajax_refresh")
+			if ($ext_show == 'languages' && $load_full_page)
 			{
 				objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
-				$show_lang_page = $load_full_page = true;
+				$show_lang_page = true;
 				$ext_show = 'readme';
 			}
 
-			if (objects::$is_ajax || $ext_show == 'faq' || $show_lang_page)
+			if (objects::$is_ajax || $ext_show == 'faq' || $load_full_page)
 			{
 				objects::$user->add_lang_ext('boardtools/upload', 'upload', false, true);
 				$faq_sections = 0;
@@ -173,210 +179,204 @@ class load
 							'FAQ_ANSWER'		=> $help_ary[1])
 					);
 				}
-				if (!objects::$is_ajax && !$show_lang_page)
+				if (!objects::$is_ajax)
 				{
 					objects::$template->assign_vars(array(
 						'SHOW_DETAILS_TAB'		=> 'faq',
 					));
 				}
-				else
+				if ($ext_show == 'faq')
 				{
-					if ($ext_show == 'faq')
-					{
-						objects::$template->assign_var('S_EXT_DETAILS_SHOW_FAQ', "true"); // "true" is the specially handled text
-					}
+					objects::$template->assign_var('S_EXT_DETAILS_SHOW_FAQ', "true"); // "true" is the specially handled text
 				}
 			}
 
 			if (!objects::$is_ajax)
 			{
 				objects::$template->assign_var('S_UPLOAD_DETAILS', true);
+
+				// We output everything if required.
+				if ($load_full_page)
+				{
+					$ext_show = 'readme';
+				}
 			}
 			else
 			{
 				objects::$tpl_name = 'acp_ext_details';
 			}
 		}
-		if ($ext_name)
+
+		if (file_exists(objects::$phpbb_root_path . 'ext/' . $ext_name . '/README.md') && !objects::$request->is_ajax())
 		{
-			if (file_exists(objects::$phpbb_root_path . 'ext/' . $ext_name . '/README.md') && !objects::$request->is_ajax())
-			{
-				objects::$template->assign_var('EXT_DETAILS_README', true);
-			}
+			objects::$template->assign_var('EXT_DETAILS_README', true);
+		}
 
-			if (file_exists(objects::$phpbb_root_path . 'ext/' . $ext_name . '/CHANGELOG.md') && !objects::$request->is_ajax())
-			{
-				objects::$template->assign_var('EXT_DETAILS_CHANGELOG', true);
-			}
+		if (file_exists(objects::$phpbb_root_path . 'ext/' . $ext_name . '/CHANGELOG.md') && !objects::$request->is_ajax())
+		{
+			objects::$template->assign_var('EXT_DETAILS_CHANGELOG', true);
+		}
 
-			switch ($ext_show)
-			{
-				case 'uploaded':
-					objects::$template->assign_var('EXT_UPLOADED', true);
-					break;
-				case 'updated':
-					objects::$template->assign_var('EXT_UPDATED', true);
-					break;
-				case 'enabled':
-					objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_ENABLED']);
-					break;
-				case 'disabled':
-					objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_DISABLED']);
-					break;
-				case 'purged':
-					objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_PURGED']);
-					break;
-				case 'update':
-					objects::$template->assign_vars(array(
-						'EXT_DETAILS_UPDATE'	=> true,
-						'SHOW_DETAILS_TAB'		=> 'update',
-					));
-					break;
-			}
+		switch ($ext_show)
+		{
+			case 'uploaded':
+				objects::$template->assign_var('EXT_UPLOADED', true);
+				break;
+			case 'updated':
+				objects::$template->assign_var('EXT_UPDATED', true);
+				break;
+			case 'enabled':
+				objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_ENABLED']);
+				break;
+			case 'disabled':
+				objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_DISABLED']);
+				break;
+			case 'purged':
+				objects::$template->assign_var('EXT_ENABLE_STATUS', objects::$user->lang['EXT_PURGED']);
+				break;
+			case 'update':
+				objects::$template->assign_vars(array(
+					'EXT_DETAILS_UPDATE'	=> true,
+					'SHOW_DETAILS_TAB'		=> 'update',
+				));
+				break;
+		}
 
-			// We output everything if this is an ajax request or if we load languages page for Upload Extensions.
-			if (objects::$is_ajax)
+		// We output everything if this is an ajax request or if we load languages page for Upload Extensions.
+		if (objects::$is_ajax)
+		{
+			if ($ext_show == 'languages')
 			{
-				if ($ext_show == 'languages')
+				objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
+			}
+			$ext_show = 'readme';
+		}
+
+		switch ($ext_show)
+		{
+			case 'faq':
+			case 'update':
+				break;
+			case 'readme':
+				$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/README.md');
+				if ($string !== false)
 				{
-					objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
+					$readme = \Michelf\MarkdownExtra::defaultTransform($string);
+					if (!objects::$is_ajax && !$load_full_page)
+					{
+						objects::$template->assign_vars(array(
+							'SHOW_DETAILS_TAB'		=> 'readme',
+							'EXT_DETAILS_MARKDOWN'	=> $readme,
+						));
+					}
+					else
+					{
+						objects::$template->assign_var('EXT_DETAILS_README', $readme);
+					}
 				}
-				$ext_show = 'readme';
-			}
-
-			switch ($ext_show)
-			{
-				case 'faq':
-				case 'update':
+				if (!objects::$is_ajax && !$load_full_page)
+				{
 					break;
-				case 'readme':
-					$readme = false;
-					$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/README.md');
-					if ($string !== false)
-					{
-						$readme = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax && !$load_full_page)
-						{
-							objects::$template->assign_vars(array(
-								'SHOW_DETAILS_TAB'		=> 'readme',
-								'EXT_DETAILS_MARKDOWN'	=> $readme,
-							));
-						}
-						else
-						{
-							objects::$template->assign_var('EXT_DETAILS_README', $readme);
-						}
-					}
+				}
+			case 'changelog':
+				$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/CHANGELOG.md');
+				if ($string !== false)
+				{
+					$changelog = \Michelf\MarkdownExtra::defaultTransform($string);
 					if (!objects::$is_ajax && !$load_full_page)
-					{
-						break;
-					}
-				case 'changelog':
-					$changelog = false;
-					$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/CHANGELOG.md');
-					if ($string !== false)
-					{
-						$changelog = \Michelf\MarkdownExtra::defaultTransform($string);
-						if (!objects::$is_ajax && !$load_full_page)
-						{
-							objects::$template->assign_vars(array(
-								'SHOW_DETAILS_TAB'		=> 'changelog',
-								'EXT_DETAILS_MARKDOWN'	=> $changelog,
-							));
-						}
-						else
-						{
-							objects::$template->assign_var('EXT_DETAILS_CHANGELOG', $changelog);
-						}
-					}
-					if (!objects::$is_ajax && !$load_full_page)
-					{
-						break;
-					}
-				case 'languages':
-					if (($result = objects::$request->variable('result', '')) == 'deleted' || $result == 'deleted1')
-					{
-						objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE' . (($result == 'deleted') ? 'S' : '') . '_DELETE_SUCCESS'));
-					}
-					else if ($result == 'language_uploaded')
-					{
-						$load_lang = objects::$request->variable('lang', '');
-						objects::$template->assign_vars(array(
-							'EXT_LOAD_LANG'			=> $load_lang,
-							'EXT_LANGUAGE_UPLOADED'	=> objects::$user->lang('EXT_LANGUAGE_UPLOADED', $load_lang),
-						));
-					}
-					$language_directory = objects::$phpbb_root_path . 'ext/' . $ext_name . '/language';
-					$langs = files::get_languages($language_directory);
-					$default_lang = (in_array(objects::$config['default_lang'], $langs)) ? objects::$config['default_lang'] : 'en';
-					foreach ($langs as $lang)
-					{
-						$lang_info = languages::details($language_directory, $lang);
-						objects::$template->assign_block_vars('ext_languages', array(
-							'NAME'		=> $lang_info['name'] . (($lang === $default_lang) ? ' (' . objects::$user->lang('DEFAULT') . ')' : ''),
-						));
-					}
-					objects::$template->assign_vars(array(
-						'EXT_DETAILS_LANGUAGES' => true,
-					));
-					if (!objects::$is_ajax && (!$load_full_page || $show_lang_page))
-					{
-						objects::$template->assign_var('SHOW_DETAILS_TAB', 'languages');
-						if (!$load_full_page)
-						{
-							break;
-						}
-					}
-				case 'filetree':
-					filetree::$ext_name = $ext_name;
-					$ext_file = objects::$request->variable('ext_file', '/composer.json');
-					objects::$template->assign_vars(array(
-						'EXT_DETAILS_FILETREE'	=> true,
-						'FILETREE'				=> filetree::php_file_tree(objects::$phpbb_root_path . 'ext/' . $ext_name, objects::$user->lang('ACP_UPLOAD_EXT_CONT', $display_name), objects::$u_action),
-						'FILENAME'				=> substr($ext_file, strrpos($ext_file, '/') + 1),
-						'CONTENT'				=> highlight_string(@file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . $ext_file), true)
-					));
-					if (!objects::$is_ajax && !$load_full_page)
-					{
-						objects::$template->assign_var('SHOW_DETAILS_TAB', 'filetree');
-						break;
-					}
-				case 'tools':
-					objects::$template->assign_vars(array(
-						'EXT_DETAILS_TOOLS'	=> true,
-					));
-					if (!objects::$is_ajax && !$load_full_page)
-					{
-						objects::$template->assign_var('SHOW_DETAILS_TAB', 'tools');
-						break;
-					}
-				default:
-					if (!$show_lang_page)
 					{
 						objects::$template->assign_vars(array(
-							'SHOW_DETAILS_TAB'		=> 'details',
+							'SHOW_DETAILS_TAB'		=> 'changelog',
+							'EXT_DETAILS_MARKDOWN'	=> $changelog,
 						));
 					}
+					else
+					{
+						objects::$template->assign_var('EXT_DETAILS_CHANGELOG', $changelog);
+					}
+				}
+				if (!objects::$is_ajax && !$load_full_page)
+				{
 					break;
-			}
+				}
+			case 'languages':
+				if (($result = objects::$request->variable('result', '')) == 'deleted' || $result == 'deleted1')
+				{
+					objects::$template->assign_var('EXT_LANGUAGE_UPLOADED', objects::$user->lang('EXT_LANGUAGE' . (($result == 'deleted') ? 'S' : '') . '_DELETE_SUCCESS'));
+				}
+				else if ($result == 'language_uploaded')
+				{
+					$load_lang = objects::$request->variable('lang', '');
+					objects::$template->assign_vars(array(
+						'EXT_LOAD_LANG'			=> $load_lang,
+						'EXT_LANGUAGE_UPLOADED'	=> objects::$user->lang('EXT_LANGUAGE_UPLOADED', $load_lang),
+					));
+				}
+				$language_directory = objects::$phpbb_root_path . 'ext/' . $ext_name . '/language';
+				$langs = files::get_languages($language_directory);
+				$default_lang = (in_array(objects::$config['default_lang'], $langs)) ? objects::$config['default_lang'] : 'en';
+				foreach ($langs as $lang)
+				{
+					$lang_info = languages::details($language_directory, $lang);
+					objects::$template->assign_block_vars('ext_languages', array(
+						'NAME'		=> $lang_info['name'] . (($lang === $default_lang) ? ' (' . objects::$user->lang('DEFAULT') . ')' : ''),
+					));
+				}
+				objects::$template->assign_vars(array(
+					'EXT_DETAILS_LANGUAGES' => true,
+				));
+				if (!objects::$is_ajax && (!$load_full_page || $show_lang_page))
+				{
+					objects::$template->assign_var('SHOW_DETAILS_TAB', 'languages');
+					if (!$load_full_page)
+					{
+						break;
+					}
+				}
+			case 'filetree':
+				filetree::$ext_name = $ext_name;
+				$ext_file = objects::$request->variable('ext_file', '/composer.json');
+				objects::$template->assign_vars(array(
+					'EXT_DETAILS_FILETREE'	=> true,
+					'FILETREE'				=> filetree::php_file_tree(objects::$phpbb_root_path . 'ext/' . $ext_name, objects::$user->lang('ACP_UPLOAD_EXT_CONT', $display_name), objects::$u_action),
+					'FILENAME'				=> substr($ext_file, strrpos($ext_file, '/') + 1),
+					'CONTENT'				=> highlight_string(@file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . $ext_file), true)
+				));
+				if (!objects::$is_ajax && !$load_full_page)
+				{
+					objects::$template->assign_var('SHOW_DETAILS_TAB', 'filetree');
+					break;
+				}
+			case 'tools':
+				objects::$template->assign_vars(array(
+					'EXT_DETAILS_TOOLS'	=> true,
+				));
+				if (!objects::$is_ajax && !$load_full_page)
+				{
+					objects::$template->assign_var('SHOW_DETAILS_TAB', 'tools');
+					break;
+				}
+			default:
+				if (!$show_lang_page)
+				{
+					objects::$template->assign_vars(array(
+						'SHOW_DETAILS_TAB'		=> 'details',
+					));
+				}
+				break;
+		}
 
-			objects::$template->assign_vars(array(
-				//'S_EXT_DETAILS'			=> true,
-				'U_ACTION_LIST'			=> objects::$u_action . '&amp;action=list',
-				'U_UPLOAD'				=> objects::$u_action . '&amp;action=upload_language',
-				'U_DELETE_ACTION'		=> objects::$u_action . '&amp;action=delete_language&amp;ext_name=' . urlencode($ext_name),
-				'U_BACK'				=> objects::$u_action . '&amp;action=list',
-				'U_EXT_DETAILS'			=> objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name),
-				'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($ext_name),
-				'UPDATE_EXT_PURGE_DATA'	=> objects::$user->lang('EXTENSION_DELETE_DATA_CONFIRM', $display_name),
-				'S_FORM_ENCTYPE'		=> ' enctype="multipart/form-data"',
-				'S_LOAD_FULL_PAGE'		=> $load_full_page,
-			));
-		}
-		else
-		{
-			redirect(objects::$u_action . '&amp;action=list');
-		}
+		objects::$template->assign_vars(array(
+			'U_ACTION_LIST'			=> objects::$u_action . '&amp;action=list',
+			'U_UPLOAD'				=> objects::$u_action . '&amp;action=upload_language',
+			'U_DELETE_ACTION'		=> objects::$u_action . '&amp;action=delete_language&amp;ext_name=' . urlencode($ext_name),
+			'U_BACK'				=> objects::$u_action . '&amp;action=list',
+			'U_EXT_DETAILS'			=> objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($ext_name),
+			'U_VERSIONCHECK_FORCE'	=> objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($ext_name),
+			'UPDATE_EXT_PURGE_DATA'	=> objects::$user->lang('EXTENSION_DELETE_DATA_CONFIRM', $display_name),
+			'S_FORM_ENCTYPE'		=> ' enctype="multipart/form-data"',
+			'S_LOAD_FULL_PAGE'		=> $load_full_page,
+		));
 	}
 
 	/**

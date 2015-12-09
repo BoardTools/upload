@@ -152,6 +152,8 @@ $lang = array_merge($lang, array(
 	'EXT_SHOW_DESCRIPTION'				=> 'Show description of the extension',
 	'EXT_UPLOAD_BACK'					=> '« Back to Upload Extensions',
 	'EXT_RELOAD_PAGE'					=> 'Reload the page',
+	'EXT_REFRESH_PAGE'					=> 'Refresh the page',
+	'EXT_REFRESH_NOTICE'				=> 'Navigation menu can be outdated.',
 
 	'ERROR_COPY_FILE'					=> 'The attempt to copy the file “%1$s” to the location “%2$s” failed.',
 	'ERROR_CREATE_DIRECTORY'			=> 'The attempt to create the directory “%s” failed.',

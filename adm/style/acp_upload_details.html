@@ -1,7 +1,7 @@
 <!-- IF META_DISPLAY_NAME --><!-- DEFINE $EXTENSION_NAME = '{META_DISPLAY_NAME}' -->
 <!-- ELSE --><!-- DEFINE $EXTENSION_NAME = '{META_NAME}' --><!-- ENDIF -->
 <a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <a href="{U_ACTION_LIST}" id="upload_load_main_list">{L_EXTENSIONS_ADMIN}</a> &raquo; <strong>{$EXTENSION_NAME}</strong>
-<a href="{U_ACTION}&amp;action=details&amp;ext_name={META_NAME}" class="ext_reload_link upload_get_details_link" data-ext-name="{META_NAME}" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<a href="{U_EXT_DETAILS}" class="ext_reload_link upload_get_details_link" data-ext-name="{META_NAME}" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
 <hr class="upload_ext_navigation" />
 <div id="extension_details_name_wrapper">
 	<h1 class="ExtensionName<!-- IF NOT_AVAILABLE --> ext_not_available<!-- ENDIF -->">
@@ -21,7 +21,7 @@
 	<div class="description_bubble small_bubble ext_version_bubble">
 		<span class="description_name">{L_VERSION}</span>
 		<span class="description_value description_value_old" id="meta_version" title="{UP_TO_DATE_MSG}">{META_VERSION}</span>
-		<!-- IF IS_AJAX -->
+		<!-- IF HAS_AJAX -->
 		<i class="fa fa-cog show_ext_updates"></i>
 		<div id="description_updates">
 			<!-- BEGIN updates_available -->
@@ -112,15 +112,15 @@
 		</ul>
 	</div>
 	<div class="ext_details_block" data-load-full-page="{S_LOAD_FULL_PAGE}">
-		<!-- IF EXT_DETAILS_MARKDOWN and not IS_AJAX -->
+		<!-- IF EXT_DETAILS_MARKDOWN and not HAS_AJAX -->
 		<div class="ext_details_markdown" style="display:block;">{EXT_DETAILS_MARKDOWN}</div>
 		<!-- ENDIF -->
-		<!-- IF IS_AJAX || S_LOAD_FULL_PAGE -->
+		<!-- IF HAS_AJAX || S_LOAD_FULL_PAGE -->
 		<div class="ext_details_markdown" id="ext_details_readme">{EXT_DETAILS_README}</div>
 		<div class="ext_details_markdown" id="ext_details_changelog">{EXT_DETAILS_CHANGELOG}</div>
 		<!-- ENDIF -->
-		<!-- IF EXT_DETAILS_LANGUAGES || IS_AJAX -->
-		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+		<!-- IF EXT_DETAILS_LANGUAGES || HAS_AJAX -->
+		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<!-- IF .ext_languages -->
 			<form method="post" action="{U_DELETE_ACTION}" data-ajax="language_rows_delete">
 				<fieldset id="ext_languages_list">
@@ -168,8 +168,8 @@
 			</form>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF EXT_DETAILS_FILETREE || IS_AJAX -->
-		<div id="filetree"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+		<!-- IF EXT_DETAILS_FILETREE || HAS_AJAX -->
+		<div id="filetree"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<div id="filetreenames">{FILETREE}</div>
 			<div id="filecontent_wrapper">
 				<div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
@@ -177,8 +177,8 @@
 			</div>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF EXT_DETAILS_TOOLS || IS_AJAX -->
-		<div id="ext_details_tools"<!-- IF not IS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+		<!-- IF EXT_DETAILS_TOOLS || HAS_AJAX -->
+		<div id="ext_details_tools"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
 			<fieldset class="description_fieldset description_update_form">
 				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
 				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
@@ -190,9 +190,9 @@
 			</fieldset>
 		</div>
 		<!-- ENDIF -->
-		<!-- IF EXT_DETAILS_UPDATE and not IS_AJAX -->
+		<!-- IF EXT_DETAILS_UPDATE and not HAS_AJAX -->
 		<div id="ext_details_content">
-			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not IS_AJAX -->
+			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not HAS_AJAX -->
 			<!-- BEGIN updates_available -->
 			<fieldset style="background-color: #fdfcd3;">
 				<span class="extension_latest_version_title">{L_LATEST_VERSION}</span>
@@ -227,7 +227,7 @@
 			<!-- ENDIF -->
 		</div>
 		<!-- ENDIF -->
-		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE and not EXT_DETAILS_TOOLS) || IS_AJAX || S_LOAD_FULL_PAGE -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE and not EXT_DETAILS_TOOLS) || HAS_AJAX || S_LOAD_FULL_PAGE -->
 		<div id="ext_details_content">
 			<!-- IF NOT_AVAILABLE -->
 			<div class="errorbox">{NOT_AVAILABLE}</div>
@@ -238,7 +238,7 @@
 				<p>{META_DESCRIPTION}</p>
 			</fieldset>
 			<!-- ENDIF -->
-			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not IS_AJAX -->
+			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not HAS_AJAX -->
 			<!-- BEGIN updates_available -->
 			<fieldset style="background-color: #fdfcd3;">
 				<span class="extension_latest_version_title">{L_LATEST_VERSION}</span>

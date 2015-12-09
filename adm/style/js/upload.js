@@ -29,7 +29,7 @@
 
 	$(".upload_faq_link").click(function(event) {
 		event.preventDefault();
-		load_page("details", "boardtools/upload&ext_show=faq");
+		load_page("faq");
 	});
 
 	$("#upload_extensions_title").click(function(event) {
@@ -176,6 +176,26 @@
 		loading_errors = true;
 	}
 
+	function show_refresh_notice() {
+		$("#upload_refresh_notice_wrapper").show();
+		$("#upload_refresh_notice").slideDown(500, function() {
+			$("[data-hasqtip]").each(function() {
+				$(this).qtip('api').reposition();
+			});
+		});
+	}
+
+	$("#upload_refresh_notice_wrapper").prependTo("body");
+	$(".page_refresh_link").click(function(e) {
+		e.preventDefault();
+		window.location.reload();
+	});
+	$(".upload_refresh_notice_close").click(function() {
+		$("#upload_refresh_notice").slideUp(500, function() {
+			$("#upload_refresh_notice_wrapper").hide();
+		});
+	});
+
 	function enable_result_success(element, attr_text) {
 		if (element.parent(".upload_ext_list_content").length > 0) {
 			element.parent(".upload_ext_list_content").addClass("upload_ext_update_success");
@@ -254,7 +274,8 @@
 
 	function get_enable_result(result, element) {
 		element.removeClass("locked_toggle");
-		var $data_wrapper = (element.parent(".upload_ext_list_content").length > 0) ? element.siblings(".upload_ext_list_update_error_wrapper") : element.parent(); // Detect the list/details page.
+		var isListPage = element.parent(".upload_ext_list_content").length > 0,
+			$data_wrapper = (isListPage) ? element.siblings(".upload_ext_list_update_error_wrapper") : element.parent(); // Detect the list/details page.
 		if (typeof result.status !== "undefined") {
 			switch (result.status) {
 				case 'purged':
@@ -279,7 +300,7 @@
 					} else {
 						var error_status = '';
 						if (typeof result.message !== "undefined" && result.message != "") {
-							var status_divider = (element.parent(".upload_ext_list_content").length > 0) ? ' ' : '<br />';
+							var status_divider = (isListPage) ? ' ' : '<br />';
 							error_status = status_divider + escape_html(result.code + " - " + result.message);
 						}
 						enable_result_error(element, $data_wrapper.attr("data-ext-update-error") + error_status);
@@ -287,9 +308,7 @@
 					break;
 			}
 			if (result.refresh) {
-				setTimeout(function() {
-					window.location.href = result.refresh + '&result_type=ajax_refresh';
-				}, 1000);
+				show_refresh_notice();
 			}
 		} else {
 			enable_result_error(element, $data_wrapper.attr("data-ext-update-error"));
@@ -581,6 +600,9 @@
 				show_modal_box(error);
 			}).show();
 		}
+		upload_ext.elem.main.one("loading", function() {
+			$(".upload_ext_error_show").hide();
+		});
 	}
 
 	function set_ext_requirement($extRow, $requirementRow, $requireType) {
@@ -862,6 +884,10 @@
 			event.preventDefault();
 			display_ext_description($(this));
 		}).attr("title", $("#upload_valid_ext_description").attr("data-show-description"));
+
+		$(".upload_valid_ext_row a").click(function(event) {
+			event.stopPropagation();
+		});
 	}
 
 	function load_list_page() {
@@ -1198,6 +1224,11 @@
 		} else {
 			$temp_container.empty();
 		}
+
+		// Display debug errors in the modal box.
+		if (res.output) {
+			show_error_modal_box(res.output);
+		}
 	}
 
 	function close_error_wrapper() {
@@ -1233,10 +1264,14 @@
 			add_ajax();
 			if (s.status != "error") {
 				bind_load_events(action);
+				if ($.inArray(action, ["upload", "upload_language"]) > -1) {
+					action = "details";
+					id = $("h1.ExtensionName span").attr("data-ext-name");
+				}
 			}
 			if (upload_replace_history) {
 				upload_replace_history = false;
-				phpbb.history.replaceUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action, document.title, {
+				phpbb.history.replaceUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action + generate_get_request() + "&ajax=1", document.title, {
 					action: action,
 					id: id,
 					replaced: true
@@ -1244,7 +1279,7 @@
 			} else if (upload_stop_history) {
 				upload_stop_history = false;
 			} else {
-				phpbb.history.pushUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action + generate_get_request(), document.title, {
+				phpbb.history.pushUrl(upload_ext.fn.main_attr("data-page-url") + "&action=" + s.action + generate_get_request() + "&ajax=1", document.title, {
 					action: action,
 					id: id
 				});
@@ -1258,13 +1293,13 @@
 
 		function generate_get_request() {
 			if ($.inArray(action, getExtension) > -1) {
-				return "&ext_name=" + id;
+				return "&ext_name=" + encodeURIComponent(id);
 			}
 			switch (action) {
 				case "local_upload":
-					return "&local_upload=" + id;
+					return "&local_upload=" + encodeURIComponent(id);
 				case "set_config_force_unstable":
-					return "&force_unstable=" + id;
+					return "&force_unstable=" + encodeURIComponent(id);
 				case "list":
 					return (typeof id !== "undefined" && id === "versioncheck_force") ? "&versioncheck_force=1" : "";
 			}
@@ -1302,7 +1337,7 @@
 				success: function(s, x) {
 					if (action === "upload_language" && typeof s === "object" && typeof s.REFRESH !== "undefined") {
 						// Reload the page after installing current language package.
-						window.location.href = upload_ext.fn.main_attr("data-page-action") + "&action=details&ext_show=languages&result=language_uploaded&result_type=ajax_refresh&lang=" + s.LANGUAGE;
+						window.location.href = upload_ext.fn.main_attr("data-page-action") + "&action=details&ext_show=languages&result=language_uploaded&ajax=1&lang=" + s.LANGUAGE;
 					}
 					else if (check_response(s)) {
 						page_loaded($(this), s);
@@ -1420,6 +1455,7 @@
 			case "force_update":
 			case "restore_languages":
 				add_enable_tip();
+			case "faq":
 			case "details":
 				load_details_page();
 				break;
