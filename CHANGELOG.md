@@ -3,6 +3,10 @@ Upload Extensions - Changelog
 This file contains the list of changes between different versions of Upload Extensions.
 
 # Version 3.1.2
+## Changes since 3.1.2-RC1
+### Bug fixes
+* JavaScript fixes and improvements.
+
 ## Changes since 3.1.2-beta2
 ### New features
 * [FEATURE] Extension's description and requirements can be shown for suggested extensions.
