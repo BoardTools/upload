@@ -135,7 +135,7 @@
 	margin: 0;
 }
 .rtl .upload_ext_list .upload_ext_list_content a.upload_get_details_link {
-	padding: 0px 100px 0px 0;
+	padding: 0 100px 0 0;
 }
 .rtl .upload_ext_list .upload_ext_list_content a.upload_get_details_link span.upload_ext_list_name {
 	margin: 5px 0 5px 5px;
@@ -166,14 +166,14 @@
 	margin: 0 -30px 0 0;
 }
 .rtl .requirements_bubble {
-	margin-left: 0px;
+	margin-left: 0;
 	margin-right: 20px;
 }
 .rtl .requirements_value {
 	direction: ltr;
 }
 .rtl .description_bubble {
-	margin-right: 0px;
+	margin-right: 0;
 	margin-left: 20px;
 }
 .rtl .description_value {
@@ -183,7 +183,7 @@
 }
 .rtl .requirements_value:before, .description_value_ok:before,
 .rtl .requirements_value_not_met:before, .description_value_old:before {
-	margin-right: 0px;
+	margin-right: 0;
 	margin-left: 5px;
 }
 .rtl h1.ExtensionName {

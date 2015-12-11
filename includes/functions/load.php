@@ -179,7 +179,7 @@ class load
 							'FAQ_ANSWER'		=> $help_ary[1])
 					);
 				}
-				if (!objects::$is_ajax)
+				if (!objects::$is_ajax && !$show_lang_page)
 				{
 					objects::$template->assign_vars(array(
 						'SHOW_DETAILS_TAB'		=> 'faq',
