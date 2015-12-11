@@ -37,7 +37,8 @@ class load
 						'FILE_DATE'			=> ($file_date = @filemtime(objects::$zip_dir . '/' . $ff)) ? objects::$user->format_date($file_date) : '',
 						'U_UPLOAD'			=> objects::$u_action . '&amp;action=upload&amp;local_upload=' . urlencode($ff),
 						'U_DOWNLOAD'		=> objects::$u_action . '&amp;action=download&amp;zip_name=' . urlencode($ff),
-						'U_DELETE'			=> objects::$u_action . '&amp;action=delete_zip&amp;zip_name=' . urlencode($ff)
+						'U_DELETE'			=> objects::$u_action . '&amp;action=delete_zip&amp;zip_name=' . urlencode($ff),
+						'UPLOAD_LINK'		=> urlencode($ff),
 					);
 				}
 			}

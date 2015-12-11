@@ -19,7 +19,7 @@
 				<td class="zip_name" title="{zip.META_DISPLAY_NAME}"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div><!-- IF zip.FILE_SIZE_KB --><span style="float: right;" title="{L_FILESIZE}">{zip.FILE_SIZE_KB} {L_KB}</span><!-- ENDIF --></td>
 				<td style="text-align: center;" title="{L_FILEDATE}">{zip.FILE_DATE}</td>
 				<td style="text-align: center;">
-					<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+					<a href="{zip.U_UPLOAD}" class="unpack_zip" data-upload-link="{zip.UPLOAD_LINK}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
 				</td>
 				<td style="text-align: center;"><input type="checkbox" class="radio" name="mark[]" value="{zip.META_DISPLAY_NAME}" /></td>
 			</tr>

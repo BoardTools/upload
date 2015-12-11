@@ -1169,7 +1169,7 @@
 	function load_zip_packages_page() {
 		$(".unpack_zip").click(function(event) {
 			event.preventDefault();
-			load_page("local_upload", $(this).attr("href"));
+			load_page("local_upload", $(this).attr("data-upload-link"));
 		});
 		$("#upload_pagination li a").click(function(event) {
 			event.preventDefault();
@@ -1297,9 +1297,9 @@
 			}
 			switch (action) {
 				case "local_upload":
-					return "&local_upload=" + encodeURIComponent(id);
+					return "&local_upload=" + id;
 				case "set_config_force_unstable":
-					return "&force_unstable=" + encodeURIComponent(id);
+					return "&force_unstable=" + id;
 				case "list":
 					return (typeof id !== "undefined" && id === "versioncheck_force") ? "&versioncheck_force=1" : "";
 			}
