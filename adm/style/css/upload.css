@@ -103,7 +103,7 @@ h1 {position: relative;}
 }
 
 #upload_main_wrapper {border-top: 1px dashed #999999; padding-top: 10px; margin: 0;}
-#upload_main_wrapper.main_transformation {border-top: 0; /*border-bottom: 1px dashed #999999;*/ padding-top: 5px; padding-bottom: 5px;}
+#upload_main_wrapper.main_transformation {border-top: 0; padding-top: 5px; padding-bottom: 5px;}
 
 .upload-menu {
 	position: absolute;
@@ -1588,7 +1588,6 @@ h1.ExtensionName {
 	margin-right: 25px;
 	background-color: #5dcc45;
 	box-shadow: 0 -2px 3px #228822 inset;
-	/*border-bottom: 2px solid #228822;*/
 	cursor: pointer;
 }
 
@@ -1602,7 +1601,6 @@ h1.ExtensionName {
 	margin-top: 10px;
 	background-color: #ab320e;
 	box-shadow: 0 -2px 3px #BC2A4D inset;
-	/*border-bottom: 2px solid #BC2A4D;*/
 	cursor: pointer;
 }
 
@@ -1612,7 +1610,6 @@ h1.ExtensionName {
 #ext_force_unstable_confirm .ext_update_cancel:hover {
 	background-color: #2a70bf;
 	box-shadow: 0 -2px 3px #115098 inset;
-	/*border-bottom: 2px solid #115098;*/
 }
 
 .ext_details_container {
@@ -1658,7 +1655,6 @@ h1.ExtensionName {
 	float: left;
 	font-size: 0.95em;
 	font-weight: bold;
-	/*line-height: 16px;*/
 }
 
 .ext_details_tabs .tab > a {
@@ -1883,7 +1879,7 @@ a.ext_language_edit {
 
 .ext_check_box {
 	display: inline-block;
-	margin: 6px 10px 0 10px; /*-2px*/
+	margin: 6px 10px 0 10px;
 }
 
 .ext_mark_check {
@@ -1934,20 +1930,10 @@ a.ext_language_edit {
 	display: none;
 }
 
-.big_bubble .description_name {
-	/*width: 90px;*/
-	width: auto;
-}
-.big_bubble .description_value {
-	/*width: 210px;*/
-	width: auto;
-}
-.small_bubble .description_name {
-	/*width: 70px;*/
-	width: auto;
-}
+.big_bubble .description_name,
+.big_bubble .description_value,
+.small_bubble .description_name,
 .small_bubble .description_value {
-	/*width: 80px;*/
 	width: auto;
 }
 .qtip {
@@ -2017,12 +2003,8 @@ a.ext_language_edit {
 }
 #description_updates .extension_announcement_link {
 	display: block;
-	margin: 0 -9px 0 -9px;
+	margin: 0 -9px;
 	padding: 10px 9px 10px 0;
-	/*color: #fff;*/
-	/*background-color: #115098;*/
-	/*font-weight: bold;*/
-	/*font-size: 0.9em;*/
 	text-decoration: none;
 	cursor: pointer;
 	-webkit-transition: all 0.3s ease;
@@ -2176,7 +2158,6 @@ a.ext_language_edit {
 }
 .extension_latest_version_wrapper {
 	display: inline-block;
-	/*overflow: hidden;*/
 	border-radius: 15px;
 	margin-left: 5px;
 	text-align: center;

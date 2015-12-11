@@ -28,7 +28,7 @@ class upload_module
 
 	function main($id, $mode)
 	{
-		global $db, $config, $user, $cache, $template, $request, $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $phpbb_container;
+		global $config, $user, $cache, $template, $request, $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $phpbb_container;
 
 		// General settings for displaying the page.
 		$this->page_title = $user->lang['ACP_UPLOAD_EXT_TITLE'];
@@ -248,13 +248,11 @@ class upload_module
 				}
 			// no break
 
-			case 'upload_remote':
 			case 'force_update':
 				$this->upload_ext($action);
 				$template->assign_vars(array(
-					'U_UPLOAD'        => $this->main_link . '&amp;action=upload',
-					'U_UPLOAD_REMOTE' => $this->main_link . '&amp;action=upload_remote',
-					'S_FORM_ENCTYPE'  => ' enctype="multipart/form-data"',
+					'U_UPLOAD'       => $this->main_link . '&amp;action=upload',
+					'S_FORM_ENCTYPE' => ' enctype="multipart/form-data"',
 				));
 			break;
 
@@ -580,9 +578,8 @@ class upload_module
 			case 'main':
 			default:
 				$template->assign_vars(array(
-					'U_UPLOAD'        => $this->main_link . '&amp;action=upload',
-					'U_UPLOAD_REMOTE' => $this->main_link . '&amp;action=upload_remote',
-					'S_FORM_ENCTYPE'  => ' enctype="multipart/form-data"',
+					'U_UPLOAD'       => $this->main_link . '&amp;action=upload',
+					'S_FORM_ENCTYPE' => ' enctype="multipart/form-data"',
 				));
 			break;
 		}
