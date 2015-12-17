@@ -406,7 +406,6 @@
 						return "<div id='ext_purge_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_purge_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
 					},
 					title: function(event, api) {
-						//return $(this).attr("title");
 						return $("#upload_loading_text").html();
 					}
 				},
@@ -702,7 +701,6 @@
 
 	function get_force_unstable_confirm(result, element) {
 		if (typeof result.S_CONFIRM_ACTION !== "undefined" && result.YES_VALUE) {
-			//element.qtip('api').set('content.title', result.MESSAGE_TITLE);
 			$("#ext_force_unstable_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
 			$("#ext_force_unstable_text").html(result.MESSAGE_TEXT);
 			element.qtip('api').reposition();
@@ -1265,7 +1263,7 @@
 			if (s.status != "error") {
 				bind_load_events(action);
 				if ($.inArray(action, ["upload", "upload_language"]) > -1) {
-					action = "details";
+					action = s.action = "details";
 					id = $("h1.ExtensionName span").attr("data-ext-name");
 				}
 			}
