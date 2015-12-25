@@ -54,7 +54,7 @@ class upload_module
 		$template->assign_var('U_ACTION', $this->u_action);
 
 		// The links from phpbb.com does not contain .zip suffix. We need to handle this case.
-		$phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(\?sid\=[a-zA-Z0-9]*?)?$#i';
+		$phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(/composer|/manual)?/?(\?sid\=[a-zA-Z0-9]*?)?$#i';
 
 		// Work with objects class instead of $this.
 		objects::$cache = &$cache;

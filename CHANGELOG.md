@@ -3,6 +3,11 @@ Upload Extensions - Changelog
 This file contains the list of changes between different versions of Upload Extensions.
 
 # Version 3.1.2
+## Changes since 3.1.2-RC2
+### Bug fixes
+* Add support for the new types of download links from the CDB on phpbb.com.
+* JavaScript fixes and improvements.
+
 ## Changes since 3.1.2-RC1
 ### Bug fixes
 * JavaScript fixes and improvements.

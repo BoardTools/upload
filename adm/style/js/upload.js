@@ -151,9 +151,9 @@
 
 	function show_error_box(e, text, ee) {
 		var error_status = e.status || e;
+		prepare_error_wrapper();
 		if (text == "timeout" || ee == "timeout") {
 			$("#upload_loading_timeout").css("display", "inline-block");
-			$("#upload_loading_error_wrapper").slideDown(700);
 		} else {
 			if (typeof ee !== "undefined" && ee != "") {
 				var $errorbox = $("#upload_loading_error_status");
@@ -171,8 +171,8 @@
 			} else {
 				$("#upload_loading_error").css("display", "inline-block");
 			}
-			$("#upload_loading_error_wrapper").slideDown(700);
 		}
+		$("#upload_loading_error_wrapper").slideDown(700);
 		loading_errors = true;
 	}
 
@@ -604,6 +604,18 @@
 		});
 	}
 
+	function prepare_error_wrapper() {
+		$("#upload_loading_error_wrapper").finish();
+		$("#upload_loading_error, #upload_loading_timeout, #upload_loading_error_status").css("display", "none");
+	}
+
+	function close_error_wrapper() {
+		if (loading_errors) {
+			$("#upload_loading_error_wrapper").slideUp(700);
+			loading_errors = false;
+		}
+	}
+
 	function set_ext_requirement($extRow, $requirementRow, $requireType) {
 		if ($extRow.attr('data-ext-require-' + $requireType + '-status') == "1") {
 			$requirementRow.removeClass("requirements_value_not_met");
@@ -690,9 +702,7 @@
 					}, 3000);
 				}
 				else {
-					$("#upload_loading_error").css("display", "inline-block");
-					$("#upload_loading_error_wrapper").slideDown(700);
-					loading_errors = true;
+					show_error_box();
 				}
 			},
 			cache: false
@@ -1189,9 +1199,7 @@
 			} else {
 				// Show result error.
 				$().upload_loading_end();
-				$("#upload_loading_error").css("display", "inline-block");
-				$("#upload_loading_error_wrapper").slideDown(700);
-				loading_errors = true;
+				show_error_box();
 				// Blank page is an error, but without text.
 				if (res.trim() !== '') {
 					show_error_modal_box(res);
@@ -1226,15 +1234,6 @@
 		// Display debug errors in the modal box.
 		if (res.output) {
 			show_error_modal_box(res.output);
-		}
-	}
-
-	function close_error_wrapper() {
-		if (loading_errors) {
-			$("#upload_loading_error_wrapper").slideUp(700, function() {
-				$("#upload_loading_error, #upload_loading_timeout, #upload_loading_error_status").css("display", "none");
-			});
-			loading_errors = false;
 		}
 	}
 
