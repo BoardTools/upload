@@ -21,7 +21,7 @@
 				$("<div class=\"upload_loading_element\"></div>").css($.upload_loading_from, "-30px").appendTo("#upload_loading");
 			} else $(this).css($.upload_loading_from, (parseFloat(pos) + 3) + "px");
 		});
-	}
+	};
 
 	$.fn.upload_loading_start = function () {
 		if ($("#upload_loading").css("display") !== "none") return;
@@ -29,7 +29,7 @@
 		$("#upload_loading").slideDown(700);
 		$("<div class=\"upload_loading_element\"></div>").css($.upload_loading_from, "-30px").appendTo("#upload_loading");
 		$.upload_loading_interval = setInterval($.fn.upload_loading_process, 30);
-	}
+	};
 
 	$.fn.upload_loading_end = function() {
 		$("#upload_loading").slideUp(700, function () {
@@ -39,9 +39,9 @@
 				$(this).remove();
 			});
 		});
-	}
+	};
 
 	$.fn.upload_loading_progress = function(percentComplete) {
 		$("#upload_loading_status").html(percentComplete + " %");
-	}
+	};
 })(jQuery, window, document);
