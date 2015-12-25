@@ -6,12 +6,6 @@ services:
         tags:
             - { name: event.listener }
 
-    boardtools.upload.globals:
-        class: boardtools\upload\includes\globals
-        scope: prototype
-        arguments:
-            - @files.upload
-
     boardtools.upload.files.types.zip:
         class: boardtools\upload\includes\types\zip
         scope: prototype

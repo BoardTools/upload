@@ -69,10 +69,9 @@ class upload_module
 		objects::$template = &$template;
 		objects::$tpl_name = &$this->tpl_name;
 		objects::$u_action = $this->u_action;
+		objects::$upload = $phpbb_container->get('files.upload');
 		objects::$user = &$user;
 		objects::$zip_dir = &$this->zip_dir;
-
-		objects::$globals = $phpbb_container->get('boardtools.upload.globals');
 
 		// Get the information about Upload Extensions - START
 		objects::$upload_ext_name = 'boardtools/upload';
@@ -707,7 +706,7 @@ class upload_module
 		//$can_upload = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !@extension_loaded('zlib')) ? false : true;
 
 		$user->add_lang('posting');  // For error messages
-		$upload = objects::$globals->upload;
+		$upload = objects::$upload;
 		$upload->set_allowed_extensions(array('zip'));    // Only allow ZIP files
 
 		// Make sure the ext/ directory exists and if it doesn't, create it

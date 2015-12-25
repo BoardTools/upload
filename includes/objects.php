@@ -59,6 +59,9 @@ class objects
 	/** @var string u_action */
 	public static $u_action;
 
+	/** @var \phpbb\files\upload */
+	public static $upload;
+
 	/** @var string upload_ext_name - the name of Upload Extensions */
 	public static $upload_ext_name;
 
@@ -67,7 +70,4 @@ class objects
 
 	/** @var string zip_dir - where to store zip files */
 	public static $zip_dir;
-
-	/** @var \boardtools\upload\includes\globals */
-	public static $globals;
 }

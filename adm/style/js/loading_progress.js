@@ -43,5 +43,5 @@
 
 	$.fn.upload_loading_progress = function(percentComplete) {
 		$("#upload_loading_status").html(percentComplete + " %");
-	}
+	};
 })(jQuery, window, document);
