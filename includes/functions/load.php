@@ -67,6 +67,42 @@ class load
 	}
 
 	/**
+	 * The function that loads the FAQ language file.
+	 * Should be removed in the final release.
+	 * @param array $help Reference to the array of FAQ strings.
+	 */
+	protected static function load_faq(&$help)
+	{
+		// Determine path to language directory
+		$path = objects::$phpbb_extension_manager->get_extension_path('boardtools/upload', true) . 'language/';
+		$faq_file = '/help_upload.' . objects::$phpEx;
+		if (file_exists($path . objects::$user->data['user_lang'] . $faq_file))
+		{
+			// Do not suppress error if in DEBUG mode
+			if (defined('DEBUG'))
+			{
+				include $path . objects::$user->data['user_lang'] . $faq_file;
+			}
+			else
+			{
+				@include $path . objects::$user->data['user_lang'] . $faq_file;
+			}
+		}
+		else if (file_exists($path . 'en' . $faq_file))
+		{
+			// Do not suppress error if in DEBUG mode
+			if (defined('DEBUG'))
+			{
+				include $path . 'en' . $faq_file;
+			}
+			else
+			{
+				@include $path . 'en' . $faq_file;
+			}
+		}
+	}
+
+	/**
 	* The function that displays the details page.
 	* @param string $ext_name The name of the extension.
 	* @param string $ext_show The section that we need to display.
@@ -84,7 +120,7 @@ class load
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name !== objects::$upload_ext_name)
 		{
-			$ext_md_manager = new \phpbb\extension\metadata_manager($ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$user, objects::$phpbb_root_path);
+			$ext_md_manager = new \phpbb\extension\metadata_manager($ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$phpbb_root_path);
 
 			try
 			{
@@ -121,9 +157,10 @@ class load
 			catch (\phpbb\extension\exception $e)
 			{
 				// Display errors in the details tab.
+				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
 				objects::$template->assign_vars(array(
 					'META_NAME'			=> $ext_name,
-					'NOT_AVAILABLE'		=> $e,
+					'NOT_AVAILABLE'		=> $message,
 				));
 				$display_name = $ext_name;
 			}
@@ -162,9 +199,12 @@ class load
 
 			if (objects::$is_ajax || $ext_show == 'faq' || $load_full_page)
 			{
-				objects::$user->add_lang_ext('boardtools/upload', 'upload', false, true);
+				//objects::$user->add_lang_ext('boardtools/upload', 'upload', false, true);
+				// TODO: Rework the FAQ.
+				$faq_help = array();
 				$faq_sections = 0;
-				foreach (objects::$user->help as $help_ary)
+				self::load_faq($faq_help);
+				foreach ($faq_help as $help_ary)
 				{
 					if ($help_ary[0] == '--')
 					{
@@ -251,6 +291,12 @@ class load
 				objects::$template->assign_var('S_EXT_DETAILS_SHOW_LANGUAGES', "true"); // "true" is the specially handled text
 			}
 			$ext_show = 'readme';
+		}
+
+		// TODO: Find a way to remove this inclusion.
+		if (!class_exists('\\Michelf\\MarkdownExtra'))
+		{
+			include objects::$phpbb_root_path . 'ext/boardtools/upload/vendor/michelf/php-markdown/Michelf/MarkdownExtra.inc.' . objects::$phpEx;
 		}
 
 		switch ($ext_show)

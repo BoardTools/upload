@@ -67,4 +67,7 @@ class objects
 
 	/** @var string zip_dir - where to store zip files */
 	public static $zip_dir;
+
+	/** @var \boardtools\upload\includes\globals */
+	public static $globals;
 }

@@ -18,14 +18,15 @@ class updater
 	*/
 	public static function get_manager()
 	{
-		objects::$md_manager = new \phpbb\extension\metadata_manager(objects::$upload_ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$user, objects::$phpbb_root_path);
+		objects::$md_manager = new \phpbb\extension\metadata_manager(objects::$upload_ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$phpbb_root_path);
 		try
 		{
 			$metadata = objects::$md_manager->get_metadata('all');
 		}
 		catch (\phpbb\extension\exception $e)
 		{
-			files::catch_errors($e);
+			$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+			files::catch_errors($message);
 		}
 
 		$upload_extensions_download = false;

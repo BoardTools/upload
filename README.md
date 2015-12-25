@@ -6,7 +6,7 @@ With this extension you can install/update/delete extensions without using FTP. 
 [![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
 
 ## Requirements
-* phpBB 3.1.0 or higher
+* phpBB 3.2.0-dev or higher
 * PHP 5.3.3 or higher
 
 ## Sources
