@@ -788,7 +788,7 @@ class upload_module
 		global $phpbb_root_path, $template, $user, $request;
 		if ($action != 'upload_local')
 		{
-			if (empty($file->get('filename')))
+			if (!$file->get('filename'))
 			{
 				files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']));
 				return false;
