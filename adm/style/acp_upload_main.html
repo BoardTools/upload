@@ -1,0 +1,51 @@
+<!-- IF UPLOAD_ERROR -->
+<div class="errorbox">{UPLOAD_ERROR}</div>
+<!-- ENDIF -->
+<!-- IF S_UPDATED_SELF -->
+<fieldset class="ext_self_updated_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPDATED_SELF} - {L_EXT_UPDATED_LATEST_VERSION}</h1>
+</fieldset>
+<!-- ENDIF -->
+<div class="upload-main-content">
+	<form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+		<div class="ext_upload_wrapper">
+			<fieldset>
+				<div id="ext_upload_content">
+					<span class="ext_upload_form_name"><i class="fa fa-upload fa-lg"></i> {L_EXTENSION_UPLOAD}</span>
+					<p class="ext_upload_form_explain">{L_EXTENSION_UPLOAD_EXPLAIN}</p>
+					<input type="text" id="remote_upload" name="remote_upload" />
+					<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
+					<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+					{S_FORM_TOKEN}
+					{S_HIDDEN_FIELDS}
+					<span id="br_form_upload"></span>
+					<label for="ext_checksum">{L_CHECKSUM}{L_COLON}</label>
+					<input type="radio" name="ext_checksum_type" id="ext_checksum_type_md5" value="md5" checked="checked" />
+					<label for="ext_checksum_type_md5">md5</label>
+					<input type="radio" name="ext_checksum_type" id="ext_checksum_type_sha1" value="sha1" />
+					<label for="ext_checksum_type_sha1">sha1</label>
+					<input type="text" id="ext_checksum" name="ext_checksum" />
+					<span class="upload_ext_save_zip"><input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" /><label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label></span>
+					<button class="upload_ext_upload_button" type="submit" name="submit" value="{L_UPLOAD}" id="submit"><i class="fa fa-upload"></i> {L_UPLOAD}</button>
+				</div>
+				<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
+			</fieldset>
+			<!-- IF not S_SHOW_VALID_PHPBB_EXTENSIONS -->
+			<a href="{U_ACTION}&amp;action=list_from_cdb" class="upload_main_page_link_block" id="load_valid_phpbb_extensions">
+				<i class="fa fa-cogs"></i>{L_SHOW_VALID_PHPBB_EXTENSIONS}
+			</a>
+			<!-- ENDIF -->
+		</div>
+		<div class="upload-menu">
+			<a href="{U_ACTION}&amp;action=list" class="upload_main_link upload_load_list"><i class="fa fa-gears"></i><span>{L_EXTENSIONS_ADMIN}</span></a>
+			<a href="{U_ACTION}&amp;action=zip_packages" class="upload_main_link upload_load_zip"><i class="fa fa-archive"></i><span>{L_ACP_UPLOAD_ZIP_TITLE}</span></a>
+			<a href="{U_ACTION}&amp;action=uninstalled" class="upload_main_link upload_load_uninstalled"><i class="fa fa-paint-brush"></i><span>{L_ACP_UPLOAD_UNINSTALLED_TITLE}</span></a>
+		</div>
+		<!-- IF S_SHOW_VALID_PHPBB_EXTENSIONS -->
+		<div id="valid_phpbb_extensions">
+			<div id="valid_phpbb_extensions_title"><i class="fa fa-cogs"></i> {L_VALID_PHPBB_EXTENSIONS}</div>
+			<!-- INCLUDE acp_upload_cdb.html -->
+		</div>
+		<!-- ENDIF -->
+	</form>
+</div>

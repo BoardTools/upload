@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -24,7 +24,7 @@ class listener implements EventSubscriberInterface
 	/**
 	* Constructor
 	*
-	* @param \phpbb\controller\helper    $helper        Controller helper object
+	* @param \phpbb\user $user User object
 	*/
 	public function __construct(\phpbb\user $user)
 	{
@@ -40,7 +40,7 @@ class listener implements EventSubscriberInterface
 
 	public function add_config($event)
 	{
-		if($event['mode'] == 'server')
+		if ($event['mode'] == 'server')
 		{
 			$this->user->add_lang_ext('boardtools/upload', 'upload');
 			$display_vars = $event['display_vars'];

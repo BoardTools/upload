@@ -1,164 +1,53 @@
 <!-- IF S_ALLOW_CDN -->
-<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css -->
+<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css -->
 <!-- ELSE -->
-<!-- INCLUDECSS ./../../ext/boardtools/upload/vendor/fortawesome/font-awesome/css/font-awesome.min.css -->
+<!-- INCLUDECSS {ROOT_PATH}ext/boardtools/upload/vendor/fortawesome/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
+<!-- INCLUDECSS css/jquery.qtip.min.css -->
 <!-- INCLUDECSS css/upload.css -->
-<!-- INCLUDECSS css/jquery.simpledialog.css -->
-
+<!-- IF S_CONTENT_DIRECTION == 'rtl' --><!-- INCLUDECSS css/upload.rtl.css --><!-- ENDIF -->
 <!-- INCLUDE overall_header.html -->
 
-<a name="maincontent"></a>
-
-<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="simpledialog"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF and not S_UPLOAD_EXT_SELF --><a href="{U_ACTION}&amp;action=details" class="simpledialog" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1>
-
-<p>{L_ACP_UPLOAD_EXT_TITLE_EXPLAIN}</p>
-
-<!-- IF S_NEXT_STEP -->
-	<div class="successbox notice">
-		<p>{L_EXTENSION_DISABLE_IN_PROGRESS}</p>
+<div id="upload_ext_wrapper">
+	<a name="maincontent"></a>
+	<div id="upload_extensions_title_block"><a href="{U_ACTION}" id="upload_extensions_title"><i class="fa fa-upload"></i> {L_ACP_UPLOAD_EXT_TITLE}</a><div id="upload_extensions_title_links"><a href="{U_ACTION}&amp;action=details" class="upload_details_link"><i class="fa fa-info-circle"></i></a><a href="{U_ACTION}&amp;action=details&amp;ext_show=faq" class="upload_faq_link"><i class="fa fa-question-circle"></i></a><span id="upload_extensions_links_show_slider"><i class="fa fa-ellipsis-v"></i></span></div></div>
+	<span class="upload_ext_error_show" title="{L_EXT_LOAD_ERROR_SHOW}"><i class="fa fa-warning"></i></span>
+	<!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOAD_DETAILS --><a href="{U_ACTION}&amp;action=details" class="upload_details_link upload_ext_update_button upload_ext_updates_info_link"><i class="fa fa-refresh"></i> {L_EXT_UPDATES_AVAILABLE}</a><!-- ENDIF -->
+	<p>{L_ACP_UPLOAD_EXT_DESCRIPTION}</p>
+	<div id="upload_loading"><span id="upload_loading_text">{L_LOADING}</span><span id="upload_loading_status"></span></div>
+	<div id="upload_loading_error_wrapper" title="{L_EXT_LOAD_ERROR_EXPLAIN}"><span id="upload_loading_error">{L_EXT_LOAD_ERROR}</span><span id="upload_loading_timeout">{L_EXT_LOAD_TIMEOUT}</span><span id="upload_loading_error_status" data-load-error-solutions-title="{L_POSSIBLE_SOLUTIONS}" data-load-error-solutions="{L_EXT_LOAD_SOLUTIONS}"></span></div>
+	<div id="upload_main_wrapper">
+		<div id="upload_main" data-page-action="{U_ACTION}" data-load-action="{S_LOAD_ACTION}" data-page-url="{U_MAIN_PAGE_URL}">
+			<!-- IF S_NEXT_STEP -->
+			<div class="successbox notice">
+				<p>{S_NEXT_STEP}</p>
+			</div>
+			<!-- ELSEIF S_EXT_LIST -->
+			<!-- INCLUDE acp_upload_list.html -->
+			<!-- ELSEIF S_ZIP_PACKAGES -->
+			<!-- INCLUDE acp_upload_zip_packages.html -->
+			<!-- ELSEIF S_UNINSTALLED -->
+			<!-- INCLUDE acp_upload_uninstalled.html -->
+			<!-- ELSEIF S_DETAILS -->
+			<!-- INCLUDE acp_upload_details.html -->
+			<!-- ELSEIF S_UPLOAD_DETAILS -->
+			<!-- INCLUDE acp_ext_details.html -->
+			<!-- ELSEIF S_EXT_ERROR -->
+			<!-- INCLUDE acp_upload_error.html -->
+			<!-- ELSE -->
+			<!-- INCLUDE acp_upload_main.html -->
+			<!-- ENDIF -->
+			<br style="clear:both" />
+		</div>
 	</div>
-<!-- ELSEIF S_UPLOADED -->
+</div>
+<div id="upload_temp_container"></div>
+<div id="upload_modal_box_wrapper"><div id="upload_modal_box"></div></div>
+<div id="upload_refresh_notice_wrapper"><div id="upload_refresh_notice"><i class="fa fa-warning"></i><span>{L_EXT_REFRESH_NOTICE}</span><a href="{U_ACTION}" class="page_refresh_link"><i class="fa fa-refresh"></i> {L_EXT_REFRESH_PAGE}</a><span class="upload_refresh_notice_close">&times;</span></div></div>
+
 <!-- INCLUDEJS js/php_file_tree_jquery.js -->
-	<hr />
-	<a href="{S_ACTION_BACK}" id="back_to_upload">{L_EXT_UPLOAD_BACK}</a>
-	<!-- IF EXT_UPDATED -->
-		<fieldset class="ext_updated_notice">
-			<div>
-				<h1><i class="fa fa-refresh"></i> {L_ACP_UPLOAD_EXT_UPDATED}</h1>
-				<p>{L_ACP_UPLOAD_EXT_UPDATED_EXPLAIN}</p>
-			</div>
-		</fieldset>
-	<!-- ENDIF -->
-	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPLOADED} - <!-- IF EXT_UPDATED -->{L_EXT_UPDATED}<!-- ELSE -->{L_EXT_UPLOADED}<!-- ENDIF --><a href="{S_ACTION}" id="enable_uploaded"><i class="fa fa-power-off"></i> <!-- IF S_UPLOADED_SELF -->{L_UPDATE}<!-- ELSE -->{L_EXT_ENABLE}<!-- ENDIF --></a></h1>
-	<div>
-		<br />
-		<!-- IF .authors -->
-		{L_UPLOAD_EXTENSIONS_DEVELOPERS}:
-		<!-- BEGIN authors -->
-		{authors.AUTHOR}<!-- IF not authors.S_LAST_ROW -->, <!-- ENDIF -->
-		<!-- END authors -->
-		<!-- ENDIF -->
-		<!-- IF README_MARKDOWN -->
-		<span id="show_filetree" style="display: block;">{L_SHOW_FILETREE}</span>
-		<span id="hide_filetree" style="display: none;">{L_HIDE_FILETREE}</span>
-		<!-- ENDIF -->
-	</div>
-    <div id="filetree"<!-- IF not README_MARKDOWN --> style="display:block;"<!-- ENDIF -->>
-        <div id="filetreenames">{FILETREE}</div>
-        <div id="filecontent_wrapper">
-            <div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
-            <a href="#" onclick="selectCode(this); return false;" class="select_all_code">{L_SELECT_ALL_CODE}</a>
-        </div>
-        <br style="clear:both" />
-        </div>
-	<!-- IF README_MARKDOWN -->
-	<div id="markdown">{README_MARKDOWN}</div>
-	<!-- ENDIF -->
-<!-- ELSEIF S_UPLOAD_EXT_SELF -->
-	<hr />
-	<!-- IF UPLOAD_ERROR -->
-	<div class="errorbox">{UPLOAD_ERROR}</div>
-	<!-- ENDIF -->
-    <form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
-		<fieldset style="padding-bottom: 15px;">
-			<div id="ext_upload_content">
-				<h1 style="margin-bottom: 15px;"><i class="fa fa-refresh" id="uploaded_ok"></i>{L_UPDATE} {L_ACP_UPLOAD_EXT_TITLE}</h1>
-				{L_FROM}{L_COLON} <span style="display: inline-block; background-color: #d7fdd3; font-weight: bold; padding: 3px 7px;">{U_UPLOAD_EXT_SELF}</span>
-				{S_FORM_TOKEN}
-				{S_HIDDEN_FIELDS}
-				<input class="button1" type="submit" name="submit" value="{L_UPDATE}" id="submit" />
-			</div>
-			<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
-		</fieldset>
-    </form>
-<!-- ELSE -->
-	<hr />
-	<!-- IF UPLOAD_ERROR -->
-	<div class="errorbox">{UPLOAD_ERROR}</div>
-	<!-- ENDIF -->
-	<!-- IF S_UPDATED_SELF -->
-	<fieldset class="ext_self_updated_notice">
-		<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPDATED_SELF} - {L_EXT_UPDATED_LATEST_VERSION}</h1>
-	</fieldset>
-	<!-- ENDIF -->
-    <form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
-        <fieldset>
-            <legend>{L_EXTENSION_UPLOAD}</legend>
-            <div id="ext_upload_content">
-                <p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-				<!-- IF VALID_PHPBB_EXT -->
-				<div id="valid_phpbb_ext_wrapper">
-					{L_VALID_PHPBB_EXTENSIONS}{L_COLON}
-					<select id="valid_phpbb_ext" name="valid_phpbb_ext">
-						<option value="">---</option>{VALID_PHPBB_EXT}
-					</select>
-				</div>
-				<!-- ENDIF -->
-				<input type="text" id="remote_upload" name="remote_upload" />
-				<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
-				<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
-                {S_FORM_TOKEN}
-                {S_HIDDEN_FIELDS}
-                <span id="br_form_upload"></span>
-				<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
-                <label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
-                <input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
-            </div>
-            <i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
-        </fieldset>
-    </form>
-    <!-- IF .zip -->
-    <table class="ext_zips_table">
-    <tbody>
-    <tr>
-        <td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
-    </tr>
-    <!-- BEGIN zip -->
-    <tr class="ext_disabled">
-		<td class="zip_name"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
-        <td style="text-align: center;">
-			<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
-		</td>
-    </tr>
-    <!-- END zip -->
-    <!-- IF .pagination or TOTAL_POSTS -->
-    <tr class="ext_disabled"><td colspan="2">
-        <div class="pagination">
-            <!-- IF .pagination -->
-                <!-- INCLUDE pagination.html -->
-            <!-- ELSE -->
-                &bull; {PAGE_NUMBER}
-            <!-- ENDIF -->
-        </div>
-    </td></tr>
-    <!-- ENDIF -->
-    </tbody>
-    </table>
-    <!-- ENDIF -->
-    <!-- IF .disabled -->
-    <table id="ext_table">
-		<tbody>
-        <tr>
-            <td class="row3" colspan="3"><strong>{L_EXTENSIONS_AVAILABLE}</strong></td>
-        </tr>
-        <!-- BEGIN disabled -->
-        <tr class="ext_disabled">
-            <td><strong>{disabled.META_DISPLAY_NAME}</strong></td>
-            <td style="text-align: center;">{disabled.META_VERSION}</td>
-            <td style="text-align: center;">
-                <!-- IF disabled.U_DELETE -->
-                <a href="{disabled.U_DELETE}" data-ajax="row_delete" class="delete_link">{L_EXTENSION_DELETE}</a>
-                <!-- ENDIF -->
-            </td>
-        </tr>
-        <!-- END disabled -->
-        </tbody>
-    </table>
-    <!-- ENDIF -->
-<!-- ENDIF -->
-<br style="clear:both" />
-
-<!-- INCLUDEJS js/jquery.simpledialog.js -->
+<!-- INCLUDEJS js/jquery.form.js -->
+<!-- INCLUDEJS js/jquery.qtip.min.js -->
+<!-- INCLUDEJS js/loading_progress.js -->
 <!-- INCLUDEJS js/upload.js -->
 <!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,105 @@
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <strong>{L_EXTENSIONS_ADMIN}</strong>
+<a href="{U_ACTION}&amp;action=list" class="ext_reload_link upload_load_list" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<hr class="upload_ext_navigation" />
+<p>{L_ACP_UPLOAD_EXT_MANAGER_EXPLAIN}</p>
+<div id="force_unstable_updated" class="ext_uploaded_notice"<!-- IF not FORCE_UNSTABLE_UPDATED --> style="display:none"<!-- ENDIF -->>
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{L_CONFIG_UPDATED}</h1>
+</div>
+<fieldset class="quick">
+	<span class="small"><span id="download_ext_list_link"><a href="#">{L_EXT_LIST_DOWNLOAD}</a> &bull; </span><a id="versioncheck_force_update_all" href="{U_VERSIONCHECK_FORCE}">{L_VERSIONCHECK_FORCE_UPDATE_ALL}</a> &bull; <a id="set_force_unstable_link" href="{U_ACTION_LIST}&amp;set_force_unstable=true">{L_SETTINGS}</a></span>
+</fieldset>
+<form id="version_check_settings" method="post" action="{U_ACTION}"<!-- IF not SET_FORCE_UNSTABLE --> style="display:none"<!-- ENDIF -->>
+	<fieldset>
+		<legend id="version_check_settings_title">{L_EXTENSIONS_VERSION_CHECK_SETTINGS}</legend>
+		<dl>
+			<dt><label for="force_unstable">{L_FORCE_UNSTABLE}{L_COLON}</label></dt>
+			<dd>
+				<label><input type="radio" id="force_unstable" name="force_unstable" class="radio" value="1"<!-- IF FORCE_UNSTABLE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+				<label><input type="radio" name="force_unstable" class="radio" value="0"<!-- IF not FORCE_UNSTABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+			</dd>
+		</dl>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="update" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" name="reset" value="{L_RESET}" />
+			<input type="hidden" name="action" value="set_config_version_check_force_unstable" />
+			{S_FORM_TOKEN}
+		</p>
+	</fieldset>
+</form>
+<div class="upload_ext_list">
+	<!-- IF .available -->
+	<div class="upload_ext_list_title upload_ext_list_title_enabled">{L_EXTENSIONS_UPLOADED}</div>
+	<!-- BEGIN available -->
+	<div class="upload_ext_list_content" data-ext-name="{available.META_NAME}">
+		<a href="{U_ACTION}&amp;action=<!-- IF available.S_IS_ENABLED -->disable<!-- ELSE -->enable<!-- ENDIF -->&amp;ext_name={available.META_NAME}" class="extension_toggle_wrapper <!-- IF available.S_IS_ENABLED -->extension_toggle_enabled<!-- ELSE -->extension_toggle_disabled<!-- ENDIF --><!-- IF not available.S_IS_ENABLED and not available.S_IS_DISABLED --> extension_toggle_purged<!-- ENDIF --><!-- IF available.S_LOCKED_TOGGLE --> locked_toggle<!-- ENDIF -->" title="{L_EXT_ENABLE_DISABLE}"><span class="extension_toggle"><i class="fa fa-power-off"></i></span></a>
+		<a href="{U_ACTION}&amp;action=purge&amp;ext_name={available.META_NAME}" class="extension_remove_data_button" title="{L_EXT_PURGE}"><i class="fa fa-trash"></i></a>
+		<a href="{available.U_DETAILS}" class="upload_get_details_link" data-ext-name="{available.META_NAME}" title="{L_DETAILS}">
+			<span class="upload_ext_list_name">{available.META_DISPLAY_NAME}</span>
+			<!-- IF available.S_VERSIONCHECK && available.S_UP_TO_DATE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value description_value_ok">{available.META_VERSION}</span>
+			</div>
+			<!-- ELSE IF available.S_VERSIONCHECK && not available.S_UP_TO_DATE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value description_value_old">{available.META_VERSION}</span>
+			</div>
+			<!-- ELSE -->
+			<div class="description_bubble small_bubble ext_version_bubble">
+				<span class="description_name">{L_VERSION}</span>
+				<span class="description_value">{available.META_VERSION}</span>
+			</div>
+			<!-- ENDIF -->
+		</a>
+		<div class="upload_ext_list_update_success_wrapper" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}"><i class="fa fa-check fa-lg"></i><span class="upload_ext_list_update_success"></span></div>
+		<div class="upload_ext_list_update_error_wrapper" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}"><i class="fa fa-warning fa-lg"></i><span class="upload_ext_list_update_error"></span></div>
+	</div>
+	<!-- END available -->
+	<!-- ENDIF -->
+	<!-- IF .unavailable -->
+	<div class="upload_ext_list_title upload_ext_list_title_unavailable">{L_EXTENSIONS_UNAVAILABLE}</div>
+	<div class="upload_ext_list_unavailable_explain">{L_EXTENSIONS_UNAVAILABLE_EXPLAIN}</div>
+	<div class="upload_ext_list_unavailable_wrapper">
+		<!-- BEGIN unavailable -->
+		<a href="{U_ACTION}&amp;action=details&amp;ext_name={unavailable.META_NAME}" class="upload_ext_list_unavailable upload_get_details_link" data-ext-name="{unavailable.META_NAME}" data-ext-status="<!-- IF unavailable.S_IS_ENABLED -->enabled<!-- ELSE IF unavailable.S_IS_DISABLED -->disabled<!-- ELSE -->uninstalled<!-- ENDIF -->" title="{L_DETAILS}">
+			<span class="upload_ext_unavailable_name">{unavailable.META_NAME}</span>
+			<!-- IF unavailable.S_IS_ENABLED || unavailable.S_IS_DISABLED -->
+			<div class="ext_broken_notice">
+				<h1><i class="fa fa-warning"></i> <!-- IF unavailable.S_IS_ENABLED -->{L_EXTENSION_BROKEN_ENABLED}<!-- ELSE -->{L_EXTENSION_BROKEN_DISABLED}<!-- ENDIF --></h1>
+				<p>{L_EXTENSION_BROKEN_DETAILS}</p>
+			</div>
+			<!-- ENDIF -->
+			<div class="upload_ext_unavailable_reason">{unavailable.NOT_AVAILABLE}</div>
+		</a>
+		<!-- END unavailable -->
+	</div>
+	<!-- ENDIF -->
+</div>
+<div id="download_ext_list_wrapper" data-ext-enabled="{L_EXT_ROW_ENABLED}" data-ext-disabled="{L_EXT_ROW_DISABLED}" data-ext-uninstalled="{L_EXT_ROW_UNINSTALLED}" data-exts-enabled="{L_EXT_ROWS_ENABLED}" data-exts-disabled="{L_EXT_ROWS_DISABLED}" data-exts-uninstalled="{L_EXT_ROWS_UNINSTALLED}" data-exts-uploaded="{L_EXT_ROWS_UPLOADED}" data-exts-broken="{L_EXT_ROWS_BROKEN}" data-ext-list-title="{L_EXT_LIST_DOWNLOAD_TITLE}" data-ext-list-footer="{L_EXT_LIST_DOWNLOAD_FOOTER}">
+	<h1 class="upload_modal_title">
+		<i class="fa fa-download"></i> <span>{L_EXT_LIST_DOWNLOAD}</span>
+	</h1>
+	<form id="download_ext_list_form">
+		<label for="download_ext_list_group">{L_EXT_LIST_DOWNLOAD_GROUP}</label>
+		<select id="download_ext_list_group">
+			<option value="0">{L_EXT_LIST_DOWNLOAD_GROUP_STANDARD}</option>
+			<option value="1" selected="selected">{L_EXT_LIST_DOWNLOAD_GROUP_DISABLED}</option>
+			<option value="2">{L_EXT_LIST_DOWNLOAD_GROUP_PURGED}</option>
+		</select>
+		<br />
+		<label for="download_ext_list_show">{L_EXT_LIST_DOWNLOAD_SHOW}</label>
+		<select id="download_ext_list_show">
+			<option value="0" selected="selected">{L_EXT_LIST_DOWNLOAD_SHOW_FULL}</option>
+			<option value="1">{L_EXT_LIST_DOWNLOAD_SHOW_CLEAN}</option>
+			<option value="2">{L_EXT_LIST_DOWNLOAD_SHOW_NAME}</option>
+		</select>
+		<br />
+		<label for="download_ext_list_english">{L_EXT_LIST_DOWNLOAD_ENGLISH}</label>
+		<input type="checkbox" id="download_ext_list_english" />
+		<br />
+		<label for="download_ext_list">{L_EXT_LIST_DOWNLOAD_TITLE}</label>
+		<span class="select_all_content">{L_SELECT_ALL_CODE}</span>
+		<textarea id="download_ext_list" readonly></textarea>
+	</form>
+</div>

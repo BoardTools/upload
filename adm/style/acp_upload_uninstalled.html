@@ -1,0 +1,36 @@
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <strong>{L_ACP_UPLOAD_UNINSTALLED_TITLE}</strong>
+<a href="{U_ACTION}&amp;action=uninstalled" class="ext_reload_link upload_load_uninstalled" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<hr class="upload_ext_navigation" />
+<!-- IF EXTS_DELETED -->
+<div class="ext_uploaded_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{EXTS_DELETED}</h1>
+</div>
+<!-- ENDIF -->
+<!-- IF .disabled -->
+<form id="list" method="post" action="{U_DELETE_ACTION}" data-ajax="rows_delete">
+	<table id="ext_table" class="zebra-table">
+		<tbody>
+			<tr>
+				<td class="row3" colspan="3"><strong>{L_EXTENSIONS_AVAILABLE}</strong></td>
+				<td class="row3" style="text-align: center; width: 100px;">{L_MARK}</td>
+			</tr>
+			<!-- BEGIN disabled -->
+			<tr class="ext_disabled">
+				<td><strong>{disabled.META_DISPLAY_NAME}</strong></td>
+				<td style="text-align: center;">{disabled.META_VERSION}</td>
+				<td style="text-align: center;">
+					<!-- IF disabled.U_DELETE -->
+					<a href="{disabled.U_DELETE}" data-ajax="row_delete" class="delete_link">{L_EXTENSION_DELETE}</a>
+					<!-- ENDIF -->
+				</td>
+				<td style="text-align: center;"><input type="checkbox" class="radio" name="mark[]" value="{disabled.U_EXT_NAME}" /></td>
+			</tr>
+			<!-- END disabled -->
+		</tbody>
+	</table>
+	<fieldset class="quick">
+		<input class="button2" type="submit" name="delmarked" value="{L_DELETE_MARKED}" /><br />
+		<p class="small"><a href="#" onclick="marklist('ext_table', 'mark', true); return false;">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('ext_table', 'mark', false); return false;">{L_UNMARK_ALL}</a></p>
+	</fieldset>
+</form>
+<!-- ENDIF -->

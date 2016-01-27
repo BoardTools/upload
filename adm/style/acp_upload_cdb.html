@@ -1,0 +1,43 @@
+<!-- IF .phpbb_cdb -->
+<div class="upload_valid_ext_list_title">{L_VALID_PHPBB_EXTENSIONS_TITLE}</div>
+<!-- BEGIN phpbb_cdb -->
+<div class="upload_valid_ext_row" data-ext-description="{phpbb_cdb.EXT_DESCRIPTION}" data-ext-require-phpbb="{phpbb_cdb.REQUIRE_PHPBB}" data-ext-require-phpbb-status="{phpbb_cdb.REQUIRE_PHPBB_STATUS}" data-ext-require-php="{phpbb_cdb.REQUIRE_PHP}" data-ext-require-php-status="{phpbb_cdb.REQUIRE_PHP_STATUS}">
+	<a href="{U_ACTION}&amp;action=upload&amp;remote_upload={phpbb_cdb.EXT_DOWNLOAD_ENCODED}&amp;checksum={phpbb_cdb.EXT_CHECKSUM}" data-ext-source="{phpbb_cdb.EXT_DOWNLOAD}" data-ext-checksum="{phpbb_cdb.EXT_CHECKSUM}" class="upload_valid_ext_download_link" title="{L_DOWNLOAD_LATEST}{L_COLON} {phpbb_cdb.EXT_DOWNLOAD}"><i class="fa fa-download"></i></a>
+	<!-- IF phpbb_cdb.EXT_HOMEPAGE -->
+	<a href="{phpbb_cdb.EXT_HOMEPAGE}" target="_blank" class="upload_valid_ext_announcement_link" title="{L_HOMEPAGE}{L_COLON} {phpbb_cdb.EXT_HOMEPAGE}"><i class="fa fa-globe"></i></a>
+	<!-- ENDIF -->
+	<span class="upload_valid_ext_name">{phpbb_cdb.EXT_NAME}</span>
+	<div class="description_bubble small_bubble ext_version_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value upload_valid_ext_version">{phpbb_cdb.EXT_VERSION}</span>
+	</div>
+</div>
+<!-- END phpbb_cdb -->
+<div id="upload_valid_ext_description" data-not-available="{L_NOT_AVAILABLE}" data-show-description="{L_EXT_SHOW_DESCRIPTION}">
+	<h1 class="ExtensionName">
+		<i class="fa fa-cog"></i> <span class="ext_details_name"></span>
+	</h1>
+	<span class="ext_details_actions"></span>
+	<div class="description_bubble small_bubble ext_version_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value ext_details_version"></span>
+	</div>
+	<fieldset class="description_fieldset">
+		<span class="description_title">{L_DESCRIPTION}</span>
+		<p class="ext_details_description"></p>
+	</fieldset>
+	<fieldset>
+		<span class="requirements_title">{L_REQUIREMENTS}</span>
+		<div class="requirements_bubble">
+			<span class="requirements_name">{L_PHPBB_VERSION}</span>
+			<span class="requirements_value ext_details_require_phpbb"></span>
+		</div>
+		<div class="requirements_bubble">
+			<span class="requirements_name">{L_PHP_VERSION}</span>
+			<span class="requirements_value ext_details_require_php"></span>
+		</div>
+	</fieldset>
+</div>
+<!-- ELSE -->
+<div class="upload_valid_ext_list_title">{L_VALID_PHPBB_EXTENSIONS_EMPTY_LIST}</div>
+<!-- ENDIF -->

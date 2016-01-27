@@ -1,0 +1,289 @@
+/* RTL adjustments by LavIgor for Upload Extensions */
+.rtl .ext_upload_wrapper {
+	padding: 0 80px 0 0;
+}
+.rtl .upload_ext_upload_button {
+	float: left;
+	left: -10px;
+	right: auto;
+	border-top-left-radius: 0;
+	border-top-right-radius: 10px;
+	box-shadow: 1px -1px 1px 1px #78cef7;
+}
+/*.rtl #ext_language_code, .rtl #ext_checksum {
+	margin-right: 0;
+	margin-left: 10px;
+}*/
+.rtl .upload_ext_save_zip label {
+	margin-left: 0;
+	margin-right: 5px;
+}
+.rtl .upload-menu {
+	left: auto;
+	right: 0;
+}
+.rtl .upload_main_link i.fa {
+	float: right;
+}
+.rtl .upload_main_link span {
+	float: right;
+	margin: 0 50px 0 -1000px;
+}
+.rtl .upload-menu:hover .upload_main_link span {
+	margin: 0 8px 0 0;
+}
+.rtl #upload_load_main {
+	padding-left: 0;
+	padding-right: 5px;
+}
+.rtl #upload_load_main:hover {
+	margin: 0 15px 0 5px;
+	padding: 5px 10px;
+}
+.rtl .ext_reload_link {
+	float: left;
+	margin: 0 15px 0 5px;
+}
+.rtl #uploaded_ok {
+	margin-right: 0;
+	margin-left: 15px;
+}
+.rtl .upload_ext_update_button, .rtl .upload_ext_error_show {
+	float: left;
+}
+.rtl .ext_error_notice i, .rtl .ext_solution_notice i {
+	margin-right: 0;
+	margin-left: 5px;
+}
+.rtl #upload_extensions_title_links {
+	padding: 0 20px 0 0;
+	margin: 0 -100px 0 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+.rtl #upload_extensions_title_block:hover #upload_extensions_title_links {
+	margin-left: 0;
+	margin-right: -15px;
+}
+.rtl #upload_extensions_links_show_slider {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+.rtl .upload_loading_element {
+	-moz-transform: rotateY(-15deg);
+	-ms-transform: rotateZ(-15deg);
+	-o-transform: rotateY(-15deg);
+	-webkit-transform: rotateY(-15deg);
+	transform: rotateZ(-15deg);
+}
+.rtl #upload_loading_text {
+	left: auto;
+	right: 15px;
+}
+.rtl #upload_loading_status {
+	right: auto;
+	left: 15px;
+}
+.rtl #upload_modal_box .alert_close {
+	float: left;
+	margin-right: 0;
+	margin-left: -35px;
+}
+.rtl #upload_refresh_notice .upload_refresh_notice_close {
+	float: left;
+}
+.rtl .select_all_code {
+	right: auto;
+	left: 15px;
+}
+.rtl .select_all_content {
+	float: left;
+}
+.rtl .upload_main_page_link_block i.fa {
+	margin-right: 0;
+	margin-left: 10px;
+}
+.rtl .upload_valid_ext_row {
+	padding: 0 100px 0 0;
+}
+.rtl .upload_valid_ext_row a.upload_valid_ext_download_link {
+	left: auto;
+	right: 0;
+}
+.rtl .upload_valid_ext_row a.upload_valid_ext_announcement_link {
+	left: auto;
+	right: 50px;
+}
+.rtl .upload_valid_ext_row span.upload_valid_ext_name {
+	margin: 5px 0 5px 5px;
+}
+.rtl .upload_valid_ext_row .ext_version_bubble {
+	margin: 0;
+}
+.rtl .upload_ext_list .upload_ext_unavailable_name {
+	left: auto;
+	right: 0;
+}
+.rtl .upload_ext_list .upload_ext_unavailable_reason {
+	padding: 0 15px 0 0;
+}
+.rtl .upload_ext_list .ext_version_bubble {
+	margin: 0;
+}
+.rtl .upload_ext_list .upload_ext_list_content a.upload_get_details_link {
+	padding: 0 100px 0 0;
+}
+.rtl .upload_ext_list .upload_ext_list_content a.upload_get_details_link span.upload_ext_list_name {
+	margin: 5px 0 5px 5px;
+}
+.rtl #upload_main .upload_ext_list .extension_toggle_wrapper {
+	left: auto;
+	right: 5px;
+}
+.rtl #upload_main .upload_ext_list .extension_remove_data_button {
+	left: auto;
+	right: 65px;
+}
+.rtl #upload_main .upload_ext_list .upload_ext_list_update_success_wrapper i,
+.rtl #upload_main .upload_ext_list .upload_ext_list_update_error_wrapper i {
+	margin: 1px 0 0 5px;
+}
+.rtl #filecontent_wrapper {
+	float: left;
+}
+.rtl .php-file-tree ul {
+	padding: 0 15px 0 0;
+}
+.rtl .php-file-tree li {
+	direction: rtl;
+}
+.rtl .php-file-tree li.pft-directory span, .rtl .php-file-tree li.pft-directory a {
+	padding: 0 30px 0 0;
+	margin: 0 -30px 0 0;
+}
+.rtl .requirements_bubble {
+	margin-left: 0;
+	margin-right: 20px;
+}
+.rtl .requirements_value {
+	direction: ltr;
+}
+.rtl .description_bubble {
+	margin-right: 0;
+	margin-left: 20px;
+}
+.rtl .description_value {
+	direction: ltr;
+	border-left: none;
+	border-right: 1px solid #D7D7D7;
+}
+.rtl .requirements_value:before, .description_value_ok:before,
+.rtl .requirements_value_not_met:before, .description_value_old:before {
+	margin-right: 0;
+	margin-left: 5px;
+}
+.rtl h1.ExtensionName {
+	margin: 5px 15px 5px 5px;
+}
+.rtl #upload_main .extension_toggle_wrapper {
+	margin-left: 0;
+	margin-right: 5px;
+}
+.rtl #upload_main .extension_toggle_disabled .extension_toggle {
+	left: 33px;
+}
+.rtl #upload_main .extension_toggle_enabled .extension_toggle {
+	left: 0;
+}
+.rtl #upload_main .extension_toggle i {
+	padding: 3px 5px 0 0;
+}
+.rtl #upload_main .extension_remove_data_button {
+	margin-left: 0;
+	margin-right: 5px;
+}
+.rtl #upload_main .extension_remove_data_button i {
+	padding: 3px 5.5px 0 0;
+}
+.rtl #ext_purge_confirm .ext_update_ok,
+.rtl #ext_force_unstable_confirm .ext_update_ok {
+	margin-right: 0;
+	margin-left: 25px;
+}
+.rtl .ext_details_tabs .tab {
+	float: right;
+}
+.rtl .ext_details_tabs .tab > a {
+	margin: 1px 0 2px 1px;
+}
+.rtl .ext_details_tabs .activetab > a,
+.rtl .ext_details_tabs .activetab > a:hover {
+	margin: 0 0 0 1px;
+}
+.rtl #ext_details_faq h1 {
+	margin: 10px 15px 0 0;
+}
+.rtl .upload_ext_faq_title {
+	padding: 10px 25px 10px 0;
+}
+.rtl .upload_ext_faq ul, .upload_ext_faq ol {
+	margin: 5px 15px 0 0;
+}
+.rtl .ext_language_actions {
+	float: left;
+}
+.rtl .ext_version_bubble {
+	float: left;
+	margin: 5px 0 5px 15px;
+}
+.rtl .ext_version_bubble .show_ext_updates {
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	padding: 7px 25px 8px 10px;
+	margin: 0 -20px 0 0;
+}
+.rtl #description_updates .extension_update_link,
+.rtl #description_updates .extension_announcement_link {
+	padding: 10px 0 10px 9px;
+}
+.rtl #description_updates .extension_update_link i,
+.rtl #description_updates .extension_announcement_link i {
+	margin: 0 9px 0 5px;
+}
+.rtl .description_updates_latest_version {
+	margin: 5px 0 5px 5px;
+}
+.rtl .extension_author {
+	margin-left: 0;
+	margin-right: 25px;
+}
+.rtl #upload_main .extension_author_link span {
+	margin-left: 0;
+	margin-right: 10px;
+}
+.rtl #ext_details_content .description_fieldset .ext_description_column2 {
+	float: left;
+}
+.rtl #ext_details_content .extension_announcement_link span {
+	margin-left: 0;
+	margin-right: 10px;
+}
+.rtl #ext_details_content .extension_get_update_link,
+.rtl #upload_refresh_notice .page_refresh_link {
+	padding: 6px 0 6px 15px;
+}
+.rtl #ext_details_content .extension_get_update_link i,
+.rtl #upload_refresh_notice .page_refresh_link i {
+	margin: 0 15px 0 5px;
+}
+.rtl .extension_latest_version_wrapper {
+	margin-left: 0;
+	margin-right: 5px;
+}
+.rtl .qtip{direction:rtl}.rtl .qtip-content{text-align:right}.rtl .qtip-titlebar{padding:5px 10px 5px 35px}.rtl .qtip-close{left:-9px}.rtl .qtip-titlebar .qtip-close{left:4px}.rtl .qtip-icon .ui-icon,.qtip-titlebar .ui-icon{direction:rtl}.rtl .qtip-cream .qtip-close .qtip-icon{background-position:-82px 0}.rtl .qtip-red .qtip-close .qtip-icon{background-position:-102px 0}.rtl .qtip-green .qtip-close .qtip-icon{background-position:-42px 0}.rtl .qtip-blue .qtip-close .qtip-icon{background-position:-2px 0}.rtl .qtip-tipsy .qtip-titlebar{padding:6px 10px 0 35px}.rtl .qtip-bootstrap .qtip-titlebar .qtip-close{right:auto;left:11px}.rtl .qtip-bootstrap .qtip-icon .ui-icon{float:left}.rtl .qtip .qtip-tip canvas{left:auto;right:0}

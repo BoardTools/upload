@@ -1,0 +1,320 @@
+<!-- IF META_DISPLAY_NAME --><!-- DEFINE $EXTENSION_NAME = '{META_DISPLAY_NAME}' -->
+<!-- ELSE --><!-- DEFINE $EXTENSION_NAME = '{META_NAME}' --><!-- ENDIF -->
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <a href="{U_ACTION_LIST}" id="upload_load_main_list">{L_EXTENSIONS_ADMIN}</a> &raquo; <strong>{$EXTENSION_NAME}</strong>
+<a href="{U_EXT_DETAILS}" class="ext_reload_link upload_get_details_link" data-ext-name="{META_NAME}" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<hr class="upload_ext_navigation" />
+<div id="extension_details_name_wrapper">
+	<h1 class="ExtensionName<!-- IF NOT_AVAILABLE --> ext_not_available<!-- ENDIF -->">
+		<i class="fa fa-cog"></i> {$EXTENSION_NAME}
+		<span data-ext-name="{META_NAME}" data-ext-update-enabled="{L_EXT_ENABLED}" data-ext-update-disabled="{L_EXT_DISABLED}" data-ext-update-purged="{L_EXT_PURGED}" data-ext-update-error="{L_EXT_UPDATE_ERROR}" data-ext-update-timeout="{L_EXT_UPDATE_TIMEOUT}" data-ext-update-enable="{L_EXT_UPDATE_ENABLE}" data-ext-update-check-filetree="{L_EXT_UPDATE_CHECK_FILETREE}">
+			<a href="{U_ACTION}&amp;action=<!-- IF S_IS_ENABLED -->disable<!-- ELSE -->enable<!-- ENDIF -->&amp;ext_name={META_NAME}" class="extension_toggle_wrapper <!-- IF S_IS_ENABLED -->extension_toggle_enabled<!-- ELSE -->extension_toggle_disabled<!-- ENDIF --><!-- IF not S_IS_ENABLED and not S_IS_DISABLED --> extension_toggle_purged<!-- ENDIF -->" title="{L_EXT_ENABLE_DISABLE}"><span class="extension_toggle"><i class="fa fa-power-off"></i></span></a>
+			<a href="{U_ACTION}&amp;action=purge&amp;ext_name={META_NAME}" class="extension_remove_data_button" title="{L_EXT_PURGE}"><i class="fa fa-trash"></i></a>
+		</span>
+	</h1>
+	<!-- IF META_VERSION -->
+	<!-- IF S_VERSIONCHECK && S_UP_TO_DATE -->
+	<div class="description_bubble small_bubble ext_version_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value description_value_ok" id="meta_version" title="{UP_TO_DATE_MSG}">{META_VERSION}</span>
+	</div>
+	<!-- ELSE IF S_VERSIONCHECK && not S_UP_TO_DATE -->
+	<div class="description_bubble small_bubble ext_version_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value description_value_old" id="meta_version" title="{UP_TO_DATE_MSG}">{META_VERSION}</span>
+		<!-- IF HAS_AJAX -->
+		<i class="fa fa-cog show_ext_updates"></i>
+		<div id="description_updates">
+			<!-- BEGIN updates_available -->
+			<span class="description_updates_latest_version">{L_LATEST_VERSION}</span>
+			<span class="description_updates_extension_latest_version">{updates_available.current}</span>
+			<!-- IF updates_available.download -->
+			<span class="extension_update_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-refresh fa-fw"></i>{L_UPDATE}</span>
+			<!-- ENDIF -->
+			<!-- IF updates_available.announcement -->
+			<a href="{updates_available.announcement}" class="extension_announcement_link" title="{updates_available.announcement}" target="_blank"><i class="fa fa-bullhorn fa-fw"></i>{L_ANNOUNCEMENT_TOPIC}</a>
+			<!-- ENDIF -->
+			<div id="update_ext_confirm">
+				<form id="upload_ext_update" action="{U_UPLOAD}" method="post">
+					<span id="update_ext_confirm_title"><i class="fa fa-refresh fa-lg"></i> {L_EXTENSION_UPLOAD_UPDATE}</span>
+					<p class="ext_upload_form_explain">{L_EXTENSION_UPLOAD_UPDATE_EXPLAIN}</p>
+					<textarea id="update_confirm_address" name="remote_upload" readonly="readonly" rows="5">{updates_available.download}</textarea>
+					{S_FORM_TOKEN}
+					{S_HIDDEN_FIELDS}
+					<span id="br_form_upload"></span>
+					<!-- IF updates_available.checksum -->
+					<p class="ext_upload_form_explain">{L_CHECKSUM}{L_COLON} {updates_available.checksum}</p>
+					<input type="hidden" name="ext_checksum" value="{updates_available.checksum}" />
+					<input type="hidden" name="ext_checksum_type" value="md5" />
+					<!-- ENDIF -->
+					<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
+					<label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
+					<input class="button1" type="submit" name="submit" value="{L_UPDATE}" id="upload_ext_update_submit" />
+				</form>
+			</div>
+			<!-- END updates_available -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+	<!-- ELSE -->
+	<div class="description_bubble small_bubble ext_version_bubble">
+		<span class="description_name">{L_VERSION}</span>
+		<span class="description_value" id="meta_version">{META_VERSION}</span>
+	</div>
+	<!-- ENDIF -->
+	<!-- ENDIF -->
+</div>
+<!-- IF META_VERSION -->
+<div id="ext_versioncheck_error_box" class="errorbox notice"<!-- IF not S_VERSIONCHECK --> style="display:block;"<!-- ENDIF -->>
+	<p class="ext_versioncheck_error_box_title"<!-- IF not S_VERSIONCHECK and S_VERSIONCHECK_STATUS == 0 --> style="display:block;"<!-- ENDIF -->>{L_VERSIONCHECK_FAIL}</p>
+	<p class="ext_versioncheck_error_box_reason"><!-- IF not S_VERSIONCHECK -->{VERSIONCHECK_FAIL_REASON}<!-- ENDIF --></p>
+	<p class="ext_versioncheck_error_box_link"<!-- IF not S_VERSIONCHECK and S_VERSIONCHECK_STATUS == 0 --> style="display:block;"<!-- ENDIF -->><a href="{U_VERSIONCHECK_FORCE}" class="ext_versioncheck_force_link">{L_VERSIONCHECK_FORCE_UPDATE}</a></p>
+</div>
+<!-- ENDIF -->
+<!-- IF EXT_ENABLE_STATUS -->
+<div class="ext_uploaded_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{EXT_ENABLE_STATUS}</h1>
+</div>
+<!-- ENDIF -->
+<!-- IF EXT_UPLOADED || EXT_UPDATED || EXT_LANGUAGE_UPLOADED || EXT_LANGUAGES_RESTORED -->
+<div class="ext_uploaded_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i><!-- IF EXT_LANGUAGES_RESTORED -->{L_EXT_LANGUAGES_RESTORED}<!-- ELSE IF EXT_LANGUAGE_UPLOADED -->{EXT_LANGUAGE_UPLOADED}<!-- ELSE IF EXT_UPDATED -->{L_EXT_UPDATED}<!-- ELSE -->{L_EXT_UPLOADED}<!-- ENDIF --></h1>
+	<!-- IF EXT_OLD_ZIP_SAVED --><p>{EXT_OLD_ZIP_SAVED}<!-- IF EXT_RESTORE_DIRECTORIES --><br />{EXT_RESTORE_DIRECTORIES} <a href="{U_ACTION}&amp;action=restore_languages&amp;ext_name={META_NAME}&amp;archive={S_EXT_LANGS_RESTORE_ZIP}" data-ext-restore="{META_NAME}&amp;archive={S_EXT_LANGS_RESTORE_ZIP}" class="ext_restore_languages">{L_RESTORE}</a>.<!-- ENDIF --></p><!-- ENDIF -->
+</div>
+<!-- ENDIF -->
+<!-- IF EXT_UPDATED -->
+<div class="ext_updated_notice">
+	<h1><i class="fa fa-refresh"></i> {L_ACP_UPLOAD_EXT_UPDATED}</h1>
+	<p>{L_ACP_UPLOAD_EXT_UPDATED_EXPLAIN}</p>
+</div>
+<!-- ENDIF -->
+<!-- IF S_EXTENSION_CHECKSUM_NOT_PROVIDED -->
+<div class="ext_updated_notice">
+	<h1><i class="fa fa-exclamation-circle"></i> {L_ACP_UPLOAD_EXT_NO_CHECKSUM_TITLE}</h1>
+	<p>{L_ACP_UPLOAD_EXT_NO_CHECKSUM}</p>
+</div>
+<!-- ENDIF -->
+<!-- IF NOT_AVAILABLE and (S_IS_ENABLED || S_IS_DISABLED) -->
+<div class="ext_broken_notice">
+	<h1><i class="fa fa-warning"></i> {L_EXTENSION_BROKEN_TITLE}</h1>
+	<span>{L_EXTENSION_BROKEN_EXPLAIN}</span>
+</div>
+<!-- ENDIF -->
+<div class="ext_details_container">
+	<div class="ext_details_tabs">
+		<ul>
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'details' --> activetab<!-- ENDIF -->" id="ext_details_main_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=details"><i class="fa fa-book"></i> <span>{L_EXT_DETAILS}</span></a></li>
+			<!-- IF EXT_DETAILS_README --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'readme' --> activetab<!-- ENDIF -->" id="ext_details_readme_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=readme"><i class="fa fa-info"></i> <span>{L_EXT_DETAILS_README}</span></a></li><!-- ENDIF -->
+			<!-- IF EXT_DETAILS_CHANGELOG --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'changelog' --> activetab<!-- ENDIF -->" id="ext_details_changelog_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=changelog"><i class="fa fa-pencil"></i> <span>{L_EXT_DETAILS_CHANGELOG}</span></a></li><!-- ENDIF -->
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'languages' --> activetab<!-- ENDIF -->" id="ext_details_languages_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=languages"><i class="fa fa-language"></i> <span>{L_EXT_DETAILS_LANGUAGES}</span></a></li>
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'filetree' --> activetab<!-- ENDIF -->" id="ext_details_filetree_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=filetree"><i class="fa fa-sitemap"></i> <span>{L_EXT_DETAILS_FILETREE}</span></a></li>
+			<li class="tab<!-- IF SHOW_DETAILS_TAB == 'tools' --> activetab<!-- ENDIF -->" id="ext_details_tools_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=tools"><i class="fa fa-wrench"></i> <span>{L_EXT_DETAILS_TOOLS}</span></a></li>
+			<!-- IF EXT_DETAILS_UPDATE --><li class="tab<!-- IF SHOW_DETAILS_TAB == 'update' --> activetab<!-- ENDIF -->" id="ext_details_update_tab"><a href="{U_EXT_DETAILS}&amp;ext_show=update"><i class="fa fa-refresh"></i> <span>{L_UPDATE}</span></a></li><!-- ENDIF -->
+		</ul>
+	</div>
+	<div class="ext_details_block" data-load-full-page="{S_LOAD_FULL_PAGE}">
+		<!-- IF EXT_DETAILS_MARKDOWN and not HAS_AJAX -->
+		<div class="ext_details_markdown" style="display:block;">{EXT_DETAILS_MARKDOWN}</div>
+		<!-- ENDIF -->
+		<!-- IF HAS_AJAX || S_LOAD_FULL_PAGE -->
+		<div class="ext_details_markdown" id="ext_details_readme">{EXT_DETAILS_README}</div>
+		<div class="ext_details_markdown" id="ext_details_changelog">{EXT_DETAILS_CHANGELOG}</div>
+		<!-- ENDIF -->
+		<!-- IF EXT_DETAILS_LANGUAGES || HAS_AJAX -->
+		<div id="ext_languages" data-ext-show-languages="{S_EXT_DETAILS_SHOW_LANGUAGES}"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+			<!-- IF .ext_languages -->
+			<form method="post" action="{U_DELETE_ACTION}" data-ajax="language_rows_delete">
+				<fieldset id="ext_languages_list">
+					<span class="description_title ext_languages_title">{L_EXT_LANGUAGES}</span>
+					<!-- BEGIN ext_languages -->
+					<div class="ext_language_row">
+						<span class="ext_language_name">{ext_languages.NAME}</span>
+						<div class="ext_language_actions">
+							<input type="checkbox" class="radio ext_check_box" name="mark[]" value="{ext_languages.NAME}" />
+						</div>
+					</div>
+					<!-- IF not ext_languages.S_LAST_ROW --><hr class="dashed" /><!-- ENDIF -->
+					<!-- END ext_languages -->
+					<fieldset class="quick">
+						<p class="small ext_mark_check"><a href="#" onclick="marklist('ext_languages_list', 'mark', true); return false;">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('ext_languages_list', 'mark', false); return false;">{L_UNMARK_ALL}</a></p>
+						<button class="ext_language_delete" type="submit" name="delmarked"><i class="fa fa-trash"></i> {L_DELETE_MARKED}</button>
+					</fieldset>
+				</fieldset>
+			</form>
+			<!-- ENDIF -->
+			<form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
+				<fieldset>
+					<div id="ext_upload_content">
+						<span class="ext_upload_form_name"><i class="fa fa-upload fa-lg"></i> {L_EXT_LANGUAGES_UPLOAD}</span>
+						<p class="ext_upload_form_explain">{L_EXT_LANGUAGES_UPLOAD_EXPLAIN}</p>
+						<input type="text" id="remote_upload" name="remote_upload" />
+						<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
+						<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+						{S_FORM_TOKEN}
+						{S_HIDDEN_FIELDS}
+						<span class="br_form_upload"></span>
+						<label for="ext_language_code">{L_EXT_LANGUAGE_ISO_CODE}{L_COLON}</label>
+						<input type="text" id="ext_language_code" name="ext_lang_name" />
+						<label for="ext_checksum">{L_CHECKSUM}{L_COLON}</label>
+						<input type="radio" name="ext_checksum_type" id="ext_checksum_type_md5" value="md5" checked="checked" />
+						<label for="ext_checksum_type_md5">md5</label>
+						<input type="radio" name="ext_checksum_type" id="ext_checksum_type_sha1" value="sha1" />
+						<label for="ext_checksum_type_sha1">sha1</label>
+						<input type="text" id="ext_checksum" name="ext_checksum" />
+						<input type="hidden" name="ext_name" value="{META_NAME}" />
+						<button class="upload_ext_upload_button" type="submit" name="submit" value="{L_UPLOAD}" id="submit"><i class="fa fa-upload"></i> {L_UPLOAD}</button>
+					</div>
+					<i id="upload" class="fa fa-spinner fa-3x fa-spin"></i>
+				</fieldset>
+			</form>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF EXT_DETAILS_FILETREE || HAS_AJAX -->
+		<div id="filetree"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+			<div id="filetreenames">{FILETREE}</div>
+			<div id="filecontent_wrapper">
+				<div id="filecontent"><div class="filename">{FILENAME}</div><div class="filecontent">{CONTENT}</div></div>
+				<span class="select_all_code">{L_SELECT_ALL_CODE}</span>
+			</div>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF EXT_DETAILS_TOOLS || HAS_AJAX -->
+		<div id="ext_details_tools"<!-- IF not HAS_AJAX and not S_LOAD_FULL_PAGE --> style="display:block;"<!-- ENDIF-->>
+			<fieldset class="description_fieldset description_update_form">
+				<span class="description_title"><i class="fa fa-download fa-lg"></i> {L_EXT_TOOLS_DOWNLOAD_TITLE}</span>
+				<form action="{U_ACTION}&amp;action=download&amp;ext_name={META_NAME}" method="post">
+					<span class="description_update_form_explain">{L_EXT_TOOLS_DOWNLOAD}</span>
+					<input type="checkbox" name="ext_delete_suffix" id="ext_delete_suffix" title="{L_EXT_TOOLS_DOWNLOAD_DELETE_SUFFIX}" />
+					<label for="ext_delete_suffix">{L_EXT_TOOLS_DOWNLOAD_DELETE_SUFFIX}</label>
+					<input class="button1" type="submit" name="submit" value="{L_DOWNLOAD}" />
+				</form>
+			</fieldset>
+		</div>
+		<!-- ENDIF -->
+		<!-- IF EXT_DETAILS_UPDATE and not HAS_AJAX -->
+		<div id="ext_details_content">
+			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not HAS_AJAX -->
+			<!-- BEGIN updates_available -->
+			<fieldset style="background-color: #fdfcd3;">
+				<span class="extension_latest_version_title">{L_LATEST_VERSION}</span>
+				<div class="extension_latest_version_wrapper">
+					<strong class="extension_latest_version">{updates_available.current}</strong>
+					<!-- IF updates_available.announcement -->
+					<a href="{updates_available.announcement}" class="extension_author_link" title="{updates_available.announcement}" target="_blank"><i class="fa fa-bullhorn"></i><span>{L_ANNOUNCEMENT_TOPIC}</span></a>
+					<!-- ENDIF -->
+				</div>
+			</fieldset>
+			<!-- IF updates_available.download -->
+			<fieldset class="description_fieldset description_update_form">
+				<span class="description_title"><i class="fa fa-refresh fa-lg"></i> {L_EXTENSION_UPLOAD_UPDATE}</span>
+				<form action="{U_UPLOAD}" method="post">
+					<span class="description_update_form_explain">{L_EXTENSION_UPLOAD_UPDATE_EXPLAIN}</span>
+					<textarea id="update_get_confirm_address" name="remote_upload" readonly="readonly" rows="5">{updates_available.download}</textarea>
+					{S_FORM_TOKEN}
+					{S_HIDDEN_FIELDS}
+					<span class="br_form_upload"></span>
+					<!-- IF updates_available.checksum -->
+					<span class="description_update_form_explain">{L_CHECKSUM}{L_COLON} {updates_available.checksum}</span>
+					<input type="hidden" name="ext_checksum" value="{updates_available.checksum}" />
+					<input type="hidden" name="ext_checksum_type" value="md5" />
+					<!-- ENDIF -->
+					<input type="checkbox" name="keepext" id="keepextupdate" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
+					<label for="keepextupdate">{L_EXT_UPLOAD_SAVE_ZIP}</label>
+					<input class="button1" type="submit" name="submit" value="{L_UPDATE}" />
+				</form>
+			</fieldset>
+			<!-- ENDIF -->
+			<!-- END updates_available -->
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+		<!-- IF (not EXT_DETAILS_MARKDOWN and not EXT_DETAILS_LANGUAGES and not EXT_DETAILS_FILETREE and not EXT_DETAILS_UPDATE and not EXT_DETAILS_TOOLS) || HAS_AJAX || S_LOAD_FULL_PAGE -->
+		<div id="ext_details_content">
+			<!-- IF NOT_AVAILABLE -->
+			<div class="errorbox">{NOT_AVAILABLE}</div>
+			<!-- ELSE -->
+			<!-- IF META_DESCRIPTION -->
+			<fieldset class="description_fieldset">
+				<span id="meta_description" class="description_title">{L_DESCRIPTION}</span>
+				<p>{META_DESCRIPTION}</p>
+			</fieldset>
+			<!-- ENDIF -->
+			<!-- IF S_VERSIONCHECK && not S_UP_TO_DATE && not HAS_AJAX -->
+			<!-- BEGIN updates_available -->
+			<fieldset style="background-color: #fdfcd3;">
+				<span class="extension_latest_version_title">{L_LATEST_VERSION}</span>
+				<div class="extension_latest_version_wrapper">
+					<strong class="extension_latest_version">{updates_available.current}</strong>
+					<!-- IF updates_available.announcement -->
+					<a href="{updates_available.announcement}" class="extension_author_link" title="{updates_available.announcement}" target="_blank"><i class="fa fa-bullhorn"></i><span>{L_ANNOUNCEMENT_TOPIC}</span></a>
+					<!-- ENDIF -->
+					<!-- IF updates_available.download -->
+					<a href="{U_EXT_DETAILS}&amp;ext_show=update" class="extension_get_update_link" title="{L_DOWNLOAD_LATEST}"><i class="fa fa-refresh"></i>{L_UPDATE}</a>
+					<!-- ENDIF -->
+				</div>
+			</fieldset>
+			<!-- END updates_available -->
+			<!-- ENDIF -->
+			<fieldset>
+				<div class="description_bubble big_bubble">
+					<span class="description_name">{L_CLEAN_NAME}</span>
+					<strong class="description_value" id="meta_name">{META_NAME}</strong>
+				</div>
+				<!-- IF META_HOMEPAGE -->
+				<div class="description_bubble big_bubble">
+					<span class="description_name">{L_HOMEPAGE}</span>
+					<strong class="description_value" id="meta_homepage"><a href="{META_HOMEPAGE}" title="{META_HOMEPAGE}" target="_blank"><i class="fa fa-globe"></i></a></strong>
+				</div>
+				<!-- ENDIF -->
+				<!-- IF META_TIME -->
+				<div class="description_bubble small_bubble">
+					<span class="description_name">{L_TIME}</span>
+					<span class="description_value" id="meta_time">{META_TIME}</span>
+				</div>
+				<!-- ENDIF -->
+				<div class="description_bubble small_bubble">
+					<span class="description_name">{L_LICENSE}</span>
+					<span class="description_value" id="meta_license">{META_LICENSE}</span>
+				</div>
+			</fieldset>
+			<!-- IF META_REQUIRE_PHPBB || META_REQUIRE_PHP -->
+			<fieldset>
+				<span class="requirements_title">{L_REQUIREMENTS}</span>
+				<!-- IF META_REQUIRE_PHPBB -->
+				<div class="requirements_bubble">
+					<span class="requirements_name">{L_PHPBB_VERSION}</span>
+					<span class="requirements_value<!-- IF META_REQUIRE_PHPBB_FAIL --> requirements_value_not_met<!-- ENDIF -->" id="require_phpbb">{META_REQUIRE_PHPBB}</span>
+				</div>
+				<!-- ENDIF -->
+				<!-- IF META_REQUIRE_PHP -->
+				<div class="requirements_bubble">
+					<span class="requirements_name">{L_PHP_VERSION}</span>
+					<span class="requirements_value<!-- IF META_REQUIRE_PHP_FAIL --> requirements_value_not_met<!-- ENDIF -->" id="require_php">{META_REQUIRE_PHP}</span>
+				</div>
+				<!-- ENDIF -->
+			</fieldset>
+			<!-- ENDIF -->
+			<fieldset>
+				<!-- BEGIN meta_authors -->
+				<!-- IF meta_authors.S_FIRST_ROW -->
+				<!-- IF meta_authors.S_LAST_ROW -->
+				<span class="requirements_title">{L_DEVELOPER}</span>
+				<!-- ELSE -->
+				<span class="requirements_title">{L_DEVELOPERS}</span>
+				<!-- ENDIF -->
+				<!-- ENDIF -->
+				<div class="extension_author">
+					<strong class="extension_author_name">{meta_authors.AUTHOR_NAME}</strong>
+					<!-- IF meta_authors.AUTHOR_EMAIL -->
+					<a href="mailto:{meta_authors.AUTHOR_EMAIL}" title="{L_AUTHOR_EMAIL}" class="extension_author_link"><i class="fa fa-envelope"></i></a>
+					<!-- ENDIF -->
+					<!-- IF meta_authors.AUTHOR_HOMEPAGE -->
+					<a href="{meta_authors.AUTHOR_HOMEPAGE}" title="{L_AUTHOR_HOMEPAGE}" class="extension_author_link" target="_blank"><i class="fa fa-globe"></i></a>
+					<!-- ENDIF -->
+				</div>
+				<!-- END meta_authors -->
+			</fieldset>
+		<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+	</div>
+</div>

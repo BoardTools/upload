@@ -1,0 +1,17 @@
+<!-- IF IS_AJAX -->
+<a href="{S_ACTION_BACK}" class="back_to_upload" id="upload_link_back"><i class="fa fa-lg fa-arrow-circle-up"></i> {L_BACK_TO_PREV}</a>
+<!-- ELSE -->
+<a href="{S_ACTION_BACK}" class="back_to_upload" id="upload_load_main">{L_EXT_UPLOAD_BACK}</a>
+<!-- ENDIF -->
+<!-- IF UPLOAD_ERROR -->
+<div class="ext_error_notice">
+	<h1><i class="fa fa-warning fa-fw"></i> {L_ERROR}</h1>
+	<span>{UPLOAD_ERROR}</span>
+</div>
+<!-- ENDIF -->
+<!-- IF UPLOAD_ERROR_SOLUTIONS -->
+<div class="ext_solution_notice">
+	<h1><i class="fa fa-lightbulb-o fa-fw"></i> {L_POSSIBLE_SOLUTIONS}</h1>
+	<span>{UPLOAD_ERROR_SOLUTIONS}</span>
+</div>
+<!-- ENDIF -->

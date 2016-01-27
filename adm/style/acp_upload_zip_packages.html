@@ -1,0 +1,39 @@
+<a href="{U_ACTION}" id="upload_load_main">{L_ACP_UPLOAD_EXT_TITLE}</a> &raquo; <strong>{L_ACP_UPLOAD_ZIP_TITLE}</strong>
+<a href="{U_ACTION}&amp;action=zip_packages" class="ext_reload_link upload_load_zip" title="{L_EXT_RELOAD_PAGE}"><i class="fa fa-refresh"></i></a>
+<hr class="upload_ext_navigation" />
+<!-- IF EXT_ZIPS_DELETED -->
+<div class="ext_uploaded_notice">
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{EXT_ZIPS_DELETED}</h1>
+</div>
+<!-- ENDIF -->
+<!-- IF .zip -->
+<form id="list" method="post" action="{U_DELETE_ACTION}" data-ajax="rows_delete">
+	<table class="ext_zips_table zebra-table" id="zips_list">
+		<tbody>
+			<tr>
+				<td class="row3" colspan="3"><strong>{L_ZIP_UPLOADED}</strong> (1 {L_KB} = 1000 {L_BYTES})</td>
+				<td class="row3" style="text-align: center; width: 100px;">{L_MARK}</td>
+			</tr>
+			<!-- BEGIN zip -->
+			<tr class="ext_disabled">
+				<td class="zip_name" title="{zip.META_DISPLAY_NAME}"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div><!-- IF zip.FILE_SIZE_KB --><span style="float: right;" title="{L_FILESIZE}">{zip.FILE_SIZE_KB} {L_KB}</span><!-- ENDIF --></td>
+				<td style="text-align: center;" title="{L_FILEDATE}">{zip.FILE_DATE}</td>
+				<td style="text-align: center;">
+					<a href="{zip.U_UPLOAD}" class="unpack_zip" data-upload-link="{zip.UPLOAD_LINK}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+				</td>
+				<td style="text-align: center;"><input type="checkbox" class="radio" name="mark[]" value="{zip.META_DISPLAY_NAME}" /></td>
+			</tr>
+			<!-- END zip -->
+		</tbody>
+	</table>
+	<!-- IF .pagination -->
+	<div class="pagination" id="upload_pagination">
+		<!-- INCLUDE acp_upload_pagination.html -->
+	</div>
+	<!-- ENDIF -->
+	<fieldset class="quick">
+		<input class="button2" type="submit" name="delmarked" value="{L_DELETE_MARKED}" /><br />
+		<p class="small"><a href="#" onclick="marklist('zips_list', 'mark', true); return false;">{L_MARK_ALL}</a> &bull; <a href="#" onclick="marklist('zips_list', 'mark', false); return false;">{L_UNMARK_ALL}</a></p>
+	</fieldset>
+</form>
+<!-- ENDIF -->
