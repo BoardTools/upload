@@ -136,7 +136,7 @@ class upload_module
 		{
 			$template->assign_vars(array(
 				'S_LOAD_ACTION'   => $action,
-				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show')),
+				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show', 'lang', 'result')),
 			));
 
 			if ($request->variable('ajax', 0) === 1)
