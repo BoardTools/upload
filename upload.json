@@ -1,9 +1,9 @@
 {
     "stable": {
         "3.1": {
-            "current": "3.1.2-RC3",
-            "announcement": "https://www.phpbb.com/community/viewtopic.php?p=14296546#p14296546",
-            "download": "https://github.com/BoardTools/upload/archive/develop.zip",
+            "current": "3.1.2",
+            "announcement": "https://github.com/BoardTools/upload/releases/tag/v3.1.2",
+            "download": "https://github.com/BoardTools/upload/archive/v3.1.2.zip",
             "eol": null,
             "security": false
         }
