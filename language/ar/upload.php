@@ -2,10 +2,10 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @translated by Bassel Taha Alhitary - www.alhitary.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
-* Translated By : Bassel Taha Alhitary - www.alhitary.net
 */
 
 if (!defined('IN_PHPBB'))
@@ -28,6 +28,7 @@ $lang = array_merge($lang, array(
 	'BROWSE'							=> 'استعراض...',
 	'EXTENSION_UPLOAD'					=> 'رفع الإضافة',
 	'EXTENSION_UPLOAD_EXPLAIN'			=> 'من هنا تستطيع رفع ملف الإضافة المضغوط بصيغة zip من جهازك المحلي أو من سيرفر بعيد. وسيتم بعد ذلك فك ملف الإضافة المضغوط والتجهيز لعملية التنصيب.<br />اختار الملف المطلوب أو أكتب الرابط في الحقل أدناه.',
+	'EXT_UPLOAD_ERROR'					=> 'لم يتم رفع الإضافة.',
 	'EXT_UPLOAD_INIT_FAIL'				=> 'هناك خطأ أثناء عملية رفع الإضافة.',
 	'EXT_NOT_WRITABLE'					=> array(
 		'error'		=> 'المجلد ext/ غير قابل للكتابة وبالتالي لا يُمكن أن تعمل الإضافة "رفع الإضافات" بصورة صحيحة.',
@@ -37,9 +38,13 @@ $lang = array_merge($lang, array(
 		'error'		=> 'المجلد tmp بالمسار ext/boardtools/upload/tmp/ غير قابل للكتابة وبالتالي لا يُمكن أن تعمل الإضافة "رفع الإضافات" بصورة صحيحة.',
 		'solution'	=> 'الرجاء إعطاء المجلد tmp تصريح الكتابة أو ضبط الإعدادات والمحاولة مرة أخرى.',
 	),
-	'EXT_UPLOAD_ERROR'					=> array(
-		'error'		=> 'لم يتم رفع الإضافة.',
-		'solution'	=> 'نرجوا التأكد من صحة الملف المضغوط والمحاولة مرة أخرى.',
+	'EXT_ALLOW_URL_FOPEN_DISABLED'		=> array(
+			'error'		=> 'يجب تفعيل الخيار allow_url_fopen لكي تستطيع الحصول على المعلومات من السيرفر البعيد.',
+			'solution'	=> 'الرجاء التأكد من تفعيل الخيار allow_url_fopen في الملف php.ini الخاص بسيرفرك والمُحاولة مرة أخرى.',
+	),
+	'EXT_OPENSSL_DISABLED'				=> array(
+			'error'		=> 'يجب تفعيل الإضافة openssl لكي تستطيع الحصول على المعلومات من مصدر https.',
+			'solution'	=> 'الرجاء التأكد من تفعيل الإضافة openssl في الملف php.ini الخاص بسيرفرك والمُحاولة مرة أخرى.',
 	),
 	'NO_UPLOAD_FILE'					=> array(
 		'error'		=> 'لم يتم تحديد أي ملف أو هناك خطأ أثناء عملية رفع الإضافة.',
@@ -70,6 +75,28 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'فك الضغط',
 	'ACP_UPLOAD_EXT_CONT'				=> 'محتوى المجلد : %s',
 
+	'EXT_LIST_DOWNLOAD'					=> 'تحميل القائمة كاملة',
+	'EXT_LIST_DOWNLOAD_ENGLISH'			=> 'استخدام الأسماء باللغة الإنجليزية',
+	'EXT_LIST_DOWNLOAD_GROUP'			=> 'التجميع بالأسماء',
+	'EXT_LIST_DOWNLOAD_GROUP_STANDARD'	=> 'المرفوعة/الغير صالحة',
+	'EXT_LIST_DOWNLOAD_GROUP_DISABLED'	=> 'المُفعلة/المُعطلة/الغير صالحة',
+	'EXT_LIST_DOWNLOAD_GROUP_PURGED'	=> 'المُفعلة/المُعطلة/الملغية/الغير صالحة',
+	'EXT_LIST_DOWNLOAD_SHOW'			=> 'يتضمن ',
+	'EXT_LIST_DOWNLOAD_SHOW_FULL'		=> 'أسماء العرض وأسماء المسار',
+	'EXT_LIST_DOWNLOAD_SHOW_CLEAN'		=> 'أسماء المسار فقط',
+	'EXT_LIST_DOWNLOAD_SHOW_NAME'		=> 'أسماء العرض فقط',
+	'EXT_LIST_DOWNLOAD_TITLE'			=> 'القائمة الكاملة للإضافات المرفوعة',
+	'EXT_LIST_DOWNLOAD_FOOTER'			=> 'بواسطة رفع الإضافات',
+
+	'EXT_ROW_ENABLED'					=> 'المُفعلة',
+	'EXT_ROW_DISABLED'					=> 'المُعطلة',
+	'EXT_ROW_UNINSTALLED'				=> 'الملغية',
+	'EXT_ROWS_ENABLED'					=> 'المُفعلة :',
+	'EXT_ROWS_DISABLED'					=> 'المُعطلة :',
+	'EXT_ROWS_UNINSTALLED'				=> 'الملغية :',
+	'EXT_ROWS_UPLOADED'					=> 'المرفوعة :',
+	'EXT_ROWS_BROKEN'					=> 'الغير صالحة :',
+	
 	'EXTENSION_DELETE'					=> 'حذف الإضافة',
 	'EXTENSION_DELETE_CONFIRM'			=> 'هل تريد بالفعل حذف الإضافة “%s” ؟',
 	'EXTENSIONS_DELETE_CONFIRM'			=> array(
@@ -123,8 +150,11 @@ $lang = array_merge($lang, array(
 	'EXT_RESTORE_LANGUAGE'				=> '<strong>هناك مجلد لغة واحده غير موجود في نسخة الإضافة التي رفعنها.</strong> تستطيع إستعادة المجلد %s من النسخة السابقة للإضافة المحفوظة في الأرشيف. بعدها قد تحتاج إلى تحديث ملفات هذا المجلد لكي يتوافق مع نسخة الإضافة التي رفعتها.',
 	'EXT_RESTORE_LANGUAGES'				=> '<strong>هناك بعض مجلدات اللغة غير موجودة في نسخة الإضافة التي رفعنها.</strong> تستطيع إستعادة المجلدات %1$s و %2$s من النسخة السابقة للإضافة المحفوظة في الأرشيف. بعدها قد تحتاج إلى تحديث ملفات هذه المجلدات لكي تتوافق مع نسخة الإضافة التي رفعتها.',
 	'EXT_LANGUAGES_RESTORED'			=> 'تمت عملية الإستعادة بنجاح.',
+	'EXT_SHOW_DESCRIPTION'				=> 'إظهار وصف الإضافة',
 	'EXT_UPLOAD_BACK'					=> '« العودة إلى الصفحة الرئيسية',
-	'EXT_RELOAD_PAGE'					=> 'تحديث الصفحة',
+	'EXT_RELOAD_PAGE'					=> 'إعادة تحميل الصفحة',
+	'EXT_REFRESH_PAGE'					=> 'تحديث الصفحة',
+	'EXT_REFRESH_NOTICE'				=> 'قائمة الإنتقال قد تكون بحاجة إلى تحديث.',
 
 	'ERROR_COPY_FILE'					=> 'فشل في عملية نسخ المجلد “%1$s” إلى “%2$s”.',
 	'ERROR_CREATE_DIRECTORY'			=> 'فشل في عملية انشاء المجلد “%s”.',
@@ -183,6 +213,7 @@ $lang = array_merge($lang, array(
 	'EXT_LOAD_ERROR'					=> 'خطأ في التحميل',
 	'EXT_LOAD_TIMEOUT'					=> 'أنتهت المُدة المسموح بها لعملية التحميل',
 	'EXT_LOAD_ERROR_EXPLAIN'			=> 'هناك خطأ حدث أثناء عملية التحميل.',
+	'EXT_LOAD_ERROR_SHOW'				=> 'عرض الأخطاء',
 	'EXT_LOAD_SOLUTIONS'				=> 'الرجاء التحقق من ملف سجل الأخطاء في سيرفرك ومعالجة المشكلة , ثم حاول مرة أخرى.',
 
 	'UPLOAD_DESCRIPTION_UPLOAD'			=> 'رفع الإضافات',
