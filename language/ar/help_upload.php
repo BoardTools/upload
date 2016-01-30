@@ -2,19 +2,16 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 John Peskens (http://ForumHulp.com) and Igor Lavrov (https://github.com/LavIgor)
+* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @translated by Bassel Taha Alhitary - www.alhitary.net
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
-* Translated By : Bassel Taha Alhitary - www.alhitary.net
 */
 
 if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-
-// Some characters you may want to copy&paste:
-// ’ » “ ” …
 
 $help = array(
 	array(
@@ -60,7 +57,8 @@ $help = array(
 	array(
 		0 => 'ماهو "الفحص الإختباري" ؟ من أين أحصل عليه ؟',
 		1 => '"الفحص الإختباري" يعمل على التأكد من سلامة الملفات التي يتم رفعها. حيث يتم التأكد من أن الملف المرفوع على سيرفرك مطابق للملف الأصلي الموجود على السيرفر البعيد. يمكن الحصول على "الفحص الإختباري" عادة من نفس المصدر الذي يحتوي على الملف الأصلي.'
-	),	array(
+	),	
+	array(
 		0 => '--',
 		1 => 'مدير الإضافات في رفع الإضافات'
 	),
@@ -105,7 +103,7 @@ $help = array(
 		1 => 'اذهب إلى لوحة التحكم الرئيسية وأنقر على <code>عام -> ضبط الخادم -> إعدادات الخادم -> إعدادت المسار -> مسار مجلد تخزين الإضافات المضغوطة</code>.'
 	),
 	array(
-		0 => 'كيف أستطيع حذف الملفات المضغوطة لأكثر من إضافة بنقرة واحدة ؟', 
+		0 => 'كيف أستطيع حذف الملفات المضغوطة لأكثر من إضافة بنقرة واحدة ؟',
 		1 => 'يجب أولاً عمل نسخة إحتياطية من الإضافات التي تريد حذفها. ثم أذهب إلى "إدارة الملفات المضغوطة" وأنقر على المربع الموجود في الجهة اليسار من إسم كل إضافة تريد حذفها , وبعدها أنقر على الزر "حذف المحدد" وأعمل موافقة للتأكيد على عملية الحذف.'
 	),
 	array(
