@@ -6,7 +6,7 @@ With this extension you can install/update/delete extensions without using FTP. 
 [![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
 
 ## Requirements
-* phpBB 3.2.0-dev or higher
+* phpBB 3.1.0 or higher (phpBB 3.2 is also supported)
 * PHP 5.3.3 or higher
 
 ## Sources
@@ -121,4 +121,4 @@ If you have uploaded different zip files with the same name, they will be rename
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
 
-© 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+© 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)

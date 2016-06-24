@@ -5,13 +5,3 @@ services:
             - @user
         tags:
             - { name: event.listener }
-
-    boardtools.upload.files.types.zip:
-        class: boardtools\upload\includes\types\zip
-        scope: prototype
-        arguments:
-            - '@files.factory'
-            - '@language'
-            - '@php_ini'
-            - '@request'
-            - '%core.root_path%'

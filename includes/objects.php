@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -16,6 +16,9 @@ class objects
 {
 	/** @var \phpbb\cache\service */
 	public static $cache;
+
+	/** @var \boardtools\upload\includes\compatibility\base */
+	public static $compatibility;
 
 	/** @var \phpbb\config\config */
 	public static $config;
@@ -32,7 +35,7 @@ class objects
 	/** @var string phpEx */
 	public static $phpEx;
 
-	/** @var object phpbb_container */
+	/** @var \Symfony\Component\DependencyInjection\ContainerBuilder phpbb_container */
 	public static $phpbb_container;
 
 	/** @var \phpbb\extension\manager */
@@ -70,4 +73,30 @@ class objects
 
 	/** @var string zip_dir - where to store zip files */
 	public static $zip_dir;
+
+	public static function get_phpbb_branch()
+	{
+		static $branch = null;
+		if (is_null($branch))
+		{
+			preg_match('/^(\d+\.\d+).+/', static::$config['version'], $matches);
+			$branch = $matches[1];
+		}
+		return $branch;
+	}
+
+	public static function set_compatibility_class()
+	{
+		$branch = static::get_phpbb_branch();
+		switch ($branch)
+		{
+			case '3.2':
+				static::$compatibility = new compatibility\v_3_2_x();
+			break;
+			default:
+				static::$compatibility = new compatibility\v_3_1_x();
+			break;
+		}
+		static::$compatibility->init();
+	}
 }

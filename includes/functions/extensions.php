@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -84,7 +84,7 @@ class extensions
 			}
 			catch (\phpbb\extension\exception $e)
 			{
-				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+				$message = objects::$compatibility->get_exception_message($e);
 				objects::$template->assign_block_vars('disabled', array(
 					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $message),
 					'META_NAME'				=> $name,
@@ -143,7 +143,7 @@ class extensions
 			}
 			catch (\phpbb\extension\exception $e)
 			{
-				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+				$message = objects::$compatibility->get_exception_message($e);
 				objects::$template->assign_block_vars('disabled', array(
 					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $message),
 					'META_NAME'				=> $name,
@@ -264,7 +264,7 @@ class extensions
 			}
 			catch (\phpbb\extension\exception $e)
 			{
-				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+				$message = objects::$compatibility->get_exception_message($e);
 				objects::$template->assign_block_vars('unavailable', array(
 					'META_NAME'				=> $name,
 					'NOT_AVAILABLE'			=> $message,
@@ -325,7 +325,7 @@ class extensions
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name && $ext_name !== objects::$upload_ext_name)
 		{
-			$md_manager = new \phpbb\extension\metadata_manager($ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$phpbb_root_path);
+			$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
 
 			try
 			{
@@ -333,7 +333,7 @@ class extensions
 			}
 			catch (\phpbb\extension\exception $e)
 			{
-				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+				$message = objects::$compatibility->get_exception_message($e);
 				self::response(array(
 					'ext_name'	=> $ext_name,
 					'status'	=> 'error',
@@ -651,7 +651,7 @@ class extensions
 		}
 		catch (\phpbb\extension\exception $e)
 		{
-			$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+			$message = objects::$compatibility->get_exception_message($e);
 			self::response(array(
 				'ext_name'		=> $ext_name,
 				'status'		=> 'success',

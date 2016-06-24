@@ -2,7 +2,7 @@
 /**
  *
  * @package       Upload Extensions
- * @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+ * @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
@@ -69,9 +69,11 @@ class upload_module
 		objects::$template = &$template;
 		objects::$tpl_name = &$this->tpl_name;
 		objects::$u_action = $this->u_action;
-		objects::$upload = $phpbb_container->get('files.upload');
 		objects::$user = &$user;
 		objects::$zip_dir = &$this->zip_dir;
+
+		// Add support for different phpBB branches.
+		objects::set_compatibility_class();
 
 		// Get the information about Upload Extensions - START
 		objects::$upload_ext_name = 'boardtools/upload';
@@ -137,7 +139,7 @@ class upload_module
 		{
 			$template->assign_vars(array(
 				'S_LOAD_ACTION'   => $action,
-				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show')),
+				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show', 'lang', 'result')),
 			));
 
 			if ($request->variable('ajax', 0) === 1)
@@ -697,16 +699,16 @@ class upload_module
 	 * @license       http://opensource.org/licenses/gpl-2.0.php GNU Public License
 	 *
 	 * @param string $action Requested action.
-	 * @return \phpbb\files\filespec|bool
+	 * @return \phpbb\files\filespec|\filespec|bool
 	 */
 	public function proceed_upload($action)
 	{
-		global $phpbb_root_path, $phpEx, $user, $request, $phpbb_filesystem;
+		global $phpbb_root_path, $user, $request;
 
 		//$can_upload = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !@extension_loaded('zlib')) ? false : true;
 
 		$user->add_lang('posting');  // For error messages
-		$upload = objects::$upload;
+		$upload = objects::$compatibility->get_upload_object();
 		$upload->set_allowed_extensions(array('zip'));    // Only allow ZIP files
 
 		// Make sure the ext/ directory exists and if it doesn't, create it
@@ -751,7 +753,7 @@ class upload_module
 				files::catch_errors($user->lang['NO_UPLOAD_FILE']);
 				return false;
 			}
-			$file = $upload->handle_upload('files.types.form', 'extupload');
+			$file = objects::$compatibility->form_upload($upload);
 		}
 		else
 		{
@@ -769,7 +771,7 @@ class upload_module
 					files::catch_errors($user->lang['EXT_OPENSSL_DISABLED']);
 					return false;
 				}
-				$file = $upload->handle_upload('boardtools.upload.files.types.zip', $remote_url);
+				$file = objects::$compatibility->remote_upload($upload, $remote_url);
 			}
 		}
 		return $file;
@@ -778,9 +780,9 @@ class upload_module
 	/**
 	 * The function that uploads the specified extension.
 	 *
-	 * @param string                $action     Requested action.
-	 * @param \phpbb\files\filespec $file       Filespec object.
-	 * @param string                $upload_dir The directory for zip files storage.
+	 * @param string                          $action     Requested action.
+	 * @param \phpbb\files\filespec|\filespec $file       Filespec object.
+	 * @param string                          $upload_dir The directory for zip files storage.
 	 * @return string|bool
 	 */
 	public function get_dest_file($action, $file, $upload_dir)
@@ -788,14 +790,14 @@ class upload_module
 		global $phpbb_root_path, $template, $user, $request;
 		if ($action != 'upload_local')
 		{
-			if (!$file->get('filename'))
+			if (!objects::$compatibility->filespec_get($file, 'filename'))
 			{
 				files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']));
 				return false;
 			}
 			else
 			{
-				if ($file->init_error() || sizeof($file->error))
+				if (objects::$compatibility->filespec_get($file, 'init_error') || sizeof($file->error))
 				{
 					$file->remove();
 					files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']));
@@ -812,7 +814,7 @@ class upload_module
 				files::catch_errors(implode('<br />', $file->error));
 				return false;
 			}
-			$dest_file = $file->get('destination_file');
+			$dest_file = objects::$compatibility->filespec_get($file, 'destination_file');
 		}
 		else
 		{
@@ -996,7 +998,7 @@ class upload_module
 			}
 			catch (\phpbb\extension\exception $e)
 			{
-				$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+				$message = objects::$compatibility->get_exception_message($e);
 				files::catch_errors(files::rrmdir($phpbb_root_path . 'ext/' . $ext_tmp));
 				if ($action != 'upload_local')
 				{

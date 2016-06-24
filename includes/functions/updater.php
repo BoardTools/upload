@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 - 2015 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -18,14 +18,14 @@ class updater
 	*/
 	public static function get_manager()
 	{
-		objects::$md_manager = new \phpbb\extension\metadata_manager(objects::$upload_ext_name, objects::$config, objects::$phpbb_extension_manager, objects::$template, objects::$phpbb_root_path);
+		objects::$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager(objects::$upload_ext_name, objects::$template);
 		try
 		{
 			$metadata = objects::$md_manager->get_metadata('all');
 		}
 		catch (\phpbb\extension\exception $e)
 		{
-			$message = call_user_func_array(array(objects::$user, 'lang'), array_merge(array($e->getMessage()), $e->get_parameters()));
+			$message = objects::$compatibility->get_exception_message($e);
 			files::catch_errors($message);
 		}
 

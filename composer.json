@@ -35,7 +35,7 @@
     "extra": {
         "display-name": "Upload Extensions",
         "soft-require": {
-           "phpbb/phpbb": ">=3.2.0@dev"
+           "phpbb/phpbb": ">=3.1.0"
         },
         "version-check": {
             "host": "boardtools.github.io",
