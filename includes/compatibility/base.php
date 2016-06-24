@@ -55,12 +55,12 @@ interface base
 	 */
 	public function remote_upload($upload, $remote_url);
 
-	/**        
+	/**
 	 * Gets a parameter of filespec object.
-	 * 
-	 * @param \phpbb\files\filespec|\filespec $file Filespec object
-	 * @param string $param 'init_error' for checking if there are any errors,
-	 *                      'filename' or 'destination_file' for getting corresponding values 
+	 *
+	 * @param \phpbb\files\filespec|\filespec $file  Filespec object
+	 * @param string                          $param 'init_error' for checking if there are any errors,
+	 *                                               'filename' or 'destination_file' for getting corresponding values
 	 * @return mixed
 	 */
 	public function filespec_get($file, $param);
