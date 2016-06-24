@@ -44,14 +44,6 @@ class v_3_2_x implements base
 	}
 
 	/**
-	 * {@inheritdoc}
-	 */
-	public function get_metadata_manager($e)
-	{
-		return ;
-	}
-
-	/**
 	 * The function that loads the FAQ language file.
 	 * Should be removed in the final release.
 	 * @param array $help Reference to the array of FAQ strings.
