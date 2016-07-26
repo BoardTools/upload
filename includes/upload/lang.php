@@ -24,8 +24,6 @@ class lang extends base
 	 */
 	public function upload($action, $ext_name, $lang_name)
 	{
-		global $phpbb_root_path, $phpEx, $user;
-
 		if (empty($ext_name))
 		{
 			files::catch_errors(objects::$user->lang('ERROR_LANGUAGE_NO_EXTENSION'));
@@ -49,40 +47,28 @@ class lang extends base
 		{
 			return false;
 		}
-		// We need to use the user ID and the time to escape from problems with simultaneous uploads.
-		// We suppose that one user can upload only one extension per session.
-		$ext_tmp = $phpbb_root_path . 'ext/' . objects::$upload_ext_name . '/tmp/' . (int) $user->data['user_id'];
-		// Ensure that we don't have any previous files in the working directory.
-		if (is_dir($ext_tmp))
+
+		if (!$this->set_temp_path())
 		{
-			if (!(files::catch_errors(files::rrmdir($ext_tmp))))
+			if ($action != 'upload_local')
 			{
-				if ($action != 'upload_local')
-				{
-					$file->remove();
-				}
-				return false;
+				$file->remove();
 			}
+			return false;
 		}
 
-		if (!class_exists('\compress_zip'))
-		{
-			include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
-		}
-
-		$zip = new \compress_zip('r', $dest_file);
-		$zip->extract($ext_tmp . '/');
-		$zip->close();
+		$this->extract_zip($dest_file);
 
 		if ($action != 'upload_local')
 		{
 			$file->remove();
 		}
 
-		// The files can be stored inside the $ext_tmp directory or up to two levels lower in the file tree.
+		// The files can be stored inside the $this->ext_tmp directory or up to two levels lower in the file tree.
 		$lang_dir = '';
+
 		// First level (the highest one).
-		$files = @scandir($ext_tmp);
+		$files = @scandir($this->ext_tmp);
 		if ($files === false)
 		{
 			files::catch_errors(objects::$user->lang('ERROR_LANGUAGE_UNKNOWN_STRUCTURE'));
@@ -90,31 +76,35 @@ class lang extends base
 		}
 		$files = array_diff($files, array('.', '..'));
 		$last_file = array_pop($files);
+
 		// Continue searching if we have a single directory.
-		if (!sizeof($files) && !is_null($last_file) && @is_dir($ext_tmp . $lang_dir . '/' . $last_file))
+		if (!sizeof($files) && !is_null($last_file) && @is_dir($this->ext_tmp . $lang_dir . '/' . $last_file))
 		{
 			$lang_dir .= '/' . $last_file;
+
 			// Second level.
-			$files = @scandir($ext_tmp . $lang_dir);
+			$files = @scandir($this->ext_tmp . $lang_dir);
 			if ($files === false)
 			{
 				files::catch_errors(objects::$user->lang('ERROR_LANGUAGE_UNKNOWN_STRUCTURE'));
 				return false;
 			}
 			$files = array_diff($files, array('.', '..'));
+
 			// Search for a directory with language ISO code (to escape from problems with unnecessary readme files).
-			if (array_search($lang_name, $files) !== false && @is_dir($ext_tmp . $lang_dir . '/' . $lang_name))
+			if (array_search($lang_name, $files) !== false && @is_dir($this->ext_tmp . $lang_dir . '/' . $lang_name))
 			{
 				$lang_dir .= '/' . $lang_name;
 			}
 		}
-		$source = $ext_tmp . $lang_dir;
-		if (!(files::catch_errors(files::rcopy($source, $phpbb_root_path . 'ext/' . $ext_name . '/language/' . $lang_name))))
+		$source = $this->ext_tmp . $lang_dir;
+
+		if (!(files::catch_errors(files::rcopy($source, objects::$phpbb_root_path . 'ext/' . $ext_name . '/language/' . $lang_name))))
 		{
-			files::catch_errors(files::rrmdir($ext_tmp));
+			files::catch_errors(files::rrmdir($this->ext_tmp));
 			return false;
 		}
-		if (!(files::catch_errors(files::rrmdir($ext_tmp))))
+		if (!(files::catch_errors(files::rrmdir($this->ext_tmp))))
 		{
 			return false;
 		}

@@ -19,19 +19,6 @@ class v_3_2_x implements base
 	 */
 	public function init()
 	{
-		$definition = new Definition(
-			'boardtools\upload\includes\types\zip',
-			array(
-				'@files.factory',
-				'@language',
-				'@php_ini',
-				'@request',
-				'%core.root_path%',
-			)
-		);
-		$definition->setShared(false);
-		objects::$phpbb_container->setDefinition('boardtools.upload.files.types.zip', $definition);
-
 		objects::$upload = objects::$phpbb_container->get('files.upload');
 	}
 
@@ -110,7 +97,17 @@ class v_3_2_x implements base
 	 */
 	public function remote_upload($upload, $remote_url)
 	{
-		return $upload->handle_upload('boardtools.upload.files.types.zip', $remote_url);
+		/** @var \boardtools\upload\includes\types\zip */
+		$upload_zip = new \boardtools\upload\includes\types\zip(
+			objects::$phpbb_container->get('files.factory'),
+			objects::$phpbb_container->get('language'),
+			objects::$phpbb_container->get('php_ini'),
+			objects::$phpbb_container->get('request'),
+			objects::$phpbb_container->getParameter('core.root_path')
+		);
+		$upload_zip->set_upload(objects::$upload);
+
+		return $upload_zip->upload($remote_url);
 	}
 
 	/**

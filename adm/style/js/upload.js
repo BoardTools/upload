@@ -150,13 +150,12 @@
 	};
 
 	function show_error_box(e, text, ee) {
-		var error_status = e.status || e;
 		prepare_error_wrapper();
 		if (text == "timeout" || ee == "timeout") {
 			$("#upload_loading_timeout").css("display", "inline-block");
 		} else {
 			if (typeof ee !== "undefined" && ee != "") {
-				var $errorbox = $("#upload_loading_error_status");
+				var $errorbox = $("#upload_loading_error_status"), error_status = e.status || e || '';
 				$errorbox.html(escape_html(error_status + " - " + ee));
 				// Detect whether we need to show solutions.
 				if (typeof e.status !== "undefined") {
