@@ -18,7 +18,7 @@ class updater
 	*/
 	public static function get_manager()
 	{
-		objects::$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager(objects::$upload_ext_name, objects::$template);
+		objects::$md_manager = objects::$compatibility->create_metadata_manager(objects::$upload_ext_name);
 		try
 		{
 			$metadata = objects::$md_manager->get_metadata('all');

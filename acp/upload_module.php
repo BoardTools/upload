@@ -141,7 +141,9 @@ class upload_module
 		{
 			$template->assign_vars(array(
 				'S_LOAD_ACTION'   => $action,
-				'U_MAIN_PAGE_URL' => build_url(array('action', 'ajax', 'ext_name', 'ext_show', 'lang', 'result')),
+				'U_MAIN_PAGE_URL' => build_url(
+					array('action', 'ajax', 'ajax_time', 'archive', 'ext_name', 'ext_show', 'lang', 'result')
+				),
 			));
 
 			if ($request->variable('ajax', 0) === 1)
@@ -188,7 +190,7 @@ class upload_module
 				{
 					if (objects::$is_ajax)
 					{
-						$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+						$md_manager = objects::$compatibility->create_metadata_manager($ext_name);
 						load::ajax_confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
 							'i'        => $id,
 							'mode'     => $mode,
@@ -198,7 +200,7 @@ class upload_module
 					}
 					else
 					{
-						$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+						$md_manager = objects::$compatibility->create_metadata_manager($ext_name);
 						confirm_box(false, $user->lang('EXTENSION_DELETE_DATA_CONFIRM', $md_manager->get_metadata('display-name')), build_hidden_fields(array(
 							'i'        => $id,
 							'mode'     => $mode,
@@ -280,7 +282,7 @@ class upload_module
 				{
 					$template->assign_var('EXTS_DELETED', $user->lang('EXT' . (($result == 'deleted') ? 'S' : '') . '_DELETE_SUCCESS'));
 				}
-				extensions::list_available_exts($phpbb_extension_manager);
+				extensions::list_uninstalled_exts();
 				$template->assign_vars(array(
 					'S_UNINSTALLED'   => true,
 					'U_DELETE_ACTION' => objects::$u_action . "&amp;action=delete_ext",

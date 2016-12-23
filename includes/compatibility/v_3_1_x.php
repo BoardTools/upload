@@ -235,4 +235,20 @@ class v_3_1_x implements base
 		}
 		return false;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function create_metadata_manager($name)
+	{
+		return objects::$phpbb_extension_manager->create_extension_metadata_manager($name, objects::$template);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function output_template_data(\phpbb\extension\metadata_manager $metadata_manager)
+	{
+		$metadata_manager->output_template_data();
+	}
 }

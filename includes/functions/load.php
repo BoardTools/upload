@@ -84,7 +84,7 @@ class load
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name !== objects::$upload_ext_name)
 		{
-			$ext_md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+			$ext_md_manager = objects::$compatibility->create_metadata_manager($ext_name);
 
 			try
 			{
@@ -93,7 +93,7 @@ class load
 				$display_name = $ext_md_manager->get_metadata('display-name');
 
 				// Output it to the template
-				$ext_md_manager->output_template_data();
+				objects::$compatibility->output_template_data($ext_md_manager);
 
 				try
 				{
@@ -148,7 +148,7 @@ class load
 		else
 		{
 			$display_name = objects::$md_manager->get_metadata('display-name');
-			objects::$md_manager->output_template_data();
+			objects::$compatibility->output_template_data(objects::$md_manager);
 
 			// Output update link to the template if Upload Extensions Updater is installed and updates are available.
 			updater::set_update_link();

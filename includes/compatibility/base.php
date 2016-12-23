@@ -64,4 +64,19 @@ interface base
 	 * @return mixed
 	 */
 	public function filespec_get($file, $param);
+
+	/**
+	 * Instantiates the metadata manager for the extension with the given name.
+	 *
+	 * @param string $name The extension name
+	 * @return \phpbb\extension\metadata_manager Instance of the metadata manager
+	 */
+	public function create_metadata_manager($name);
+
+	/**
+	 * Outputs the metadata into the template.
+	 *
+	 * @param \phpbb\extension\metadata_manager $metadata_manager phpBB extension metadata manager
+	 */
+	public function output_template_data(\phpbb\extension\metadata_manager $metadata_manager);
 }

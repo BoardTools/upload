@@ -1289,7 +1289,7 @@
 
 		function generate_get_request() {
 			if ($.inArray(action, getExtension) > -1) {
-				return "&ext_name=" + encodeURIComponent(id);
+				return "&ext_name=" + id;
 			}
 			switch (action) {
 				case "local_upload":

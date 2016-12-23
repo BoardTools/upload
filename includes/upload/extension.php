@@ -130,7 +130,7 @@ class extension extends base
 			}
 
 			// Validate the extension to check if it can be used on the board.
-			$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($source_for_check, objects::$template);
+			$md_manager = objects::$compatibility->create_metadata_manager($source_for_check);
 			try
 			{
 				if ($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)

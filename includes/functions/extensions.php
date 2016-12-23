@@ -53,139 +53,19 @@ class extensions
 	}
 
 	/**
-	* Lists all the enabled extensions and dumps to the template
-	*
-	* @param  $phpbb_extension_manager     An instance of the extension manager
-	* @return null
-	*/
-	public static function list_enabled_exts(\phpbb\extension\manager $phpbb_extension_manager)
-	{
-		$enabled_extension_meta_data = array();
-
-		foreach ($phpbb_extension_manager->all_enabled() as $name => $location)
-		{
-			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($name, objects::$template);
-
-			try
-			{
-				$meta = $md_manager->get_metadata('all');
-				$enabled_extension_meta_data[$name] = array(
-					'META_DISPLAY_NAME'	=> $md_manager->get_metadata('display-name'),
-					'META_NAME'			=> $name,
-					'META_VERSION'		=> $meta['version'],
-				);
-
-				$force_update = objects::$request->variable('versioncheck_force', false);
-				$updates = self::version_check($md_manager, $force_update, !$force_update);
-
-				$enabled_extension_meta_data[$name]['S_UP_TO_DATE'] = empty($updates);
-				$enabled_extension_meta_data[$name]['S_VERSIONCHECK'] = true;
-				$enabled_extension_meta_data[$name]['U_VERSIONCHECK_FORCE'] = objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($md_manager->get_metadata('name'));
-			}
-			catch (\phpbb\extension\exception $e)
-			{
-				$message = objects::$compatibility->get_exception_message($e);
-				objects::$template->assign_block_vars('disabled', array(
-					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $message),
-					'META_NAME'				=> $name,
-					'S_VERSIONCHECK'		=> false,
-				));
-			}
-			catch (\RuntimeException $e)
-			{
-				$enabled_extension_meta_data[$name]['S_VERSIONCHECK'] = false;
-			}
-		}
-
-		uasort($enabled_extension_meta_data, array('self', 'sort_extension_meta_data_table'));
-
-		foreach ($enabled_extension_meta_data as $name => $block_vars)
-		{
-			$block_vars['U_DETAILS'] = objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($name);
-
-			objects::$template->assign_block_vars('enabled', $block_vars);
-
-			self::output_actions('enabled', array(
-				'DISABLE'		=> objects::$u_action . '&amp;action=disable&amp;ext_name=' . urlencode($name),
-			));
-		}
-	}
-
-	/**
-	* Lists all the disabled extensions and dumps to the template
-	*
-	* @param  $phpbb_extension_manager     An instance of the extension manager
-	* @return null
-	*/
-	public static function list_disabled_exts(\phpbb\extension\manager $phpbb_extension_manager)
-	{
-		$disabled_extension_meta_data = array();
-
-		foreach ($phpbb_extension_manager->all_disabled() as $name => $location)
-		{
-			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($name, objects::$template);
-
-			try
-			{
-				$meta = $md_manager->get_metadata('all');
-				$disabled_extension_meta_data[$name] = array(
-					'META_DISPLAY_NAME'	=> $md_manager->get_metadata('display-name'),
-					'META_NAME'			=> $name,
-					'META_VERSION'		=> $meta['version'],
-				);
-
-				$force_update = objects::$request->variable('versioncheck_force', false);
-				$updates = self::version_check($md_manager, $force_update, !$force_update);
-
-				$disabled_extension_meta_data[$name]['S_UP_TO_DATE'] = empty($updates);
-				$disabled_extension_meta_data[$name]['S_VERSIONCHECK'] = true;
-				$disabled_extension_meta_data[$name]['U_VERSIONCHECK_FORCE'] = objects::$u_action . '&amp;action=details&amp;versioncheck_force=1&amp;ext_name=' . urlencode($md_manager->get_metadata('name'));
-			}
-			catch (\phpbb\extension\exception $e)
-			{
-				$message = objects::$compatibility->get_exception_message($e);
-				objects::$template->assign_block_vars('disabled', array(
-					'META_DISPLAY_NAME'		=> objects::$user->lang('EXTENSION_INVALID_LIST', $name, $message),
-					'META_NAME'				=> $name,
-					'S_VERSIONCHECK'		=> false,
-				));
-			}
-			catch (\RuntimeException $e)
-			{
-				$disabled_extension_meta_data[$name]['S_VERSIONCHECK'] = false;
-			}
-		}
-
-		uasort($disabled_extension_meta_data, array('self', 'sort_extension_meta_data_table'));
-
-		foreach ($disabled_extension_meta_data as $name => $block_vars)
-		{
-			$block_vars['U_DETAILS'] = objects::$u_action . '&amp;action=details&amp;ext_name=' . urlencode($name);
-
-			objects::$template->assign_block_vars('disabled', $block_vars);
-
-			self::output_actions('disabled', array(
-				'ENABLE'		=> objects::$u_action . '&amp;action=enable&amp;ext_name=' . urlencode($name),
-				'DELETE_DATA'	=> objects::$u_action . '&amp;action=delete_data&amp;ext_name=' . urlencode($name),
-			));
-		}
-	}
-
-	/**
 	* Lists all the available extensions and dumps to the template
 	*
-	* @param  $phpbb_extension_manager     An instance of the extension manager
 	* @return null
 	*/
-	public static function list_available_exts(\phpbb\extension\manager $phpbb_extension_manager)
+	public static function list_uninstalled_exts()
 	{
-		$uninstalled = array_diff_key($phpbb_extension_manager->all_available(), $phpbb_extension_manager->all_configured());
+		$uninstalled = array_diff_key(objects::$phpbb_extension_manager->all_available(), objects::$phpbb_extension_manager->all_configured());
 
 		$available_extension_meta_data = array();
 
 		foreach ($uninstalled as $name => $location)
 		{
-			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($name, objects::$template);
+			$md_manager = objects::$compatibility->create_metadata_manager($name);
 
 			try
 			{
@@ -241,7 +121,7 @@ class extensions
 
 		foreach (objects::$phpbb_extension_manager->all_available() as $name => $location)
 		{
-			$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($name, objects::$template);
+			$md_manager = objects::$compatibility->create_metadata_manager($name);
 
 			try
 			{
@@ -325,7 +205,7 @@ class extensions
 		// If they've specified an extension, let's load the metadata manager and validate it.
 		if ($ext_name && $ext_name !== objects::$upload_ext_name)
 		{
-			$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+			$md_manager = objects::$compatibility->create_metadata_manager($ext_name);
 
 			try
 			{
@@ -633,7 +513,7 @@ class extensions
 	*/
 	public static function ajax_versioncheck($ext_name)
 	{
-		$md_manager = objects::$phpbb_extension_manager->create_extension_metadata_manager($ext_name, objects::$template);
+		$md_manager = objects::$compatibility->create_metadata_manager($ext_name);
 
 		try
 		{
