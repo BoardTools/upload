@@ -142,7 +142,7 @@ class upload_module
 			$template->assign_vars(array(
 				'S_LOAD_ACTION'   => $action,
 				'U_MAIN_PAGE_URL' => build_url(
-					array('action', 'ajax', 'ajax_time', 'archive', 'ext_name', 'ext_show', 'lang', 'result')
+					array('action', 'ajax', 'ajax_time', 'archive', 'ext_name', 'ext_show', 'lang', 'local_upload', 'result')
 				),
 			));
 

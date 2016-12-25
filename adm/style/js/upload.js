@@ -19,6 +19,267 @@
 		return upload_ext.elem.main.attr(attr);
 	};
 
+	// qTips
+	upload_ext.qtip = {};
+	upload_ext.qtip.done = function($element, attrText) {
+		$element.qtip({
+			content: {
+				text: function(event, api) {
+					return $(this).attr(attrText);
+				}
+			},
+			style: {
+				classes: 'qtip-green qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: direction_left + ' center',
+				at: direction_right + ' center',
+				viewport: true
+			},
+			show: {
+				ready: true
+			},
+			hide: {
+				event: 'click unfocus'
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.error = function($element, text) {
+		$element.qtip({
+			content: {
+				text: text
+			},
+			style: {
+				classes: 'qtip-red qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: direction_left + ' center',
+				at: direction_right + ' center',
+				viewport: true
+			},
+			show: {
+				ready: true
+			},
+			hide: {
+				event: 'click unfocus'
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.filetree = function() {
+		$("#ext_details_filetree_tab").qtip({
+			content: {
+				text: function(event, api) {
+					return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
+				}
+			},
+			style: {
+				classes: 'qtip-yellow qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: 'top center',
+				at: 'bottom center',
+				viewport: true
+			},
+			show: {
+				ready: true
+			},
+			hide: {
+				event: 'unfocus'
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.forceUnstableConfirm = function(forceUnstable) {
+		$(".upload_ext_list").qtip({
+			content: {
+				text: function(event, api) {
+					load_page('set_config_force_unstable', forceUnstable, get_force_unstable_confirm, $(this));
+					return "<div id='ext_force_unstable_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_force_unstable_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
+				},
+				title: function(event, api) {
+					return $("#version_check_settings_title").html();
+				}
+			},
+			style: {
+				classes: 'qtip-light qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: 'bottom center',
+				at: 'top center',
+				viewport: true
+			},
+			show: {
+				modal: {
+					on: true
+				},
+				ready: true
+			},
+			hide: {
+				event: false
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.purgeConfirm = function($element) {
+		$element.qtip({
+			content: {
+				text: function(event, api) {
+					load_page('purge', $(this).parent().attr("data-ext-name"), get_purge_confirm, $(this));
+					return "<div id='ext_purge_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_purge_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
+				},
+				title: function(event, api) {
+					return $("#upload_loading_text").html();
+				}
+			},
+			style: {
+				classes: 'qtip-light qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: direction_left + ' center',
+				at: direction_right + ' center',
+				viewport: true
+			},
+			show: {
+				modal: {
+					on: true
+				},
+				ready: true
+			},
+			hide: {
+				event: false
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.toggle = function() {
+		$(".extension_toggle_wrapper").qtip({
+			content: {
+				text: function(event, api) {
+					return $(this).parent().attr("data-ext-update-enable");
+				}
+			},
+			style: {
+				classes: 'qtip-blue qtip-shadow qtip-rounded'
+			},
+			position: {
+				my: 'bottom center',
+				at: 'top center',
+				viewport: true
+			},
+			show: {
+				ready: true
+			},
+			hide: {
+				event: 'unfocus'
+			},
+			events: {
+				hidden: function(event, api) {
+					api.destroy(true);
+				}
+			}
+		});
+	};
+	upload_ext.qtip.updateActions = function() {
+		$(".ext_version_bubble .show_ext_updates").css("display", "inline-block").qtip({
+			content: {
+				text: $("#description_updates")
+			},
+			style: {
+				classes: 'qtip-light qtip-shadow qtip-rounded',
+				tip: {
+					corner: true,
+					mimic: 'center',
+					width: 10,
+					height: 10
+				}
+			},
+			position: {
+				at: 'bottom center',
+				my: 'top ' + direction_right,
+				adjust: {
+					x: (direction_rtl) ? -15 : 15
+				}
+			},
+			show: {
+				event: 'click',
+				effect: function(offset) {
+					$(this).fadeIn(500); // "this" refers to the tooltip
+				}
+			},
+			hide: {
+				event: 'click unfocus',
+				effect: function(offset) {
+					$(this).fadeOut(500); // "this" refers to the tooltip
+				}
+			}
+		});
+		$(".extension_update_link").bind("click", function() {
+			$(".ext_version_bubble .show_ext_updates").qtip().hide();
+		}).qtip({
+			content: {
+				text: $("#update_ext_confirm"),
+				title: $("#update_ext_confirm_title")
+			},
+			style: {
+				classes: 'qtip-light qtip-shadow qtip-rounded',
+				tip: {
+					corner: true,
+					mimic: 'center',
+					width: 10,
+					height: 10
+				}
+			},
+			position: {
+				at: 'bottom center',
+				my: 'top ' + direction_right,
+				adjust: {
+					x: (direction_rtl) ? -15 : 15
+				},
+				target: $(".show_ext_updates")
+			},
+			show: {
+				modal: {
+					on: true
+				},
+				event: 'click',
+				effect: function(offset) {
+					$(this).fadeIn(500); // "this" refers to the tooltip
+				}
+			},
+			hide: {
+				event: 'unfocus',
+				effect: function(offset) {
+					$(this).fadeOut(500); // "this" refers to the tooltip
+				}
+			}
+		});
+		$("#upload_ext_update").bind("submit", function() {
+			$(".extension_update_link").qtip().hide();
+		});
+	};
+
 	/*********************
 	 * General functions *
 	 *********************/
@@ -38,8 +299,8 @@
 	});
 
 	$("#upload_extensions_links_show_slider").click(function() {
-		var $title_links = $("#upload_extensions_title_links");
-		$title_links.css("margin-" + direction_left, ($title_links.css("margin-" + direction_left) == "-100px") ? "-15px" : "");
+		var $titleLinks = $("#upload_extensions_title_links");
+		$titleLinks.css("margin-" + direction_left, ($titleLinks.css("margin-" + direction_left) == "-100px") ? "-15px" : "");
 	});
 
 	upload_ext.elem.wrapper.css("overflow", "hidden");
@@ -195,114 +456,66 @@
 		});
 	});
 
-	function enable_result_success(element, attr_text) {
-		if (element.parent(".upload_ext_list_content").length > 0) {
-			element.parent(".upload_ext_list_content").addClass("upload_ext_update_success");
-			var $wrapper = element.siblings(".upload_ext_list_update_success_wrapper");
+	function enable_result_success($element, attrText) {
+		if ($element.parent(".upload_ext_list_content").length > 0) {
+			$element.parent(".upload_ext_list_content").addClass("upload_ext_update_success");
+			var $wrapper = $element.siblings(".upload_ext_list_update_success_wrapper");
 			$wrapper.children(".upload_ext_list_update_success").html(
-				$wrapper.attr(attr_text));
+				$wrapper.attr(attrText));
 			$wrapper.stop().slideDown(700);
 			setTimeout(function() {
 				$wrapper.slideUp(700, function() {
-					element.parent(".upload_ext_list_content").removeClass("upload_ext_update_success");
+					$element.parent(".upload_ext_list_content").removeClass("upload_ext_update_success");
 				});
 			}, 3000);
 		} else {
-			element.parent().qtip({
-				content: {
-					text: function(event, api) {
-						return $(this).attr(attr_text);
-					}
-				},
-				style: {
-					classes: 'qtip-green qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: direction_left + ' center',
-					at: direction_right + ' center',
-					viewport: true
-				},
-				show: {
-					ready: true
-				},
-				hide: {
-					event: 'click unfocus'
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
+			upload_ext.qtip.done($element.parent(), attrText);
 		}
 	}
 
-	function enable_result_error(element, text) {
-		if (element.parent(".upload_ext_list_content").length > 0) {
-			element.parent(".upload_ext_list_content").addClass("upload_ext_update_error");
-			var $wrapper = element.siblings(".upload_ext_list_update_error_wrapper");
+	function enable_result_error($element, text) {
+		if ($element.parent(".upload_ext_list_content").length > 0) {
+			$element.parent(".upload_ext_list_content").addClass("upload_ext_update_error");
+			var $wrapper = $element.siblings(".upload_ext_list_update_error_wrapper");
 			$wrapper.children(".upload_ext_list_update_error").html(text);
 			$wrapper.stop().slideDown(700);
 		} else {
-			element.parent().qtip({
-				content: {
-					text: text
-				},
-				style: {
-					classes: 'qtip-red qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: direction_left + ' center',
-					at: direction_right + ' center',
-					viewport: true
-				},
-				show: {
-					ready: true
-				},
-				hide: {
-					event: 'click unfocus'
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
+			upload_ext.qtip.error($element.parent(), text);
 		}
 	}
 
-	function get_enable_result(result, element) {
-		element.removeClass("locked_toggle");
-		var isListPage = element.parent(".upload_ext_list_content").length > 0,
-			$data_wrapper = (isListPage) ? element.siblings(".upload_ext_list_update_error_wrapper") : element.parent(); // Detect the list/details page.
+	function get_enable_result(result, $element) {
+		$element.removeClass("locked_toggle");
+		var isListPage = $element.parent(".upload_ext_list_content").length > 0,
+			$data_wrapper = (isListPage) ? $element.siblings(".upload_ext_list_update_error_wrapper") : $element.parent(); // Detect the list/details page.
 		if (typeof result.status !== "undefined") {
 			switch (result.status) {
 				case 'purged':
-					element.addClass("extension_toggle_purged");
-					enable_result_success(element, "data-ext-update-purged");
+					$element.addClass("extension_toggle_purged");
+					enable_result_success($element, "data-ext-update-purged");
 					break;
 				case 'enabled':
-					element.removeClass("extension_toggle_purged");
-					element.toggleClass("extension_toggle_enabled extension_toggle_disabled");
-					enable_result_success(element, "data-ext-update-enabled");
+					$element.removeClass("extension_toggle_purged");
+					$element.toggleClass("extension_toggle_enabled extension_toggle_disabled");
+					enable_result_success($element, "data-ext-update-enabled");
 					break;
 				case 'disabled':
-					element.toggleClass("extension_toggle_enabled extension_toggle_disabled");
-					enable_result_success(element, "data-ext-update-disabled");
+					$element.toggleClass("extension_toggle_enabled extension_toggle_disabled");
+					enable_result_success($element, "data-ext-update-disabled");
 					break;
 				case 'error':
-					enable_result_error(element, result.error);
+					enable_result_error($element, result.error);
 					break;
 				case 'load_error':
 					if (result.error === "timeout" || result.message === "timeout") {
-						enable_result_error(element, $data_wrapper.attr("data-ext-update-timeout"));
+						enable_result_error($element, $data_wrapper.attr("data-ext-update-timeout"));
 					} else {
 						var error_status = '';
 						if (typeof result.message !== "undefined" && result.message != "") {
 							var status_divider = (isListPage) ? ' ' : '<br />';
 							error_status = status_divider + escape_html(result.code + " - " + result.message);
 						}
-						enable_result_error(element, $data_wrapper.attr("data-ext-update-error") + error_status);
+						enable_result_error($element, $data_wrapper.attr("data-ext-update-error") + error_status);
 					}
 					break;
 			}
@@ -310,11 +523,11 @@
 				show_refresh_notice();
 			}
 		} else {
-			enable_result_error(element, $data_wrapper.attr("data-ext-update-error"));
+			enable_result_error($element, $data_wrapper.attr("data-ext-update-error"));
 		}
 	}
 
-	function get_purge_result(result, element, hash) {
+	function get_purge_result(result, $element, hash) {
 		var data = $('<form>' + result.S_HIDDEN_FIELDS + '</form>').serialize();
 		$.ajax({
 			url: result.S_CONFIRM_ACTION,
@@ -322,55 +535,55 @@
 			data: data + "&confirm=" + result.YES_VALUE + ((typeof hash !== "undefined") ? "&hash=" + hash : ""),
 			error: function(e, text, ee) {
 				get_enable_result({
-					ext_name: element.parent().attr("data-ext-name"),
+					ext_name: $element.parent().attr("data-ext-name"),
 					status: 'load_error',
 					error: text,
 					code: e.status,
 					message: ee
-				}, element.siblings(".extension_toggle_wrapper"));
+				}, $element.siblings(".extension_toggle_wrapper"));
 			},
 			success: function(s, x) {
 				if (typeof s.status !== "undefined" && s.status === "force_update") {
 					if (typeof s.hash !== "undefined") {
-						get_purge_result(result, element, s.hash); // Repeat the request.
+						get_purge_result(result, $element, s.hash); // Repeat the request.
 					} else { // The hash is not specified - this is an error.
 						get_enable_result({
-							ext_name: element.parent().attr("data-ext-name"),
+							ext_name: $element.parent().attr("data-ext-name"),
 							status: 'load_error',
 							error: '' // Display standard error message.
-						}, element.siblings(".extension_toggle_wrapper"));
+						}, $element.siblings(".extension_toggle_wrapper"));
 					}
 				} else {
-					get_enable_result(s, element.siblings(".extension_toggle_wrapper"));
+					get_enable_result(s, $element.siblings(".extension_toggle_wrapper"));
 				}
 			},
 			cache: false
 		});
 	}
 
-	function get_purge_confirm(result, element) {
+	function get_purge_confirm(result, $element) {
 		if (typeof result.S_CONFIRM_ACTION !== "undefined" && result.YES_VALUE) {
-			element.qtip('api').set('content.title', result.MESSAGE_TITLE);
+			$element.qtip('api').set('content.title', result.MESSAGE_TITLE);
 			$("#ext_purge_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
 			$("#ext_purge_text").html(result.MESSAGE_TEXT);
-			element.qtip('api').reposition();
-			$("#ext_purge_confirm .ext_update_ok").bind("click", function(event) {
-				element.siblings(".extension_toggle_wrapper").toggleClass("locked_toggle");
-				element.qtip('api').destroy();
-				get_purge_result(result, element);
+			$element.qtip('api').reposition();
+			$("#ext_purge_confirm .ext_update_ok").bind("click", function() {
+				$element.siblings(".extension_toggle_wrapper").toggleClass("locked_toggle");
+				$element.qtip('api').destroy();
+				get_purge_result(result, $element);
 			});
-			$("#ext_purge_confirm .ext_update_cancel").bind("click", function(event) {
-				element.qtip('api').destroy();
+			$("#ext_purge_confirm .ext_update_cancel").bind("click", function() {
+				$element.qtip('api').destroy();
 			});
 		} else {
-			element.qtip('api').destroy();
+			$element.qtip('api').destroy();
 			get_enable_result({
-				ext_name: element.parent().attr("data-ext-name"),
+				ext_name: $element.parent().attr("data-ext-name"),
 				status: 'load_error',
 				error: result.error,
 				code: result.code,
 				message: result.message
-			}, element.siblings(".extension_toggle_wrapper"));
+			}, $element.siblings(".extension_toggle_wrapper"));
 		}
 	}
 
@@ -398,96 +611,14 @@
 			if ($(this).siblings(".extension_toggle_wrapper").hasClass("locked_toggle")) {
 				return;
 			}
-			$(this).qtip({
-				content: {
-					text: function(event, api) {
-						load_page('purge', $(this).parent().attr("data-ext-name"), get_purge_confirm, $(this));
-						return "<div id='ext_purge_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_purge_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
-					},
-					title: function(event, api) {
-						return $("#upload_loading_text").html();
-					}
-				},
-				style: {
-					classes: 'qtip-light qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: direction_left + ' center',
-					at: direction_right + ' center',
-					viewport: true
-				},
-				show: {
-					modal: {
-						on: true
-					},
-					ready: true
-				},
-				hide: {
-					event: false
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
+			upload_ext.qtip.purgeConfirm($(this));
 		});
 	}
 
 	function add_enable_tip() {
-		upload_ext.elem.main.one("loaded", function(event) {
-			$(".extension_toggle_wrapper").qtip({
-				content: {
-					text: function(event, api) {
-						return $(this).parent().attr("data-ext-update-enable");
-					}
-				},
-				style: {
-					classes: 'qtip-blue qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: 'bottom center',
-					at: 'top center',
-					viewport: true
-				},
-				show: {
-					ready: true
-				},
-				hide: {
-					event: 'unfocus'
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
-			$("#ext_details_filetree_tab").qtip({
-				content: {
-					text: function(event, api) {
-						return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
-					}
-				},
-				style: {
-					classes: 'qtip-yellow qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: 'top center',
-					at: 'bottom center',
-					viewport: true
-				},
-				show: {
-					ready: true
-				},
-				hide: {
-					event: 'unfocus'
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
+		upload_ext.elem.main.one("loaded", function() {
+			upload_ext.qtip.toggle();
+			upload_ext.qtip.filetree();
 		});
 		function hide_uploaded_message() {
 			$(".ext_uploaded_notice, .ext_updated_notice").slideUp(500);
@@ -498,33 +629,8 @@
 	}
 
 	function add_language_tip() {
-		upload_ext.elem.main.one("loaded", function(event) {
-			$("#ext_details_filetree_tab").qtip({
-				content: {
-					text: function(event, api) {
-						return $(".extension_toggle_wrapper").parent().attr("data-ext-update-check-filetree");
-					}
-				},
-				style: {
-					classes: 'qtip-yellow qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: 'top center',
-					at: 'bottom center',
-					viewport: true
-				},
-				show: {
-					ready: true
-				},
-				hide: {
-					event: 'unfocus'
-				},
-				events: {
-					hidden: function(event, api) {
-						api.destroy(true);
-					}
-				}
-			});
+		upload_ext.elem.main.one("loaded", function() {
+			upload_ext.qtip.filetree();
 		});
 		function hide_uploaded_message() {
 			$(".ext_uploaded_notice, .ext_updated_notice").slideUp(500);
@@ -545,7 +651,7 @@
 		}
 	}
 
-	function show_modal_box(content, bigModalBox, dataContainer) {
+	function show_modal_box(content, bigModalBox, $dataContainer) {
 		var $modalBox = upload_ext.elem.modal_wrapper, $modal = upload_ext.elem.modal;
 		restore_modal_data_container();
 		phpbb.clearLoadingTimeout();
@@ -568,8 +674,8 @@
 		} else if (bigModalBox) {
 			$modal.addClass("big_modal_box");
 		}
-		if (dataContainer) {
-			$modalDataContainer = dataContainer;
+		if ($dataContainer) {
+			$modalDataContainer = $dataContainer;
 		}
 		$modal.prepend('<a href="#" class="alert_close">&times;</a>');
 		phpbb.alert.open($modalBox);
@@ -708,19 +814,19 @@
 		});
 	}
 
-	function get_force_unstable_confirm(result, element) {
+	function get_force_unstable_confirm(result, $element) {
 		if (typeof result.S_CONFIRM_ACTION !== "undefined" && result.YES_VALUE) {
 			$("#ext_force_unstable_confirm").children(".ext_update_ok").html(result.YES_VALUE).siblings(".ext_update_cancel").html(result.NO_VALUE).parent().show();
 			$("#ext_force_unstable_text").html(result.MESSAGE_TEXT);
-			element.qtip('api').reposition();
+			$element.qtip('api').reposition();
 			$("#ext_force_unstable_confirm .ext_update_ok").bind("click", function(event) {
 				$().upload_loading_start();
 				close_error_wrapper();
-				element.qtip('api').destroy();
+				$element.qtip('api').destroy();
 				get_force_unstable_result(result);
 			});
 			$("#ext_force_unstable_confirm .ext_update_cancel").bind("click", function(event) {
-				element.qtip('api').destroy();
+				$element.qtip('api').destroy();
 			});
 		} else if (typeof result.status !== "undefined" && result.status === "success") {
 			$().upload_loading_end();
@@ -729,7 +835,7 @@
 				$("#force_unstable_updated").slideUp(700);
 			}, 3000);
 		} else {
-			element.qtip('api').destroy();
+			$element.qtip('api').destroy();
 			$().upload_loading_end();
 			show_error_box(result.code, result.error, result.message);
 		}
@@ -744,46 +850,14 @@
 			event.preventDefault();
 			$("#version_check_settings").slideToggle(700);
 			$(".extension_toggle_wrapper[data-hasqtip], [data-ext-name][data-hasqtip]").qtip('destroy');
-			var force_unstable = ($("#force_unstable").is(":checked")) ? 1 : 0;
-			if (force_unstable) {
-				$(".upload_ext_list").qtip({
-					content: {
-						text: function(event, api) {
-							load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
-							return "<div id='ext_force_unstable_text'><i class=\"fa fa-spinner fa-3x fa-spin loading_spinner\"></i></div><div id='ext_force_unstable_confirm'><span class='ext_update_ok'></span><span class='ext_update_cancel'></span></div>";
-						},
-						title: function(event, api) {
-							return $("#version_check_settings_title").html();
-						}
-					},
-					style: {
-						classes: 'qtip-light qtip-shadow qtip-rounded'
-					},
-					position: {
-						my: 'bottom center',
-						at: 'top center',
-						viewport: true
-					},
-					show: {
-						modal: {
-							on: true
-						},
-						ready: true
-					},
-					hide: {
-						event: false
-					},
-					events: {
-						hidden: function(event, api) {
-							api.destroy(true);
-						}
-					}
-				});
+			var forceUnstable = ($("#force_unstable").is(":checked")) ? 1 : 0;
+			if (forceUnstable) {
+				upload_ext.qtip.forceUnstableConfirm(forceUnstable);
 			}
 			else {
 				$().upload_loading_start();
 				close_error_wrapper();
-				load_page('set_config_force_unstable', force_unstable, get_force_unstable_confirm, $(this));
+				load_page('set_config_force_unstable', forceUnstable, get_force_unstable_confirm, $(this));
 			}
 		});
 	}
@@ -922,74 +996,11 @@
 		setFileTree();
 		add_enable_toggle();
 		if ($("#description_updates").length > 0) {
-			$(".ext_version_bubble .show_ext_updates").css("display", "inline-block").qtip({
-				content: {
-					text: $("#description_updates")
-				},
-				style: {
-					classes: 'qtip-light qtip-shadow qtip-rounded',
-					tip: {
-						corner: true,
-						mimic: 'center',
-						width: 10,
-						height: 10
-					}
-				},
-				position: {
-					at: 'bottom center',
-					my: 'top ' + direction_right,
-					adjust: {
-						x: (direction_rtl) ? -15 : 15
-					}
-				},
-				show: {
-					event: 'click',
-					effect: function(offset) {
-						$(this).fadeIn(500); // "this" refers to the tooltip
-					}
-				},
-				hide: {
-					event: 'click unfocus',
-					effect: function(offset) {
-						$(this).fadeOut(500); // "this" refers to the tooltip
-					}
-				}
-			});
-			$(".extension_update_link").bind("click", function() {
-				$(".ext_version_bubble .show_ext_updates").qtip().hide();
-			}).qtip({
-				content: {
-					text: $("#update_ext_confirm"),
-					title: $("#update_ext_confirm_title")
-				},
-				style: {
-					classes: 'qtip-light qtip-shadow qtip-rounded'
-				},
-				position: {
-					my: direction_right + ' center',
-					at: direction_left + ' center',
-					target: $(".ext_version_bubble")
-				},
-				show: {
-					modal: {
-						on: true
-					},
-					event: 'click',
-					effect: function(offset) {
-						$(this).fadeIn(500); // "this" refers to the tooltip
-					}
-				},
-				hide: {
-					event: 'unfocus',
-					effect: function(offset) {
-						$(this).fadeOut(500); // "this" refers to the tooltip
-					}
-				}
-			});
+			upload_ext.qtip.updateActions();
 			upload_ext.elem.main.one("loading", function() {
 				$(".extension_update_link").qtip('hide').qtip('destroy', true);
 				$(".show_ext_updates[data-hasqtip]").qtip('hide').qtip('destroy', true);
-			})
+			});
 		}
 		/* Responsive tabs */
 		upload_ext.elem.main.find('.ext_details_tabs').not('[data-skip-responsive]').each(function() {
@@ -1034,11 +1045,11 @@
 
 				var availableTabs = tabs.filter(':not(.activetab, .responsive-tab)'),
 					total = availableTabs.length,
-					i, tab;
+					i, tab, link;
 
 				for (i = total - 1; i >= 0; i--) {
 					tab = availableTabs.eq(i);
-					var link = tab.children('a');
+					link = tab.children('a');
 					link.attr("title", link.attr("data-link-name"));
 					link.html('<i class="' + link.attr("data-link-image") + '"></i>');
 					if ($this.height() <= maxHeight) {
@@ -1047,7 +1058,7 @@
 				}
 				// If the space is really short.
 				tab = tabs.filter('.activetab');
-				var link = tab.children('a');
+				link = tab.children('a');
 				link.attr("title", link.attr("data-link-name"));
 				link.html('<i class="' + link.attr("data-link-image") + '"></i>');
 			}
@@ -1058,14 +1069,14 @@
 			$this.on("tab_changed", check);
 		});
 		$(".ext_details_tabs .tab").click(function(event) {
-			var current_tab = $(this),
-				details_block = $(".ext_details_block");
+			var $currentTab = $(this),
+				$detailsBlock = $(".ext_details_block");
 			event.preventDefault();
-			details_block.finish();
-			details_block.parent().stop().css("height", details_block.parent().height() + "px");
-			details_block.slideUp(700, function() {
+			$detailsBlock.finish();
+			$detailsBlock.parent().stop().css("height", $detailsBlock.parent().height() + "px");
+			$detailsBlock.slideUp(700, function() {
 				$(".ext_details_tabs .activetab").toggleClass("activetab");
-				switch (current_tab.attr("id")) {
+				switch ($currentTab.attr("id")) {
 					case 'ext_details_main_tab':
 						$(".ext_details_markdown, #ext_details_faq, #filetree, #ext_languages, #ext_details_tools").css("display", "none");
 						$("#ext_details_content").css("display", "block");
@@ -1095,27 +1106,27 @@
 						$("#ext_details_tools").css("display", "block");
 						break;
 				}
-				current_tab.toggleClass("activetab");
+				$currentTab.toggleClass("activetab");
 				var restored = false;
-				details_block.slideDown({
+				$detailsBlock.slideDown({
 					duration: 700,
 					progress: function(an, progress, ms) {
-						if (!restored && details_block.height() >= details_block.parent().height()) {
-							details_block.parent().css("height", "");
+						if (!restored && $detailsBlock.height() >= $detailsBlock.parent().height()) {
+							$detailsBlock.parent().css("height", "");
 							restored = true;
 						}
 					},
 					complete: function() {
 						if (!restored) {
-							details_block.parent().animate({
-								height: details_block.parent().children(".ext_details_tabs").outerHeight() + details_block.outerHeight()
+							$detailsBlock.parent().animate({
+								height: $detailsBlock.parent().children(".ext_details_tabs").outerHeight() + $detailsBlock.outerHeight()
 							}, 500, function() {
-								details_block.parent().css("height", "");
+								$detailsBlock.parent().css("height", "");
 							});
 							restored = true;
 						}
 						// We do it here because the scrollbar can be not displayed when the tab is not shown.
-						current_tab.parent().trigger("tab_changed");
+						$currentTab.parent().trigger("tab_changed");
 					}
 				});
 			});
@@ -1210,7 +1221,7 @@
 	}
 
 	function parse_response(element, res) {
-		var $temp_container = $("#upload_temp_container");
+		var $tempContainer = $("#upload_temp_container");
 
 		element.html(res.result);
 
@@ -1219,15 +1230,15 @@
 				e.preventDefault();
 				$("#upload_main_wrapper, #upload_main").addClass("main_transformation");
 				upload_ext.elem.wrapper.slideUp(500, function() {
-					upload_ext.elem.main.empty().append($temp_container.contents());
-					$temp_container.empty();
+					upload_ext.elem.main.empty().append($tempContainer.contents());
+					$tempContainer.empty();
 					upload_ext.elem.wrapper.attr("style", "display:none;").slideDown(700, "linear", function() {
 						$("#upload_main_wrapper, #upload_main").removeClass("main_transformation");
 					});
 				});
 			});
 		} else {
-			$temp_container.empty();
+			$tempContainer.empty();
 		}
 
 		// Display debug errors in the modal box.
@@ -1469,27 +1480,27 @@
 	/* Work with browser's history. */
 	var upload_stop_history = false, upload_replace_history = false;
 	$(window).on("popstate", function(e) {
-		var current_state = e.originalEvent.state;
-		if (current_state.first) {
+		var currentState = e.originalEvent.state;
+		if (currentState.first) {
 			window.location.reload();
 		} else {
 			upload_stop_history = true;
-			load_page(current_state.action, current_state.id);
+			load_page(currentState.action, currentState.id);
 		}
 	});
 
 	/* Workaround for browser's cache. */
 	if (phpbb.history.isSupported("state")) {
 		$(window).on("unload", function() {
-			var current_state = history.state, d = new Date();
-			if (current_state !== null) {
-				phpbb.history.replaceUrl(window.location.href + '&ajax_time=' + d.getTime(), document.title, current_state);
+			var currentState = history.state, d = new Date();
+			if (currentState !== null) {
+				phpbb.history.replaceUrl(window.location.href + '&ajax_time=' + d.getTime(), document.title, currentState);
 			}
 		});
 
-		var current_state = history.state;
-		if (current_state !== null) {
-			phpbb.history.replaceUrl(window.location.href.replace(/&ajax_time=\d*/i, ''), document.title, current_state);
+		var currentState = history.state;
+		if (currentState !== null) {
+			phpbb.history.replaceUrl(window.location.href.replace(/&ajax_time=\d*/i, ''), document.title, currentState);
 		} else {
 			phpbb.history.replaceUrl(window.location.href, document.title, {
 				action: upload_ext.fn.main_attr("data-page-action"),
