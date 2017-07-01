@@ -2,7 +2,7 @@
 /**
  *
  * @package       Upload Extensions
- * @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+ * @copyright (c) 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
@@ -141,6 +141,50 @@ class v_3_2_x implements base
 	 */
 	public function output_template_data(\phpbb\extension\metadata_manager $metadata_manager)
 	{
-		$metadata_manager->output_template_data(objects::$template);
+		if (phpbb_version_compare(objects::$config['version'], '3.2.0', '>'))
+		{
+			$metadata = $metadata_manager->get_metadata('all');
+			$this->output_metadata_to_template($metadata);
+		}
+		else
+		{
+			$metadata_manager->output_template_data(objects::$template);
+		}
+	}
+
+	/**
+	 * Outputs extension metadata into the template
+	 *
+	 * @param array $metadata Array with all metadata for the extension
+	 */
+	public function output_metadata_to_template($metadata)
+	{
+		objects::$template->assign_vars(array(
+			'META_NAME'			=> $metadata['name'],
+			'META_TYPE'			=> $metadata['type'],
+			'META_DESCRIPTION'	=> (isset($metadata['description'])) ? $metadata['description'] : '',
+			'META_HOMEPAGE'		=> (isset($metadata['homepage'])) ? $metadata['homepage'] : '',
+			'META_VERSION'		=> $metadata['version'],
+			'META_TIME'			=> (isset($metadata['time'])) ? $metadata['time'] : '',
+			'META_LICENSE'		=> $metadata['license'],
+
+			'META_REQUIRE_PHP'		=> (isset($metadata['require']['php'])) ? $metadata['require']['php'] : '',
+			'META_REQUIRE_PHP_FAIL'	=> (isset($metadata['require']['php'])) ? false : true,
+
+			'META_REQUIRE_PHPBB'		=> (isset($metadata['extra']['soft-require']['phpbb/phpbb'])) ? $metadata['extra']['soft-require']['phpbb/phpbb'] : '',
+			'META_REQUIRE_PHPBB_FAIL'	=> (isset($metadata['extra']['soft-require']['phpbb/phpbb'])) ? false : true,
+
+			'META_DISPLAY_NAME'	=> (isset($metadata['extra']['display-name'])) ? $metadata['extra']['display-name'] : '',
+		));
+
+		foreach ($metadata['authors'] as $author)
+		{
+			objects::$template->assign_block_vars('meta_authors', array(
+				'AUTHOR_NAME'		=> $author['name'],
+				'AUTHOR_EMAIL'		=> (isset($author['email'])) ? $author['email'] : '',
+				'AUTHOR_HOMEPAGE'	=> (isset($author['homepage'])) ? $author['homepage'] : '',
+				'AUTHOR_ROLE'		=> (isset($author['role'])) ? $author['role'] : '',
+			));
+		}
 	}
 }

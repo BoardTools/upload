@@ -2,6 +2,12 @@ Upload Extensions - Changelog
 =============================
 This file contains the list of changes between different versions of Upload Extensions.
 
+# Version 3.2.0
+## Changes since 3.1.2
+### Bug fixes
+* Add support for phpBB 3.2.
+* Fix update tooltip for mobile devices.
+
 # Version 3.1.2
 ## Changes since 3.1.2-RC2
 ### Bug fixes
@@ -69,4 +75,4 @@ Already included in 3.1.1.
 
 Initial stable release (changes can be found in the commits of our [repository on GitHub](https://github.com/BoardTools/upload)).
 
-© 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+© 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)

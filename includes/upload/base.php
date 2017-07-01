@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @copyright (c) 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -17,9 +17,9 @@ abstract class base
 	/** @var string Temporary storage path */
 	protected $ext_tmp;
 
-	/**                                                                               
+	/**
 	 * Returns the path to the temporary storage directory.
-	 * 
+	 *
 	 * @param bool $ext_relative Whether the path should be relative to ext/ directory
 	 * @return string
 	 */
@@ -40,7 +40,7 @@ abstract class base
 		// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 		// We suppose that one user can upload only one extension per session.
 		$this->ext_tmp = $this->get_temp_path();
-		
+
 		// Ensure that we don't have any previous files in the working directory.
 		if ($clean && is_dir($this->ext_tmp))
 		{
@@ -49,13 +49,13 @@ abstract class base
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	/**                 
+	/**
 	 * Extracts the specified ZIP file to the temporary storage directory.
-	 * 
+	 *
 	 * @param string $dest_file Path to ZIP file that we need to extract
 	 */
 	protected function extract_zip($dest_file)
@@ -69,7 +69,7 @@ abstract class base
 		$zip->extract($this->ext_tmp . '/extracted/');
 		$zip->close();
 	}
-	
+
 	/**
 	 * Original copyright information for the function from AutoMOD.
 	 * The function was almost totally changed by the authors of Upload Extensions.
@@ -168,7 +168,7 @@ abstract class base
 		{
 			return $upload_dir . '/' . objects::$request->variable('local_upload', '');
 		}
-		
+
 		if (!objects::$compatibility->filespec_get($file, 'filename'))
 		{
 			files::catch_errors((sizeof($file->error) ? implode('<br />', $file->error) : objects::$user->lang['NO_UPLOAD_FILE']));
