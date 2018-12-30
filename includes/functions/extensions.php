@@ -20,8 +20,8 @@ class extensions
 	* @param \phpbb\extension\metadata_manager $md_manager The metadata manager for the version to check.
 	* @param bool $force_update Ignores cached data. Defaults to false.
 	* @param bool $force_cache Force the use of the cache. Override $force_update.
-	* @return string
-	* @throws RuntimeException
+	* @return array
+	* @throws \RuntimeException
 	*/
 	public static function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false)
 	{
@@ -49,13 +49,11 @@ class extensions
 		$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename']);
 		$version_helper->force_stability($config['extension_force_unstable'] ? 'unstable' : null);
 
-		return $updates = $version_helper->get_suggested_updates($force_update, $force_cache);
+		return $version_helper->get_suggested_updates($force_update, $force_cache);
 	}
 
 	/**
 	* Lists all the available extensions and dumps to the template
-	*
-	* @return null
 	*/
 	public static function list_uninstalled_exts()
 	{
@@ -112,8 +110,6 @@ class extensions
 
 	/**
 	* Lists all the extensions and dumps to the template
-	*
-	* @return null
 	*/
 	public static function list_all_exts()
 	{
@@ -189,6 +185,9 @@ class extensions
 
 	/**
 	* Sort helper for the table containing the metadata about the extensions.
+	* @param array $val1 First metadata array
+	* @param array $val2 Second metadata array
+	* @return int
 	*/
 	protected static function sort_extension_meta_data_table($val1, $val2)
 	{
@@ -509,7 +508,6 @@ class extensions
 	/**
 	* Checks availability of updates for the specified extension.
 	* @param string $ext_name The name of the extension.
-	* @return null
 	*/
 	public static function ajax_versioncheck($ext_name)
 	{
@@ -517,7 +515,8 @@ class extensions
 
 		try
 		{
-			$meta = $md_manager->get_metadata('all');
+			// Validate extension's metadata
+			$md_manager->get_metadata('all');
 
 			$force_update = true;
 			$updates = self::version_check($md_manager, $force_update, !$force_update);
@@ -553,7 +552,7 @@ class extensions
 	/**
 	* Creates a ZIP package of the extension and prepares it for downloading.
 	* @param string $ext_name The name of the extension.
-	* @return null|bool
+	* @return bool
 	*/
 	public static function download_extension($ext_name)
 	{
@@ -622,13 +621,15 @@ class extensions
 				fclose($fp);
 			}
 		}
+
+		return true;
 	}
 
 	/**
 	* Gets missing language directories for an extension from a specified zip file.
 	* @param string $ext_name The name of the extension.
 	* @param string $zip_file The name of zip file.
-	* @return null|bool
+	* @return bool
 	*/
 	public static function restore_languages($ext_name, $zip_file)
 	{
@@ -675,5 +676,7 @@ class extensions
 		}
 
 		files::catch_errors(files::rrmdir($ext_tmp));
+
+		return true;
 	}
 }

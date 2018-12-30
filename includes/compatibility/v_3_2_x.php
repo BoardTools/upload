@@ -10,7 +10,6 @@
 namespace boardtools\upload\includes\compatibility;
 
 use \boardtools\upload\includes\objects;
-use \Symfony\Component\DependencyInjection\Definition;
 
 class v_3_2_x implements base
 {

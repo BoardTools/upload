@@ -82,7 +82,6 @@ class filetree
 			if ($first_call)
 			{
 				$php_file_tree .= ' class="php-file-tree"';
-				$first_call = false;
 			}
 			$php_file_tree .= '>';
 			foreach ($file as $this_file)

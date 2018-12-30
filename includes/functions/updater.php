@@ -21,7 +21,8 @@ class updater
 		objects::$md_manager = objects::$compatibility->create_metadata_manager(objects::$upload_ext_name);
 		try
 		{
-			$metadata = objects::$md_manager->get_metadata('all');
+			// Validate extension's metadata
+			objects::$md_manager->get_metadata('all');
 		}
 		catch (\phpbb\extension\exception $e)
 		{

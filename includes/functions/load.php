@@ -23,7 +23,7 @@ class load
 		$ffs = @scandir(objects::$zip_dir . '/');
 		if (!$ffs)
 		{
-			return false;
+			return;
 		}
 		foreach ($ffs as $ff)
 		{
@@ -60,6 +60,9 @@ class load
 
 	/**
 	* Sort helper for the table containing the metadata about the extensions.
+	* @param array $val1 First metadata array
+	* @param array $val2 Second metadata array
+	* @return int
 	*/
 	protected static function sort_extension_meta_data_table($val1, $val2)
 	{
@@ -396,6 +399,7 @@ class load
 	*		If title_CONFIRM cannot be found in user->lang the text given is used.
 	* @param string $hidden Hidden variables
 	* @param string $u_action Custom form action
+	* @return bool
 	*/
 	public static function ajax_confirm_box($check, $title = '', $hidden = '', $u_action = '')
 	{
@@ -466,5 +470,7 @@ class load
 			'S_CONFIRM_ACTION'	=> str_replace('&amp;', '&', $u_action),
 			'S_HIDDEN_FIELDS'	=> $hidden . $s_hidden_fields
 		));
+
+		return true;
 	}
 }
