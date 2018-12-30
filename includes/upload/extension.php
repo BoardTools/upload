@@ -319,7 +319,7 @@ class extension extends base
 		// Save the previous version of the extension that is being updated in a zip archive file.
 		files::save_zip_archive('ext/' . $destination . '/', $dest_name, objects::$zip_dir);
 		$saved_zip_file = $dest_name . ".zip";
-		$saved_zip_file = objects::$request->escape($saved_zip_file, true);
+		$saved_zip_file = objects::$compatibility->escape($saved_zip_file, true);
 		objects::$template->assign_var('EXT_OLD_ZIP_SAVED', objects::$user->lang('EXT_SAVED_OLD_ZIP', $saved_zip_file));
 
 		return $saved_zip_file;

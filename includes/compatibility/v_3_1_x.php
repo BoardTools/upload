@@ -212,6 +212,36 @@ class v_3_1_x implements base
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function escape($var, $multibyte)
+	{
+		/*
+		 * $request->escape() was added in phpBB 3.1.2,
+		 * however there is no need to check the version because this is
+		 * exactly the same method implementation.
+		 * So we fall back to this method for the whole phpBB 3.1 branch.
+		 */ 
+		$type_cast_helper = new \phpbb\request\type_cast_helper();
+		if (is_array($var))
+		{
+			$result = array();
+			foreach ($var as $key => $value)
+			{
+				$type_cast_helper->set_var($key, $key, gettype($key), $multibyte);
+				$result[$key] = $this->escape($value, $multibyte);
+			}
+			$var = $result;
+		}
+		else
+		{
+			$type_cast_helper->set_var($var, $var, 'string', $multibyte);
+		}
+
+		return $var;
+	}
+
+	/**
 	 * Gets a parameter of filespec object.
 	 *
 	 * @param \filespec $file  Filespec object

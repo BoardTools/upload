@@ -112,6 +112,14 @@ class v_3_2_x implements base
 	/**
 	 * {@inheritdoc}
 	 */
+	public function escape($var, $multibyte)
+	{
+		return objects::$request->escape($var, $multibyte);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function filespec_get($file, $param)
 	{
 		switch ($param)

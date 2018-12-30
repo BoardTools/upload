@@ -612,7 +612,7 @@ class upload_module
 		if (sizeof($packages))
 		{
 			// Sanitize any data we retrieve from a server
-			$packages = objects::$request->escape($packages, true);
+			$packages = objects::$compatibility->escape($packages, true);
 			foreach ($packages as $ext => $value)
 			{
 				$latest_release = reset($value);
