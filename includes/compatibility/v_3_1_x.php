@@ -2,7 +2,7 @@
 /**
  *
  * @package       Upload Extensions
- * @copyright (c) 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+ * @copyright (c) 2014 - 2019 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
@@ -221,7 +221,7 @@ class v_3_1_x implements base
 		 * however there is no need to check the version because this is
 		 * exactly the same method implementation.
 		 * So we fall back to this method for the whole phpBB 3.1 branch.
-		 */ 
+		 */
 		$type_cast_helper = new \phpbb\request\type_cast_helper();
 		if (is_array($var))
 		{

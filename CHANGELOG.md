@@ -76,4 +76,4 @@ Already included in 3.1.1.
 
 Initial stable release (changes can be found in the commits of our [repository on GitHub](https://github.com/BoardTools/upload)).
 
-© 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+© 2014 - 2019 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
