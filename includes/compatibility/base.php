@@ -89,4 +89,16 @@ interface base
 	 * @param \phpbb\extension\metadata_manager $metadata_manager phpBB extension metadata manager
 	 */
 	public function output_template_data(\phpbb\extension\metadata_manager $metadata_manager);
+
+	/**
+	 * Check the version and return the available updates (for an extension).
+	 *
+	 * @param \phpbb\extension\metadata_manager $md_manager The metadata manager for the version to check.
+	 * @param bool $force_update Ignores cached data. Defaults to false.
+	 * @param bool $force_cache Force the use of the cache. Override $force_update.
+	 * @param string $stability Force the stability (null by default).
+	 * @return array
+	 * @throws \phpbb\exception\runtime_exception
+	 */
+	public function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false, $stability = null);
 }

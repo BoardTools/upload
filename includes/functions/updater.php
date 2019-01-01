@@ -33,7 +33,7 @@ class updater
 		$upload_extensions_download = false;
 		try
 		{
-			$updates_available = extensions::version_check(objects::$md_manager, objects::$request->variable('versioncheck_force', false));
+			$updates_available = objects::$compatibility->version_check(objects::$md_manager, objects::$request->variable('versioncheck_force', false), false, objects::$config['extension_force_unstable'] ? 'unstable' : null);
 
 			objects::$template->assign_vars(array(
 				'UPLOAD_EXT_NEW_UPDATE'	=> !empty($updates_available),
@@ -42,10 +42,11 @@ class updater
 				'UPLOAD_UP_TO_DATE_MSG'	=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', objects::$md_manager->get_metadata('display-name')),
 			));
 
-			foreach ($updates_available as $branch => $version_data)
+			objects::$template->assign_block_vars('upload_updates_available', $updates_available);
+
+			if (isset($updates_available['download']))
 			{
-				objects::$template->assign_block_vars('upload_updates_available', $version_data);
-				$upload_extensions_download = $version_data['download'];
+				$upload_extensions_download = $updates_available['download'];
 			}
 		}
 		catch (\RuntimeException $e)

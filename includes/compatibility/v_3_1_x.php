@@ -281,4 +281,112 @@ class v_3_1_x implements base
 	{
 		$metadata_manager->output_template_data();
 	}
+
+	/**
+	 * Gets the latest extension update for the current extension branch the user is on
+	 * Will suggest versions from newer branches when EoL has been reached
+	 * and/or version from newer branch is needed for having all known security
+	 * issues fixed.
+	 *
+	 * @param \phpbb\version_helper $version_helper  Version helper object.
+	 * @param string                $current_version Current version of the extension.
+	 * @param bool                  $force_update    Ignores cached data. Defaults to false.
+	 * @param bool                  $force_cache     Force the use of the cache. Override $force_update.
+	 * @return array Version info or empty array if there are no updates
+	 * @throws \RuntimeException
+	 */
+	protected function get_ext_update_on_branch($version_helper, $current_version, $force_update = false, $force_cache = false)
+	{
+		$versions = $version_helper->get_versions_matching_stability($force_update, $force_cache);
+
+		// Get current branch from version, e.g.: 3.2
+		preg_match('/^(\d+\.\d+).*$/', objects::$config['version'], $matches);
+		$current_branch = $matches[1];
+
+		// Filter out any versions less than the current version
+		$versions = array_filter($versions, function($data) use ($version_helper, $current_version) {
+			return $version_helper->compare($data['current'], $current_version, '>=');
+		});
+
+		// Filter out any phpbb branches less than the current version
+		$branches = array_filter(array_keys($versions), function($branch) use ($version_helper, $current_branch) {
+			return $version_helper->compare($branch, $current_branch, '>=');
+		});
+		if (!empty($branches))
+		{
+			$versions = array_intersect_key($versions, array_flip($branches));
+		}
+		else
+		{
+			// If branches are empty, it means the current phpBB branch is newer than any branch the
+			// extension was validated against. Reverse sort the versions array so we get the newest
+			// validated release available.
+			krsort($versions);
+		}
+
+		// Get the first available version from the previous list.
+		$update_info = array_reduce($versions, function($value, $data) use ($version_helper, $current_version) {
+			if ($value === null && $version_helper->compare($data['current'], $current_version, '>='))
+			{
+				if (!$data['eol'] && (!$data['security'] || $version_helper->compare($data['security'], $data['current'], '<=')))
+				{
+					return $version_helper->compare($data['current'], $current_version, '>') ? $data : array();
+				}
+				else
+				{
+					return null;
+				}
+			}
+
+			return $value;
+		});
+
+		return $update_info === null ? array() : $update_info;
+	}
+
+	/**
+	 * Check the version and return the available updates.
+	 *
+	 * @param \phpbb\extension\metadata_manager $md_manager   The metadata manager for the version to check.
+	 * @param bool                              $force_update Ignores cached data. Defaults to false.
+	 * @param bool                              $force_cache  Force the use of the cache. Override $force_update.
+	 * @param string                            $stability    Force the stability (null by default).
+	 * @return array
+	 * @throws \RuntimeException
+	 */
+	public function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false, $stability = null)
+	{
+		$cache = objects::$cache;
+		$config = objects::$config;
+		$user = objects::$user;
+		$meta = $md_manager->get_metadata('all');
+
+		if (!isset($meta['extra']['version-check']))
+		{
+			throw new \RuntimeException($user->lang('NO_VERSIONCHECK'), 1);
+		}
+
+		$version_check = $meta['extra']['version-check'];
+
+		if (version_compare($config['version'], '3.1.1', '>'))
+		{
+			$version_helper = new \phpbb\version_helper($cache, $config, new \phpbb\file_downloader(), $user);
+		}
+		else
+		{
+			$version_helper = new \phpbb\version_helper($cache, $config, $user);
+		}
+		$version_helper->set_current_version($meta['version']);
+		if (version_compare($config['version'], '3.1.7', '>'))
+		{
+			$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename'], isset($version_check['ssl']) ? $version_check['ssl'] : false);
+		}
+		else
+		{
+			$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename']);
+		}
+		$version_helper->force_stability($stability);
+
+		return $this->get_ext_update_on_branch($version_helper, $meta['version'], $force_update, $force_cache);
+	}
 }

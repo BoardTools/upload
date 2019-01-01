@@ -194,4 +194,12 @@ class v_3_2_x implements base
 			));
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false, $stability = null)
+	{
+		objects::$phpbb_extension_manager->version_check($md_manager, $force_update, $force_cache, $stability);
+	}
 }

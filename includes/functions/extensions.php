@@ -15,44 +15,6 @@ use \boardtools\upload\includes\filetree\filedownload;
 class extensions
 {
 	/**
-	* Check the version and return the available updates.
-	*
-	* @param \phpbb\extension\metadata_manager $md_manager The metadata manager for the version to check.
-	* @param bool $force_update Ignores cached data. Defaults to false.
-	* @param bool $force_cache Force the use of the cache. Override $force_update.
-	* @return array
-	* @throws \RuntimeException
-	*/
-	public static function version_check(\phpbb\extension\metadata_manager $md_manager, $force_update = false, $force_cache = false)
-	{
-		$cache = objects::$cache;
-		$config = objects::$config;
-		$user = objects::$user;
-		$meta = $md_manager->get_metadata('all');
-
-		if (!isset($meta['extra']['version-check']))
-		{
-			throw new \RuntimeException($user->lang('NO_VERSIONCHECK'), 1);
-		}
-
-		$version_check = $meta['extra']['version-check'];
-
-		if (version_compare($config['version'], '3.1.1', '>'))
-		{
-			$version_helper = new \phpbb\version_helper($cache, $config, new \phpbb\file_downloader(), $user);
-		}
-		else
-		{
-			$version_helper = new \phpbb\version_helper($cache, $config, $user);
-		}
-		$version_helper->set_current_version($meta['version']);
-		$version_helper->set_file_location($version_check['host'], $version_check['directory'], $version_check['filename']);
-		$version_helper->force_stability($config['extension_force_unstable'] ? 'unstable' : null);
-
-		return $version_helper->get_suggested_updates($force_update, $force_cache);
-	}
-
-	/**
 	* Lists all the available extensions and dumps to the template
 	*/
 	public static function list_uninstalled_exts()
@@ -132,7 +94,7 @@ class extensions
 				);
 
 				$force_update = objects::$request->variable('versioncheck_force', false);
-				$updates = self::version_check($md_manager, $force_update, !$force_update);
+				$updates = objects::$compatibility->version_check($md_manager, $force_update, !$force_update, objects::$config['extension_force_unstable'] ? 'unstable' : null);
 
 				$extension_meta_data[$name]['S_UP_TO_DATE'] = empty($updates);
 				$extension_meta_data[$name]['S_VERSIONCHECK'] = true;
@@ -519,12 +481,12 @@ class extensions
 			$md_manager->get_metadata('all');
 
 			$force_update = true;
-			$updates = self::version_check($md_manager, $force_update, !$force_update);
+			$updates_available = objects::$compatibility->version_check($md_manager, $force_update, !$force_update, objects::$config['extension_force_unstable'] ? 'unstable' : null);
 
 			self::response(array(
 				'ext_name'		=> $ext_name,
 				'status'		=> 'success',
-				'versioncheck'	=> (empty($updates)) ? "up_to_date" : "not_up_to_date",
+				'versioncheck'	=> (empty($updates_available)) ? "up_to_date" : "not_up_to_date",
 				'message'		=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $md_manager->get_metadata('display-name'))
 			));
 		}

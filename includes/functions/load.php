@@ -100,7 +100,7 @@ class load
 
 				try
 				{
-					$updates_available = extensions::version_check($ext_md_manager, objects::$request->variable('versioncheck_force', false));
+					$updates_available = objects::$compatibility->version_check($ext_md_manager, objects::$request->variable('versioncheck_force', false), false, objects::$config['extension_force_unstable'] ? 'unstable' : null);
 
 					objects::$template->assign_vars(array(
 						'S_UP_TO_DATE'		=> empty($updates_available),
@@ -108,10 +108,7 @@ class load
 						'UP_TO_DATE_MSG'	=> objects::$user->lang(empty($updates_available) ? 'UP_TO_DATE' : 'NOT_UP_TO_DATE', $ext_md_manager->get_metadata('display-name')),
 					));
 
-					foreach ($updates_available as $branch => $version_data)
-					{
-						objects::$template->assign_block_vars('updates_available', $version_data);
-					}
+					objects::$template->assign_block_vars('updates_available', $updates_available);
 				}
 				catch (\RuntimeException $e)
 				{
