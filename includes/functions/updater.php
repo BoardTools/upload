@@ -14,10 +14,16 @@ use \boardtools\upload\includes\objects;
 class updater
 {
 	/**
-	* The function that gets extension metadata manager for Upload Extensions.
+	* Gets and validates extension metadata manager for Upload Extensions.
 	*/
 	public static function get_manager()
 	{
+		// If we have already created the metadata manager, do not do it twice.
+		if (isset(objects::$md_manager))
+		{
+			return;
+		}
+
 		objects::$md_manager = objects::$compatibility->create_metadata_manager(objects::$upload_ext_name);
 		try
 		{
@@ -29,7 +35,13 @@ class updater
 			$message = objects::$compatibility->get_exception_message($e);
 			files::catch_errors($message);
 		}
+	}
 
+	/**
+	* Checks the availability of an update for Upload Extensions.
+	*/
+	public static function check_updates()
+	{
 		$upload_extensions_download = false;
 		try
 		{
@@ -60,7 +72,8 @@ class updater
 	}
 
 	/**
-	* The function that generates the link to Upload Extensions Updater.
+	* Generates the link to Upload Extensions Updater.
+	*
 	* @return string Download link.
 	*/
 	public static function get_update_link()
@@ -70,7 +83,7 @@ class updater
 	}
 
 	/**
-	* The function that sets the link to Upload Extensions Updater.
+	* Sets the link to Upload Extensions Updater.
 	*/
 	public static function set_update_link()
 	{
