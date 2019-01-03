@@ -955,9 +955,9 @@
 		$(".upload_valid_ext_download_link").click(function(event) {
 			event.preventDefault();
 			upload_loading_indicator();
-			$("#remote_upload").attr("value", $(this).attr("data-ext-source"));
+			$("#remote_upload").val($(this).attr("data-ext-source"));
 			$("#ext_checksum_type_sha1").prop("checked", true);
-			$("#ext_checksum").attr("value", $(this).attr("data-ext-checksum"));
+			$("#ext_checksum").val($(this).attr("data-ext-checksum"));
 			load_page("upload");
 		});
 	}
