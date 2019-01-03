@@ -18,6 +18,7 @@ class v_3_1_x implements base
 	 */
 	public function init()
 	{
+		objects::$template->assign_var('FONTAWESOME_NEEDED', true);
 		return;
 	}
 

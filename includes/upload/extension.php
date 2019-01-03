@@ -30,7 +30,7 @@ class extension extends base
 	public function upload($action)
 	{
 		$file = $this->proceed_upload($action);
-		if (!$file && $action != 'upload_local')
+		if (!$file && $action != 'upload_local' && $action != 'force_update')
 		{
 			files::catch_errors(objects::$user->lang['EXT_UPLOAD_ERROR']);
 			return false;

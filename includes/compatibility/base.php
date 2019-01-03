@@ -12,7 +12,7 @@ namespace boardtools\upload\includes\compatibility;
 interface base
 {
 	/**
-	 * Initializes necessary container services.
+	 * Performs necessary version-specific initializations.
 	 */
 	public function init();
 
