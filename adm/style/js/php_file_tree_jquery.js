@@ -30,6 +30,7 @@ function setFileTree() {
 	});
 }
 
+// Source: board style's forum_fn.js
 function selectCode(a) {
 	'use strict';
 
