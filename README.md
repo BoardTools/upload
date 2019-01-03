@@ -24,8 +24,8 @@ http://boardtools.github.io/upload/
 ## Installation, update, uninstallation
 The information about the installation/update/uninstallation process can be found in FAQ and Wiki:
 
-* For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq.
-* For the packages uploaded from github.com: https://github.com/BoardTools/upload/wiki.
+* For the packages uploaded from phpbb.com: https://www.phpbb.com/customise/db/extension/upload/faq
+* For the packages uploaded from github.com: https://github.com/BoardTools/upload/wiki
 
 ## Language packages
 Available language packages and the information about translations can be found here:
