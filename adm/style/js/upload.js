@@ -1489,6 +1489,7 @@
 			window.location.reload();
 		} else {
 			upload_stop_history = true;
+			$("[data-hasqtip]").qtip('destroy'); // Destroy all previously shown qTips.
 			load_page(currentState.action, currentState.id);
 		}
 	});
