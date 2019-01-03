@@ -11,6 +11,7 @@ namespace boardtools\upload\includes\functions;
 
 use \boardtools\upload\includes\objects;
 use \boardtools\upload\includes\filetree\filetree;
+use \Michelf\MarkdownExtra;
 
 class load
 {
@@ -259,12 +260,6 @@ class load
 			$ext_show = 'readme';
 		}
 
-		// TODO: Find a way to remove this inclusion.
-		if (!class_exists('\\Michelf\\MarkdownExtra'))
-		{
-			include objects::$phpbb_root_path . 'ext/boardtools/upload/vendor/michelf/php-markdown/Michelf/MarkdownExtra.inc.' . objects::$phpEx;
-		}
-
 		switch ($ext_show)
 		{
 			case 'faq':
@@ -274,7 +269,7 @@ class load
 				$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/README.md');
 				if ($string !== false)
 				{
-					$readme = \Michelf\MarkdownExtra::defaultTransform($string);
+					$readme = MarkdownExtra::defaultTransform($string);
 					if (!objects::$is_ajax && !$load_full_page)
 					{
 						objects::$template->assign_vars(array(
@@ -295,7 +290,7 @@ class load
 				$string = @file_get_contents(objects::$phpbb_root_path . 'ext/' . $ext_name . '/CHANGELOG.md');
 				if ($string !== false)
 				{
-					$changelog = \Michelf\MarkdownExtra::defaultTransform($string);
+					$changelog = MarkdownExtra::defaultTransform($string);
 					if (!objects::$is_ajax && !$load_full_page)
 					{
 						objects::$template->assign_vars(array(
