@@ -30,8 +30,9 @@ class v_3_2_x implements base
 	}
 
 	/**
-	 * The function that loads the FAQ language file.
-	 * Should be removed in the final release.
+	 * Loads the FAQ language file.
+	 * Old FAQ style is used for easier compatibility with previous phpBB versions.
+	 *
 	 * @param array $help Reference to the array of FAQ strings.
 	 */
 	protected function load_faq(&$help)
