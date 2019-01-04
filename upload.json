@@ -1,9 +1,9 @@
 {
-    "stable": {
-        "3.1": {
-            "current": "3.1.2",
-            "announcement": "https://github.com/BoardTools/upload/releases/tag/v3.1.2",
-            "download": "https://github.com/BoardTools/upload/archive/v3.1.2.zip",
+    "unstable": {
+        "3.2": {
+            "current": "3.2.0-RC",
+            "announcement": "https://github.com/BoardTools/upload/releases/tag/v3.2.0-RC",
+            "download": "https://github.com/BoardTools/upload/archive/v3.2.0-RC.zip",
             "eol": null,
             "security": false
         }
