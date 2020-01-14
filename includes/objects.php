@@ -90,11 +90,10 @@ class objects
 		$branch = static::get_phpbb_branch();
 		switch ($branch)
 		{
-			case '3.2':
-				static::$compatibility = new compatibility\v_3_2_x();
-			break;
-			default:
+			case '3.1':
 				static::$compatibility = new compatibility\v_3_1_x();
+			default:
+				static::$compatibility = new compatibility\v_3_2_x();
 			break;
 		}
 		static::$compatibility->init();
