@@ -92,6 +92,7 @@ class objects
 		{
 			case '3.1':
 				static::$compatibility = new compatibility\v_3_1_x();
+			break;
 			default:
 				static::$compatibility = new compatibility\v_3_2_x();
 			break;
