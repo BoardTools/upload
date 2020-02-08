@@ -59,20 +59,20 @@ class upload_module
 		$phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(/composer|/manual)?/?(\?sid\=[a-zA-Z0-9]*?)?$#i';
 
 		// Work with objects class instead of $this.
-		objects::$cache = &$cache;
-		objects::$config = &$config;
-		objects::$log = &$phpbb_log;
+		objects::$cache = $cache;
+		objects::$config = $config;
+		objects::$log = $phpbb_log;
 		objects::$phpEx = $phpEx;
-		objects::$phpbb_container = &$phpbb_container;
-		objects::$phpbb_extension_manager = &$phpbb_extension_manager;
+		objects::$phpbb_container = $phpbb_container;
+		objects::$phpbb_extension_manager = $phpbb_extension_manager;
 		objects::$phpbb_link_template = $phpbb_link_template;
 		objects::$phpbb_root_path = $phpbb_root_path;
-		objects::$request = &$request;
-		objects::$template = &$template;
-		objects::$tpl_name = &$this->tpl_name;
+		objects::$request = $request;
+		objects::$template = $template;
+		objects::$tpl_name = $this->tpl_name;
 		objects::$u_action = $this->u_action;
-		objects::$user = &$user;
-		objects::$zip_dir = &$this->zip_dir;
+		objects::$user = $user;
+		objects::$zip_dir = $this->zip_dir;
 
 		// Add support for different phpBB branches.
 		objects::set_compatibility_class();
