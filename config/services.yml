@@ -2,6 +2,6 @@ services:
     boardtools.upload.listener:
         class: boardtools\upload\event\listener
         arguments:
-            - @user
+            - '@user'
         tags:
             - { name: event.listener }
